@@ -1,7 +1,9 @@
+import re
 import time
 
 import cv2
 import numpy as np
+from numpy.ma.core import is_string_or_list_of_strings
 from qfluentwidgets import FluentIcon
 
 from ok import TriggerTask, Logger
@@ -27,13 +29,11 @@ class AutoCombatTask(BaseEfTask, TriggerTask):
             "技能释放": "满技能时, 开始释放技能, 如1123",
             # "攻击快捷键": "如果设置则使用攻击按键代替鼠标左键",
         })
+        self.lv_regex = re.compile(r"(?i)lv|\d{2}")
 
     def run(self):
-        # self.log_debug('AutoCombatTask.run()')
-        bar_count = self.get_skill_bar_count()
-        if self.get_skill_bar_count() < 1 or not self.in_team():
+        if not self.in_combat():
             return
-        self.log_info('enter combat {}'.format(bar_count))
         raw_skill_config = self.config.get("技能释放", "")
 
         # Parse to local variable
@@ -43,16 +43,10 @@ class AutoCombatTask(BaseEfTask, TriggerTask):
         self.click(key='middle')
         while True:
             skill_count = self.get_skill_bar_count()
-            if skill_count < 0:
+            if skill_count < 0 and self.ocr_lv():
                 if self.debug:
                     self.screenshot('out_of_combat')
-                if self.wait_in_combat(click=True, time_out=1):
-                    self.log_debug('re-enter combat')
-                    self.click(key='middle')
-                    continue
-                else:
                     self.log_info("自动战斗结束!", notify=self.config.get("后台结束战斗通知") and self.in_bg())
-                    self.screenshot('re_enter_combat_fail')
                     break
             elif self.use_e_skill():
                 continue
@@ -88,13 +82,13 @@ class AutoCombatTask(BaseEfTask, TriggerTask):
                         elif count < current_count:
                             self.log_debug('use skill success')
                             break
-                        elif time.time() - last_attack > 0.5:
+                        elif time.time() - last_attack > 0.3:
                             last_attack = time.time()
                             self.click(after_sleep=0.1)
                         self.next_frame()
             else:
                 if key:=self.config.get("攻击快捷键"):
-                    self.send_key(key, after_sleep=0.5)
+                    self.send_key(key, after_sleep=0.3)
                 else:
                     self.click(after_sleep=0.5)
             self.sleep(0.01)
@@ -137,6 +131,17 @@ class AutoCombatTask(BaseEfTask, TriggerTask):
             else:
                 self.sleep(0.1)
 
+    def ocr_lv(self):
+        lv = self.ocr(0.02, 0.89, 0.23,0.93,
+                       match=self.lv_regex, name='lv_text')
+        # logger.debug('lvs {}'.format(lv))
+        if len(lv) > 0:
+            return True
+        lv = self.ocr(0.02, 0.89, 0.23,0.93, frame_processor=isolate_white_text_to_black,
+                       match=self.lv_regex, name='lv_text')
+        if len(lv) > 0:
+            return True
+
     def use_e_skill(self):
         if skill_e := self.find_one('skill_e', threshold=0.7):
             self.log_debug('found skill e {}'.format(skill_e))
@@ -144,7 +149,7 @@ class AutoCombatTask(BaseEfTask, TriggerTask):
             return True
 
     def in_combat(self):
-        return self.get_skill_bar_count() >= 0 and self.in_team()
+        return self.get_skill_bar_count() >= 0 and self.in_team() and not self.ocr_lv()
 
     def in_team(self):
         return self.find_one('skill_1') and self.find_one('skill_2') and self.find_one('skill_3') and self.find_one('skill_4')
@@ -282,6 +287,23 @@ def has_rectangles(frame):
                 return True
 
     return False
+
+lower_white_none_inclusive = np.array([222, 222, 222], dtype=np.uint8)
+black = np.array([0, 0, 0], dtype=np.uint8)
+
+def isolate_white_text_to_black(cv_image):
+    """
+    Converts pixels in the near-white range (244-255) to black,
+    and all others to white.
+    Args:
+        cv_image: Input image (NumPy array, BGR).
+    Returns:
+        Black and white image (NumPy array), where matches are black.
+    """
+    match_mask = cv2.inRange(cv_image, black, lower_white_none_inclusive)
+    output_image = cv2.cvtColor(match_mask, cv2.COLOR_GRAY2BGR)
+
+    return output_image
 
 yellow_skill_color = {
     'r': (230, 255),  # Red range

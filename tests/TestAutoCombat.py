@@ -70,6 +70,19 @@ class TestMyOneTimeTask(TaskTestCase):
         self.assertEqual(count, 0)
 
 
+    def test_lvs(self):
+        self.set_image('tests/images/no_combat2.png')
+        self.assertFalse(self.task.in_combat())
+
+        self.set_image('tests/images/no_combat.png')
+        self.assertFalse(self.task.in_combat())
+
+        self.set_image('tests/images/in_combat_2.png')
+        self.assertFalse(self.task.ocr_lv())
+
+        self.set_image('tests/images/in_team.png')
+        self.assertTrue(self.task.ocr_lv())
+
 
 if __name__ == '__main__':
     unittest.main()
