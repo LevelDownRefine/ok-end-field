@@ -32,7 +32,7 @@ class AutoCombatTask(BaseEfTask, TriggerTask):
         self.lv_regex = re.compile(r"(?i)lv|\d{2}")
 
     def run(self):
-        if not self.in_combat():
+        if not self.in_combat(required_yellow=1):
             return
         raw_skill_config = self.config.get("技能释放", "")
 
@@ -148,8 +148,8 @@ class AutoCombatTask(BaseEfTask, TriggerTask):
             self.send_key('e', after_sleep=0.1)
             return True
 
-    def in_combat(self):
-        return self.get_skill_bar_count() >= 0 and self.in_team() and not self.ocr_lv()
+    def in_combat(self, required_yellow=0):
+        return self.get_skill_bar_count() >= required_yellow and self.in_team() and not self.ocr_lv()
 
     def in_team(self):
         return self.find_one('skill_1') and self.find_one('skill_2') and self.find_one('skill_3') and self.find_one('skill_4')
