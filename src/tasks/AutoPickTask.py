@@ -21,10 +21,10 @@ class AutoPickTask(BaseEfTask, TriggerTask):
         self.last_box_name = None
         self.last_pick_time = 0
         self.white_list = {'采集', '萤壳虫', '打开', '荞花', '灰芦麦', '灼壳虫', '苦叶椒', "柱状菌", "酮化灌木",
-                           '柑实', "触碰", '激活', '芽针'
+                           '柑实', "触碰", '激活', '芽针', '多齿叶', '砂叶'
                            }
         self.black_list = {
-            '协议核心',
+            '协议核心', '激活箱子'
         }
 
     def run(self):
@@ -74,9 +74,9 @@ class AutoPickTask(BaseEfTask, TriggerTask):
 
 
 white_color = {
-    'r': (245, 255),
-    'g': (245, 255),
-    'b': (245, 255)
+    'r': (230, 255),
+    'g': (230, 255),
+    'b': (230, 255)
 }
 
 gray_color = {
