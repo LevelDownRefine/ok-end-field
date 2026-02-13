@@ -18,21 +18,30 @@ class DeliveryTask(BaseEfTask):
         super().__init__(*args, **kwargs)
         self.default_config = {"_enabled": True}
         self.name = "自动送货"
-        self.description = '仅武陵易损单，需要前台'
+        self.description = "仅武陵7.31w送货,教程视频 BV1LLc7zFEF9"
         self.ends = ["常沄", "资源", "彦宁", "齐纶"]
+        self.config_description = {
+            '通向送货点的滑索分叉序列': "逗号分隔的滑索距离序列，单位为米，例如36,14表示先坐36m的滑索再坐14m的滑索",
+        }
         self.default_config.update({
+            "教程":"https://www.bilibili.com/video/BV1LLc7zFEF9",
             '通向送货点的滑索分叉序列':'36,14',
             '常沄': "14,108,64,109,60",
             '资源': "14,108,64,109",
             '彦宁': "14,108,64,108,59",
             '齐纶': "14,108,106",
             '仅送货':False,
-            # "选择测试对象":"常沄",
         })
-        # self.config_type["选择测试对象"] = {
-        #     "type": "drop_down",
-        #     "options": self.ends+["通向送货点的滑索分叉序列"],
-        # }
+        if self.debug:
+            self.default_config.update(
+                {
+                    "选择测试对象":"通向送货点的滑索分叉序列",
+                }
+            )
+            self.config_type["选择测试对象"] = {
+                "type": "drop_down",
+                "options": self.ends+["通向送货点的滑索分叉序列"],
+            }
         self.lv_regex = re.compile(r"(?i)lv|\d{2}")
         self.last_target = None
         self.wuling_location = ["武陵城"]
@@ -430,10 +439,11 @@ class DeliveryTask(BaseEfTask):
             if self.config.get("仅送货"):
                 break
     def run2(self):
+        pass
         # self.find_feature(feature_name="7_31w_wuling",box=self.box_of_screen(0, 0, 1920, 1080),threshold=0.9)
-        self.send_key("f", after_sleep=2)
-        self.skip_dialog()
-        self.wait_click_ocr(match="确认", settle_time=2, after_sleep=2)
+        # self.send_key("f", after_sleep=2)
+        # self.skip_dialog()
+        # self.wait_click_ocr(match="确认", settle_time=2, after_sleep=2)
         # count=0
         # for i in range(20):
         #     self.sleep(1)
@@ -448,3 +458,6 @@ class DeliveryTask(BaseEfTask):
         #     ):
         #         count+=1
         # self.log_info(f"检测到约{count}次secondary_objective_direction_dot，正在执行送货流程")
+        # self.task_to_transfer_point()
+        # self.to_storage_point_and_back_zip_line()
+        # self.zip_line_list_go([int(i) for i in self.config.get(self.config.get("选择测试对象")).split(",")])
