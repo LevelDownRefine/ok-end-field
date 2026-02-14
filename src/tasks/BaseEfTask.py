@@ -295,8 +295,8 @@ class BaseEfTask(BaseTask):
                 # cy = int(self.height * 0.5)
                 for _ in range(6):
                     # self.scroll(cx, cy, 8)
-                    pyautogui.scroll(40)
-                    self.sleep(0.2)
+                    pyautogui.scroll(80)
+                    self.sleep(1)
         if raise_if_fail:
             raise Exception("对中失败")
         else:
@@ -353,7 +353,7 @@ class BaseEfTask(BaseTask):
                     elif clicked_confirm:
                         self.log_debug("AutoSkipDialogTask no confirm break")
                         break
-            if end_list and self.wait_ocr(match=end_list, box=end_box, time_out=0.5):
+            if end_list and self.wait_click_ocr(match=end_list, box=end_box, time_out=0.5):
                 break
 
     def in_bg(self):

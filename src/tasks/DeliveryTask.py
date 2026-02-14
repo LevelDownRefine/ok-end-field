@@ -20,7 +20,7 @@ class DeliveryTask(BaseEfTask):
         super().__init__(*args, **kwargs)
         self.default_config = {"_enabled": True}
         self.name = "自动送货"
-        self.description = "仅武陵7.31w送货,教程视频 BV1LLc7zFEF9"
+        self.description = "仅武陵7.31w送货,教程视频 BV1LLc7zFEF9 目前深色滤镜下干员别礼,赛希送货效果较好"
         self.ends = ["常沄", "资源", "彦宁", "齐纶"]
         self.config_description = {
             '选择测试对象': "默认是无，表示正常执行送货任务\n也可以选择特定的滑索分叉序列来测试滑索功能\n选择完整循环测试则会依次测试每个送货目标的完整流程\n(需要锁定次要任务在送货任务上或附近)",
@@ -387,7 +387,7 @@ class DeliveryTask(BaseEfTask):
             ):
                 self.send_key("f", after_sleep=2)
                 if not self.find_feature(feature_name="reward_ok"):
-                    self.skip_dialog()
+                    self.skip_dialog(end_list=[re.compile("确认")],end_box="bottom_right")
                     self.wait_click_ocr(match="确认", settle_time=2, after_sleep=2)
                 self.wait_pop_up(after_sleep=2)
                 break
