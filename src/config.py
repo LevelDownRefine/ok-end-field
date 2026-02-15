@@ -118,8 +118,8 @@ config = {
         ["src.tasks.WarehouseTransferTask", "WarehouseTransferTask"],
         ["src.tasks.DeliveryTask", "DeliveryTask"],
         ["src.tasks.Test", "Test"],
-        # ["src.tasks.BuySellTask", "BuySellTask"],
         ["src.tasks.EssenceScanTask", "EssenceScanTask"],
+        # ["src.tasks.BuySellTask", "BuySellTask"],
         ["ok.task.DiagnosisTask", "DiagnosisTask"],
     ],
     'trigger_tasks': [  # 不断执行的触发式任务

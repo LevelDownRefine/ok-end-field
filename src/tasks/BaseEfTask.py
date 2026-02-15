@@ -1,18 +1,19 @@
 import random
 import re
 import time
+from typing import List
 
 import cv2
 import imagehash
 import numpy as np
 import pyautogui
 from PIL import Image
-from ok import BaseTask
+from ok import BaseTask, Box
 from skimage.metrics import structural_similarity as ssim
 
 from src.essence.essence_recognizer import EssenceInfo, read_essence_info
 from src.interaction.Key import move_keys
-from src.interaction.Mouse import active_and_send_mouse_delta, move_to_target_once
+from src.interaction.Mouse import active_and_send_mouse_delta, move_to_target_once, run_at_window_pos
 from src.interaction.ScreenPosition import ScreenPosition as sP
 
 TOLERANCE = 50
@@ -29,10 +30,19 @@ class BaseEfTask(BaseTask):
 
     def move_to_target_once(self, hwnd, ocr_obj, max_step=100, min_step=20, slow_radius=200):
         return move_to_target_once(hwnd, ocr_obj, self.screen_center,max_step=max_step,min_step=min_step,slow_radius=slow_radius)
+    def active_and_send_mouse_delta(self, hwnd, dx=1, dy=1, activate=True, only_activate=False, delay=0.02, steps=3):
+        return active_and_send_mouse_delta(hwnd, dx, dy, activate, only_activate, delay, steps)
+    def click_with_alt(self, x: float | Box | List[Box] = -1, y: float = -1, move_back: bool = False, name: str | None = None, interval: int = -1, move: bool = True, down_time: float = 0.01, after_sleep: float = 0, key: str = 'left'):
+        self.send_key_down("alt")
+        self.sleep(0.5)
+        self.click(x=x,y=y,move_back=move_back,name=name,interval=interval,move=move,down_time=down_time,after_sleep=after_sleep,key=key)
+        self.send_key_up("alt")
+    
+    def scroll(self, x:int, y:int, count:int)->None:
+        run_at_window_pos(self.hwnd.hwnd,super().scroll,x,y,0.5,x,y,count)
 
-    # def center_camera(self):
-    #     self.click(0.5, 0.5, down_time=0.2, key="middle")
-    #     self.wait_until(self.in_combat, time_out=1)
+    def scroll_relative(self, x: float, y: float, count: int) -> None:
+        run_at_window_pos(self.hwnd.hwnd,super().scroll_relative,int(x*self.width),int(y*self.height),0.5,x,y,count)
 
     def screen_center(self):
         return int(self.width / 2), int(self.height / 2)
@@ -41,7 +51,6 @@ class BaseEfTask(BaseTask):
     #     if direction != "w":
     #         self.send_key(direction, down_time=0.05, after_sleep=0.5)
     #     self.center_camera()
-    
 
     def wait_ui_stable(
         self,
@@ -333,14 +342,14 @@ class BaseEfTask(BaseTask):
             self.log_error(f"未找到‘{model}’按钮，任务中止。")
             return
 
-    def skip_dialog(self, end_list=None, end_box=None):
+    def skip_dialog(self, end_list=re.compile("确认"), end_box=sP.BOTTOM_RIGHT.value):
         start_time = time.time()
         while True:
             if time.time() - start_time > 60:
                 self.log_info("skip_dialog 超时退出")
-                break
+                return False
             if self.wait_ocr(match=["工业", "探索"], box="top_left", time_out=1.5):
-                break
+                return True
             if self.find_one("skip_dialog_esc", horizontal_variance=0.05):
                 self.send_key("esc", after_sleep=0.1)
                 start = time.time()
@@ -352,9 +361,9 @@ class BaseEfTask(BaseTask):
                         clicked_confirm = True
                     elif clicked_confirm:
                         self.log_debug("AutoSkipDialogTask no confirm break")
-                        break
+                        return True
             if end_list and self.wait_click_ocr(match=end_list, box=end_box, time_out=0.5):
-                break
+                return True
 
     def in_bg(self):
         return not self.hwnd.is_foreground()
@@ -394,8 +403,15 @@ class BaseEfTask(BaseTask):
             return True
         if self.wait_login():
             return True
+        if result:=self.ocr(match=re.compile("结束拜访"), box=sP.BOTTOM_RIGHT.value):
+            self.click(result, after_sleep=1.5)
+            return False
+        if result:=self.ocr(match=[re.compile("确认"), re.compile("确定")], box=sP.BOTTOM_RIGHT.value):
+            self.click(result, after_sleep=1.5)
+            return False
         if esc:
             self.back(after_sleep=1.5)
+            return False
         return False
 
     def wait_pop_up(self,after_sleep=0):
@@ -440,7 +456,6 @@ class BaseEfTask(BaseTask):
                 self.click(close, after_sleep=1)
                 return False
         return False
-
 
     def read_essence_info(self) -> EssenceInfo | None:
         return read_essence_info(self)

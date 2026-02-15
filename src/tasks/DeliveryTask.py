@@ -387,7 +387,7 @@ class DeliveryTask(BaseEfTask):
             ):
                 self.send_key("f", after_sleep=2)
                 if not self.find_feature(feature_name="reward_ok"):
-                    self.skip_dialog(end_list=[re.compile("确认")],end_box="bottom_right")
+                    self.skip_dialog()
                     self.wait_click_ocr(match="确认", settle_time=2, after_sleep=2)
                 self.wait_pop_up(after_sleep=2)
                 break
@@ -398,49 +398,6 @@ class DeliveryTask(BaseEfTask):
     #         zip_line_list = [int(i) for i in zip_line_list_str.split(",")]
     #         self.zip_line_list_go(zip_line_list)
     def run(self):
-
-        if self.debug:
-            count = 0
-            success_count = 0
-            while True:
-                if count >= 30:
-                    break
-                result = self.find_feature(
-                    feature_name="secondary_objective_direction_dot",
-                    threshold=0.7,
-                    box=self.box_of_screen(
-                        (1920 - 1550) / 1920,
-                        150 / 1080,
-                        1550 / 1920,
-                        (1080 - 150) / 1080,
-                    ),
-                )
-                if not result:
-                    result = self.find_feature(
-                        feature_name="secondary_objective_direction_dot_light",
-                        threshold=0.7,
-                        box=self.box_of_screen(
-                            (1920 - 1550) / 1920,
-                            150 / 1080,
-                            1550 / 1920,
-                            (1080 - 150) / 1080,
-                        ))
-                if not result:
-                    result = self.find_feature(
-                        feature_name="secondary_objective_direction_dot_light_two",
-                        threshold=0.7,
-                        box=self.box_of_screen(
-                            (1920 - 1550) / 1920,
-                            150 / 1080,
-                            1550 / 1920,
-                            (1080 - 150) / 1080,
-                        ))
-                if result:
-                    success_count += 1
-                self.sleep(1)
-                count += 1
-            self.log_info(f"成功次数: {success_count}, 总次数: {count}")
-            return
         if self.config.get("选择测试对象") == "无":
             for _ in range(3):
                 if self.config.get("仅接取"):

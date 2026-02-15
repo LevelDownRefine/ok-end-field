@@ -31,6 +31,12 @@ class DailyTask(BaseEfTask):
                 "造装备": True,
                 "日常奖励": True,
                 "收信用": True,
+                "尝试仅收培育室": False,
+            }
+        )
+        self.config_description.update(
+            {
+                "尝试仅收培育室": "在好友交流助力时，优先尝试仅收取培育室的助力,但每次至少助力一次舱室",
             }
         )
         self.all_name_pattern = [re.compile(i) for i in all_list]
@@ -110,13 +116,16 @@ class DailyTask(BaseEfTask):
             self.log_info("未找到可收取信用或无待领取信用的选项")
             return False
         if "收取信用" in result[0].name:
-            self.wait_pop_up()
+            self.wait_pop_up(after_sleep=2)
         self.ensure_main()
         self.back(after_sleep=2)
         left_exchange_time = 5
         left_help_time = 5
+        exchange_time=0
+        help_time=0
         is_first_time = True
         exchange_help_box=self.box_of_screen(0.1,561/861,0.9,0.9)
+        exchange_not_found  = False
         while True:
             if is_first_time:
                 self.wait_click_ocr(match=re.compile("好友"), box=sP.RIGHT.value, time_out=5, after_sleep=2)
@@ -126,7 +135,12 @@ class DailyTask(BaseEfTask):
                     self.wait_click_ocr(match=re.compile("结束拜访"), box=sP.BOTTOM_RIGHT.value, time_out=5, after_sleep=2)
                     self.log_info("交流和助力次数已完成，结束拜访" )
                     self.wait_click_ocr(match=re.compile("确认"), box=sP.BOTTOM_RIGHT.value, time_out=5, after_sleep=2)
+                    if exchange_not_found :
+                        self.log_info("未完全找满交流对象，可能存在部分交流次数未完成")
+                    self.info_set("exchange_time", exchange_time)
+                    self.info_set("help_time", help_time)
                     return True
+
             result=None
             self.wait_ui_stable(refresh_interval=0.5)
             start_time = time.time()
@@ -136,16 +150,30 @@ class DailyTask(BaseEfTask):
                     span_box=self.box_of_screen(3400/3840,301/2160,3692/3840,1883/2160)
                 else:
                     span_box=self.box_of_screen(3400/3840,615/2160,3692/3840,1883/2160)
-                if time.time() - start_time > 20:
+                if time.time() - start_time > 40:
                     self.log_info("找不到可交流或助力的玩家" )
                     return False
                 if left_exchange_time > 0:
-                    result = self.find_feature(feature_name="can_exchange_info_icon",box=span_box)
-                if not result and left_help_time > 0:
-                    result=self.find_feature(feature_name="can_help_icon",box=span_box)
+                    result = self.find_feature(
+                        feature_name="can_exchange_info_icon", box=span_box
+                    )
+                    if scroll_count >=7: # 交流只有循环 >=7 次才允许找 help
+                        self.back(after_sleep=2)
+                        self.ensure_in_friend_boat()
+                        self.send_key("f", after_sleep=2)
+                        self.wait_ui_stable(refresh_interval=0.5)
+                        left_exchange_time=0
+                        exchange_not_found =True
+                        continue
+
+                # 如果 exchange 已经没次数，正常找 help
+                elif left_help_time > 0:
+                    result = self.find_feature(
+                        feature_name="can_help_icon", box=span_box
+                    )
                 if not result:
                     scroll_count += 1
-                    self.scroll_relative(0.5,0.5,-8)
+                    self.scroll_relative(0.5,0.5,-4)
                     if not self.wait_ui_stable(refresh_interval=0.5):
                         raise Exception("界面不稳定，可能未成功滚动")
 
@@ -165,18 +193,27 @@ class DailyTask(BaseEfTask):
             if left_exchange_time > 0:
                 self.wait_click_ocr(match=re.compile("情报交流"), box=exchange_help_box, time_out=5, after_sleep=2)
                 left_exchange_time -= 1
+                exchange_time+=1
             if left_help_time > 0:
                 result= self.wait_ocr(match=re.compile("生产助力"), box=exchange_help_box, time_out=5)
                 if result:
-                    for res in result:                        
-                        self.click(res, after_sleep=2)
-                        left_help_time -= 1
+                    for res in result:
+                        if not self.config.get("尝试仅收培育室"):                        
+                            self.click(res, after_sleep=2)
+                            left_help_time -= 1
+                            help_time+=1
+                            if left_help_time <= 0:
+                                break
                         if res==result[-1]:
                             self.scroll_relative(res.x/self.width, res.y/ self.height,count=-8)
                             self.wait_ui_stable(refresh_interval=0.5)
-                            if self.wait_ocr(match=re.compile("生产助力"), box=exchange_help_box, time_out=5):
+                            if result:= self.wait_ocr(match=re.compile("生产助力"), box=exchange_help_box, time_out=5):
                                 self.log_info("继续进行助力操作" )
+                                self.click(result[-1], after_sleep=2)
+                                if self.find_feature(feature_name="reward_ok"):
+                                    self.wait_pop_up(after_sleep=2)
                                 left_help_time-=1
+                                help_time+=1
             self.back(after_sleep=2)
             is_first_time = False
 
@@ -427,8 +464,7 @@ class DailyTask(BaseEfTask):
                     time_out=5,
                     after_sleep=2,
                 )
-                self.wait_pop_up()
-                self.sleep(2)
+                self.wait_pop_up(after_sleep=2)
 
         self.log_info(f"{outpost_name} 兑换操作完成")
 

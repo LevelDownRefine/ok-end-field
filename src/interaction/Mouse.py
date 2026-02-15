@@ -77,19 +77,21 @@ def move_to_target_once(hwnd, ocr_obj, screen_center_func,max_step=100,min_step=
     return dx, dy
 
 
-def align_loop(
-    *,
-    find_target_func,
-    sleep_func,
-    screen_center_func,
-    move_to_target_func,
-    random_move_func,
-    width,
-    height,
-    tolerance,
-    max_time,
-    is_num,
-    only_x,
-    only_y,
-):
-    ...
+def run_at_window_pos(hwnd, func, x, y, sleep_time=0.5, *args, **kwargs):
+    """
+    临时移动鼠标到窗口客户区 (x,y)，执行函数后恢复原位置
+    """
+
+    original_pos = user32.GetCursorPos
+    pt = ctypes.wintypes.POINT()
+    user32.GetCursorPos(ctypes.byref(pt))
+    original = (pt.x, pt.y)
+
+    try:
+        screen_x, screen_y = win32gui.ClientToScreen(hwnd, (x, y))
+        user32.SetCursorPos(screen_x, screen_y)
+        time.sleep(sleep_time)
+        func(*args, **kwargs)
+        time.sleep(sleep_time)
+    finally:
+        user32.SetCursorPos(original[0], original[1])
