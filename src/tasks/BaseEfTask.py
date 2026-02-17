@@ -29,11 +29,13 @@ class BaseEfTask(BaseTask):
         move_keys(self.hwnd.hwnd, keys, duration)
 
     def move_to_target_once(self, hwnd, ocr_obj, max_step=100, min_step=20, slow_radius=200):
-        return move_to_target_once(hwnd, ocr_obj, self.screen_center,max_step=max_step,min_step=min_step,slow_radius=slow_radius)
+        return move_to_target_once(hwnd, ocr_obj, self.screen_center, max_step=max_step, min_step=min_step,
+                                   slow_radius=slow_radius)
+
     def active_and_send_mouse_delta(self, hwnd, dx=1, dy=1, activate=True, only_activate=False, delay=0.02, steps=3):
         return active_and_send_mouse_delta(hwnd, dx, dy, activate, only_activate, delay, steps)
 
-    def isolate_white_yellow_text(self,frame):
+    def isolate_white_yellow_text(self, frame):
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
         # ===== 白色 =====
@@ -61,17 +63,21 @@ class BaseEfTask(BaseTask):
 
         return cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
 
-    def click_with_alt(self, x: float | Box | List[Box] = -1, y: float = -1, move_back: bool = False, name: str | None = None, interval: int = -1, move: bool = True, down_time: float = 0.01, after_sleep: float = 0, key: str = 'left'):
+    def click_with_alt(self, x: float | Box | List[Box] = -1, y: float = -1, move_back: bool = False,
+                       name: str | None = None, interval: int = -1, move: bool = True, down_time: float = 0.01,
+                       after_sleep: float = 0, key: str = 'left'):
         self.send_key_down("alt")
         self.sleep(0.5)
-        self.click(x=x,y=y,move_back=move_back,name=name,interval=interval,move=move,down_time=down_time,after_sleep=after_sleep,key=key)
+        self.click(x=x, y=y, move_back=move_back, name=name, interval=interval, move=move, down_time=down_time,
+                   after_sleep=after_sleep, key=key)
         self.send_key_up("alt")
 
-    def scroll(self, x:int, y:int, count:int)->None:
-        run_at_window_pos(self.hwnd.hwnd,super().scroll,x,y,0.5,x,y,count)
+    def scroll(self, x: int, y: int, count: int) -> None:
+        run_at_window_pos(self.hwnd.hwnd, super().scroll, x, y, 0.5, x, y, count)
 
     def scroll_relative(self, x: float, y: float, count: int) -> None:
-        run_at_window_pos(self.hwnd.hwnd,super().scroll_relative,int(x*self.width),int(y*self.height),0.5,x,y,count)
+        run_at_window_pos(self.hwnd.hwnd, super().scroll_relative, int(x * self.width), int(y * self.height), 0.5, x, y,
+                          count)
 
     def screen_center(self):
         return int(self.width / 2), int(self.height / 2)
@@ -82,12 +88,12 @@ class BaseEfTask(BaseTask):
     #     self.center_camera()
 
     def wait_ui_stable(
-        self,
-        method="phash",
-        threshold=5,
-        stable_time=0.5,
-        max_wait=5,
-        refresh_interval=0.2,
+            self,
+            method="phash",
+            threshold=5,
+            stable_time=0.5,
+            max_wait=5,
+            refresh_interval=0.2,
     ):
         """
         等待界面稳定（UI 停止变化）再执行操作
@@ -168,23 +174,23 @@ class BaseEfTask(BaseTask):
             time.sleep(refresh_interval)
 
     def align_ocr_or_find_target_to_center(
-        self,
-        ocr_match_or_feature_name_list,
-        only_x=False,
-        only_y=False,
-        box=None,
-        threshold=0.8,
-        max_time=50,
-        ocr=True,
-        raise_if_fail=True,
-        is_num=False,
-        need_scroll=False,
-        max_step=100,
-        min_step=20,
-        slow_radius=200,
-        once_time=1,
-        tolerance=TOLERANCE,
-        ocr_frame_processor=None
+            self,
+            ocr_match_or_feature_name_list,
+            only_x=False,
+            only_y=False,
+            box=None,
+            threshold=0.8,
+            max_time=50,
+            ocr=True,
+            raise_if_fail=True,
+            is_num=False,
+            need_scroll=False,
+            max_step=100,
+            min_step=20,
+            slow_radius=200,
+            once_time=1,
+            tolerance=TOLERANCE,
+            ocr_frame_processor=None
     ):
         """
         Aligns a target detected by OCR or image feature to the center of the screen.
@@ -218,15 +224,15 @@ class BaseEfTask(BaseTask):
         success = False
         random_move_count = 0
         move_count = 0
-        scroll_bool= False
-        sum_dx=0
-        sum_dy=0
+        scroll_bool = False
+        sum_dx = 0
+        sum_dy = 0
         for i in range(max_time):
             start_action_time = time.time()
             if ocr:
                 # 使用OCR模式识别目标，设置超时时间为2秒，并启用日志记录
                 start_time = time.time()
-                result=None
+                result = None
                 while time.time() - start_time < 2:
                     frame = self.next_frame()
                     result = self.ocr(
@@ -240,7 +246,6 @@ class BaseEfTask(BaseTask):
                         break
                     time.sleep(0.1)
             else:
-                self.sleep(0.5)  # 等待界面更新
                 if isinstance(ocr_match_or_feature_name_list, str):
                     ocr_match_or_feature_name_list = [ocr_match_or_feature_name_list]
                 start_time = time.time()
@@ -252,7 +257,7 @@ class BaseEfTask(BaseTask):
                     for feature_name in ocr_match_or_feature_name_list:
                         if time.time() - start_time >= 2:
                             break
-                        
+
                         result = self.find_feature(
                             feature_name=feature_name,
                             threshold=threshold,
@@ -293,7 +298,8 @@ class BaseEfTask(BaseTask):
                 if abs(dx) <= tolerance and abs(dy) <= tolerance:
                     return True
                 else:
-                    dx, dy = self.move_to_target_once(self.hwnd.hwnd, result,max_step=max_step,min_step=min_step,slow_radius=slow_radius)
+                    dx, dy = self.move_to_target_once(self.hwnd.hwnd, result, max_step=max_step, min_step=min_step,
+                                                      slow_radius=slow_radius)
                     sum_dx += dx
                     sum_dy += dy
 
@@ -351,9 +357,9 @@ class BaseEfTask(BaseTask):
                         random_move_count = 0
 
             if time.time() - start_action_time < once_time:
-                self.sleep(once_time - (time.time() - start_action_time))# OCR 成功后不需要处理，下一次失败仍然随机
+                self.sleep(once_time - (time.time() - start_action_time))  # OCR 成功后不需要处理，下一次失败仍然随机
             if not scroll_bool and need_scroll:
-                scroll_bool=True
+                scroll_bool = True
                 # cx = int(self.width * 0.5)
                 # cy = int(self.height * 0.5)
                 for _ in range(6):
@@ -436,7 +442,7 @@ class BaseEfTask(BaseTask):
     def find_f(self):
         return self.find_one("pick_f", vertical_variance=0.05)
 
-    def ensure_main(self, esc=True, time_out=30,after_sleep=2):
+    def ensure_main(self, esc=True, time_out=30, after_sleep=2):
         self.info_set("current task", f"wait main esc={esc}")
         if not self.wait_until(
                 lambda: self.is_main(esc=esc), time_out=time_out, raise_if_not_found=False
@@ -458,10 +464,10 @@ class BaseEfTask(BaseTask):
             return True
         if self.wait_login():
             return True
-        if result:=self.ocr(match=re.compile("结束拜访"), box=sP.BOTTOM_RIGHT.value):
+        if result := self.ocr(match=re.compile("结束拜访"), box=sP.BOTTOM_RIGHT.value):
             self.click(result, after_sleep=1.5)
             return False
-        if result:=self.ocr(match=[re.compile("确认"), re.compile("确定")], box=sP.BOTTOM_RIGHT.value):
+        if result := self.ocr(match=[re.compile("确认"), re.compile("确定")], box=sP.BOTTOM_RIGHT.value):
             self.click(result, after_sleep=1.5)
             return False
         if esc:
@@ -469,7 +475,7 @@ class BaseEfTask(BaseTask):
             return False
         return False
 
-    def wait_pop_up(self,after_sleep=0):
+    def wait_pop_up(self, after_sleep=0):
         count = 0
         while True:
             if count > 30:
@@ -484,7 +490,7 @@ class BaseEfTask(BaseTask):
             count += 1
 
     def wait_login(self):
-        close=None
+        close = None
         if not self._logged_in:
             if self.in_world():
                 self._logged_in = True
