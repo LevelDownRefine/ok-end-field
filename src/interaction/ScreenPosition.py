@@ -1,14 +1,13 @@
 from enum import Enum
 
 
-class ScreenPosition(Enum):
-    TOP_LEFT = "top_left"
-    TOP_RIGHT = "top_right"
-    BOTTOM_LEFT = "bottom_left"
-    BOTTOM_RIGHT = "bottom_right"
-    CENTER = "center"
+class ScreenPosition(str, Enum):
+    top_left = "top_left"
+    top_right = "top_right"
+    bottom_left = "bottom_left"
+    bottom_right = "bottom_right"
     # 其他可能的位置
-    LEFT = "left"
-    RIGHT = "right"
-    TOP = "top"
-    BOTTOM = "bottom"
+    left = "left"
+    right = "right"
+    top = "top"
+    bottom = "bottom"

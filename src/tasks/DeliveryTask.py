@@ -228,10 +228,24 @@ class DeliveryTask(BaseEfTask):
                                 and "不易损" not in row["elems"][2].name
                         ):
                             x, y, to_x, to_y = row["box"]
-                            if self.find_feature(feature_name="7_31w_wuling",
-                                                 box=self.box_of_screen(x / self.width, y / self.height,
-                                                                        to_x / self.width, to_y / self.height),
-                                                 threshold=0.98):
+                            result = self.find_feature(
+                                feature_name="7_31w_wuling",
+                                box=self.box_of_screen(
+                                    x / self.width,
+                                    y / self.height,
+                                    to_x / self.width,
+                                    to_y / self.height,
+                                ),
+                                threshold=0.98,
+                            )
+
+                            if not result:
+                                result = self.find_feature(feature_name="7_31w_wuling_dark",
+                                                           box=self.box_of_screen(x / self.width, y / self.height,
+                                                                                  to_x / self.width,
+                                                                                  to_y / self.height),
+                                                           threshold=0.98)
+                            if result:
                                 self.click(
                                     row["elems"][-1],
                                     after_sleep=2,
@@ -249,7 +263,7 @@ class DeliveryTask(BaseEfTask):
                         self.sleep(wait)
                     self.click(last_refresh_box, move_back=True)
                     self._last_refresh_ts = time.time()
-                    self.wait_ui_stable(refresh_interval=1) # 刷新后界面稳定的时间可能会比平常长一些，尤其是网络较慢的时候
+                    self.wait_ui_stable(refresh_interval=1)  # 刷新后界面稳定的时间可能会比平常长一些，尤其是网络较慢的时候
                     break
                 else:
                     self.log_info("警告: 尚未定位到刷新按钮位置，无法刷新，重试...")
@@ -288,7 +302,7 @@ class DeliveryTask(BaseEfTask):
         start = time.time()
         self.sleep(1)
         self.next_frame()
-        while not self.ocr(match=on_zip_line_stop,frame=self.next_frame(), box="bottom", log=True):
+        while not self.ocr(match=on_zip_line_stop, frame=self.next_frame(), box="bottom", log=True):
             self.sleep(0.1)
             if time.time() - start > 60:
                 raise Exception("滑索超时，强制退出")

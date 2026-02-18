@@ -2,6 +2,7 @@ import time
 from src.interaction.ScreenPosition import ScreenPosition as sP
 from src.tasks.BaseEfTask import BaseEfTask
 from src.interaction.Mouse import active_and_send_mouse_delta,run_at_window_pos
+from src.data.features import FeatureList
 import pyautogui
 import re
 on_zip_line_tip = ["移动鼠标", "选择前进目标", "向目标移动", "离开滑索架"]
@@ -11,7 +12,8 @@ class Test(BaseEfTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "测试"
-
+    def pre_check(self):
+        self.find_feature(feature_name=FeatureList._7_31w_wuling, box=self.box_of_screen(0, 0, 1, 1), threshold=0.7)
     def in_friend_boat(self):
         return self.wait_ocr(match=re.compile("离开"), box=sP.TOP_LEFT.value)
     def ensure_in_friend_boat(self):

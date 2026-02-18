@@ -389,7 +389,7 @@ class BaseEfTask(BaseTask):
     def to_model_area(self, area, model):
         self.send_key("y", after_sleep=2)
         if not self.wait_click_ocr(
-                match="更换", box=sP.LEFT.value, time_out=2, after_sleep=2
+                match="更换", box=sP.left, time_out=2, after_sleep=2
         ):
             return
         if not self.wait_click_ocr(
@@ -403,13 +403,13 @@ class BaseEfTask(BaseTask):
             return
         if not self.wait_click_ocr(
                 match="确认",
-                box=sP.BOTTOM_RIGHT.value,
+                box=sP.bottom_right,
                 time_out=2,
                 after_sleep=2,
         ):
             return
         box = self.wait_ocr(
-            match=re.compile(f"{model}"), box=sP.RIGHT.value, time_out=5
+            match=re.compile(f"{model}"), box=sP.right, time_out=5
         )
         if box:
             self.click(box[0], move_back=True, after_sleep=0.5)
@@ -417,7 +417,7 @@ class BaseEfTask(BaseTask):
             self.log_error(f"未找到‘{model}’按钮，任务中止。")
             return
 
-    def skip_dialog(self, end_list=re.compile("确认"), end_box=sP.BOTTOM_RIGHT.value):
+    def skip_dialog(self, end_list=re.compile("确认"), end_box=sP.bottom_right):
         start_time = time.time()
         while True:
             if time.time() - start_time > 60:
@@ -479,10 +479,10 @@ class BaseEfTask(BaseTask):
             return True
         if self.wait_login():
             return True
-        if result := self.ocr(match=re.compile("结束拜访"), box=sP.BOTTOM_RIGHT.value):
+        if result := self.ocr(match=re.compile("结束拜访"), box=sP.bottom_right):
             self.click(result, after_sleep=1.5)
             return False
-        if result := self.ocr(match=[re.compile("确认"), re.compile("确定")], box=sP.BOTTOM_RIGHT.value):
+        if result := self.ocr(match=[re.compile("确认"), re.compile("确定")], box=sP.bottom_right):
             self.click(result, after_sleep=1.5)
             return False
         if esc:
