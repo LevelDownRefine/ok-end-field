@@ -56,8 +56,8 @@
 *   **[夸克网盘](https://pan.quark.cn/s/a1052cec4d13)**: 国内网盘，免费，但需要注册并使用其客户端下载。
 
 ## ✨ 主要功能
-<img width="750" height="1020" src="https://github.com/user-attachments/assets/0b055fc6-a4fa-46af-984d-55494532036b" />
-<img width="750" height="563" src="https://github.com/user-attachments/assets/6f535ba9-ad73-48ec-876c-ca96b1f1eecb" />
+<img width="1200" height="2805" src="https://github.com/user-attachments/assets/505044a5-7e9a-449f-98a1-de7502b4a1d9" />
+<img width="1200" height="2505" src="https://github.com/user-attachments/assets/543d375a-e8d3-4c09-a310-800b872f42fa" />
 
 
 
