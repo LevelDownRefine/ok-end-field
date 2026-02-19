@@ -4,19 +4,19 @@
     <br/>
     ok-ef
   </h1> 
-  
+
   <p>
     一个基于图像识别的终末地自动化程序，支持后台运行，基于 <a href="https://github.com/ok-oldking/ok-script">ok-script</a> 开发。
     <br />
     An image-recognition-based automation tool for End Field, with background mode support, developed with <a href="https://github.com/ok-oldking/ok-script">ok-script</a>.
   </p>
-  
+
   <p><i>通过模拟 Windows 用户接口进行操作，无内存读取、无文件修改</i></p>
 </div>
 
 <!-- Badges -->
 <div align="center">
-  
+
 ![平台](https://img.shields.io/badge/platform-Windows-blue)
 [![GitHub release](https://img.shields.io/github/v/release/ok-oldking/ok-end-field)](https://github.com/ok-oldking/ok-end-field/releases)
 [![总下载量](https://img.shields.io/github/downloads/ok-oldking/ok-end-field/total)](https://github.com/ok-oldking/ok-end-field/releases)
@@ -58,6 +58,104 @@
 ## ✨ 主要功能
 <img width="1200" height="2805" src="https://github.com/user-attachments/assets/505044a5-7e9a-449f-98a1-de7502b4a1d9" />
 <img width="1200" height="2505" src="https://github.com/user-attachments/assets/543d375a-e8d3-4c09-a310-800b872f42fa" />
+
+### 🥬 日常任务
+一键执行日常流程，支持模块化开关与独立配置。
+
+- 送礼（支持最大尝试次数）
+- 据点兑换
+- 转交运送委托
+- 领取委托奖励
+- 造装备
+- 日常奖励领取
+- 收信用
+- 好友助力策略（可优先仅收培育室）
+
+---
+
+### 🚚 自动送货
+针对武陵 7.31w 委托的自动接单与送货系统。
+
+- 自动识别滑索路径并送达指定目标
+- 支持仅接单 / 仅送货模式
+- 可选滚动放大视角提升对齐成功率
+- 内置分叉测试与完整循环测试
+- 支持路径自定义
+- 提供教程视频
+
+---
+
+### 🧾 运送委托接取
+自动识别高价值调度任务并抢单。
+
+- 谷地券 / 武陵券独立开关
+- 支持最低与最高金额区间设置
+- 同时识别券种与报酬金额
+- 条件不满足自动刷新
+
+---
+
+### 📦 仓库物品转移
+跨仓库自动转运指定物品。
+
+- 从发货仓库取出指定物品
+- 自动切换到收货仓库并一键存放
+- 支持最小保留数量保护
+- 下拉选择仓库与物品
+- 依赖 OCR + 模板识别
+
+---
+
+### 🔍 毕业基质识别
+自动遍历武器基质列表，识别毕业词条并执行锁定操作。
+
+- 自动上锁毕业基质
+- 可选取消非毕业基质锁定
+- 基于 `weapon_data.csv` 数据匹配
+- 支持网格遍历与翻页扫描
+
+---
+
+### 🛒 自动拾取
+大世界自动拾取触发任务。
+
+- 自动识别可交互目标并执行拾取
+- 内置白名单机制（采集类、虫类、植物类等）
+- 黑名单过滤避免误操作
+- 支持后台运行
+
+---
+
+### ⚔ 自动战斗
+进入战斗后自动执行技能循环直至战斗结束。
+
+- 自定义技能释放顺序（如 `123`）
+- 设置启动技能点数阈值
+- 满技能自动循环释放
+- 支持后台结束战斗通知
+- 自动识别战斗状态
+
+---
+
+### 🔐 自动登录
+自动检测未登录状态并执行登录流程。
+
+- 周期性触发检测
+- 自动完成登录
+- 支持月卡领取场景
+
+---
+
+### ⏭ 自动跳过剧情
+自动检测剧情界面并跳过。
+
+- 自动识别“跳过”按钮
+- 自动按 `ESC`
+- 自动点击确认
+- 循环检测直至退出剧情
+
+---
+
 
 
 
