@@ -111,7 +111,7 @@ ok-ef.exe -t 1 -e
 
 ## 💬 Join Us
 
-* **QQ Group**: `940581952` (answer: `老王同学OK`)
+* **QQ Group**: `940581952` (answer: `终末地`)
 * **QQ Channel**: [Click to join](https://pd.qq.com/s/djmm6l44y) (full or updates)
 * **Developer Group**: `1079581542` (**Note**: for developers with GitHub accounts who can run the project from source.)
 
