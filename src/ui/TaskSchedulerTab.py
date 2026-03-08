@@ -35,6 +35,7 @@ from qfluentwidgets import (
     ComboBox,
     SpinBox,
     CheckBox,
+    NavigationItemPosition,
 )
 
 from ok import Logger, og
@@ -753,6 +754,8 @@ class TaskSchedulerTab(Tab):
     def __init__(self):
         super().__init__()
         self.config = main_config
+        self.add_after_default_tabs = True
+        self.position = NavigationItemPosition.TOP
         self.schedule_manager: Optional[WindowsScheduleManager] = None
         self.task_table: Optional[ScheduleTaskTable] = None
         self.refreshing = False
