@@ -38,6 +38,8 @@ class FeatureList(str, Enum):
     essence_quality_gold_1 = 'essence_quality_gold_1'
     essence_quality_gold_2 = 'essence_quality_gold_2'
     essence_quality_gold_3 = 'essence_quality_gold_3'
+    essence_throw_away = 'essence_throw_away'
+    essence_throw_confirm = 'essence_throw_confirm'
     essence_ui_marker = 'essence_ui_marker'
     essence_unlocked = 'essence_unlocked'
     estella_contact = 'estella_contact'

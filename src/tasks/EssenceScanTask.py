@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 from dataclasses import dataclass, field
 from enum import Enum
@@ -5,7 +6,7 @@ from typing import Final
 
 import pywintypes
 from qfluentwidgets import FluentIcon
-
+from src.data.FeatureList import FeatureList as fL
 from src.tasks.BaseEfTask import BaseEfTask
 from src.essence.weapon_data import load_weapon_data, match_weapon_requirements
 
@@ -20,9 +21,12 @@ _INFO_STATUS: Final = "状态"
 _INFO_SCANNED: Final = "已识别"
 _INFO_LOCK_SUCCESS: Final = "上锁成功"
 _INFO_LOCK_SKIPPED: Final = "已锁定跳过"
+_INFO_THROW_SUCCESS: Final = "弃置成功"
+_INFO_THROW_FAILED: Final = "弃置失败"
 _INFO_GRADUATED_ESSENCE: Final = "已毕业基质"
 _INFO_GRADUATED_WEAPONS: Final = "已毕业武器"
 _INFO_NEW_LOCKED_WEAPONS: Final = "本次新锁毕业武器"
+_INFO_SUMMARY: Final = "汇总"
 
 
 _FEATURE_ESSENCE_UI_MARKER: Final = "essence_ui_marker"
@@ -149,6 +153,8 @@ class EssenceScanStats:
     graduated: int = 0
     lock_success: int = 0
     lock_skipped: int = 0
+    throw_success: int = 0
+    throw_failed: int = 0
     matched_weapons: set[str] = field(default_factory=set)
     new_locked_weapons: set[str] = field(default_factory=set)
 
@@ -157,6 +163,8 @@ class EssenceScanStats:
         task.info_set(_INFO_GRADUATED_ESSENCE, str(self.graduated))
         task.info_set(_INFO_LOCK_SUCCESS, str(self.lock_success))
         task.info_set(_INFO_LOCK_SKIPPED, str(self.lock_skipped))
+        task.info_set(_INFO_THROW_SUCCESS, str(self.throw_success))
+        task.info_set(_INFO_THROW_FAILED, str(self.throw_failed))
         task.info_set(_INFO_GRADUATED_WEAPONS, str(len(self.matched_weapons)))
 
 
@@ -177,6 +185,7 @@ class EssenceScanTask(BaseEfTask):
             {
                 "上锁毕业基质": True,
                 "非毕业基质取消上锁": False,
+                "非毕业基质弃置": False,
                 # 以下为内部参数，前面加 "_" 以在 GUI 配置页隐藏
                 "_武器数据CSV": str(Path("assets") / "weapon_data.csv"),
                 "_参考分辨率": [str(_DEFAULT_REF_RESOLUTION[0]), str(_DEFAULT_REF_RESOLUTION[1])],
@@ -218,6 +227,14 @@ class EssenceScanTask(BaseEfTask):
             return bool(self.find_one(feature_name, box=box, threshold=threshold))
         except Exception:
             return False
+
+    def _find_first_feature(self, feature_names: tuple[str, ...], *, box=None, threshold: float = 0.0):
+        for feature_name in feature_names:
+            if self._has_feature(feature_name, box=box, threshold=threshold):
+                found = self.find_one(feature_name, box=box, threshold=threshold)
+                if found:
+                    return found
+        return None
 
     def _in_essence_ui(self) -> bool:
         self.next_frame()
@@ -293,6 +310,34 @@ class EssenceScanTask(BaseEfTask):
         state1 = self._lock_state(settings, lock_x, lock_y)
         return state1 == LockState.UNLOCKED, True
 
+    def _try_throw_away(self) -> tuple[bool, bool]:
+        """
+        尝试弃置当前选中基质。
+
+        返回 (throw_ok, did_throw)
+        - throw_ok: 流程是否成功
+        - did_throw: 本次是否执行了弃置点击
+        """
+        self.next_frame()
+
+        # 1 查找弃置按钮
+        throw_btn = self.find_one(feature_name=fL.essence_throw_away)
+
+        # 没找到弃置按钮 → 说明已经弃置
+        if not throw_btn:
+            return True, False
+
+        # 2 点击弃置
+        self.click(throw_btn, after_sleep=0.6)
+        self.next_frame()
+
+        # 3 检查是否出现弃置确认按钮
+        confirm_btn = self.find_one(feature_name=fL.essence_throw_confirm)
+
+        if confirm_btn:
+            return True, True
+
+        return False, True
     def _is_gold_cell(self, cell_box) -> bool:
         for feature_name in _FEATURE_ESSENCE_QUALITY_GOLD:
             if self._has_feature(feature_name, box=cell_box, threshold=_ESSENCE_QUALITY_THRESHOLD):
@@ -335,6 +380,7 @@ class EssenceScanTask(BaseEfTask):
 
         lock_enabled = bool(self.config.get("上锁毕业基质", True))
         unlock_non_graduate = bool(self.config.get("非毕业基质取消上锁", False))
+        throw_away_non_graduate = bool(self.config.get("非毕业基质弃置", False))
         stats = EssenceScanStats()
         stats.update_info(self)
 
@@ -453,6 +499,18 @@ class EssenceScanTask(BaseEfTask):
                             self.log_info(
                                 f"[essence] {pos} unlock did_click={did_unlock} ok={unlocked_ok}"
                             )
+                        if throw_away_non_graduate:
+                            throw_ok, did_throw = self._try_throw_away()
+                            if did_throw:
+                                if throw_ok:
+                                    stats.throw_success += 1
+                                    self.info_set(_INFO_THROW_SUCCESS, str(stats.throw_success))
+                                else:
+                                    stats.throw_failed += 1
+                                    self.info_set(_INFO_THROW_FAILED, str(stats.throw_failed))
+                            self.log_info(
+                                f"[essence] {pos} throw did_click={did_throw} ok={throw_ok}"
+                            )
                         continue
 
                     stats.graduated += 1
@@ -529,3 +587,7 @@ class EssenceScanTask(BaseEfTask):
         else:
             text = "无"
         self.info_set(_INFO_NEW_LOCKED_WEAPONS, text)
+        self.info_set(
+            _INFO_SUMMARY,
+            f"弃置成功={stats.throw_success}, 弃置失败={stats.throw_failed}"
+        )
