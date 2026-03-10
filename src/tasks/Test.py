@@ -1,14 +1,13 @@
 from src.tasks.AutoCombatTask import AutoCombatTask
 from src.tasks.daily.auto_battle import auto_battle
 from src.data.FeatureList import FeatureList as fL
+from src.tasks.BaseEfTask import BaseEfTask
 import re
 import time
 battle_end_list=[fL.battle_end,fL.battle_end_small,fL.battle_end_big]
 class Test(AutoCombatTask):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.default_config = {'_enabled': True}
         self.name = "测试"
         self.description = "完整战斗测试"
         self.default_config.update({
@@ -53,7 +52,9 @@ class Test(AutoCombatTask):
         self.ensure_main()
         self.press_key('f8',after_sleep=2)
         self.wait_click_ocr(match=re.compile("索引"), time_out=5, after_sleep=2,box=self.box.top, log=True)
-        self.wait_click_ocr(match=re.compile("前往"), time_out=5, after_sleep=2,box=self.box.right, log=True)
+        if results:=self.wait_ocr(match=re.compile("前往"), time_out=5, box=self.box.right, log=True):
+            self.log_info(f"检测到前往按钮，OCR结果: {results}")
+            self.click(results[1],after_sleep=2)
         self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
         self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
         start_time= time.time()
@@ -76,16 +77,14 @@ class Test(AutoCombatTask):
                 start_time=time.time()
         self.to_end()
     def to_end(self):
-        key_list = ['w','a','s','d']
-        for i in range(len(key_list)):
-            key_list.append(key_list[i]+key_list[i+1 if i+1<len(key_list) else 0])
         search_box = self.box_of_screen((1920 - 1550) / 1920, 0, 1550 / 1920, (1080 - 150) / 1080)
-        if not self.yolo_detect(fL.battle_end, box=search_box):
-            for key in key_list:
-                self.move_keys(key, duration=0.01)
-                self.click(key='middle',after_sleep=4)
-                if self.yolo_detect(fL.battle_end, box=search_box):
-                    break
+        for _ in range(5):
+            if self.yolo_detect(fL.battle_end, box=search_box):
+                break
+            self.click(key="middle", after_sleep=2)
+            self.move_keys('a', duration=0.01)
+            self.sleep(2)
+
         self.align_ocr_or_find_target_to_center(
             fL.battle_end,
             ocr=False,

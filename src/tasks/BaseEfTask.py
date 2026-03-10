@@ -36,11 +36,44 @@ class BaseEfTask(BaseTask):
         self.key_config = self.get_global_config('Game Hotkey Config')  # 获取全局热键配置
         self.key_manager = KeyConfigManager(self.key_config)  # 初始化热键管理器
         # 初始化 YOLO 检测器
+
+        self._yolo_detector = None  # YOLO 检测器实例
+        self._yolo_model_path = None
+        self._yolo_loading = False
+        self._yolo_loaded_event = threading.Event()
+        self._start_yolo_loading_thread()
+
+    def _start_yolo_loading_thread(self):
+        def load_yolo():
+            self._yolo_loading = True
+            try:
+                from src.config import config as app_config
+                yolo_config = app_config.get("yolo", {})
+                model_path = yolo_config.get("model_path", "models/yolo/best.pt")
+                from src.image.yolo_detector import YoloDetector
+                self._yolo_detector = YoloDetector(model_path=model_path)
+                self._yolo_model_path = model_path
+            finally:
+                self._yolo_loading = False
+                self._yolo_loaded_event.set()
+        threading.Thread(target=load_yolo, daemon=True).start()
+
+    @property
+    def yolo_detector(self):
+        if self._yolo_detector is not None:
+            return self._yolo_detector
+        # 如果还在加载，等待加载完成
+        if self._yolo_loading:
+            self._yolo_loaded_event.wait()
+            return self._yolo_detector
+        # 如果未启动加载（极端情况），直接加载
         from src.config import config as app_config
         yolo_config = app_config.get("yolo", {})
         model_path = yolo_config.get("model_path", "models/yolo/best.pt")
         from src.image.yolo_detector import YoloDetector
-        self.yolo_detector = YoloDetector(model_path=model_path)
+        self._yolo_detector = YoloDetector(model_path=model_path)
+        self._yolo_model_path = model_path
+        return self._yolo_detector
 
     def press_key(self, key: str, down_time: float = 0.02, after_sleep: float = 0, interval: int = -1):
         """发送通用部分的游戏热键。

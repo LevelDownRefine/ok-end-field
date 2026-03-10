@@ -9,11 +9,10 @@ from src.data.FeatureList import FeatureList as fL
 logger = Logger.get_logger(__name__)
 
 
-class AutoCombatTask(BaseEfTask, TriggerTask):
+class AutoCombatTask(BaseEfTask):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.default_config = {'_enabled': True}
         self.name = "自动战斗"
         self.description = "自动战斗(进入战斗后自动战斗直到结束)"
         self.icon = FluentIcon.ACCEPT

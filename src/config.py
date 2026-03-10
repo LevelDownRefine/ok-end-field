@@ -108,6 +108,9 @@ config = {
     "yolo": {
         "model_path": "models/yolo/best.pt",  # YOLO 模型路径（相对项目根目录或绝对路径）
     },
+    "onnx": {
+        "model_path": "models/onnx/best.onnx",  # ONNX 模型路径（相对项目根目录或绝对路径）
+    },
     "gui_title": "ok-ef",  # 窗口名
     "template_matching": {  # 可选, 如使用OpenCV的模板匹配
         "coco_feature_json": os.path.join("assets", "coco_detection.json"),
