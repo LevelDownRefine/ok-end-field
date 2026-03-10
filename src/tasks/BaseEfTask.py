@@ -9,12 +9,14 @@ import pyautogui
 
 from functools import partial
 from typing import List
+from enum import Enum
 from PIL import Image
 from ok import BaseTask, Box
 from skimage.metrics import structural_similarity as ssim
 
 from src.data.FeatureList import FeatureList
 from src.image.frame_processs import isolate_by_hsv_ranges
+from src.image.yolo_detector import YoloDetector
 from src.essence.essence_recognizer import EssenceInfo, read_essence_info
 from src.interaction.Key import move_keys
 from src.interaction.Mouse import active_and_send_mouse_delta, move_to_target_once, run_at_window_pos
@@ -33,6 +35,12 @@ class BaseEfTask(BaseTask):
         self.box = ScreenPosition(self)  # 屏幕位置辅助对象，提供top/bottom/left/right等边界
         self.key_config = self.get_global_config('Game Hotkey Config')  # 获取全局热键配置
         self.key_manager = KeyConfigManager(self.key_config)  # 初始化热键管理器
+        # 初始化 YOLO 检测器
+        from src.config import config as app_config
+        yolo_config = app_config.get("yolo", {})
+        model_path = yolo_config.get("model_path", "models/yolo/best.pt")
+        from src.image.yolo_detector import YoloDetector
+        self.yolo_detector = YoloDetector(model_path=model_path)
 
     def press_key(self, key: str, down_time: float = 0.02, after_sleep: float = 0, interval: int = -1):
         """发送通用部分的游戏热键。
@@ -179,6 +187,52 @@ class BaseEfTask(BaseTask):
         """
         return partial(self.isolate_by_hsv_ranges, ranges=ranges)
 
+
+
+    def yolo_detect(
+            self,
+            name: str | list[str],
+            frame=None,
+            box: Box | None = None,
+            conf: float = 0.25,
+    ) -> list[Box]:
+        """使用 YOLO 识别目标，并按名称过滤后返回 Box 列表。
+
+        Args:
+            name: 目标类别名或名称列表，至少传一个
+            frame: 可选，传入待识别帧；不传则使用当前帧
+            box: 可选，限制识别区域
+            conf: 置信度阈值
+        """
+        if not name:
+            raise ValueError("yolo_detect 至少需要传入一个 name")
+
+        raw_names = [name] if isinstance(name, str) else name
+        target_names = {
+            str(n.value) if isinstance(n, Enum) else str(n)
+            for n in raw_names
+            if n is not None
+        }
+        frame = frame if frame is not None else self.next_frame()
+        if frame is None:
+            return []
+
+        offset_x = 0
+        offset_y = 0
+        detect_frame = frame
+        if box is not None:
+            detect_frame = box.crop_frame(frame)
+            offset_x = int(box.x)
+            offset_y = int(box.y)
+
+        detections = self.yolo_detector.detect(detect_frame, conf=conf)
+        results = [
+            det.to_box(offset_x=offset_x, offset_y=offset_y)
+            for det in detections
+            if det.cls_name in target_names
+        ]
+        return sorted(results, key=lambda item: item.confidence, reverse=True)
+
     def click_with_alt(self, x: int| float | Box | List[Box] = -1, y: int|float = -1, move_back: bool = False,
                        name: str | None = None, interval: int = -1, move: bool = True, down_time: float = 0.01,
                        after_sleep: float = 0, key: str = 'left'):
@@ -323,6 +377,7 @@ class BaseEfTask(BaseTask):
             threshold=0.8,
             max_time=50,
             ocr=True,
+            use_yolo=False,
             raise_if_fail=True,
             is_num=False,
             need_scroll=False,
@@ -343,6 +398,7 @@ class BaseEfTask(BaseTask):
             threshold: 图像特征匹配阈值(0-1)，默认0.8，仅在ocr=False时使用
             max_time: 最大尝试循环次数，默认50次
             ocr: True使用OCR模式识别，False使用图像特征匹配模式
+            use_yolo: 在ocr=False时，是否改用YOLO识别（True=YOLO，False=模板特征匹配）
             raise_if_fail: True时对中失败抛出异常，False时返回False
             is_num: 数字型目标Y坐标微调（用于识别数字时的位置校正）
             need_scroll: True时在对中过程中自动滚动（通常用于列表)
@@ -407,18 +463,26 @@ class BaseEfTask(BaseTask):
                 while True:
                     if time.time() - start_time >= 1:
                         break
-                    self.next_frame()
-                    for feature_name in ocr_match_or_feature_name_list:
-                        if time.time() - start_time >= 1:
-                            break
-
-                        result = self.find_feature(
-                            feature_name=feature_name,
-                            threshold=threshold,
+                    frame = self.next_frame()
+                    if use_yolo:
+                        result = self.yolo_detect(
+                            name=ocr_match_or_feature_name_list,
+                            frame=frame,
                             box=feature_box,
+                            conf=threshold,
                         )
-                        if result:
-                            break
+                    else:
+                        for feature_name in ocr_match_or_feature_name_list:
+                            if time.time() - start_time >= 1:
+                                break
+
+                            result = self.find_feature(
+                                feature_name=feature_name,
+                                threshold=threshold,
+                                box=feature_box,
+                            )
+                            if result:
+                                break
                     if result:
                         break
                     self.sleep(0.1)

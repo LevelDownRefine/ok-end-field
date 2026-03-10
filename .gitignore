@@ -25,10 +25,11 @@ thread_dumps.txt
 ############################
 x-anylabeling-asset/project_dir/coco_output
 *.msgpack
+yolo_tem
+runs
 
 ############################
 # 🤖 模型文件（如需提交请移除）
-/models/
 /paddle_model/
 /tesseract/
 

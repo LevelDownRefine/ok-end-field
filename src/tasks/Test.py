@@ -50,46 +50,53 @@ class Test(AutoCombatTask):
         self.wait_click_ocr(match=[re.compile(i) for i in ["会客", "培养", "制造"]], time_out=5, after_sleep=2,log=True)
 
     def run(self):
-        # self.ensure_main()
-        # self.press_key('f8',after_sleep=2)
-        # self.wait_click_ocr(match=re.compile("索引"), time_out=5, after_sleep=2,box=self.box.top, log=True)
-        # self.wait_click_ocr(match=re.compile("前往"), time_out=5, after_sleep=2,box=self.box.right, log=True)
-        # self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
-        # self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
-        # start_time= time.time()
-        # while not self.wait_ocr(match=re.compile("撤离"), time_out=1, box=self.box.top_left, log=True):
-        #     if time.time() - start_time > 30:
-        #         self.log_info("等待超时，未检测到撤离")
-        #         return
-        # while not self.wait_ocr(match=re.compile("触碰"), time_out=1,  box=self.box.bottom_right, log=True):
-        #     self.move_keys('w',duration=0.25)
-        # self.press_key("f")
-        # start_time=None
-        # while True:
-        #     # 未进入战斗时短暂等待，进入后由 auto_battle 执行完整战斗流程
-        #     if start_time and time.time() - start_time > 20:
-        #         break
-        #     battle_done = auto_battle(self, config=self.config)
-        #     if not battle_done:
-        #         self.sleep(0.1)
-        #     else:
-        #         start_time=time.time()
+        self.ensure_main()
+        self.press_key('f8',after_sleep=2)
+        self.wait_click_ocr(match=re.compile("索引"), time_out=5, after_sleep=2,box=self.box.top, log=True)
+        self.wait_click_ocr(match=re.compile("前往"), time_out=5, after_sleep=2,box=self.box.right, log=True)
+        self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
+        self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
+        start_time= time.time()
+        while not self.wait_ocr(match=re.compile("撤离"), time_out=1, box=self.box.top_left, log=True):
+            if time.time() - start_time > 30:
+                self.log_info("等待超时，未检测到撤离")
+                return
+        while not self.wait_ocr(match=re.compile("触碰"), time_out=1,  box=self.box.bottom_right, log=True):
+            self.move_keys('w',duration=0.25)
+        self.press_key("f")
+        start_time=None
+        while True:
+            # 未进入战斗时短暂等待，进入后由 auto_battle 执行完整战斗流程
+            if start_time and time.time() - start_time > 20:
+                break
+            battle_done = auto_battle(self, config=self.config)
+            if not battle_done:
+                self.sleep(0.1)
+            else:
+                start_time=time.time()
         self.to_end()
     def to_end(self):
         key_list = ['w','a','s','d']
         for i in range(len(key_list)):
             key_list.append(key_list[i]+key_list[i+1 if i+1<len(key_list) else 0])
         search_box = self.box_of_screen((1920 - 1550) / 1920, 0, 1550 / 1920, (1080 - 150) / 1080)
-        if not self.find_one(battle_end_list,box=search_box,threshold=0.5):
+        if not self.yolo_detect(fL.battle_end, box=search_box):
             for key in key_list:
                 self.move_keys(key, duration=0.01)
                 self.click(key='middle',after_sleep=4)
-                if self.find_one(battle_end_list, box=search_box, threshold=0.5):
+                if self.yolo_detect(fL.battle_end, box=search_box):
                     break
         self.align_ocr_or_find_target_to_center(
-            battle_end_list, ocr=False, box=search_box, max_time=5,only_x=True, raise_if_fail=False, threshold=0.5
+            fL.battle_end,
+            ocr=False,
+            use_yolo=True,
+            box=search_box,
+            max_time=5,
+            only_x=True,
+            raise_if_fail=False,
+            threshold=0.5,
         )
-        while self.align_ocr_or_find_target_to_center(battle_end_list,ocr=False,box=search_box, only_x=True,threshold=0.5,tolerance=100):
+        while self.align_ocr_or_find_target_to_center(fL.battle_end, ocr=False, use_yolo=True, box=search_box, only_x=True, threshold=0.5, tolerance=100):
             if self.wait_ocr(match=re.compile("领取"), time_out=1, box=self.box.bottom_right):
                 self.sleep(0.5)
                 self.press_key("f",down_time=0.2)
