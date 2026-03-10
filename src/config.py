@@ -50,17 +50,11 @@ config = {
     "config_folder": "configs",  # 最好不要修改
     "screenshot_processor": make_bottom_left_black,  # 在截图的时候对frame进行修改, 可选
     "gui_icon": "icons/icon.png",  # 窗口图标, 最好不需要修改文件名
-    'global_configs':[key_config_option],
+    "global_configs": [key_config_option],
     "wait_until_before_delay": 0,
     "wait_until_check_delay": 0,
     "wait_until_settle_time": 0,  # 调用 wait_until时候, 在第一次满足条件的时候, 会等待再次检测, 以避免某些滑动动画没到预定位置就在动画路径中被检测到
-    "ocr": {  # 可选, 使用的OCR库
-        "lib": "onnxocr",
-        "params": {
-            "use_openvino": True,
-            "use_dml": False,
-        },
-    },
+    "ocr": {"lib": "onnxocr", "params": {"use_openvino": True, "use_dml": False}},  # 可选, 使用的OCR库
     "windows": {  # Windows游戏请填写此设置
         "exe": ["Endfield.exe"],
         # 'hwnd_class': 'UnrealWindow', #增加重名检查准确度
@@ -73,14 +67,9 @@ config = {
         "require_bg": True,  # 要求使用后台截图
     },
     "start_timeout": 60,  # default 60
-    "window_size": {  # ok-script窗口大小
-        "width": 1200,
-        "height": 800,
-        "min_width": 600,
-        "min_height": 450,
-    },
+    "window_size": {"width": 1200, "height": 800, "min_width": 600, "min_height": 450},  # ok-script窗口大小
     "supported_resolution": {
-        'ratio': '16:9',  # 支持的游戏分辨率
+        "ratio": "16:9",  # 支持的游戏分辨率
         "min_size": (1280, 720),  # 支持的最低游戏分辨率
         # 'resize_to': [(2560, 1440), (1920, 1080), (1600, 900), (1280, 720)],  # 可选, 如果非16:9自动缩放为 resize_to
     },
@@ -105,12 +94,8 @@ config = {
         },
     },
     "screenshots_folder": "screenshots",  # 截图存放目录, 每次重新启动会清空目录
-    "yolo": {
-        "model_path": "models/yolo/best.pt",  # YOLO 模型路径（相对项目根目录或绝对路径）
-    },
-    "onnx": {
-        "model_path": "models/onnx/best.onnx",  # ONNX 模型路径（相对项目根目录或绝对路径）
-    },
+    "yolo": {"model_path": "models/yolo/best.pt"},  # YOLO 模型路径（相对项目根目录或绝对路径）
+    "onnx": {"model_path": "models/onnx/best.onnx"},  # ONNX 模型路径（相对项目根目录或绝对路径）
     "gui_title": "ok-ef",  # 窗口名
     "template_matching": {  # 可选, 如使用OpenCV的模板匹配
         "coco_feature_json": os.path.join("assets", "coco_detection.json"),
@@ -122,10 +107,7 @@ config = {
         "vcenter_features": ["default_link_skill", "skip_dialog_confirm"],
     },
     "version": version,  # 版本
-    "my_app": [
-        "src.globals",
-        "Globals",
-    ],  # 可选. 全局单例对象, 可以存放加载的模型, 使用og.my_app调用
+    "my_app": ["src.globals", "Globals"],  # 可选. 全局单例对象, 可以存放加载的模型, 使用og.my_app调用
     "onetime_tasks": [  # 用户点击触发的任务
         ["src.tasks.DailyTask", "DailyTask"],
         ["src.tasks.TakeDeliveryTask", "TakeDeliveryTask"],
@@ -133,6 +115,7 @@ config = {
         ["src.tasks.DeliveryTask", "DeliveryTask"],
         ["src.tasks.EssenceScanTask", "EssenceScanTask"],
         ["src.tasks.Test", "Test"],
+        ["src.tasks.PeriodicScreenshotTask", "PeriodicScreenshotTask"],
         ["ok.task.DiagnosisTask", "DiagnosisTask"],
     ],
     "trigger_tasks": [  # 不断执行的触发式任务
@@ -140,5 +123,5 @@ config = {
         ["src.tasks.AutoSkipDialogTask", "AutoSkipDialogTask"],
         ["src.tasks.AutoPickTask", "AutoPickTask"],
         ["src.tasks.AutoLoginTask", "AutoLoginTask"],
-    ]
+    ],
 }
