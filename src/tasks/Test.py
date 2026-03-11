@@ -138,6 +138,8 @@ class Test(BattleMixin):
             self.move_keys('w', duration=0.25)
         self.press_key("f")
         return self.auto_battle()
+    def run(self):
+        self.to_end()
     def to_end(self):
         search_box = self.box_of_screen((1920 - 1550) / 1920, 0, 1550 / 1920, (1080 - 150) / 1080)
         for _ in range(5):

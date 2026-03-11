@@ -17,12 +17,13 @@ from skimage.metrics import structural_similarity as ssim
 
 from src.data.FeatureList import FeatureList
 from src.image.frame_processs import isolate_by_hsv_ranges
-from src.image.yolo_detector import YoloDetector
 from src.essence.essence_recognizer import EssenceInfo, read_essence_info
 from src.interaction.Key import move_keys
 from src.interaction.Mouse import active_and_send_mouse_delta, move_to_target_once, run_at_window_pos
 from src.interaction.ScreenPosition import ScreenPosition
 from src.interaction.KeyConfig import KeyConfigManager
+from src.OnnxYolo8Detect import OnnxYolo8Detect
+from src.config import config as app_config
 
 TOLERANCE = 50
 
@@ -36,46 +37,45 @@ class BaseEfTask(BaseTask):
         self.box = ScreenPosition(self)  # 屏幕位置辅助对象，提供top/bottom/left/right等边界
         self.key_config = self.get_global_config('Game Hotkey Config')  # 获取全局热键配置
         self.key_manager = KeyConfigManager(self.key_config)  # 初始化热键管理器
-        # 初始化 YOLO 检测器
-        self._yolo_detector = None  # YOLO 检测器实例
-        self._yolo_model_path = None
-        self._yolo_loading = False
-        self._yolo_loaded_event = threading.Event()
-        if os.getenv("CI"):
-            return
-        self._start_yolo_loading_thread()
+        self._detector = None
+        self._detector_loading = False
+        self._detector_loaded_event = threading.Event()
 
-    def _start_yolo_loading_thread(self):
-        def load_yolo():
-            self._yolo_loading = True
+        self._start_detector_loading()
+
+    def _start_detector_loading(self):
+
+        def load_model():
+
+            self._detector_loading = True
+
             try:
-                from src.config import config as app_config
                 yolo_config = app_config.get("yolo", {})
-                model_path = yolo_config.get("model_path", "models/yolo/best.pt")
-                from src.image.yolo_detector import YoloDetector
-                self._yolo_detector = YoloDetector(model_path=model_path)
-                self._yolo_model_path = model_path
+                model_path = yolo_config.get("model_path", "models/yolo/best.onnx")
+
+                self._detector = OnnxYolo8Detect(weights=model_path)
+
             finally:
-                self._yolo_loading = False
-                self._yolo_loaded_event.set()
-        threading.Thread(target=load_yolo, daemon=True).start()
+                self._detector_loading = False
+                self._detector_loaded_event.set()
+
+        threading.Thread(target=load_model, daemon=True).start()
 
     @property
-    def yolo_detector(self):
-        if self._yolo_detector is not None:
-            return self._yolo_detector
-        # 如果还在加载，等待加载完成
-        if self._yolo_loading:
-            self._yolo_loaded_event.wait()
-            return self._yolo_detector
-        # 如果未启动加载（极端情况），直接加载
-        from src.config import config as app_config
-        yolo_config = app_config.get("yolo", {})
-        model_path = yolo_config.get("model_path", "models/yolo/best.pt")
-        from src.image.yolo_detector import YoloDetector
-        self._yolo_detector = YoloDetector(model_path=model_path)
-        self._yolo_model_path = model_path
-        return self._yolo_detector
+    def detector(self):
+
+        if self._detector:
+            return self._detector
+
+        if self._detector_loading:
+            self._detector_loaded_event.wait()
+            return self._detector
+
+        # 极端情况：线程没启动
+        self._start_detector_loading()
+        self._detector_loaded_event.wait()
+
+        return self._detector
 
     def press_key(self, key: str, down_time: float = 0.02, after_sleep: float = 0, interval: int = -1):
         """发送通用部分的游戏热键。
@@ -221,33 +221,25 @@ class BaseEfTask(BaseTask):
             ranges: HSV区间列表
         """
         return partial(self.isolate_by_hsv_ranges, ranges=ranges)
-
-
-
     def yolo_detect(
-            self,
-            name: str | list[str],
-            frame=None,
-            box: Box | None = None,
-            conf: float = 0.25,
+        self,
+        name: str | list[str],
+        frame=None,
+        box: Box | None = None,
+        conf: float = 0.25,
     ) -> list[Box]:
-        """使用 YOLO 识别目标，并按名称过滤后返回 Box 列表。
+        """使用 YOLO 识别目标，并按名称过滤后返回 Box 列表。"""
 
-        Args:
-            name: 目标类别名或名称列表，至少传一个
-            frame: 可选，传入待识别帧；不传则使用当前帧
-            box: 可选，限制识别区域
-            conf: 置信度阈值
-        """
         if not name:
             raise ValueError("yolo_detect 至少需要传入一个 name")
-
+        name="echo"
         raw_names = [name] if isinstance(name, str) else name
         target_names = {
             str(n.value) if isinstance(n, Enum) else str(n)
             for n in raw_names
             if n is not None
         }
+
         frame = frame if frame is not None else self.next_frame()
         if frame is None:
             return []
@@ -255,17 +247,39 @@ class BaseEfTask(BaseTask):
         offset_x = 0
         offset_y = 0
         detect_frame = frame
+
+        # ROI裁剪
         if box is not None:
             detect_frame = box.crop_frame(frame)
             offset_x = int(box.x)
             offset_y = int(box.y)
 
-        detections = self.yolo_detector.detect(detect_frame, conf=conf)
-        results = [
-            det.to_box(offset_x=offset_x, offset_y=offset_y)
-            for det in detections
-            if det.cls_name in target_names
-        ]
+        # YOLO检测
+        detections = self.detector.detect(detect_frame, threshold=conf)
+        self.log_info(f"yolo_detect: raw detections count = {len(detections)}")
+        results: list[Box] = []
+
+        for det in detections:
+            self.log_info(f"Raw detection: name={getattr(det,'name',None)}, conf={det.confidence:.3f}")
+            if getattr(det, "name", None) not in target_names:
+                continue
+
+            # 重新生成 Box（加偏移）
+            new_box = Box(
+                int(det.x + offset_x),
+                int(det.y + offset_y),
+                int(det.width),
+                int(det.height),
+            )
+
+            new_box.name = det.name
+            new_box.confidence = det.confidence
+
+            results.append(new_box)
+
+        self.log_info(f"yolo_detect: filtered detections count = {len(results)}")
+            
+
         return sorted(results, key=lambda item: item.confidence, reverse=True)
 
     def click_with_alt(self, x: int| float | Box | List[Box] = -1, y: int|float = -1, move_back: bool = False,
