@@ -9,7 +9,6 @@ from src.tasks.daily.liaison_mixin import DailyLiaisonMixin
 import re
 import time
 
-battle_end_list = [fL.battle_end, fL.battle_end_small, fL.battle_end_big]
 
 
 class BattleTask(DailyLiaisonMixin):
