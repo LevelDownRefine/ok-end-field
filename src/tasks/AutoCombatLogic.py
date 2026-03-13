@@ -1,5 +1,5 @@
 import time
-
+import threading
 from src.tasks.BaseEfTask import BaseEfTask
 
 
@@ -9,10 +9,8 @@ class AutoCombatLogic:
 
     def run(self, start_sleep: float = None):
         task = self.task
-        in_combat_check = task.in_combat(required_yellow=1)
-        task.log_info(f"进入战斗检查: in_combat={in_combat_check}")
 
-        if not in_combat_check:
+        if not task.in_combat(required_yellow=1):
             task.log_info("未检测到战斗状态,退出自动战斗")
             return False
 
@@ -26,13 +24,23 @@ class AutoCombatLogic:
             task.screenshot('enter_combat')
 
         task.click(key='middle')
+        start_time = time.time()
         if start_sleep is not None:
-            task.sleep(start_sleep)
+            # 改成非阻塞等待
+            end_time = start_time + start_sleep
+            while time.time() < end_time:
+                task.click(key='left')
+                task.click(key='middle')
+                task.perform_attack_weave()
         else:
-            task.sleep(task.config.get("进入战斗后的初始等待时间", 1))
+            wait_time = task.config.get("进入战斗后的初始等待时间", 1)
+            end_time = start_time + wait_time
+            while time.time() < end_time:
+                task.click(key='left')
+                task.click(key='middle')
+                task.perform_attack_weave()
 
         while True:
-            skill_count = task.get_skill_bar_count()
             if task.is_combat_ended():
                 if task.debug:
                     task.screenshot('out_of_combat')
@@ -41,12 +49,15 @@ class AutoCombatLogic:
                 break
 
             task.handle_no_damage_number_actions()
+            task.click(key='left')
+            task.click(key='middle')
+            task.perform_attack_weave()
 
             if task.use_link_skill() or task.use_ult():
                 continue
 
+            skill_count = task.get_skill_bar_count()
             if skill_count >= start_trigger_count:
-                task.log_info(f"Triggering sequence at {skill_count} points")
                 for skill_key in skill_sequence:
                     if not task.in_combat():
                         break
@@ -55,21 +66,18 @@ class AutoCombatLogic:
                         time_since_last_skill = time.time() - task.last_skill_time
                         if current_points >= 1 and time_since_last_skill >= 1.0:
                             break
+                        task.click(key='left')
+                        task.click(key='middle')
                         if task.use_link_skill() or task.use_ult():
                             continue
                         if current_points < 0 and (task.ocr_lv() or not task.in_team()):
                             break
                         task.handle_no_damage_number_actions()
                         task.perform_attack_weave()
-                        task.sleep(0.02)
                     if not task.in_combat():
                         break
                     task.send_key(skill_key)
                     task.last_skill_time = time.time()
                     task.last_op_time = time.time()
                     task.log_info(f"Used skill {skill_key}")
-                task.log_info("Sequence finished, returning to charge mode")
-            else:
-                task.perform_attack_weave()
-            task.sleep(0.02)
         return True
