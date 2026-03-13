@@ -519,20 +519,21 @@ class DailyLiaisonMixin(BattleMixin):
                 return True
         self.to_stage(stage_name, category_name)
         if category_name != "能量淤积点":
-            self.battle_space(left_ticket, category_name)
+            return self.battle_space(left_ticket, category_name)
         else:
             self.log_info("尚未实现能量淤积点功能", notify=True)
+            return True
 
     def battle_space(self, left_ticket, category_name):
         self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
-        if self.wait_click_ocr(match=re.compile("取消"), time_out=5, box=self.box.bottom_right, log=True):
+        if self.wait_click_ocr(match=re.compile("取消"), time_out=5, box=self.box.bottom_left, log=True):
             self.log_info("没有进入战斗，可能是因为已经没理智了")
             return True
         enter_bool = False
         battle_bool = False
         while left_ticket > 0:
             if enter_bool:
-                self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True)
+                self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True,time_out=5, after_sleep=2)
             else:
                 self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right,
                                     log=True)
@@ -566,12 +567,14 @@ class DailyLiaisonMixin(BattleMixin):
             match=re.compile(category_name),
             box=self.box.left,
             log=True,
-            after_sleep=2
+            after_sleep=2,
+            time_out=6
         )
 
         # 默认按钮文本
         to_text = "前往"
-
+        if category_name == "能量淤积点":
+            to_text = "查看"
         # 判断是否是高阶关卡
         is_higher_order = category_name == "危境预演"
         location = None
@@ -581,22 +584,22 @@ class DailyLiaisonMixin(BattleMixin):
                 location = self.find_feature(feature_name=higher_order_feature_dict[stage_name])
             else:
                 # 普通关卡
-                location = self.wait_ocr(match=re.compile(stage_name), box=self.box.left, log=True)
-                if category_name == "能量淤积点":
-                    to_text = "查看"
+                location = self.wait_ocr(match=re.compile(stage_name), box=self.box.left, log=True, time_out=5)
+
             if location:
-                break
+                enter_bool=self.wait_click_ocr(
+                    match=re.compile(to_text),
+                    box=self.box_of_screen(location[0].x / self.width, location[0].y / self.height, 1, 1),
+                    after_sleep=2,
+                    time_out=6,
+                )
+                if enter_bool:
+                    return True
             self.scroll_relative(0.5, 0.5, count=-4)
             self.wait_ui_stable(refresh_interval=0.5)
-
+        return False
         # 如果找到位置，则点击按钮
-        if location:
-            self.wait_click_ocr(
-                match=re.compile(to_text),
-                box=self.box_of_screen(location[0].x / self.width, location[0].y / self.height, 1, 1),
-                after_sleep=2
-            )
-
+        
     def to_battle(self, start_sleep: float = None):
         end_time = time.time()
         while not self.wait_ocr(match=re.compile("撤离"), time_out=1, box=self.box.top_left, log=True):
