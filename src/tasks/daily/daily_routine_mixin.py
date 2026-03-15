@@ -5,6 +5,8 @@ from src.data.world_map import areas_list, outpost_dict, default_goods
 from src.data.world_map_utils import get_area_by_outpost_name, get_goods_by_outpost_name
 from src.image.hsv_config import HSVRange as hR
 from src.tasks.BaseEfTask import BaseEfTask
+from src.data.FeatureList import FeatureList as fL
+from src.data.characters_utils import get_contact_list_with_feature_list
 
 
 class DailyRoutineMixin(BaseEfTask):
@@ -582,3 +584,41 @@ class DailyRoutineMixin(BaseEfTask):
         else:
             self.logger.info("未找到会客室，无法收集线索")
             return False
+    def up_make_room_num(self):
+        self.info_set("current_task", "up_make_room_num")
+        self.log_info("开始制造室任务")
+        self.press_key("i", after_sleep=2)
+        exchange_help_box = self.box_of_screen(0.1, 561 / 861, 0.9, 0.9)
+        results = self.wait_ocr(match=re.compile("制造"), time_out=4, box=exchange_help_box)
+        if not results:
+            self.log_info("未找到制造舱，任务失败")
+            return False
+        for result in results:
+            self.click(result, after_sleep=2)
+            self.logger.info("点击制造室")
+            for i in range(2):
+                if i==0:
+                    if not self.wait_click_ocr(match=re.compile("收取"), time_out=2, box=self.box.bottom, after_sleep=2):
+                        continue
+                    self.wait_pop_up(after_sleep=2)
+                if i==1:
+                    if not self.wait_click_ocr(match=re.compile("助力"), time_out=2, box=self.box.top_right, after_sleep=2):
+                        continue
+                    if not self.wait_click_ocr(match=re.compile("使用"), time_out=2, box=self.box.bottom_right, after_sleep=2):
+                        continue
+                if icon:=self.find_one(feature_name=fL.max_icon,horizontal_variance=0.1,vertical_variance=0.1):
+                    self.click(icon, after_sleep=2)
+                    self.wait_click_ocr(match=re.compile("确认"), time_out=2, box=self.box.bottom, after_sleep=2)
+            self.safe_back(match=re.compile("运转"),box=self.box.top_left)
+        self.wait_click_ocr(match=re.compile("助力"), time_out=2, box=self.box.top_right, after_sleep=2)
+        self.wait_click_ocr(match=re.compile("使用"), time_out=2, box=self.box.bottom_right, after_sleep=2)
+        char_list = list(get_contact_list_with_feature_list().values())
+        count=0
+        for char in char_list:
+            if result := self.find_one(feature_name=char, box=self.box_of_screen(0.3,0,1,1)):
+                self.click(result)
+                count+=1
+            if count>=2:
+                break
+        self.wait_click_ocr(match=re.compile("确认"),settle_time=1, time_out=2, box=self.box.bottom)
+        return True

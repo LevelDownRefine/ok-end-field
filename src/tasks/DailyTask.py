@@ -34,21 +34,24 @@ class DailyTask(
         self.default_config.update(buy_sell)
         self.default_config.update({"优先送礼对象": list(self.can_contact_dict.keys())[0]})
 
-        self.default_config.update({
-            "送礼任务最多尝试次数": 2,
-            "送礼": True,
-            "据点兑换": True,
-            "转交运送委托": True,
-            "转交委托奖励领取": True,
-            "造装备": True,
-            "收信用": True,
-            "尝试仅收培育室": False,
-            "收集线索": True,
-            "买信用商店": False,
-            "买卖货": True,
-            "刷体力": True,
-            "日常奖励": True,
-        })
+        self.default_config.update(
+            {
+                "送礼任务最多尝试次数": 2,
+                "送礼": True,
+                "据点兑换": True,
+                "转交运送委托": True,
+                "转交委托奖励领取": True,
+                "造装备": True,
+                "收信用": True,
+                "尝试仅收培育室": False,
+                "收集线索": True,
+                "制造舱": True,
+                "买信用商店": False,
+                "买卖货": True,
+                "刷体力": True,
+                "日常奖励": True,
+            }
+        )
         self.config_type["体力本"] = {"type": "drop_down", "options": self.stages_list}
         self.config_type["优先送礼对象"] = {"type": "drop_down", "options": list(self.can_contact_dict.keys())}
         self.config_description.update({"尝试仅收培育室": '前置是启用收信用'})
@@ -78,6 +81,7 @@ class DailyTask(
             ("造装备", self.make_weapon),
             ("收信用", self.collect_credit),
             ("收集线索", self.collect_clue),
+            ("制造舱", self.up_make_room_num),
             ("买信用商店", self.credit_shop),
             ("买卖货", self.buy_sell),
             ("刷体力", self.battle),

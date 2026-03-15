@@ -273,6 +273,7 @@ class DailyBattleMixin(Common, MapMixin, ZipLineMixin,BattleMixin):
                     match=re.compile("获得奖励"),
                     box=self.box_of_screen(530 / 1920, 330 / 1080, 1400 / 1920, 570 / 1080),
                     time_out=2,
+                    after_sleep=1,
                     log=True
             ):
                 need_ticket_number = ticket_number - 40  # 减耗票逻辑
@@ -287,6 +288,7 @@ class DailyBattleMixin(Common, MapMixin, ZipLineMixin,BattleMixin):
             return 0  # 理智不足，不能继续
 
         # 点击“领取”，失败则返回0
+        self.next_frame()
         if not self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=2, log=True):
             self.log_info("领取失败")
             return 0

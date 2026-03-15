@@ -68,6 +68,7 @@ class FeatureList(str, Enum):
     market_good_icon = 'market_good_icon'
     market_minus_button = 'market_minus_button'
     market_plus_button = 'market_plus_button'
+    max_icon = 'max_icon'
     minerals_icon = 'minerals_icon'
     monthly_card = 'monthly_card'
     one_click_claim = 'one_click_claim'
