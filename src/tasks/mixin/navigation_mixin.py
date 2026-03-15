@@ -96,7 +96,7 @@ class NavigationMixin(BaseEfTask):
                         ocr=False,
                     )
 
-                    self.move_keys("w", duration=1)
+                    self.move_keys("w", duration=0.75)
                 else:
                     fail_count += 1
                     self.log_info(f"未找到导航路径，连续失败次数: {fail_count}")
@@ -105,9 +105,9 @@ class NavigationMixin(BaseEfTask):
                         self.log_info("切换短距离移动")
                         short_distance_flag = True
 
-                    self.move_keys("w", duration=0.5)
+                    self.move_keys("w", duration=0.25)
             else:
-                self.move_keys("w", duration=0.5)
+                self.move_keys("w", duration=0.25)
 
             self.sleep(0.5)
         back_window(prev)
