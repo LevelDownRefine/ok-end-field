@@ -427,21 +427,16 @@ class LiaisonMixin(NavigationMixin):
         """
         self.log_info("开始收取或赠送礼物")
         start_time = time.time()
-
+        collect_give_box = self.box_of_screen(1434 / 1920, 0.5, 1, 872 / 1080)
         while True:
 
-            if time.time() - start_time > 10:
+            if time.time() - start_time > 30:
                 self.log_info("等待 收下/赠送 超时")
                 return False
 
             self.click(0.5, 0.5, after_sleep=0.5)
 
-            result = self.wait_click_ocr(
-                match=[re.compile("收下"), re.compile("赠送")],
-                box=self.box.bottom_right,
-                time_out=1,
-                after_sleep=0.5,
-            )
+            result = self.wait_click_ocr(match=[re.compile("收下"), re.compile("赠送")], box=collect_give_box, time_out=1, after_sleep=0.5)
 
             if result:
                 self.log_info(f"找到按钮: {result[0].name}")
@@ -455,13 +450,13 @@ class LiaisonMixin(NavigationMixin):
 
             while True:
 
-                if time.time() - start_time > 10:
+                if time.time() - start_time > 30:
                     self.log_info("等待 收下/赠送 超时")
                     return False
 
                 self.click(0.5, 0.5, after_sleep=0.5)
 
-                result = self.wait_click_ocr(match=[re.compile("赠送")], box=self.box.bottom_right, time_out=2)
+                result = self.wait_click_ocr(match=[re.compile("赠送")], box=collect_give_box, time_out=2)
 
                 if result:
                     self.log_info("收下完成，准备赠送礼物")
