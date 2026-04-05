@@ -24,10 +24,14 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         self.stages_list = stages_list
         # 下列代码在 AutoCombatTask.py 中有部分重复。如有更新，请两边一起修改。
         # 不要试图归并，否则会影响『日常任务』中的选项顺序。
+        from datetime import datetime
+        today_str = datetime.now().strftime("%Y-%m-%d")
         self.default_config.update({
             "⭐刷体力": True,
             "消耗限时体力药": False,
             "体力本": "干员经验",
+            "刷体力开始日期": today_str,  # 默认当天，可自定义
+            "刷本序列": "",  # 为空表示不启用自动轮换
             "仅站桩": False,
             **{key: "" for key in gather_list},
             "技能释放": "123",
@@ -53,15 +57,66 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 "若启用，则开始挑战后角色原地不动（不输出），\n"
                 "仅对「重度能量淤积点」生效。可以用于建好防御塔情形，避免角色离开副本区域。"
             ),
+            "刷体力开始日期": (
+                "刷体力自动切换的起始日期，格式如2026-04-05。\n"
+                "用于计算今天是第几天，配合刷本序列使用。"
+            ),
+            "刷本序列": (
+                f"多个副本名用逗号分隔，如：干员经验,干员进阶,钱币收集。\n"
+                f"会根据开始日期自动轮换。\n"
+                "必须为以下之一：\n"
+                + '\n'.join([', '.join(self.stages_list[i:i+4]) for i in range(0, len(self.stages_list), 4)]) + "。\n"
+                f"留空表示不启用自动轮换。"
+            ),
             **{key: (
-                "需要设好「预刻写属性」。默认留空表示直线前往，\n"
+                "需要设好「预刻写属性」。默认留空表示不使用滑索前往，\n"
                 "更多用法参见 ./docs/体力本.md > 能量淤积点 。"
             ) for key in gather_list},
         })
         self.config_type["体力本"] = {"type": "drop_down", "options": self.stages_list}
 
     def battle(self):
+        # 自动根据日期和刷本序列决定刷哪个本
         stage_name = self.config.get("体力本")
+        seq = self.config.get("刷本序列", "")
+        start_date = self.config.get("刷体力开始日期", "2026-04-05")
+        auto_stage = None
+        explain = ""
+        try:
+            if seq:
+                seq_list = [x.strip() for x in seq.split(",") if x.strip()]
+                # 如果有任何无效副本名，全部放弃自动轮换
+                invalid_stages = [x for x in seq_list if x not in self.stages_list]
+                if invalid_stages:
+                    explain = f"刷体力自动选择失败：刷本序列包含无效副本名 {invalid_stages}，已使用原配置体力本"
+                else:
+                    from datetime import datetime
+                    today = datetime.now().date()
+                    try:
+                        start = datetime.strptime(start_date, "%Y-%m-%d").date()
+                    except Exception as e:
+                        self.log_info(f"刷体力开始日期解析失败: {e}，已使用默认配置体力本")
+                        return
+                    if start_date and today < start:
+                        explain = f"刷体力自动选择失败：开始日期 {start_date} 在未来（今天 {today}），已使用原配置体力本"
+                    elif not seq_list:
+                        explain = f"刷体力自动选择失败：刷本序列为空，已使用原配置体力本"
+                    else:
+                        days = (today - start).days
+                        idx = days % len(seq_list)
+                        auto_stage = seq_list[idx]
+                        explain = (
+                            f"刷体力自动选择: 今天是第{days+1}天，刷本序列=[{','.join(seq_list)}]，"
+                            f"今日副本：{auto_stage}。刷本序列必须为以下之一：{self.stages_list}"
+                        )
+        except Exception as e:
+            import traceback
+            self.log_info(f"刷体力自动选择异常: {e}\n{traceback.format_exc()}")
+        if auto_stage:
+            stage_name = auto_stage
+            self.log_info(explain)
+        else:
+            self.log_info(explain or "刷体力自动选择失败，使用原配置体力本")
         category_name = get_stage_category(stage_name)
         self.ensure_main()
         self.press_key("f8")
