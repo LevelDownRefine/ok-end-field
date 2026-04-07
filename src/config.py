@@ -6,21 +6,6 @@ from src.interaction.EfInteraction import EfInteraction
 from src.interaction.KeyConfig import DEFAULT_COMMON_KEYS, DEFAULT_INDUSTRY_KEYS, DEFAULT_COMBAT_KEYS
 
 version = "dev"
-
-
-class InteractionOptions(list):
-    """Display interaction class names in GUI while keeping raw values for indexing."""
-
-    def __iter__(self):
-        for method in super().__iter__():
-            if isinstance(method, type):
-                yield method.__name__
-            elif isinstance(method, str):
-                yield method
-            else:
-                yield str(method)
-
-
 # 不需要修改version, Github Action打包会自动修改
 def make_bottom_left_black(frame):  # 可选. 某些游戏截图时遮挡UID使用
     """
@@ -77,7 +62,7 @@ config = {
         "exe": ["Endfield.exe"],
         # 'hwnd_class': 'UnrealWindow', #增加重名检查准确度
         # GUI 需要可迭代配置；设备管理器需要类对象，使用包装器同时满足两者。
-        "interaction": InteractionOptions([EfInteraction]),
+        "interaction": [EfInteraction],
         # Genshin:某些操作可以后台, 部分游戏支持 PostMessage:可后台点击, 极少游戏支持 ForegroundPostMessage:前台使用PostMessage Pynput/PyDirect:仅支持前台使用
         "capture_method": ["WGC", "BitBlt_RenderFull"],
         # Windows版本支持的话, 优先使用WGC, 否则使用BitBlt_Full. 支持的capture有 BitBlt, WGC, BitBlt_RenderFull, DXGI
