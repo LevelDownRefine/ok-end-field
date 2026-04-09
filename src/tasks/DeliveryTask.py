@@ -76,8 +76,6 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                 "发生异常时终止游戏": False
             }
         )
-        # 强制覆盖用户已保存配置中的教程链接，避免被改动后持续生效。
-        self.config[self.CFG_TUTORIAL] = tutorial_value
         self.config_type[self.CFG_TEST_TARGET] = {
             "type": "drop_down",
             "options": [self.TEST_NONE, self.CFG_TO_DELIVERY_POINT] + self.ends + [self.TEST_FULL_CYCLE],
@@ -595,6 +593,8 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
     def run(self):
         """运输委托任务的主入口，支持与日常任务一致的多账号执行逻辑。"""
         try:
+            # 在运行期覆盖教程链接，避免在 __init__ 阶段 self.config 仍为 None。
+            self.config[self.CFG_TUTORIAL] = f"{self.TUTORIAL_LINK}\n{self.TUTORIAL_TIPS}"
             accounts_bool = self.config.get("多账户模式", False)
             if accounts_bool:
                 accounts_list = self.get_account_list()

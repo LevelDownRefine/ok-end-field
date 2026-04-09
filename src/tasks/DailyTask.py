@@ -44,6 +44,8 @@ class DailyTask(
     def run(self):
         """日常任务主入口。"""
         try:
+            # 在运行期覆盖帮助链接，避免在 __init__ 阶段 self.config 仍为 None。
+            self.config["帮助"] = self.HELP_LINK
             self.log_info("开始执行日常任务...", notify=True)
             accounts_bool = self.config.get("多账户模式", False)
             if accounts_bool:
