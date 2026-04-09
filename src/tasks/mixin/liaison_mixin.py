@@ -420,6 +420,64 @@ class LiaisonMixin(NavigationMixin):
 
         return True
 
+    def _gift_action_box(self):
+        return self.box_of_screen(1434 / 1920, 0.5, 1, 872 / 1080)
+
+    def _finish_collect_gift_after_clicked(self):
+        """在已点击『收下』后，完成收礼弹窗流程。"""
+        self.log_info("开始收下礼物")
+        self.skip_dialog()
+        self.press_key('f', after_sleep=0.5)
+        self.log_info("收下完成")
+        return True
+
+    def _finish_give_gift_after_clicked(self):
+        """在已点击『赠送』后，完成选礼与确认赠送流程。"""
+        self.wait_ocr(match=re.compile("默认"), box=self.box.bottom_left, time_out=5)
+        self.click(144 / 1920, 855 / 1080)
+        self.log_info("点击赠送礼物位置")
+        if self.wait_click_ocr(
+                match=re.compile("确认赠送"),
+                box=self.box.bottom_right,
+                time_out=5,
+                after_sleep=0.5,
+        ):
+            self.log_info("确认赠送按钮已出现")
+            self.skip_dialog()
+            self.log_info("成功赠送礼物")
+            return True
+        self.log_info("赠送礼物失败")
+        return False
+
+    def collect_gifts(self, timeout=30):
+        """仅执行收礼流程。"""
+        self.log_info("开始仅收礼流程")
+        result = self._loop_wait_click_ocr(
+            match=[re.compile("收下")],
+            box=self._gift_action_box(),
+            timeout=timeout,
+            log_msg="等待 收下 超时",
+        )
+        if not result:
+            self.log_info("未检测到可收下礼物")
+            return False
+        return self._finish_collect_gift_after_clicked()
+
+    def give_gifts(self, timeout=30, gift_entry_clicked=False):
+        """仅执行送礼流程。"""
+        self.log_info("开始仅送礼流程")
+        if not gift_entry_clicked:
+            result = self._loop_wait_click_ocr(
+                match=[re.compile("赠送")],
+                box=self._gift_action_box(),
+                timeout=timeout,
+                log_msg="等待 赠送 超时",
+            )
+            if not result:
+                self.log_info("未检测到赠送入口")
+                return False
+        return self._finish_give_gift_after_clicked()
+
     def collect_and_give_gifts(self):
         """
         自动执行收礼与送礼流程。
@@ -428,10 +486,15 @@ class LiaisonMixin(NavigationMixin):
             bool: 是否成功完成
         """
         self.log_info("开始收取或赠送礼物")
-        collect_give_box = self.box_of_screen(1434 / 1920, 0.5, 1, 872 / 1080)
+        self.start_time = time.time()
+        while self.find_one(feature_name=fL.esc,vertical_variance=0.01, horizontal_variance=0.02):
+            if time.time() - self.start_time > 5:
+                self.log_info("没能进入交流界面")
+                return False
+            self.sleep(0.5)
         result = self._loop_wait_click_ocr(
             match=[re.compile("收下"), re.compile("赠送")],
-            box=collect_give_box,
+            box=self._gift_action_box(),
             timeout=30,
             log_msg="等待 收下/赠送 超时",
         )
@@ -442,34 +505,13 @@ class LiaisonMixin(NavigationMixin):
         self.log_info(f"找到按钮: {result[0].name}")
 
         if result and len(result) > 0 and "收下" in result[0].name:
-            self.log_info("开始收下礼物")
-            self.skip_dialog()
-            self.press_key('f', after_sleep=0.5)
-            result = self._loop_wait_click_ocr(
-                match=[re.compile("赠送")], box=collect_give_box, timeout=30, log_msg="等待 收下/赠送 超时"
-            )
-
-            if not result:
+            if not self._finish_collect_gift_after_clicked():
                 return False
-
             self.log_info("收下完成，准备赠送礼物")
-        self.wait_ocr(match=re.compile("默认"), box=self.box.bottom_left, time_out=5)
-        self.click(144 / 1920, 855 / 1080)
-        self.log_info("点击赠送礼物位置")
-        self.log_info("本次成功")
-        if self.wait_click_ocr(
-                match=re.compile("确认赠送"),
-                box=self.box.bottom_right,
-                time_out=5,
-                after_sleep=0.5,
-        ):
-            self.log_info("确认赠送按钮已出现")
+            return self.give_gifts(timeout=30)
 
-            self.skip_dialog()
-            self.log_info("成功赠送礼物")
-            return True
-        self.log_info("赠送礼物失败")
-        return False
+        # 命中『赠送』时，入口已被点击，直接执行送礼后续。
+        return self.give_gifts(timeout=30, gift_entry_clicked=True)
 
     def _loop_wait_click_ocr(self, match, box, timeout, log_msg=None):
         start_time = time.time()
