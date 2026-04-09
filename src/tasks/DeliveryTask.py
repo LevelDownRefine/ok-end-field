@@ -547,7 +547,8 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                     results = self.wait_ocr(
                         match=list(ends_list_pattern_dict.keys()), box=self.box.left, time_out=10, log=True
                     )
-                    self.press_key('f', after_sleep=2)
+                    if result := self.wait_ocr(match="登上滑索架", box=self.box.bottom_right, time_out=2, log=True):
+                        self.click_with_alt(result[0], after_sleep=2)
                     end_pattern = None
                     if not results:
                         raise Exception("未识别到送货目标")
