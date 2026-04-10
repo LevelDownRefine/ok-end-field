@@ -340,5 +340,59 @@ class RuntimeMixin:
                    after_sleep=after_sleep, key=key)
         self.send_key_up("alt")
 
+    def wait_click_ocr(self, x=0, y=0, to_x=1, to_y=1, width=0, height=0, box=None, name=None, match=None,
+                       threshold=0, frame=None, target_height=0, time_out=0, raise_if_not_found=False,
+                       recheck_time=0, after_sleep=0, post_action=None, log=False, screenshot=False,
+                       settle_time=-1, lib="default", alt: bool = False):
+        result = self.wait_ocr(
+            x,
+            y,
+            width=width,
+            height=height,
+            to_x=to_x,
+            to_y=to_y,
+            box=box,
+            name=name,
+            match=match,
+            threshold=threshold,
+            frame=frame,
+            target_height=target_height,
+            time_out=time_out,
+            raise_if_not_found=raise_if_not_found,
+            post_action=post_action,
+            log=log,
+            screenshot=screenshot,
+            settle_time=settle_time,
+            lib=lib,
+        )
+        if recheck_time > 0:
+            self.sleep(1)
+            result = self.ocr(
+                x,
+                y,
+                width=width,
+                height=height,
+                to_x=to_x,
+                to_y=to_y,
+                box=box,
+                name=name,
+                match=match,
+                threshold=threshold,
+                frame=frame,
+                target_height=target_height,
+                log=log,
+                screenshot=screenshot,
+                lib=lib,
+            )
+
+        if result is not None:
+            if alt:
+                self.click_with_alt(result, after_sleep=after_sleep)
+            else:
+                self.click(result, after_sleep=after_sleep)
+            return result
+
+        self.log_info(f"wait ocr no box {x} {y} {width} {height} {to_x} {to_y} {match}")
+
     def screen_center(self) -> tuple[int, int]:
         return int(self.width / 2), int(self.height / 2)

@@ -450,9 +450,15 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                     1,
                 )
                 if self.wait_ocr(match="仓储节点", box=self.box.bottom_right, settle_time=1, time_out=2, log=True):
-                    if result := self.wait_ocr(match=re.compile("取货"), box=self.box.bottom_right, time_out=2,
-                                               log=True):
-                        self.click_with_alt(result[0], after_sleep=2)
+                    self.wait_click_ocr(
+                        match=re.compile("取货"),
+                        box=self.box.bottom_right,
+                        time_out=2,
+                        log=True,
+                        after_sleep=2,
+                        alt=True,
+                        recheck_time=1
+                    )
                     break
             while not self.wait_ocr(match="登上滑索架", box=self.box.bottom_right, time_out=2, log=True):
                 self.move_keys("s", 1)
@@ -498,10 +504,15 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
             self.sleep(1)
             if end_pattern == re.compile("资源"):
                 end_pattern = re.compile("交货")
-            if result := self.wait_ocr(
-                    match=end_pattern, box=self.box.bottom_right, settle_time=1, time_out=2, log=True
+            if self.wait_click_ocr(
+                match=end_pattern,
+                box=self.box.bottom_right,
+                settle_time=1,
+                time_out=2,
+                log=True,
+                after_sleep=2,
+                alt=True,
             ):
-                self.click_with_alt(result[0], after_sleep=2)
                 if not self.find_reward_ok():
                     self.skip_dialog()
                 self.wait_pop_up(after_sleep=2)
@@ -552,8 +563,14 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                     results = self.wait_ocr(
                         match=list(ends_list_pattern_dict.keys()), box=self.box.left, time_out=10, log=True
                     )
-                    if result := self.wait_ocr(match="登上滑索架", box=self.box.bottom_right, time_out=2, log=True):
-                        self.click_with_alt(result[0], after_sleep=2)
+                    self.wait_click_ocr(
+                        match="登上滑索架",
+                        box=self.box.bottom_right,
+                        time_out=2,
+                        log=True,
+                        after_sleep=2,
+                        alt=True,
+                    )
                     end_pattern = None
                     if not results:
                         raise Exception("未识别到送货目标")
@@ -575,15 +592,16 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
             for end in self.ends:
                 self.task_to_transfer_point(self.box.bottom)
                 self.to_storage_point_and_back_zip_line(only_zip_line=True)
-                if result := self.wait_ocr(
+                if self.wait_click_ocr(
                     match="登上滑索架",
                     box=self.box.bottom_right,
                     settle_time=1,
                     time_out=2,
                     log=True,
+                    after_sleep=2,
+                    alt=True,
                 ):
                     self.log_info("未找到登上滑索架，测试失败")
-                    self.click_with_alt(result[0], after_sleep=2)
                     self.on_zip_line_start(end)
                     self.sleep(2)
         else:
