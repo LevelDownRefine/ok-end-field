@@ -74,9 +74,6 @@ class DailyShopMixin(Common):
                 m = re.search(r"\d+", r.name)
                 if m:
                     return int(m.group())
-
-        if not self.back_shop():
-            self.info_set("信用商店警告", "未能返回采购页面，跳过当前商品")
         return 0
 
     def buy_once(self, sum_credit):
@@ -131,6 +128,9 @@ class DailyShopMixin(Common):
                 self.log_info(f"购买流程中断: {item_name}，未找到确认/不足弹窗，尝试返回采购页")
                 if not self.back_shop():
                     return False, sum_credit, False
+                if cost==10:
+                    self.log_info(f"折扣商品: {item_name}，同时也是抽卡道具,重复点击导致无法购买，继续购买下一个优先商品")
+                    continue
                 return True, sum_credit, True
             else:
                 if "不足" in result[0].name:
