@@ -6,6 +6,8 @@ from src.interaction.EfInteraction import EfInteraction
 from src.interaction.KeyConfig import DEFAULT_COMMON_KEYS, DEFAULT_INDUSTRY_KEYS, DEFAULT_COMBAT_KEYS
 
 version = "dev"
+
+
 # 不需要修改version, Github Action打包会自动修改
 def make_bottom_left_black(frame):  # 可选. 某些游戏截图时遮挡UID使用
     """
@@ -57,7 +59,13 @@ config = {
     "wait_until_before_delay": 0,
     "wait_until_check_delay": 0,
     "wait_until_settle_time": 0,  # 调用 wait_until时候, 在第一次满足条件的时候, 会等待再次检测, 以避免某些滑动动画没到预定位置就在动画路径中被检测到
-    "ocr": {"lib": "onnxocr", "params": {"use_openvino": True, "use_dml": False}},  # 可选, 使用的OCR库
+    'ocr': {
+        'lib': 'onnxocr',
+        'params': {
+            'use_openvino': True,
+            'use_npu': True,
+        }
+    },
     "windows": {  # Windows游戏请填写此设置
         "exe": ["Endfield.exe"],
         # 'hwnd_class': 'UnrealWindow', #增加重名检查准确度
