@@ -254,7 +254,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         self.press_key("f8")
         self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
 
-    def _open_stage_from_index(self, stage_name, category_name, reward_tier_override=None, ignore_config_tier=False):
+    def _enter_stage_from_index(self, stage_name, category_name, reward_tier_override=None, ignore_config_tier=False):
         self._open_stage_index()
         return self.to_stage(
             stage_name,
@@ -298,6 +298,15 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             allow_abandon=False,
             raise_if_fail=False,
     ):
+        """
+        Navigate to reward interaction point and click target button.
+
+        - target_ocr_pattern: OCR pattern used to stop navigation (e.g. "激发|放弃" or "领取").
+        - click_ocr_pattern: OCR pattern of the final button to click after navigation.
+        - button_desc: Human-readable button name used in error logs/messages.
+        - allow_abandon: Whether to clear pending "放弃" flow before clicking target button.
+        - raise_if_fail: Whether to raise RuntimeError on failure (used by second pathfinding).
+        """
         self.navigate_until_target(
             target_ocr_pattern=target_ocr_pattern,
             nav_feature_name=fL.gather_icon_out_map,
@@ -324,7 +333,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         return True
 
     def _second_pathfind_and_claim_gather_reward(self, stage_name, category_name):
-        if not self._open_stage_from_index(stage_name, category_name):
+        if not self._enter_stage_from_index(stage_name, category_name):
             raise RuntimeError("无法进入『能量淤积点』详情页")
         self._track_and_teleport_to_gather(stage_name)
         self._do_gather_zip_line(stage_name)
