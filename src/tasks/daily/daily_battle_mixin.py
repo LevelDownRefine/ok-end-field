@@ -113,11 +113,13 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         return stage_name
 
     def _open_stage_index(self):
+        '''打开关卡索引界面。'''
         self.ensure_main()
         self.press_key("f8")
         self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
 
     def _enter_stage_detail(self, stage_name, category_name, reward_tier_override=None, ignore_config_tier=False):
+        '''进入副本详情页，并根据配置切换奖励档位（如果适用）。'''
         return self.to_stage(
             stage_name,
             category_name,
@@ -126,6 +128,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         )
 
     def _track_transfer_and_zip_line(self, stage_name):
+        '''点击『追踪』按钮，进入地图并传送，随后滑索移动。'''
         if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
             if "追踪" in result[0].name and "取" not in result[0].name and "消" not in result[0].name:
                 self.log_info("点击追踪按钮")
@@ -142,8 +145,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             )
 
     def battle(self):
-        # 重复的代码用⚠️标注，如有更新，请两边一起修改。
-        #
         # 自动根据日期和刷本序列决定刷哪个本
         stage_name = self.config.get("体力本")
         stage_reward_tier_override = None
@@ -225,7 +226,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             f"今日最终刷本: {self._format_stage_with_reward_tier(stage_name, today_reward_tier)} "
             f"(奖励档位={today_reward_tier})"
         )
-        # F8 索引 ⚠️
+        # F8 索引
         self._open_stage_index()
         # 体力相关
         if self.config.get("消耗限时体力药", False):
@@ -259,7 +260,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         if left_ticket < stages_cost[category_name]:
             self.log_info("体力不足")
             return True
-        # 进入副本详情页 ⚠️
+        # 进入副本详情页
         if not self._enter_stage_detail(
             stage_name,
             category_name,
@@ -279,8 +280,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             return self.battle_space(left_ticket, stage_name, category_name)
 
     def battle_gather(self, left_ticket, stage_name, category_name, no_battle=False):
-        # 重复的代码用⚠️标注，如有更新，请两边一起修改。
-        #
         # 设置传送点特征搜索区
         self.gather_near_transfer_point_dict["枢纽区"] = self.box.top
         self.gather_near_transfer_point_dict["源石研究园"] = self.box.top
@@ -288,8 +287,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         self.gather_near_transfer_point_dict["供能高地"] = self.box.bottom_right
         self.gather_near_transfer_point_dict["武陵城"] = self.box.top
         self.gather_near_transfer_point_dict["清波寨"] = self.box.top
-        # 点击『追踪』按钮，进入地图并传送 ⚠️
-        # 滑索移动 ⚠️
+        # 点击『追踪』按钮，进入地图并传送，随后滑索移动 
         self._track_transfer_and_zip_line(stage_name)
         #
         self.navigate_until_target(target_ocr_pattern=re.compile("激发|放弃"), nav_feature_name=fL.gather_icon_out_map, time_out=60)
@@ -319,7 +317,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         return self.battle_recycle(left_ticket, stage_name, category_name, "进入")
 
     def battle_recycle(self, left_ticket, stage_name, category_name, enter_str, no_battle=False, challenge_check=False):
-        # 重复的代码用⚠️标注，如有更新，请两边一起修改。
         enter_bool = False
         while left_ticket > 0:
             if enter_bool:
@@ -337,16 +334,15 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 if category_name == "能量淤积点":
                     try:
                         self.log_info("当前副本为『能量淤积点』，开始进行二次寻路。")
-                        # F8 索引 ⚠️
+                        # F8 索引
                         self._open_stage_index()
-                        # 进入副本详情页 ⚠️
+                        # 进入副本详情页
                         if not self._enter_stage_detail(
                             stage_name,
                             category_name,
                         ):
                             raise RuntimeError("无法进入『能量淤积点』详情页")
-                        # 点击『追踪』按钮，进入地图并传送 ⚠️
-                        # 滑索移动 ⚠️
+                        # 点击『追踪』按钮，进入地图并传送，随后滑索移动
                         self._track_transfer_and_zip_line(stage_name)
                         #
                         self.navigate_until_target(target_ocr_pattern=re.compile("领取"), nav_feature_name=fL.gather_icon_out_map, time_out=60)
@@ -358,7 +354,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                         if not self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
                             raise RuntimeError("没有找到『领取奖励』按钮")
                     except RuntimeError as e:
-                        self.log_info(f"二次寻路失败：{str(e)}")
+                        self.log_info(f"二次寻路失败：{e.msg}")
                         return False
                 else:
                     return False
