@@ -118,15 +118,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         self.press_key("f8")
         self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
 
-    def _enter_stage_detail(self, stage_name, category_name, reward_tier_override=None, ignore_config_tier=False):
-        '''进入副本详情页，并根据配置切换奖励档位（如果适用）。'''
-        return self.to_stage(
-            stage_name,
-            category_name,
-            reward_tier_override=reward_tier_override,
-            ignore_config_tier=ignore_config_tier,
-        )
-
     def _track_transfer_and_zip_line(self, stage_name):
         '''点击『追踪』按钮，进入地图并传送，随后滑索移动。'''
         if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
@@ -261,7 +252,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.log_info("体力不足")
             return True
         # 进入副本详情页
-        if not self._enter_stage_detail(
+        if not self.to_stage(
             stage_name,
             category_name,
             reward_tier_override=stage_reward_tier_override,
@@ -337,7 +328,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                         # F8 索引
                         self._open_stage_index()
                         # 进入副本详情页
-                        if not self._enter_stage_detail(
+                        if not self.to_stage(
                             stage_name,
                             category_name,
                         ):
