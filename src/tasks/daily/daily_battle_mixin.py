@@ -335,16 +335,11 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 break
         return True
 
-    def _open_stage_from_index(self, stage_name, category_name, reward_tier_override=None, ignore_config_tier=False):
+    def _open_stage_from_index(self, stage_name, category_name):
         self.ensure_main()
         self.press_key("f8")
         self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
-        return self.to_stage(
-            stage_name,
-            category_name,
-            reward_tier_override=reward_tier_override,
-            ignore_config_tier=ignore_config_tier,
-        )
+        return self.to_stage(stage_name, category_name)
 
     def _track_and_transfer_to_gather(self, stage_name):
         if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
@@ -367,13 +362,16 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
     def _navigate_to_target_button(self, target_ocr_pattern):
         self.navigate_until_target(target_ocr_pattern=target_ocr_pattern, nav_feature_name=fL.gather_icon_out_map, time_out=60)
 
-    def _wait_and_click_target_button(self, button_ocr_pattern, not_found_log_message, raise_error=False):
+    def _wait_and_click_target_button(self, button_ocr_pattern, not_found_message, raise_error=False):
+        def _raise_or_log():
+            if raise_error:
+                raise RuntimeError(not_found_message)
+            self.log_info(not_found_message)
+            return False
+
         result = self.wait_ocr(match=button_ocr_pattern, box=self.box.bottom_right, time_out=5)
         if not result:
-            if raise_error:
-                raise RuntimeError(not_found_log_message)
-            self.log_info(not_found_log_message)
-            return False
+            return _raise_or_log()
         self.sleep(1)
         if not self.wait_click_ocr(
             match=button_ocr_pattern,
@@ -382,10 +380,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             recheck_time=1,
             alt=True,
         ):
-            if raise_error:
-                raise RuntimeError(not_found_log_message)
-            self.log_info(not_found_log_message)
-            return False
+            return _raise_or_log()
         return True
 
     def to_stage(self, stage_name, category_name, reward_tier_override=None, ignore_config_tier=False):
