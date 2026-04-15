@@ -112,6 +112,35 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             return f"{stage_name}{reward_tier}"
         return stage_name
 
+    def _open_stage_index(self):
+        self.ensure_main()
+        self.press_key("f8")
+        self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
+
+    def _enter_stage_detail(self, stage_name, category_name, reward_tier_override=None, ignore_config_tier=False):
+        return self.to_stage(
+            stage_name,
+            category_name,
+            reward_tier_override=reward_tier_override,
+            ignore_config_tier=ignore_config_tier,
+        )
+
+    def _track_transfer_and_zip_line(self, stage_name):
+        if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
+            if "追踪" in result[0].name and "取" not in result[0].name and "消" not in result[0].name:
+                self.log_info("点击追踪按钮")
+                self.click(result, after_sleep=2)
+        self.to_near_transfer_point(self.gather_near_transfer_point_dict[stage_name])
+        self.ensure_main()
+        zip_line_str = self.config.get(stage_name)
+        if zip_line_str:
+            self.press_key("f", after_sleep=2)
+            zip_line_list = parse_int_sequence(zip_line_str)
+            self.zip_line_list_go(
+                zip_line_list,
+                need_scroll=self.config.get(self.CFG_SCROLL_ENABLE),
+            )
+
     def battle(self):
         # 重复的代码用⚠️标注，如有更新，请两边一起修改。
         #
@@ -197,9 +226,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             f"(奖励档位={today_reward_tier})"
         )
         # F8 索引 ⚠️
-        self.ensure_main()
-        self.press_key("f8")
-        self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
+        self._open_stage_index()
         # 体力相关
         if self.config.get("消耗限时体力药", False):
             self.click(3530/3840, 80/2160, after_sleep=2)  # 右上角加号
@@ -233,7 +260,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.log_info("体力不足")
             return True
         # 进入副本详情页 ⚠️
-        if not self.to_stage(
+        if not self._enter_stage_detail(
             stage_name,
             category_name,
             reward_tier_override=stage_reward_tier_override,
@@ -262,21 +289,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         self.gather_near_transfer_point_dict["武陵城"] = self.box.top
         self.gather_near_transfer_point_dict["清波寨"] = self.box.top
         # 点击『追踪』按钮，进入地图并传送 ⚠️
-        if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
-            if "追踪" in result[0].name and "取" not in result[0].name and "消" not in result[0].name:
-                self.log_info("点击追踪按钮")
-                self.click(result, after_sleep=2)
-        self.to_near_transfer_point(self.gather_near_transfer_point_dict[stage_name])
-        self.ensure_main()
         # 滑索移动 ⚠️
-        zip_line_str = self.config.get(stage_name)
-        if zip_line_str:
-            self.press_key("f", after_sleep=2)
-            zip_line_list = parse_int_sequence(zip_line_str)
-            self.zip_line_list_go(
-                zip_line_list,
-                need_scroll=self.config.get(self.CFG_SCROLL_ENABLE),
-            )
+        self._track_transfer_and_zip_line(stage_name)
         #
         self.navigate_until_target(target_ocr_pattern=re.compile("激发|放弃"), nav_feature_name=fL.gather_icon_out_map, time_out=60)
         #
@@ -324,31 +338,16 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     try:
                         self.log_info("当前副本为『能量淤积点』，开始进行二次寻路。")
                         # F8 索引 ⚠️
-                        self.ensure_main()
-                        self.press_key("f8")
-                        self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
+                        self._open_stage_index()
                         # 进入副本详情页 ⚠️
-                        if not self.to_stage(
+                        if not self._enter_stage_detail(
                             stage_name,
                             category_name,
                         ):
                             raise RuntimeError("无法进入『能量淤积点』详情页")
                         # 点击『追踪』按钮，进入地图并传送 ⚠️
-                        if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
-                            if "追踪" in result[0].name and "取" not in result[0].name and "消" not in result[0].name:
-                                self.log_info("点击追踪按钮")
-                                self.click(result, after_sleep=2)
-                        self.to_near_transfer_point(self.gather_near_transfer_point_dict[stage_name])
-                        self.ensure_main()
                         # 滑索移动 ⚠️
-                        zip_line_str = self.config.get(stage_name)
-                        if zip_line_str:
-                            self.press_key("f", after_sleep=2)
-                            zip_line_list = parse_int_sequence(zip_line_str)
-                            self.zip_line_list_go(
-                                zip_line_list,
-                                need_scroll=self.config.get(self.CFG_SCROLL_ENABLE),
-                            )
+                        self._track_transfer_and_zip_line(stage_name)
                         #
                         self.navigate_until_target(target_ocr_pattern=re.compile("领取"), nav_feature_name=fL.gather_icon_out_map, time_out=60)
                         result = self.wait_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=5)
@@ -359,7 +358,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                         if not self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
                             raise RuntimeError("没有找到『领取奖励』按钮")
                     except RuntimeError as e:
-                        self.log_info(f"二次寻路失败：{e.msg}")
+                        self.log_info(f"二次寻路失败：{str(e)}")
                         return False
                 else:
                     return False
