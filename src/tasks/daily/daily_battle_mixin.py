@@ -197,9 +197,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             f"(奖励档位={today_reward_tier})"
         )
         # F8 索引 ⚠️
-        self.ensure_main()
-        self.press_key("f8")
-        self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
+        self._open_stage_index()
         # 体力相关
         if self.config.get("消耗限时体力药", False):
             self.click(3530/3840, 80/2160, after_sleep=2)  # 右上角加号
@@ -251,24 +249,38 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         else: # 协议空间 or 危境预演
             return self.battle_space(left_ticket, stage_name, category_name)
 
-    def battle_gather(self, left_ticket, stage_name, category_name, no_battle=False):
-        # 重复的代码用⚠️标注，如有更新，请两边一起修改。
-        #
-        # 设置传送点特征搜索区
+    def _open_stage_index(self):
+        self.ensure_main()
+        self.press_key("f8")
+        self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
+
+    def _open_stage_from_index(self, stage_name, category_name, reward_tier_override=None, ignore_config_tier=False):
+        self._open_stage_index()
+        return self.to_stage(
+            stage_name,
+            category_name,
+            reward_tier_override=reward_tier_override,
+            ignore_config_tier=ignore_config_tier,
+        )
+
+    def _get_gather_near_transfer_point_box(self, stage_name):
         self.gather_near_transfer_point_dict["枢纽区"] = self.box.top
         self.gather_near_transfer_point_dict["源石研究园"] = self.box.top
         self.gather_near_transfer_point_dict["矿脉源区"] = self.box.right
         self.gather_near_transfer_point_dict["供能高地"] = self.box.bottom_right
         self.gather_near_transfer_point_dict["武陵城"] = self.box.top
         self.gather_near_transfer_point_dict["清波寨"] = self.box.top
-        # 点击『追踪』按钮，进入地图并传送 ⚠️
+        return self.gather_near_transfer_point_dict[stage_name]
+
+    def _track_and_teleport_to_gather(self, stage_name):
         if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
             if "追踪" in result[0].name and "取" not in result[0].name and "消" not in result[0].name:
                 self.log_info("点击追踪按钮")
                 self.click(result, after_sleep=2)
-        self.to_near_transfer_point(self.gather_near_transfer_point_dict[stage_name])
+        self.to_near_transfer_point(self._get_gather_near_transfer_point_box(stage_name))
         self.ensure_main()
-        # 滑索移动 ⚠️
+
+    def _do_gather_zip_line(self, stage_name):
         zip_line_str = self.config.get(stage_name)
         if zip_line_str:
             self.press_key("f", after_sleep=2)
@@ -277,22 +289,61 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 zip_line_list,
                 need_scroll=self.config.get(self.CFG_SCROLL_ENABLE),
             )
-        #
-        self.navigate_until_target(target_ocr_pattern=re.compile("激发|放弃"), nav_feature_name=fL.gather_icon_out_map, time_out=60)
-        #
-        if self.wait_ocr(match=re.compile("放弃"), box=self.box.bottom_right, time_out=5):
+
+    def _navigate_and_click_gather_reward(
+            self,
+            target_ocr_pattern,
+            click_ocr_pattern,
+            button_desc,
+            allow_abandon=False,
+            raise_if_fail=False,
+    ):
+        self.navigate_until_target(
+            target_ocr_pattern=target_ocr_pattern,
+            nav_feature_name=fL.gather_icon_out_map,
+            time_out=60
+        )
+        if allow_abandon and self.wait_ocr(match=re.compile("放弃"), box=self.box.bottom_right, time_out=5):
             self.log_info("放弃未领取的奖励")
             self.wait_click_ocr(match=re.compile("放弃"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True)
             self.wait_click_ocr(match=re.compile("确认"), box=self.box.bottom_right, time_out=5)
-        #
-        result = self.wait_ocr(match=re.compile("激发"), box=self.box.bottom_right, time_out=5)
+        result = self.wait_ocr(match=click_ocr_pattern, box=self.box.bottom_right, time_out=5)
         if not result:
-            self.log_info("没有找到『激发』按钮")
+            message = f"没有找到『{button_desc}』按钮"
+            if raise_if_fail:
+                raise RuntimeError(message)
+            self.log_info(message)
             return False
-        else:
-            self.sleep(1)
-        if not self.wait_click_ocr(match=re.compile("激发"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
-            self.log_info("没有找到『激发』按钮")
+        self.sleep(1)
+        if not self.wait_click_ocr(match=click_ocr_pattern, box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
+            message = f"没有找到『{button_desc}』按钮"
+            if raise_if_fail:
+                raise RuntimeError(message)
+            self.log_info(message)
+            return False
+        return True
+
+    def _second_pathfind_and_claim_gather_reward(self, stage_name, category_name):
+        if not self._open_stage_from_index(stage_name, category_name):
+            raise RuntimeError("无法进入『能量淤积点』详情页")
+        self._track_and_teleport_to_gather(stage_name)
+        self._do_gather_zip_line(stage_name)
+        self._navigate_and_click_gather_reward(
+            target_ocr_pattern=re.compile("领取"),
+            click_ocr_pattern=re.compile("领取"),
+            button_desc="领取奖励",
+            raise_if_fail=True,
+        )
+
+    def battle_gather(self, left_ticket, stage_name, category_name, no_battle=False):
+        self._track_and_teleport_to_gather(stage_name)
+        self._do_gather_zip_line(stage_name)
+        if not self._navigate_and_click_gather_reward(
+                target_ocr_pattern=re.compile("激发|放弃"),
+                click_ocr_pattern=re.compile("激发"),
+                button_desc="激发",
+                allow_abandon=True,
+        ):
             return False
         # 开战
         return self.battle_recycle(left_ticket, stage_name, category_name, "挑战", no_battle=no_battle, challenge_check=True)
@@ -323,43 +374,9 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 if category_name == "能量淤积点":
                     try:
                         self.log_info("当前副本为『能量淤积点』，开始进行二次寻路。")
-                        # F8 索引 ⚠️
-                        self.ensure_main()
-                        self.press_key("f8")
-                        self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
-                        # 进入副本详情页 ⚠️
-                        if not self.to_stage(
-                            stage_name,
-                            category_name,
-                        ):
-                            raise RuntimeError("无法进入『能量淤积点』详情页")
-                        # 点击『追踪』按钮，进入地图并传送 ⚠️
-                        if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
-                            if "追踪" in result[0].name and "取" not in result[0].name and "消" not in result[0].name:
-                                self.log_info("点击追踪按钮")
-                                self.click(result, after_sleep=2)
-                        self.to_near_transfer_point(self.gather_near_transfer_point_dict[stage_name])
-                        self.ensure_main()
-                        # 滑索移动 ⚠️
-                        zip_line_str = self.config.get(stage_name)
-                        if zip_line_str:
-                            self.press_key("f", after_sleep=2)
-                            zip_line_list = parse_int_sequence(zip_line_str)
-                            self.zip_line_list_go(
-                                zip_line_list,
-                                need_scroll=self.config.get(self.CFG_SCROLL_ENABLE),
-                            )
-                        #
-                        self.navigate_until_target(target_ocr_pattern=re.compile("领取"), nav_feature_name=fL.gather_icon_out_map, time_out=60)
-                        result = self.wait_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=5)
-                        if not result:
-                            raise RuntimeError("没有找到『领取奖励』按钮")
-                        else:
-                            self.sleep(1)
-                        if not self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
-                            raise RuntimeError("没有找到『领取奖励』按钮")
+                        self._second_pathfind_and_claim_gather_reward(stage_name, category_name)
                     except RuntimeError as e:
-                        self.log_info(f"二次寻路失败：{e.msg}")
+                        self.log_info(f"二次寻路失败：{e}")
                         return False
                 else:
                     return False
