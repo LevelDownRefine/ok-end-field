@@ -296,7 +296,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             click_ocr_pattern,
             button_desc,
             allow_abandon=False,
-            raise_if_fail=False,
     ):
         """
         Navigate to reward interaction point and click target button.
@@ -305,7 +304,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         - click_ocr_pattern: OCR pattern of the final button to click after navigation.
         - button_desc: Human-readable button name used in error logs/messages.
         - allow_abandon: Whether to clear pending "放弃" flow before clicking target button.
-        - raise_if_fail: Whether to raise RuntimeError on failure (used by second pathfinding).
         """
         self.navigate_until_target(
             target_ocr_pattern=target_ocr_pattern,
@@ -319,15 +317,11 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         result = self.wait_ocr(match=click_ocr_pattern, box=self.box.bottom_right, time_out=5)
         if not result:
             message = f"没有找到『{button_desc}』按钮"
-            if raise_if_fail:
-                raise RuntimeError(message)
             self.log_info(message)
             return False
         self.sleep(1)
         if not self.wait_click_ocr(match=click_ocr_pattern, box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
             message = f"没有找到『{button_desc}』按钮"
-            if raise_if_fail:
-                raise RuntimeError(message)
             self.log_info(message)
             return False
         return True
@@ -337,12 +331,12 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             raise RuntimeError("无法进入『能量淤积点』详情页")
         self._track_and_teleport_to_gather(stage_name)
         self._do_gather_zip_line(stage_name)
-        self._navigate_and_click_gather_reward(
+        if not self._navigate_and_click_gather_reward(
             target_ocr_pattern=re.compile("领取"),
             click_ocr_pattern=re.compile("领取"),
             button_desc="领取奖励",
-            raise_if_fail=True,
-        )
+        ):
+            raise RuntimeError("没有找到『领取奖励』按钮")
 
     def battle_gather(self, left_ticket, stage_name, category_name, no_battle=False):
         self._track_and_teleport_to_gather(stage_name)
