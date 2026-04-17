@@ -48,45 +48,8 @@ class LoginMixin(BaseEfTask):
         self.click(result[0], after_sleep=1)
         self.wait_click_ocr(match=re.compile("确认"), time_out=10, box=self.box.bottom_right, after_sleep=2)
         self._logged_in = False
-        start_time = time.time()
-        result = None
-        one_ok = False
-        while time.time() - start_time < 60:
-            ocr_result = self.login_ocr(match=re.compile("密码登录"), box=self.box.bottom)
-
-            if not ocr_result:
-                if one_ok:
-                    self.log_error("已经登录后且未检测到‘密码登录’，说明进入登录页面")
-                    break
-                self.sleep(1)
-                continue
-            one_ok = True
-            # 点
-            box = ocr_result[0]
-            run_at_window_pos(
-                self.hwnd.hwnd,
-                pyautogui.click,
-                box.x + box.width // 2,
-                box.y + box.height // 2
-            )
-
-            self.sleep(1)  # 给UI反应时间
-
-            # ✅ recheck：看“密码登录”是否还在
-            check = self.login_ocr(match=re.compile("密码登录"), box=self.box.bottom)
-
-            if not check:
-                # 👉 成功：按钮消失 or 页面变化
-                result = True
-                break
-
-            # 👉 还在 → 说明没点到 / 没反应
-            self.log_debug("点击后仍检测到‘密码登录’，准备重试")
-
-            self.sleep(1)
-
-        if not result:
-            raise RuntimeError("点击密码登录失败（可能未响应或识别异常）")
+        self.click_text("其他")
+        self.click_text("密码登录")
         account = self.login_ocr(match=re.compile("账号"), box=self.box.center)
         if not account:
             raise RuntimeError("未找到账号输入框")
@@ -94,7 +57,7 @@ class LoginMixin(BaseEfTask):
         if not password_square:
             raise RuntimeError("未找到密码输入框（bottom）")
 
-        run_at_window_pos(self.hwnd.hwnd, pyautogui.click, int(731 / 1920 * self.width), int(625 / 1080 * self.height))
+        run_at_window_pos(self.hwnd.hwnd, pyautogui.click, int(954 / 2560 * self.width), int(797 / 1440 * self.height))
         run_at_window_pos(
             self.hwnd.hwnd, pyautogui.click, account[0].x + account[0].width // 2, account[0].y + account[0].height // 2
         )
@@ -132,3 +95,43 @@ class LoginMixin(BaseEfTask):
 
         pyperclip.copy(text)
         pyautogui.hotkey("ctrl", "v")
+    def click_text(self, text):
+        start_time = time.time()
+        result = None
+        one_ok = False
+        while time.time() - start_time < 60:
+            ocr_result = self.login_ocr(match=re.compile(text), box=self.box.bottom)
+
+            if not ocr_result:
+                if one_ok:
+                    self.log_error("已经登录后且未检测到‘" + text + "’，说明进入登录页面")
+                    break
+                self.sleep(1)
+                continue
+            one_ok = True
+            # 点
+            box = ocr_result[0]
+            run_at_window_pos(
+                self.hwnd.hwnd,
+                pyautogui.click,
+                box.x + box.width // 2,
+                box.y + box.height // 2
+            )
+
+            self.sleep(1)  # 给UI反应时间
+
+            # ✅ recheck：看“" + text + "”是否还在
+            check = self.login_ocr(match=re.compile(text), box=self.box.bottom)
+
+            if not check:
+                # 👉 成功：按钮消失 or 页面变化
+                result = True
+                break
+
+            # 👉 还在 → 说明没点到 / 没反应
+            self.log_debug("点击后仍检测到‘" + text + "’，准备重试")
+
+            self.sleep(1)
+
+        if not result:
+            raise RuntimeError("点击" + text + "失败（可能未响应或识别异常）")
