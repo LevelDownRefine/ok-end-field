@@ -283,8 +283,8 @@ class NavigationMixin(BaseEfTask):
             else:
                 # 每次 OCR 失败，直接随机移动
                 move_bool = True
-                    max_offset = self.scale_distance(60)  # 最大随机偏移
-                    if last_target:
+                max_offset = self.scale_distance(60)  # 最大随机偏移
+                if last_target:
                     decay = 0.9 ** last_target_fail_count
                     # 计算目标中心到屏幕中心的偏移
 
