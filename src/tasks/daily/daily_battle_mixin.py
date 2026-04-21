@@ -429,10 +429,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
         while left_ticket > 0 or extra_run_count < extra_runs:
             abandon = left_ticket <= 0
-            if abandon:
-                if extra_run_count == 0:
-                    self.log_info(f"体力已耗尽，开始执行 {extra_runs} 次额外刷取（将放弃领奖）")
-                self.log_info(f"额外刷取第 {extra_run_count + 1}/{extra_runs} 次")
 
             if enter_bool:
                 self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
@@ -444,14 +440,12 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
             if not self.to_battle(no_battle=no_battle, challenge_check=challenge_check):
                 if abandon:
-                    self.log_info(f"额外刷取第 {extra_run_count + 1}/{extra_runs} 次：进入战斗失败，提前结束")
                     break
                 return False
 
             # 移至奖励发放点，按下 F
             if not self.to_end(challenge=challenge_check, stage_name=stage_name, category_name=category_name):
                 if abandon:
-                    self.log_info(f"额外刷取第 {extra_run_count + 1}/{extra_runs} 次：未发现奖励领取点，提前结束")
                     break
                 self.log_info("未发现奖励领取点")
                 return False
@@ -460,7 +454,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             if abandon:
                 # 放弃领奖（不计理智）
                 if not self.get_claim(stages_cost[category_name], left_ticket, abandon=True):
-                    self.log_info(f"额外刷取第 {extra_run_count + 1}/{extra_runs} 次：放弃领奖失败，提前结束")
                     break
                 extra_run_count += 1
             else:
