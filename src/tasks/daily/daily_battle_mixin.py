@@ -39,6 +39,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.CFG_STAGE_REWARD_TIER: self.REWARD_TIER_KEEP,
             "刷体力开始日期": today_str,  # 默认当天，可自定义
             "刷本序列": "",  # 为空表示不启用自动轮换
+            "刷取次数": 0,
+            "体力刷完后继续刷次数": 0,
             "仅站桩": False,
             self.CFG_SCROLL_ENABLE: False,
             **{key: "" for key in gather_list},
@@ -83,6 +85,14 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 "必须为以下之一：\n"
                 + '\n'.join([', '.join(self.stages_list[i:i+4]) for i in range(0, len(self.stages_list), 4)]) + "。\n"
                 f"留空表示不启用自动轮换。"
+            ),
+            "刷取次数": (
+                "有体力阶段最多刷多少次，0 表示刷到体力不足为止（原逻辑）。"
+            ),
+            "体力刷完后继续刷次数": (
+                "体力耗尽后额外再刷多少次。\n"
+                "每次进入副本战斗，但在结算时点击「放弃」而非「领取」，不消耗体力。\n"
+                "0 表示不启用（原逻辑）。"
             ),
             self.CFG_SCROLL_ENABLE: (
                 "启用后在对齐滑索时会自动滚动放大视角\n"
@@ -304,9 +314,19 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         left_ticket = self.detect_ticket_number()
         self.log_info(f"当前体力: {left_ticket}")
         category_name = get_stage_category(stage_name)
+
+        extra_runs = max(0, int(self.config.get("体力刷完后继续刷次数", 0) or 0))
+        max_runs = max(0, int(self.config.get("刷取次数", 0) or 0))
+        if max_runs > 0:
+            self.log_info(f"刷取次数限制: {max_runs}")
+        if extra_runs > 0:
+            self.log_info(f"体力刷完后继续刷次数: {extra_runs}")
+
         if left_ticket < stages_cost[category_name]:
-            self.log_info("体力不足")
-            return True
+            if extra_runs <= 0:
+                self.log_info("体力不足")
+                return True
+            self.log_info(f"体力不足，将执行 {extra_runs} 次额外刷取（放弃领奖）")
 
         # 进入副本详情页
         if not self.to_stage(
@@ -322,6 +342,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 return self.battle_gather(
                     left_ticket, stage_name, category_name,
                     no_battle=self.config.get("仅站桩", False),
+                    max_runs=max_runs,
+                    extra_runs=extra_runs,
                 )
             except Exception as e:
                 # 能量淤积点情况复杂，出现异常的概率比较大，单独截图以便分析。
@@ -329,7 +351,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyBattleMixin_battleGather_Exception')
                 return False
         # 协议空间 or 危境预演
-        return self.battle_space(left_ticket, stage_name, category_name)
+        return self.battle_space(left_ticket, stage_name, category_name, max_runs=max_runs, extra_runs=extra_runs)
 
     def _init_gather_transfer_points(self):
         """设置传送点特征搜索区。"""
@@ -343,7 +365,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             "首墩": self.box.top,
         })
 
-    def battle_gather(self, left_ticket, stage_name, category_name, no_battle=False):
+    def battle_gather(self, left_ticket, stage_name, category_name, no_battle=False, max_runs=0, extra_runs=0):
         self._init_gather_transfer_points()
         # 点击追踪按钮，进入地图并传送
         self._click_track_and_transfer(stage_name)
@@ -366,14 +388,14 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.log_info("没有找到『激发』按钮")
             return False
         # 开战
-        return self.battle_recycle(left_ticket, stage_name, category_name, "挑战", no_battle=no_battle, challenge_check=True)
+        return self.battle_recycle(left_ticket, stage_name, category_name, "挑战", no_battle=no_battle, challenge_check=True, max_runs=max_runs, extra_runs=extra_runs)
 
-    def battle_space(self, left_ticket, stage_name, category_name):
+    def battle_space(self, left_ticket, stage_name, category_name, max_runs=0, extra_runs=0):
         self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
         if self.wait_click_ocr(match=re.compile("取消"), time_out=5, box=self.box.bottom_left, log=True):
             self.log_info("没有进入战斗，可能是因为已经没理智了")
             return True
-        return self.battle_recycle(left_ticket, stage_name, category_name, "进入")
+        return self.battle_recycle(left_ticket, stage_name, category_name, "进入", max_runs=max_runs, extra_runs=extra_runs)
 
     def _gather_retry_navigate(self, stage_name, category_name):
         """
@@ -405,9 +427,67 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             return False
         return True
 
-    def battle_recycle(self, left_ticket, stage_name, category_name, enter_str, no_battle=False, challenge_check=False):
+    def _abandon_reward(self):
+        """
+        体力不足时，在奖励界面放弃领奖（不消耗体力）。
+
+        逻辑：
+        1. 等待界面出现"可领取"提示。
+        2. 点击"获得奖励"展开奖励面板。
+        3. 点击"放弃"，再点击"确认"完成放弃。
+
+        返回：
+            bool: 成功放弃返回 True，操作失败返回 False。
+        """
+        self.log_info("体力不足，尝试放弃领奖")
+        self.wait_ui_stable(refresh_interval=1)
+        start_time = time.time()
+
+        # 等待界面出现"可领取"
+        while not self.wait_ocr(match=re.compile("可领取"), box=self.box.top, time_out=1):
+            if time.time() - start_time > 60:
+                self.log_info("放弃领奖：等待『可领取』超时")
+                return False
+            self.press_key("f", down_time=0.2)
+            self.wait_ui_stable(refresh_interval=1)
+
+        # 点击"获得奖励"（坐标范围与 get_claim 中保持一致：奖励展开区域中央）
+        if not self.wait_click_ocr(
+                match=re.compile("获得奖励"),
+                box=self.box_of_screen(530 / 1920, 330 / 1080, 1400 / 1920, 570 / 1080),
+                time_out=2,
+                after_sleep=1,
+                log=True
+        ):
+            self.log_info("放弃领奖：未找到『获得奖励』按钮")
+            return False
+
+        # 点击"放弃"
+        if not self.wait_click_ocr(
+                match=re.compile("放弃"), box=self.box.bottom_right, time_out=5, log=True, recheck_time=1, alt=True
+        ):
+            self.log_info("放弃领奖：未找到『放弃』按钮，安全退出")
+            return False
+
+        # 点击"确认"
+        if not self.wait_click_ocr(
+                match=re.compile("确认"), box=self.box.bottom_right, time_out=5, log=True
+        ):
+            self.log_info("放弃领奖：未找到『确认』按钮")
+            return False
+
+        self.log_info("放弃领奖成功")
+        return True
+
+    def battle_recycle(self, left_ticket, stage_name, category_name, enter_str, no_battle=False, challenge_check=False, max_runs=0, extra_runs=0):
         enter_bool = False
+        run_count = 0
         while left_ticket > 0:
+            if max_runs > 0 and run_count >= max_runs:
+                # 已达到刷取次数上限，仍有体力，直接离开（体力未耗尽故不触发额外刷取）
+                self.log_info(f"已达到刷取次数上限 {max_runs}，体力仍剩余 {left_ticket}，不触发额外刷取")
+                self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
+                return True
             if enter_bool:
                 self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
                                     after_sleep=2, recheck_time=1)
@@ -423,11 +503,44 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 return False
             # 在『有可领取的奖励』页面上领取奖励
             left_ticket = self.get_claim(stages_cost[category_name], left_ticket)
-            #
+            run_count += 1
             self.sleep(2)
             if left_ticket <= 0:
-                self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
+                if extra_runs <= 0:
+                    self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
                 break
+
+        # 体力耗尽后额外刷取（放弃领奖）
+        if extra_runs > 0 and left_ticket <= 0:
+            self.log_info(f"体力已耗尽，开始执行 {extra_runs} 次额外刷取（将放弃领奖）")
+            extra_entered = False
+            for i in range(extra_runs):
+                self.log_info(f"额外刷取第 {i + 1}/{extra_runs} 次")
+                if run_count > 0 or extra_entered:
+                    # 已有正常轮次或已有额外轮次：使用"重新挑战"
+                    self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
+                                        after_sleep=2, recheck_time=1)
+                else:
+                    # 无正常轮次（初始体力为 0）：使用 enter_str 首次进入
+                    self.wait_click_ocr(match=re.compile(enter_str), time_out=10, after_sleep=2,
+                                        box=self.box.bottom_right, log=True, recheck_time=1)
+                if not self.to_battle(no_battle=no_battle, challenge_check=challenge_check):
+                    self.log_info(f"额外刷取第 {i + 1}/{extra_runs} 次：进入战斗失败，提前结束")
+                    break
+                extra_entered = True
+                # 移至奖励发放点
+                if not self.to_end(challenge=challenge_check, stage_name=stage_name, category_name=category_name):
+                    self.log_info(f"额外刷取第 {i + 1}/{extra_runs} 次：未发现奖励领取点，提前结束")
+                    break
+                # 放弃领奖
+                if not self._abandon_reward():
+                    self.log_info(f"额外刷取第 {i + 1}/{extra_runs} 次：放弃领奖失败，提前结束")
+                    break
+                self.sleep(2)
+            # 完成额外刷取后离开（只要有任何战斗轮次）
+            if run_count > 0 or extra_entered:
+                self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
+
         return True
 
     def to_stage(self, stage_name, category_name, reward_tier_override=None, ignore_config_tier=False):
