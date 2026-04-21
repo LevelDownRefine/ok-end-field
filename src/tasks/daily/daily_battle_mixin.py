@@ -427,7 +427,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         enter_bool = False
         run_count = 0
         extra_run_count = 0
-        extra_entered = False
 
         while left_ticket > 0 or extra_run_count < extra_runs:
             abandon = left_ticket <= 0
@@ -450,9 +449,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     break
                 return False
 
-            if abandon:
-                extra_entered = True
-
             # 移至奖励发放点，按下 F
             if not self.to_end(challenge=challenge_check, stage_name=stage_name, category_name=category_name):
                 if abandon:
@@ -474,7 +470,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
             self.sleep(2)
 
-        if run_count > 0 or extra_entered:
+        if run_count > 0 or extra_run_count > 0:
             self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
 
         return True
