@@ -39,7 +39,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.CFG_STAGE_REWARD_TIER: self.REWARD_TIER_KEEP,
             "刷体力开始日期": today_str,  # 默认当天，可自定义
             "刷本序列": "",  # 为空表示不启用自动轮换
-            "刷取次数": 0,
             "体力刷完后继续刷次数": 0,
             "仅站桩": False,
             self.CFG_SCROLL_ENABLE: False,
@@ -85,9 +84,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 "必须为以下之一：\n"
                 + '\n'.join([', '.join(self.stages_list[i:i+4]) for i in range(0, len(self.stages_list), 4)]) + "。\n"
                 f"留空表示不启用自动轮换。"
-            ),
-            "刷取次数": (
-                "有体力阶段最多刷多少次，0 表示刷到体力不足为止（原逻辑）。"
             ),
             "体力刷完后继续刷次数": (
                 "体力耗尽后额外再刷多少次。\n"
@@ -439,14 +435,10 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 enter_bool = True
 
             if not self.to_battle(no_battle=no_battle, challenge_check=challenge_check):
-                if abandon:
-                    break
                 return False
 
             # 移至奖励发放点，按下 F
             if not self.to_end(challenge=challenge_check, stage_name=stage_name, category_name=category_name):
-                if abandon:
-                    break
                 self.log_info("未发现奖励领取点")
                 return False
 
