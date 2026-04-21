@@ -316,9 +316,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         category_name = get_stage_category(stage_name)
 
         extra_runs = max(0, int(self.config.get("体力刷完后继续刷次数", 0) or 0))
-        max_runs = max(0, int(self.config.get("刷取次数", 0) or 0))
-        if max_runs > 0:
-            self.log_info(f"刷取次数限制: {max_runs}")
         if extra_runs > 0:
             self.log_info(f"体力刷完后继续刷次数: {extra_runs}")
 
@@ -342,7 +339,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 return self.battle_gather(
                     left_ticket, stage_name, category_name,
                     no_battle=self.config.get("仅站桩", False),
-                    max_runs=max_runs,
                     extra_runs=extra_runs,
                 )
             except Exception as e:
@@ -351,7 +347,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyBattleMixin_battleGather_Exception')
                 return False
         # 协议空间 or 危境预演
-        return self.battle_space(left_ticket, stage_name, category_name, max_runs=max_runs, extra_runs=extra_runs)
+        return self.battle_space(left_ticket, stage_name, category_name, extra_runs=extra_runs)
 
     def _init_gather_transfer_points(self):
         """设置传送点特征搜索区。"""
@@ -365,7 +361,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             "首墩": self.box.top,
         })
 
-    def battle_gather(self, left_ticket, stage_name, category_name, no_battle=False, max_runs=0, extra_runs=0):
+    def battle_gather(self, left_ticket, stage_name, category_name, no_battle=False, extra_runs=0):
         self._init_gather_transfer_points()
         # 点击追踪按钮，进入地图并传送
         self._click_track_and_transfer(stage_name)
@@ -388,14 +384,14 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.log_info("没有找到『激发』按钮")
             return False
         # 开战
-        return self.battle_recycle(left_ticket, stage_name, category_name, "挑战", no_battle=no_battle, challenge_check=True, max_runs=max_runs, extra_runs=extra_runs)
+        return self.battle_recycle(left_ticket, stage_name, category_name, "挑战", no_battle=no_battle, challenge_check=True, extra_runs=extra_runs)
 
-    def battle_space(self, left_ticket, stage_name, category_name, max_runs=0, extra_runs=0):
+    def battle_space(self, left_ticket, stage_name, category_name, extra_runs=0):
         self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
         if self.wait_click_ocr(match=re.compile("取消"), time_out=5, box=self.box.bottom_left, log=True):
             self.log_info("没有进入战斗，可能是因为已经没理智了")
             return True
-        return self.battle_recycle(left_ticket, stage_name, category_name, "进入", max_runs=max_runs, extra_runs=extra_runs)
+        return self.battle_recycle(left_ticket, stage_name, category_name, "进入", extra_runs=extra_runs)
 
     def _gather_retry_navigate(self, stage_name, category_name):
         """
@@ -427,15 +423,10 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             return False
         return True
 
-    def battle_recycle(self, left_ticket, stage_name, category_name, enter_str, no_battle=False, challenge_check=False, max_runs=0, extra_runs=0):
+    def battle_recycle(self, left_ticket, stage_name, category_name, enter_str, no_battle=False, challenge_check=False, extra_runs=0):
         enter_bool = False
         run_count = 0
         while left_ticket > 0:
-            if max_runs > 0 and run_count >= max_runs:
-                # 已达到刷取次数上限，仍有体力，直接离开（体力未耗尽故不触发额外刷取）
-                self.log_info(f"已达到刷取次数上限 {max_runs}，体力仍剩余 {left_ticket}，不触发额外刷取")
-                self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
-                return True
             if enter_bool:
                 self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
                                     after_sleep=2, recheck_time=1)
