@@ -426,7 +426,18 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
     def battle_recycle(self, left_ticket, stage_name, category_name, enter_str, no_battle=False, challenge_check=False, extra_runs=0):
         enter_bool = False
         run_count = 0
-        while left_ticket > 0:
+        extra_run_count = 0
+        entered_extra = False
+
+        while True:
+            abandon = left_ticket <= 0
+            if abandon:
+                if extra_run_count >= extra_runs:
+                    break
+                if extra_run_count == 0:
+                    self.log_info(f"体力已耗尽，开始执行 {extra_runs} 次额外刷取（将放弃领奖）")
+                self.log_info(f"额外刷取第 {extra_run_count + 1}/{extra_runs} 次")
+
             if enter_bool:
                 self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
                                     after_sleep=2, recheck_time=1)
@@ -434,51 +445,45 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 self.wait_click_ocr(match=re.compile(enter_str), time_out=10, after_sleep=2, box=self.box.bottom_right,
                                     log=True, recheck_time=1)
                 enter_bool = True
+
             if not self.to_battle(no_battle=no_battle, challenge_check=challenge_check):
+                if abandon:
+                    self.log_info(f"额外刷取第 {extra_run_count + 1}/{extra_runs} 次：进入战斗失败，提前结束")
+                    break
                 return False
+
+            if abandon:
+                entered_extra = True
+
             # 移至奖励发放点，按下 F
             if not self.to_end(challenge=challenge_check, stage_name=stage_name, category_name=category_name):
+                if abandon:
+                    self.log_info(f"额外刷取第 {extra_run_count + 1}/{extra_runs} 次：未发现奖励领取点，提前结束")
+                    break
                 self.log_info("未发现奖励领取点")
                 return False
-            # 在『有可领取的奖励』页面上领取奖励
-            left_ticket = self.get_claim(stages_cost[category_name], left_ticket)
-            run_count += 1
-            self.sleep(2)
-            if left_ticket <= 0:
-                if extra_runs <= 0:
-                    self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
-                break
 
-        # 体力耗尽后额外刷取（放弃领奖）
-        if extra_runs > 0 and left_ticket <= 0:
-            self.log_info(f"体力已耗尽，开始执行 {extra_runs} 次额外刷取（将放弃领奖）")
-            extra_entered = False
-            for i in range(extra_runs):
-                self.log_info(f"额外刷取第 {i + 1}/{extra_runs} 次")
-                if run_count > 0 or extra_entered:
-                    # 已有正常轮次或已有额外轮次：使用"重新挑战"
-                    self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
-                                        after_sleep=2, recheck_time=1)
-                else:
-                    # 无正常轮次（初始体力为 0）：使用 enter_str 首次进入
-                    self.wait_click_ocr(match=re.compile(enter_str), time_out=10, after_sleep=2,
-                                        box=self.box.bottom_right, log=True, recheck_time=1)
-                if not self.to_battle(no_battle=no_battle, challenge_check=challenge_check):
-                    self.log_info(f"额外刷取第 {i + 1}/{extra_runs} 次：进入战斗失败，提前结束")
-                    break
-                extra_entered = True
-                # 移至奖励发放点
-                if not self.to_end(challenge=challenge_check, stage_name=stage_name, category_name=category_name):
-                    self.log_info(f"额外刷取第 {i + 1}/{extra_runs} 次：未发现奖励领取点，提前结束")
-                    break
-                # 放弃领奖（复用 get_claim，不计理智）
+            if abandon:
+                # 放弃领奖（不计理智）
                 if not self.get_claim(stages_cost[category_name], left_ticket, abandon=True):
-                    self.log_info(f"额外刷取第 {i + 1}/{extra_runs} 次：放弃领奖失败，提前结束")
+                    self.log_info(f"额外刷取第 {extra_run_count + 1}/{extra_runs} 次：放弃领奖失败，提前结束")
                     break
-                self.sleep(2)
-            # 完成额外刷取后离开（只要有任何战斗轮次）
-            if run_count > 0 or extra_entered:
-                self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
+                extra_run_count += 1
+            else:
+                # 在『有可领取的奖励』页面上领取奖励
+                left_ticket = self.get_claim(stages_cost[category_name], left_ticket)
+                run_count += 1
+                if left_ticket <= 0:
+                    if extra_runs <= 0:
+                        self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
+                        break
+                    # extra_runs > 0：下次循环以 abandon=True 继续
+
+            self.sleep(2)
+
+        # 完成额外刷取后离开（只要有任何战斗轮次）
+        if extra_runs > 0 and (run_count > 0 or entered_extra):
+            self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
 
         return True
 
