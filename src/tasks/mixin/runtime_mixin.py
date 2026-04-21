@@ -42,7 +42,9 @@ class RuntimeMixin:
     BASE_HEIGHT = 1080
 
     def resolution_scale(self) -> float:
-        return min(self.width / self.BASE_WIDTH, self.height / self.BASE_HEIGHT)
+        width = getattr(self, "width", self.BASE_WIDTH) or self.BASE_WIDTH
+        height = getattr(self, "height", self.BASE_HEIGHT) or self.BASE_HEIGHT
+        return min(width / self.BASE_WIDTH, height / self.BASE_HEIGHT)
 
     def scale_distance(self, value: int | float, minimum: int = 1) -> int:
         return max(minimum, int(round(value * self.resolution_scale())))
@@ -329,7 +331,7 @@ class RuntimeMixin:
     def move_to_target_once(self, ocr_obj, max_step=100, min_step=20, slow_radius=200, deadzone=4):
         scaled_max_step = self.scale_distance(max_step)
         scaled_min_step = min(scaled_max_step, self.scale_distance(min_step))
-        scaled_slow_radius = max(scaled_max_step, self.scale_distance(slow_radius))
+        scaled_slow_radius = self.scale_distance(slow_radius)
         scaled_deadzone = self.scale_distance(deadzone)
         return move_to_target_once_impl(
             self.hwnd.hwnd,
