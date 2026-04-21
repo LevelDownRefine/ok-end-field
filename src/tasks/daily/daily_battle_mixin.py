@@ -427,58 +427,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             return False
         return True
 
-    def _abandon_reward(self):
-        """
-        体力不足时，在奖励界面放弃领奖（不消耗体力）。
-
-        逻辑：
-        1. 等待界面出现"可领取"提示。
-        2. 点击"获得奖励"展开奖励面板。
-        3. 点击"放弃"，再点击"确认"完成放弃。
-
-        返回：
-            bool: 成功放弃返回 True，操作失败返回 False。
-        """
-        self.log_info("体力不足，尝试放弃领奖")
-        self.wait_ui_stable(refresh_interval=1)
-        start_time = time.time()
-
-        # 等待界面出现"可领取"
-        while not self.wait_ocr(match=re.compile("可领取"), box=self.box.top, time_out=1):
-            if time.time() - start_time > 60:
-                self.log_info("放弃领奖：等待『可领取』超时")
-                return False
-            self.press_key("f", down_time=0.2)
-            self.wait_ui_stable(refresh_interval=1)
-
-        # 点击"获得奖励"（坐标范围与 get_claim 中保持一致：奖励展开区域中央）
-        if not self.wait_click_ocr(
-                match=re.compile("获得奖励"),
-                box=self.box_of_screen(530 / 1920, 330 / 1080, 1400 / 1920, 570 / 1080),
-                time_out=2,
-                after_sleep=1,
-                log=True
-        ):
-            self.log_info("放弃领奖：未找到『获得奖励』按钮")
-            return False
-
-        # 点击"放弃"
-        if not self.wait_click_ocr(
-                match=re.compile("放弃"), box=self.box.bottom_right, time_out=5, log=True, recheck_time=1, alt=True
-        ):
-            self.log_info("放弃领奖：未找到『放弃』按钮，安全退出")
-            return False
-
-        # 点击"确认"
-        if not self.wait_click_ocr(
-                match=re.compile("确认"), box=self.box.bottom_right, time_out=5, log=True
-        ):
-            self.log_info("放弃领奖：未找到『确认』按钮")
-            return False
-
-        self.log_info("放弃领奖成功")
-        return True
-
     def battle_recycle(self, left_ticket, stage_name, category_name, enter_str, no_battle=False, challenge_check=False, max_runs=0, extra_runs=0):
         enter_bool = False
         run_count = 0
@@ -532,8 +480,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 if not self.to_end(challenge=challenge_check, stage_name=stage_name, category_name=category_name):
                     self.log_info(f"额外刷取第 {i + 1}/{extra_runs} 次：未发现奖励领取点，提前结束")
                     break
-                # 放弃领奖
-                if not self._abandon_reward():
+                # 放弃领奖（复用 get_claim，不计理智）
+                if not self.get_claim(stages_cost[category_name], left_ticket, abandon=True):
                     self.log_info(f"额外刷取第 {i + 1}/{extra_runs} 次：放弃领奖失败，提前结束")
                     break
                 self.sleep(2)
@@ -728,18 +676,19 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 raise e
         return True
 
-    def get_claim(self, ticket_number, sum_ticket_number):
+    def get_claim(self, ticket_number, sum_ticket_number, abandon=False):
         """
         执行一次领奖操作，并返回剩余理智。
 
         逻辑：
         1. 等待界面稳定，并找到“可领取”提示。
         2. 尝试点击“获得奖励”，如果失败则本轮任务失败。
-        3. 扣除本轮理智，判断剩余理智是否足够。
-        4. 点击“领取”，记录领取状态。
+        3. 若 abandon=False（默认）：扣除本轮理智，点击“领取”，预测下一轮可否继续。
+           若 abandon=True：点击“放弃”→“确认”，不消耗理智，返回 sum_ticket_number。
 
         返回：
-            int: 扣掉本轮消耗理智后的剩余理智，如果理智不足则返回 0。
+            int: 正常模式下返回扣除本轮消耗后的剩余理智，失败时返回 0。
+                 放弃模式下成功返回 sum_ticket_number，失败返回 0。
         """
         self.log_info("领取奖励,当前理智: {}, 本轮消耗理智: {}".format(sum_ticket_number, ticket_number))
         self.wait_ui_stable(refresh_interval=1)
@@ -766,24 +715,39 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.log_info("未找到 '获得奖励' 按钮, 任务失败")
             return 0
 
-        # 扣除本轮消耗理智
-        sum_ticket_number -= need_ticket_number
-        self.log_info("扣除本轮消耗理智: {}, 剩余理智: {}".format(need_ticket_number, sum_ticket_number))
-        if sum_ticket_number < 0:
-            return 0  # 理智不足，不能继续
-
-        # 点击“领取”，失败则返回0
-        self.next_frame()
-        if not self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=2, log=True):
-            self.log_info("领取失败")
-            return 0
-        # 预测下一轮是否还能继续
-        next_sum = sum_ticket_number - need_ticket_number
-        self.log_info("预测下一轮消耗理智: {}, 预测下一轮剩余理智: {}".format(need_ticket_number, next_sum))
-
-        if next_sum < 0:
-            self.log_info("下一轮理智不足，无法继续")
-            return 0
-        else:
-            # 返回本轮剩余理智，不返回next_sum，因为减耗只用于判断下一轮可否继续
+        if abandon:
+            # 体力不足时放弃领奖：点击“放弃”→“确认”，不消耗理智
+            if not self.wait_click_ocr(
+                    match=re.compile("放弃"), box=self.box.bottom_right, time_out=5, log=True, recheck_time=1, alt=True
+            ):
+                self.log_info("放弃领奖：未找到『放弃』按钮，安全退出")
+                return 0
+            if not self.wait_click_ocr(
+                    match=re.compile("确认"), box=self.box.bottom_right, time_out=5, log=True
+            ):
+                self.log_info("放弃领奖：未找到『确认』按钮")
+                return 0
+            self.log_info("放弃领奖成功")
             return sum_ticket_number
+        else:
+            # 扣除本轮消耗理智
+            sum_ticket_number -= need_ticket_number
+            self.log_info("扣除本轮消耗理智: {}, 剩余理智: {}".format(need_ticket_number, sum_ticket_number))
+            if sum_ticket_number < 0:
+                return 0  # 理智不足，不能继续
+
+            # 点击“领取”，失败则返回0
+            self.next_frame()
+            if not self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=2, log=True):
+                self.log_info("领取失败")
+                return 0
+            # 预测下一轮是否还能继续
+            next_sum = sum_ticket_number - need_ticket_number
+            self.log_info("预测下一轮消耗理智: {}, 预测下一轮剩余理智: {}".format(need_ticket_number, next_sum))
+
+            if next_sum < 0:
+                self.log_info("下一轮理智不足，无法继续")
+                return 0
+            else:
+                # 返回本轮剩余理智，不返回next_sum，因为减耗只用于判断下一轮可否继续
+                return sum_ticket_number
