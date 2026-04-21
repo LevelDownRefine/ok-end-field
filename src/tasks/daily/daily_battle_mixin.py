@@ -443,13 +443,9 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 return False
 
             # 在『有可领取的奖励』页面上领取奖励
+            left_ticket = self.get_claim(stages_cost[category_name], left_ticket, abandon=abandon)
             if abandon:
-                # 放弃领奖（不计理智）
-                if not self.get_claim(stages_cost[category_name], left_ticket, abandon=True):
-                    break
                 extra_run_count += 1
-            else:
-                left_ticket = self.get_claim(stages_cost[category_name], left_ticket)
 
             self.sleep(2)
 
