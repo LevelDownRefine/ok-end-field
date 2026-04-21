@@ -425,7 +425,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
     def battle_recycle(self, left_ticket, stage_name, category_name, enter_str, no_battle=False, challenge_check=False, extra_runs=0):
         enter_bool = False
-        run_count = 0
         extra_run_count = 0
 
         while left_ticket > 0 or extra_run_count < extra_runs:
@@ -466,11 +465,10 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 extra_run_count += 1
             else:
                 left_ticket = self.get_claim(stages_cost[category_name], left_ticket)
-                run_count += 1
 
             self.sleep(2)
 
-        if run_count > 0 or extra_run_count > 0:
+        if enter_bool:
             self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
 
         return True
