@@ -427,13 +427,11 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         enter_bool = False
         run_count = 0
         extra_run_count = 0
-        entered_extra = False
+        extra_entered = False
 
-        while True:
+        while left_ticket > 0 or extra_run_count < extra_runs:
             abandon = left_ticket <= 0
             if abandon:
-                if extra_run_count >= extra_runs:
-                    break
                 if extra_run_count == 0:
                     self.log_info(f"体力已耗尽，开始执行 {extra_runs} 次额外刷取（将放弃领奖）")
                 self.log_info(f"额外刷取第 {extra_run_count + 1}/{extra_runs} 次")
@@ -453,7 +451,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 return False
 
             if abandon:
-                entered_extra = True
+                extra_entered = True
 
             # 移至奖励发放点，按下 F
             if not self.to_end(challenge=challenge_check, stage_name=stage_name, category_name=category_name):
@@ -463,6 +461,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 self.log_info("未发现奖励领取点")
                 return False
 
+            # 在『有可领取的奖励』页面上领取奖励
             if abandon:
                 # 放弃领奖（不计理智）
                 if not self.get_claim(stages_cost[category_name], left_ticket, abandon=True):
@@ -470,19 +469,12 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     break
                 extra_run_count += 1
             else:
-                # 在『有可领取的奖励』页面上领取奖励
                 left_ticket = self.get_claim(stages_cost[category_name], left_ticket)
                 run_count += 1
-                if left_ticket <= 0:
-                    if extra_runs <= 0:
-                        self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
-                        break
-                    # extra_runs > 0：下次循环以 abandon=True 继续
 
             self.sleep(2)
 
-        # 完成额外刷取后离开（只要有任何战斗轮次）
-        if extra_runs > 0 and (run_count > 0 or entered_extra):
+        if run_count > 0 or extra_entered:
             self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
 
         return True
