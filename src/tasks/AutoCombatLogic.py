@@ -15,6 +15,7 @@ class AutoCombatLogic:
 
     def _sync_normal_attack_hold(self):
         if self._normal_attack_hold_enabled:
+            self.task.active_and_send_mouse_delta(activate=True,only_activate=True)
             pyautogui.mouseDown()
         else:
             pyautogui.mouseUp()
@@ -59,6 +60,7 @@ class AutoCombatLogic:
             task.sleep(0.1)
             task.click(key="middle")
             self._normal_attack_hold_enabled = True
+            self._sync_normal_attack_hold()
             if start_sleep is not None:
                 time.sleep(start_sleep)
             else:

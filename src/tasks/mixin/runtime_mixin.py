@@ -290,7 +290,12 @@ class RuntimeMixin:
 
     def info_set(self, key, value):
         if self.current_user:
-            key = f"{key}({self.current_user[-4:]})"
+            suffix = self.current_user[-4:] if len(self.current_user) >= 4 else self.current_user
+            key = f"{key}({suffix})"
+
+        if value is not None:
+            value = str(value).replace("⭐", "")
+
         return super().info_set(key, value)
 
     def press_key(self, key: str, down_time: float = 0.02, after_sleep: float = 0, interval: int = -1):

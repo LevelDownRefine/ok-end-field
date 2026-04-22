@@ -163,10 +163,9 @@ class BattleMixin(BaseEfTask):
             if self.find_one("ult_" + ult):
                 self.send_key_down(ult)  # 确认使用send_key：终极技键位为游戏固定不可配置键，不经过KeyConfigManager管理
                 # 等待技能释放导致战斗状态变化
-                self.wait_until(lambda: not self.in_combat())
+                self.wait_until(lambda: not self.in_combat(), time_out=3)
                 self.send_key_up(ult)  # 确认使用send_key：终极技键位为游戏固定不可配置键，释放按键
-                while not self.in_team():
-                    self.sleep(0.1)
+                self.wait_until(lambda: self.in_team(), time_out=5)
                 return True
 
         return False
@@ -205,12 +204,7 @@ class BattleMixin(BaseEfTask):
         判断当前是否处于队伍状态。
         """
 
-        return all([
-            self.find_one('skill_1') is not None,
-            self.find_one('skill_2') is not None,
-            self.find_one('skill_3') is not None,
-            self.find_one('skill_4') is not None,
-        ])
+        return sum(self.find_one(f"skill_{i}") is not None for i in range(1, 5)) >= 3
 
     def is_combat_ended(self):
         """
