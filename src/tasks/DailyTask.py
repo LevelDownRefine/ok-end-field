@@ -31,7 +31,7 @@ class DailyTask(
         self.icon = FluentIcon.SYNC
         self.support_schedule_task = True
         self.support_multi_account = True
-        self.task_status = {"success": [], "failed": []}
+        self.task_status = {"success": [], "failed": [], "skipped": [], "all": []}
         self.default_config.update({"⭐传送到帝江号右侧传送点": True, "发生异常时终止游戏": False, "仅退出游戏": False})
         self.config_description.update(
             {
@@ -85,6 +85,7 @@ class DailyTask(
                 ("⭐传送到帝江号右侧传送点", lambda: self.transfer_to_home_point(box=self.box.right)),
                 ("⭐执行结尾外部命令", self.launch_end_command_non_blocking),
             ]
+            self.task_status["all"] = [task[0] for task in tasks]
             all_fail_tasks = []
             for repeat_idx in range(repeat_times):
 
@@ -114,7 +115,8 @@ class DailyTask(
                 else:
                     self.ensure_main()
                 # ✅ 每轮重置状态
-                self.task_status = {"success": [], "failed": []}
+                self.task_status = {"success": [], "failed": [], "skipped": [], "all": []}
+                self.task_status["all"] = [task[0] for task in tasks]
 
                 self.log_info(f"开始第 {repeat_idx + 1}/{repeat_times} 轮任务执行")
 
@@ -132,6 +134,10 @@ class DailyTask(
                         self.info_set("已失败的任务列表", self.task_status["failed"])
                     if self.task_status.get("success"):
                         self.info_set("已完成的任务列表", self.task_status["success"])
+                    if self.task_status.get("skipped"):
+                        self.info_set("已跳过的任务列表", self.task_status["skipped"])
+                    if self.task_status.get("all"):
+                        self.info_set("未处理的任务列表", self.task_status["all"])
 
             # ✅ 汇总输出
             if repeat_times > 1:
@@ -151,6 +157,10 @@ class DailyTask(
                     self.info_set("已失败的任务列表", self.task_status["failed"])
                 if self.task_status.get("success"):
                     self.info_set("已完成的任务列表", self.task_status["success"])
+                if self.task_status.get("skipped"):
+                    self.info_set("已跳过的任务列表", self.task_status["skipped"])
+                if self.task_status.get("all"):
+                    self.info_set("未处理的任务列表", self.task_status["all"])
 
             if self.current_task_key:
                 self.info_set("当前失败的任务", self.current_task_key)
@@ -167,8 +177,10 @@ class DailyTask(
 
     def execute_task(self, key, func):
         """统一执行单个子任务。"""
+        self.task_status["all"].remove(key)
         if isinstance(key, str):
             if not self.config.get(key, False):
+                self.task_status["skipped"].append(key)
                 return True
         self.current_task_key = key
         self.log_info(f"开始任务: {key}")
