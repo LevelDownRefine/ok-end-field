@@ -343,7 +343,7 @@ class NavigationMixin(BaseEfTask):
                 for _ in range(2):
                     # self.scroll(cx, cy, 8)
                     # 20 在实测中放大幅度偏小，提升到 80 以便更快拉近视角提高对中可见性
-                    pyautogui.scroll(400)
+                    pyautogui.scroll(int(self.resolution_scale()*400))
                     self.sleep(1)
         if raise_if_fail:
             raise Exception("对中失败")
