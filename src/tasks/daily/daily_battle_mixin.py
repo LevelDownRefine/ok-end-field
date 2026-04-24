@@ -358,12 +358,12 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         })
 
     def battle_gather(self, left_ticket, stage_name, category_name, no_battle=False, extra_runs=0):
-        self._init_gather_transfer_points()
-        # 点击追踪按钮，进入地图并传送
-        self._click_track_and_transfer(stage_name)
-        # 滑索移动
-        self._navigate_via_zip_line(stage_name)
-        #
+        # self._init_gather_transfer_points()
+        # # 点击追踪按钮，进入地图并传送
+        # self._click_track_and_transfer(stage_name)
+        # # 滑索移动
+        # self._navigate_via_zip_line(stage_name)
+        # #
         self.navigate_until_target(target_ocr_pattern=re.compile("激发|放弃"), nav_feature_name=fL.gather_icon_out_map, time_out=60)
         #
         if self.wait_ocr(match=re.compile("放弃"), box=self.box.bottom_right, time_out=5):
@@ -389,7 +389,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             return True
         return self.battle_recycle(left_ticket, stage_name, category_name, "进入", extra_runs=extra_runs)
 
-    def _gather_retry_navigate(self, stage_name, category_name):
+    def _gather_retry_navigate(self, stage_name, category_name, abandon_claim=False):
         """
         能量淤积点的二次寻路：重新打开索引 → 进入副本详情 → 追踪传送 → 滑索 → 领取奖励。
 
@@ -409,48 +409,74 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         self._navigate_via_zip_line(stage_name)
         #
         self.navigate_until_target(target_ocr_pattern=re.compile("领取"), nav_feature_name=fL.gather_icon_out_map, time_out=60)
-        result = self.wait_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=5)
+        click_key = "放弃" if abandon_claim else "领取"
+        result = self.wait_ocr(match=re.compile(click_key), box=self.box.bottom_right, time_out=5)
         if not result:
-            self.log_info("二次寻路失败：没有找到『领取奖励』按钮")
+            self.log_info(f"二次寻路失败：没有找到『{click_key}奖励』按钮")
             return False
         self.sleep(1)
-        if not self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
-            self.log_info("二次寻路失败：没有找到『领取奖励』按钮")
+        if not self.wait_click_ocr(match=re.compile(click_key), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
+            self.log_info(f"二次寻路失败：没有找到『{click_key}奖励』按钮")
             return False
+        # 如果是放弃领奖，那么点击后还需要点击确认
+        if abandon_claim and self.wait_click_ocr(match=re.compile("确认"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
+            self.log_info("已放弃未领取的奖励")
         return True
 
     def battle_recycle(self, left_ticket, stage_name, category_name, enter_str, no_battle=False, challenge_check=False, extra_runs=0):
         enter_bool = False
         extra_run_count = 0
+        abandon_claim = False
+        if extra_runs > 0:
+            assert category_name == "能量淤积点", "体力刷完后继续刷功能仅支持能量淤积点"
+            assert challenge_check, "体力刷完后继续刷功能仅支持挑战模式"
+        enter_box = self.box.bottom_right if enter_str == "进入" else self.box.bottom_right_quarter
 
+        import pdb
+        pdb.set_trace()
         while left_ticket > 0 or extra_run_count < extra_runs:
-            abandon = left_ticket <= 0
-
             if enter_bool:
-                self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
-                                    after_sleep=2, recheck_time=1)
+                if extra_run_count < extra_runs:
+                    # 如果是放弃领奖的额外刷取，那么需通过点击『激发』，进行下一轮挑战
+                    # 在领取/放弃奖励时已经在奖励发放点了，所以这里不再进行寻路，直接点击即可
+                    if abandon_claim:
+                        result = self.wait_ocr(match=re.compile("激发"), box=self.box.bottom_right, time_out=5)
+                        if not result:
+                            self.log_info("未找到『激发』按钮，无法继续进行额外刷取")
+                            return False
+                        self.click_with_alt(result[0], after_sleep=2)
+                        self.wait_click_ocr(match=re.compile(enter_str), time_out=10, after_sleep=2, box=enter_box,
+                                            log=True, recheck_time=1)
+                else:
+                    self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
+                                        after_sleep=2, recheck_time=1)
             else:
-                self.wait_click_ocr(match=re.compile(enter_str), time_out=10, after_sleep=2, box=self.box.bottom_right,
+                self.wait_click_ocr(match=re.compile(enter_str), time_out=10, after_sleep=2, box=enter_box,
                                     log=True, recheck_time=1)
+                # 如果是放弃领奖，需要确认体力不足时也能继续进行刷取
+                if extra_runs > 0 and self.wait_click_ocr(match=re.compile("确认"), time_out=5, box=self.box.bottom_right, log=True):
+                    self.log_info("无体力，开始额外刷取（放弃领奖）")
+                    abandon_claim = True
                 enter_bool = True
-
             if not self.to_battle(no_battle=no_battle, challenge_check=challenge_check):
                 return False
-
             # 移至奖励发放点，按下 F
-            if not self.to_end(challenge=challenge_check, stage_name=stage_name, category_name=category_name):
+            if not self.to_end(challenge=challenge_check, stage_name=stage_name, category_name=category_name, abandon_claim=abandon_claim):
                 self.log_info("未发现奖励领取点")
                 return False
 
-            # 在『有可领取的奖励』页面上领取奖励
-            left_ticket = self.get_claim(stages_cost[category_name], left_ticket, abandon=abandon)
-            if abandon:
+            if abandon_claim:
                 extra_run_count += 1
+            else:
+                # 在『有可领取的奖励』页面上领取奖励
+                left_ticket = self.get_claim(stages_cost[category_name], left_ticket, abandon_claim=abandon_claim)
 
-            self.sleep(2)
+                self.sleep(2)
+                if left_ticket <= 0:
+                    self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
 
-        if enter_bool:
-            self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
+                # 如果体力耗尽但设置了额外刷取次数，则开始额外刷取
+                abandon_claim = extra_runs > 0
 
         return True
 
@@ -574,7 +600,10 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     return False
         return self.auto_battle(no_battle=no_battle)
 
-    def to_end(self, challenge=False, stage_name=None, category_name=None):
+    def to_end(self, challenge=False, stage_name=None, category_name=None, abandon_claim=False): 
+        if abandon_claim:
+            assert category_name == "能量淤积点", "放弃领奖功能仅支持能量淤积点"
+            assert challenge, "放弃领奖功能仅支持挑战模式"
         if challenge:
             end_feature_name = [fL.gather_icon_out_map2, fL.gather_icon_out_map]
             use_yolo = False
@@ -621,16 +650,21 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                         raise TimeoutError("等待奖励发放点超时")
                     else:
                         return False
-                if result:= self.wait_ocr(match=re.compile("领取"), time_out=1, box=self.box.bottom_right):
+
+                click_key = "放弃" if abandon_claim else "领取"
+                if result:= self.wait_ocr(match=re.compile(click_key), time_out=1, box=self.box.bottom_right):
                     self.sleep(0.5)
                     self.click_with_alt(result[0])
+                    # 如果是放弃领奖，那么点击后还需要点击确认
+                    if abandon_claim and self.wait_click_ocr(match=re.compile("确认"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
+                        self.log_info("已放弃未领取的奖励")
                     break
                 else:
                     self.move_keys('w', duration=0.25)
         except Exception as e:
             if category_name == "能量淤积点":
                 self.log_info(f"未找到奖励发放点，尝试二次寻路: {e}")
-                if self._gather_retry_navigate(stage_name, category_name):
+                if self._gather_retry_navigate(stage_name, category_name, abandon_claim=abandon_claim):
                     return True
                 else:
                     self.log_info("二次寻路失败，无法找到奖励发放点")
@@ -639,19 +673,18 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 raise e
         return True
 
-    def get_claim(self, ticket_number, sum_ticket_number, abandon=False):
+    def get_claim(self, ticket_number, sum_ticket_number):
         """
         执行一次领奖操作，并返回剩余理智。
 
         逻辑：
         1. 等待界面稳定，并找到“可领取”提示。
         2. 尝试点击“获得奖励”，如果失败则本轮任务失败。
-        3. 若 abandon=False（默认）：扣除本轮理智，点击“领取”，预测下一轮可否继续。
-           若 abandon=True：点击“放弃”→“确认”，不消耗理智，返回 sum_ticket_number。
+        3. 扣除本轮理智，判断剩余理智是否足够。
+        4. 点击“领取”，记录领取状态。
 
         返回：
-            int: 正常模式下返回扣除本轮消耗后的剩余理智，失败时返回 0。
-                 放弃模式下成功返回 sum_ticket_number，失败返回 0。
+            int: 扣掉本轮消耗理智后的剩余理智，如果理智不足则返回 0。
         """
         self.log_info("领取奖励,当前理智: {}, 本轮消耗理智: {}".format(sum_ticket_number, ticket_number))
         self.wait_ui_stable(refresh_interval=1)
@@ -678,39 +711,24 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.log_info("未找到 '获得奖励' 按钮, 任务失败")
             return 0
 
-        if abandon:
-            # 体力不足时放弃领奖：点击“放弃”→“确认”，不消耗理智
-            if not self.wait_click_ocr(
-                    match=re.compile("放弃"), box=self.box.bottom_right, time_out=5, log=True, recheck_time=1, alt=True
-            ):
-                self.log_info("放弃领奖：未找到『放弃』按钮，安全退出")
-                return 0
-            if not self.wait_click_ocr(
-                    match=re.compile("确认"), box=self.box.bottom_right, time_out=5, log=True
-            ):
-                self.log_info("放弃领奖：未找到『确认』按钮")
-                return 0
-            self.log_info("放弃领奖成功")
-            return sum_ticket_number
+        # 扣除本轮消耗理智
+        sum_ticket_number -= need_ticket_number
+        self.log_info("扣除本轮消耗理智: {}, 剩余理智: {}".format(need_ticket_number, sum_ticket_number))
+        if sum_ticket_number < 0:
+            return 0  # 理智不足，不能继续
+
+        # 点击“领取”，失败则返回0
+        self.next_frame()
+        if not self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=2, log=True):
+            self.log_info("领取失败")
+            return 0
+        # 预测下一轮是否还能继续
+        next_sum = sum_ticket_number - need_ticket_number
+        self.log_info("预测下一轮消耗理智: {}, 预测下一轮剩余理智: {}".format(need_ticket_number, next_sum))
+
+        if next_sum < 0:
+            self.log_info("下一轮理智不足，无法继续")
+            return 0
         else:
-            # 扣除本轮消耗理智
-            sum_ticket_number -= need_ticket_number
-            self.log_info("扣除本轮消耗理智: {}, 剩余理智: {}".format(need_ticket_number, sum_ticket_number))
-            if sum_ticket_number < 0:
-                return 0  # 理智不足，不能继续
-
-            # 点击“领取”，失败则返回0
-            self.next_frame()
-            if not self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=2, log=True):
-                self.log_info("领取失败")
-                return 0
-            # 预测下一轮是否还能继续
-            next_sum = sum_ticket_number - need_ticket_number
-            self.log_info("预测下一轮消耗理智: {}, 预测下一轮剩余理智: {}".format(need_ticket_number, next_sum))
-
-            if next_sum < 0:
-                self.log_info("下一轮理智不足，无法继续")
-                return 0
-            else:
-                # 返回本轮剩余理智，不返回next_sum，因为减耗只用于判断下一轮可否继续
-                return sum_ticket_number
+            # 返回本轮剩余理智，不返回next_sum，因为减耗只用于判断下一轮可否继续
+            return sum_ticket_number
