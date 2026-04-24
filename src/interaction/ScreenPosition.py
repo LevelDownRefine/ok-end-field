@@ -32,6 +32,10 @@ class ScreenPosition:
         return Box(x=self.parent.width // 2, y=self.parent.height // 2, to_x=self.parent.width, to_y=self.parent.height)
 
     @property
+    def bottom_right_quarter(self) -> Box:
+        return Box(x=self.parent.width * 3 // 4, y=self.parent.height * 3 // 4, to_x=self.parent.width, to_y=self.parent.height)
+
+    @property
     def left(self) -> Box:
         return Box(x=0, y=0, to_x=self.parent.width // 2, to_y=self.parent.height)
 
