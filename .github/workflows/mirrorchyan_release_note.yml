@@ -21,7 +21,7 @@ jobs:
           mirrorchyan_rid: ok-end-field
           version_name: ${{ inputs.tag }}
 
-          owner: ok-oldking
+          owner: AliceJump
           repo: ok-end-field
           github_token: ${{ secrets.GITHUB_TOKEN }}
           upload_token: ${{ secrets.MirrorChyanUploadToken }}
