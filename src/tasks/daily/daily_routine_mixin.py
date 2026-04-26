@@ -594,11 +594,12 @@ class DailyRoutineMixin(LiaisonMixin, Common):
             self.log_info("未找到装备按钮，任务失败")
             return False
         self.log_info("找到装备按钮并点击")
-
+        self.wait_click_ocr(match=re.compile("独立"), box=self.box_of_screen(0,0,0.5,80/1080), time_out=5, recheck_time=1, after_sleep=1)
         if not self.wait_click_ocr(
                 match=re.compile("制作"),
                 box=self.box_of_screen(2050/2560, 1250/1440, 1, 1),
-                time_out=5
+                time_out=5,
+                recheck_time=1
         ):
             self.log_info("未找到制作按钮，任务失败")
             return False
