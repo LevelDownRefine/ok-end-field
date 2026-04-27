@@ -111,7 +111,7 @@ class DailyTask(
                     self.set_current_account("", "")
 
                 if not self._logged_in:
-                    self.ensure_main(time_out=240)
+                    self.ensure_main(time_out=600)
                 else:
                     self.ensure_main()
                 # ✅ 每轮重置状态
