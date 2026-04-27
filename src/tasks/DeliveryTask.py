@@ -531,7 +531,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                 ends_list_pattern_dict[pattern] = end
             for _ in range(3):
                 if not self._logged_in:
-                    self.ensure_main(time_out=240)
+                    self.ensure_main(time_out=600)
                 else:
                     self.ensure_main()
                 self.back(after_sleep=2)
