@@ -320,6 +320,9 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 self.log_info("体力不足")
                 return True
             else:
+                if category_name != "能量淤积点":
+                    self.log_info(f"不支持无体力刷取的副本: {category_name}")
+                    return True
                 # 体力不足，执行额外刷取
                 self.log_info(f"体力不足，将执行 {nums_extra_run} 次额外刷取（放弃领奖）")
                 if not self.to_stage(
