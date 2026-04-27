@@ -320,6 +320,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 self.log_info("体力不足")
                 return True
             else:
+                # 体力不足，执行额外刷取
                 self.log_info(f"体力不足，将执行 {nums_extra_run} 次额外刷取（放弃领奖）")
                 if not self.to_stage(
                     stage_name,
@@ -446,6 +447,11 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         return True
 
     def to_restart(self, is_extra_mode, enter_box):
+        """
+        开始下一轮刷取
+        如果使用体力则点击重新挑战
+        否则需要点击 激发 -> 挑战 -> 确认
+        """
         if is_extra_mode:
             # 放弃领取奖励后需要重新点击激发按钮
             result = self.wait_ocr(match=re.compile("激发"), box=self.box.bottom_right, time_out=5)
@@ -474,11 +480,12 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
         while left_ticket >= stages_cost[category_name] or cnt_extra_run < nums_extra_run:
             if enter_bool:
+                # 开始下一轮刷取
                 self.to_restart(is_extra_mode=is_extra_mode, enter_box=enter_box)
             else:
                 self.wait_click_ocr(match=re.compile(enter_str), time_out=10, after_sleep=2, box=enter_box,
                                     log=True, recheck_time=1)
-                # 如果是放弃领奖，需要点击确认
+                # 如果无体力，点击放弃领奖后需要点击确认
                 if nums_extra_run > 0 and self.wait_click_ocr(match=re.compile("确认"), time_out=5, box=self.box.bottom_right, log=True):
                     self.log_info("无体力，开始额外刷取（放弃领奖）")
                     is_extra_mode = True
@@ -501,8 +508,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 if left_ticket <= 0:
                     self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
 
-                # 如果体力耗尽但设置了额外刷取次数，则开始额外刷取
-                is_extra_mode = nums_extra_run > 0 and cnt_extra_run < nums_extra_run
+                    # 如果体力耗尽但设置了额外刷取次数，则开始额外刷取
+                    is_extra_mode = nums_extra_run > 0 and cnt_extra_run < nums_extra_run
         return True
 
     def to_stage(self, stage_name, category_name, reward_tier_override=None, ignore_config_tier=False):
