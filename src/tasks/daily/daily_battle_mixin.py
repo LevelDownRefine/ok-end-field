@@ -449,7 +449,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.log_info("已放弃未领取的奖励")
         return True
 
-    def to_restart(self, is_extra_mode, enter_box):
+    def to_restart(self, is_extra_mode):
         """
         开始下一轮刷取
         如果使用体力则点击重新挑战
@@ -462,12 +462,12 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 self.log_info("未找到『激发』按钮，无法继续进行额外刷取")
                 return False
             self.click_with_alt(result[0], after_sleep=2)
-            self.wait_click_ocr(match=re.compile("挑战"), time_out=10, after_sleep=2, box=enter_box,
+            self.wait_click_ocr(match=re.compile("挑战"), time_out=10, after_sleep=2, box=self.box.bottom_right_quarter,
                                 log=True, recheck_time=1)
             self.wait_click_ocr(match=re.compile("确认"), time_out=10, after_sleep=2, box=self.box.bottom_right,
                                 log=True, recheck_time=1)
         else:
-            self.wait_click_ocr(match=re.compile("重新挑战"), box=enter_box, log=True, time_out=5,
+            self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
                                 after_sleep=2, recheck_time=1)
         return True
 
@@ -475,8 +475,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         enter_bool = False
         cnt_extra_run = 0
         is_extra_mode = False
-        # 根据 enter_str 决定点击位置, 如果是「挑战」, 并且刷取的是「能量淤积点」, 则点击右下四分之一区域, 避免误触
-        enter_box = self.box.bottom_right_quarter if enter_str == "挑战" and category_name == "能量淤积点" else self.box.bottom_right
         if nums_extra_run > 0:
             assert category_name == "能量淤积点", "体力刷完后继续刷功能仅支持能量淤积点"
             assert challenge_check, "体力刷完后继续刷功能仅支持挑战模式"
@@ -484,8 +482,10 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         while left_ticket >= stages_cost[category_name] or cnt_extra_run < nums_extra_run:
             if enter_bool:
                 # 开始下一轮刷取
-                self.to_restart(is_extra_mode=is_extra_mode, enter_box=enter_box)
+                self.to_restart(is_extra_mode=is_extra_mode)
             else:
+                # 根据 enter_str 决定点击位置, 如果是「挑战」, 并且刷取的是「能量淤积点」, 则点击右下四分之一区域, 避免误触
+                enter_box = self.box.bottom_right_quarter if enter_str == "挑战" and category_name == "能量淤积点" else self.box.bottom_right
                 self.wait_click_ocr(match=re.compile(enter_str), time_out=10, after_sleep=2, box=enter_box,
                                     log=True, recheck_time=1)
                 # 如果无体力，点击放弃领奖后需要点击确认
