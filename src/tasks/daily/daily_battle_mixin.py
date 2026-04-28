@@ -395,7 +395,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         if self.wait_ocr(match=re.compile("放弃"), box=self.box.bottom_right, time_out=1):
             self.log_info("放弃未领取的奖励")
             self.wait_click_ocr(match=re.compile("放弃"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True)
-            self.wait_click_ocr(match=re.compile("确认"), box=self.box.bottom_right, time_out=5)
+            self.click_confirm()
         #
         result = self.wait_ocr(match=re.compile("激发"), box=self.box.bottom_right, time_out=5)
         if not result:
@@ -689,7 +689,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     self.sleep(0.5)
                     self.click_with_alt(result[0])
                     # 如果是放弃领奖，那么点击后还需要点击确认
-                    if is_extra_mode and self.wait_click_ocr(match=re.compile("确认"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
+                    if is_extra_mode:
+                        self.click_confirm()
                         self.log_info("已放弃未领取的奖励")
                     break
                 else:
