@@ -445,7 +445,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.log_info(f"二次寻路失败：没有找到『{click_key}奖励』按钮")
             return False
         # 如果是放弃领奖，那么还需要点击确认
-        if is_extra_mode and self.wait_click_ocr(match=re.compile("确认"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True):
+        if is_extra_mode:
+            self.click_confirm()
             self.log_info("已放弃未领取的奖励")
         return True
 
@@ -464,8 +465,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.click_with_alt(result[0], after_sleep=2)
             self.wait_click_ocr(match=re.compile("挑战"), time_out=10, after_sleep=2, box=self.box.bottom_right_quarter,
                                 log=True, recheck_time=1)
-            self.wait_click_ocr(match=re.compile("确认"), time_out=10, after_sleep=2, box=self.box.bottom_right,
-                                log=True, recheck_time=1)
+            self.click_confirm()
         else:
             self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
                                 after_sleep=2, recheck_time=1)
@@ -489,7 +489,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 self.wait_click_ocr(match=re.compile(enter_str), time_out=10, after_sleep=2, box=enter_box,
                                     log=True, recheck_time=1)
                 # 如果无体力，点击放弃领奖后需要点击确认
-                if nums_extra_run > 0 and self.wait_click_ocr(match=re.compile("确认"), time_out=5, box=self.box.bottom_right, log=True):
+                if nums_extra_run > 0:
+                    self.click_confirm()
                     self.log_info("无体力，开始额外刷取（放弃领奖）")
                     is_extra_mode = True
                 enter_bool = True
