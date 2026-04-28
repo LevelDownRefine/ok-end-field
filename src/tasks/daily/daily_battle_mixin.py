@@ -134,7 +134,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
             if "追踪" in result[0].name and "取" not in result[0].name and "消" not in result[0].name:
                 self.log_info("点击追踪按钮")
-                self.click(result, after_sleep=2)
+                self.click(result, after_sleep=1)
         self.to_near_transfer_point(self.gather_near_transfer_point_dict[stage_name])
         self.ensure_main()
 
@@ -142,11 +142,12 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         """若配置了滑索路线，则通过滑索移动至目标。"""
         zip_line_str = self.config.get(stage_name)
         if zip_line_str:
-            self.press_key("f", after_sleep=2)
+            self.wait_click_ocr(match=re.compile("登上滑索架"), time_out=10, after_sleep=2, recheck_time=1, box=self.box.bottom_right, log=True, alt=True)
             zip_line_list = parse_int_sequence(zip_line_str)
             self.zip_line_list_go(
                 zip_line_list,
                 need_scroll=self.config.get(self.CFG_SCROLL_ENABLE),
+                target=([fL.gather_icon_out_map, fL.gather_icon_out_map2], "feature")
             )
 
     # ------------------------------------------------------------------ #

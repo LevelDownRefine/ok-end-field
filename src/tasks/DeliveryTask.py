@@ -423,20 +423,11 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                 self.press_key("tab", after_sleep=1)
             self.click_with_alt(result[0], after_sleep=2)
             self.zip_line_list_go(parse_int_sequence(self.config.get(self.CFG_TO_DELIVERY_POINT)),
-                                  need_scroll=self.config.get(self.CFG_SCROLL_ENABLE))  # 需要在配置里指定出发点的滑索距离,这里默认是36m的滑索
+                                  need_scroll=self.config.get(self.CFG_SCROLL_ENABLE),
+                                  target=(secondary_objective_direction_dot, "feature"),
+                                  need_v=True)  # 需要在配置里指定出发点的滑索距离,这里默认是36m的滑索
             if only_zip_line:
                 return True
-            if result := self.wait_ocr(match="登上滑索架", box=self.box.bottom_right, time_out=2, log=True):
-                self.press_key("v", after_sleep=1)
-                self.click_with_alt(result[0], after_sleep=2)
-                self.align_ocr_or_find_target_to_center(
-                    ocr_match_or_feature_name_list=secondary_objective_direction_dot,
-                    threshold=0.8,
-                    ocr=False,
-                    max_time=40,
-                    raise_if_fail=False
-                )
-                self.click(key="right", after_sleep=2)
             for i in range(40):
                 self.sleep(2)
                 self.press_key("v")
@@ -472,23 +463,6 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         Args:
             end_pattern: 目标点的正则匹配模式
         """
-        self.ensure_main()
-        keys = ["w", "a", "s", "d"]
-        for i in range(4):
-            if result := self.wait_ocr(match="登上滑索架", box=self.box.bottom_right, settle_time=1, time_out=4,
-                                       log=True):
-                self.press_key("v", after_sleep=1)
-                self.click_with_alt(result[0], after_sleep=2)
-                self.align_ocr_or_find_target_to_center(
-                    ocr_match_or_feature_name_list=secondary_objective_direction_dot,
-                    threshold=0.8,
-                    ocr=False,
-                    raise_if_fail=False,
-                )
-                self.click(key="right", after_sleep=2)
-                break
-            else:
-                self.move_keys(keys[i], 0.1)
         for i in range(40):
             self.sleep(2)
             self.press_key("v", after_sleep=1)
@@ -584,6 +558,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                                 self.on_zip_line_start(
                                     ends_list_pattern_dict[pattern],
                                     need_scroll=self.config.get(self.CFG_SCROLL_ENABLE),
+                                    target=(secondary_objective_direction_dot, "feature")
                                 )
                                 break
                     self.to_end_and_submit(end_pattern)
@@ -603,7 +578,10 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                     alt=True,
                 ):
                     self.log_info("未找到登上滑索架，测试失败")
-                    self.on_zip_line_start(end)
+                    self.on_zip_line_start(
+                        end, need_v=False,
+                        need_scroll=self.config.get(self.CFG_SCROLL_ENABLE)
+                        )
                     self.sleep(2)
         else:
             zip_line_list_str = self.config.get(self.config.get(self.CFG_TEST_TARGET))
