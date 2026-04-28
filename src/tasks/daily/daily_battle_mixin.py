@@ -147,6 +147,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.zip_line_list_go(
                 zip_line_list,
                 need_scroll=self.config.get(self.CFG_SCROLL_ENABLE),
+                target=([fL.gather_icon_out_map, fL.gather_icon_out_map2], "feature")
             )
 
     # ------------------------------------------------------------------ #
