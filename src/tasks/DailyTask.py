@@ -66,7 +66,7 @@ class DailyTask(
             ("⭐买卖货", self.buy_sell),
             ("⭐刷体力", self.battle),
             ("⭐买物资", self.buy_staple_goods),
-            ("⭐周常奖励", self.claim_weekly_rewards),
+            ("⭐活动奖励", self.claim_activity_rewards),
             ("⭐日常奖励", self.claim_daily_rewards),
             ("⭐传送到帝江号右侧传送点", lambda: self.transfer_to_home_point(box=self.box.right)),
             ("⭐执行结尾外部命令", self.launch_end_command_non_blocking),

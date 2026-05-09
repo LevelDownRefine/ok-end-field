@@ -13,6 +13,7 @@ from src.data.characters_utils import get_contact_list_with_feature_list
 
 class DailyRoutineMixin(LiaisonMixin, Common):
     BOAT_STAGES = ['收集线索', '制造舱', '培养舱']
+    ACTIVITY_REWARDS = ['周常奖励', '理智补给']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -28,12 +29,17 @@ class DailyRoutineMixin(LiaisonMixin, Common):
             "尝试仅收培育室": True,
             "⭐帝江号收菜": True,
             "帝江号收菜操作": self.BOAT_STAGES,
-            "⭐周常奖励": True,
+            "⭐活动奖励": True,
+            "活动奖励": self.ACTIVITY_REWARDS,
             "⭐日常奖励": True,
         })
         self.config_type["帝江号收菜操作"] = {
             "type": "multi_selection",
             "options": self.BOAT_STAGES,
+        }
+        self.config_type["活动奖励"] = {
+            "type": "multi_selection",
+            "options": self.ACTIVITY_REWARDS,
         }
         self.config_description.update({
             "⭐收邮件": "是否前往「邮箱」领取邮件。",
@@ -72,8 +78,13 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                 "制造舱：前往「制造仓」收取培养材料并补足待制造数量。\n"
                 "培养舱：前往「培养仓」收取培养材料并直接再次培养。"
             ),
-            "⭐周常奖励": (
-                "是否领取「活动中心/每周事物」中的奖励。"
+            "⭐活动奖励": (
+                "是否领取「活动中心」中的每周事务和理智补给奖励。"
+            ),
+            "活动奖励": (
+                "勾选要在活动中心里领取的奖励。\n"
+                "周常奖励：领取「每周事务」中的奖励。\n"
+                "理智补给：领取「理智补给」中的奖励。"
             ),
             "⭐日常奖励": (
                 "是否领取「行动手册/日常」和「通行证」中的奖励。"
@@ -82,7 +93,8 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         self.default_config_group.update({
             "⭐据点兑换": ["交易货品优先序列"],
             "⭐收信用": ["尝试仅收培育室"],
-            "⭐帝江号收菜": ["帝江号收菜操作"]
+            "⭐帝江号收菜": ["帝江号收菜操作"],
+            "⭐活动奖励": ["活动奖励"],
         })
     def make_simply(self):
         self.info_set("current_task", "make_simply")
@@ -631,24 +643,61 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         return True
 
     def claim_weekly_rewards(self):
-        self.info_set("current_task", "claim_daily_rewards")
         self.log_info("开始领取每周事务")
+
+        if self.wait_click_ocr(match=re.compile("每周事务"), box=self.box.left, time_out=5, after_sleep=1):
+            self.log_info("进入『每周事务』页面")
+            if self.wait_click_ocr(match=re.compile("领取"), box=self.box.top_right, time_out=5, after_sleep=1):
+                if self.wait_click_ocr(match=re.compile("一键领取"), box=self.box.bottom_right, time_out=5, after_sleep=1):
+                    self.wait_pop_up(after_sleep=2)
+                    self.log_info("已领取『每周事务』奖励")
+                else:
+                    self.log_info("未找到『每周事务/一键领取』按钮")
+            else:
+                self.log_info("未找到『每周事务/领取』按钮")
+        else:
+            self.log_info("未找到『活动中心/每周事务』入口")
+
+        return True
+
+    def claim_sanity_supply(self):
+        self.log_info("开始领取理智补给")
+
+        if not self.wait_click_ocr(match=re.compile("理智补给"), box=self.box.left, time_out=5, after_sleep=1):
+            self.log_info("未找到『活动中心/理智补给』入口")
+            return False
+
+        self.log_info("进入『理智补给』页面")
+        if self.wait_click_ocr(match=re.compile("领取"), box=self.box.top_right, time_out=5, after_sleep=1):
+            self.wait_pop_up(after_sleep=2)
+            self.log_info("已领取『理智补给』奖励")
+            return True
+
+        self.log_info("未找到『理智补给/领取』按钮")
+        return False
+
+    def claim_activity_rewards(self):
+        self.info_set("current_task", "claim_activity_rewards")
+        self.log_info("开始领取活动页奖励")
 
         self.sleep(2)
         self.press_key("f7", after_sleep=2)
         self.log_info("按下 F7 打开活动中心")
 
-        if not self._click_ocr_with_info("每周事务", self.box.left):
-            self.log_info("未找到「活动中心/每周事务」")
-            return False
+        enabled_rewards = set(self.config.get("活动奖励", []))
+        weekly_enabled = "周常奖励" in enabled_rewards
+        sanity_enabled = "理智补给" in enabled_rewards
 
-        if self._click_ocr_with_info("领取", self.box.top_right):
-            if self._click_ocr_with_info("一键领取", self.box.bottom_right):
-                self.wait_pop_up(after_sleep=2)
-                self.log_info("已领取「每周事务」奖励")
-                return True
+        if weekly_enabled:
+            self.claim_weekly_rewards()
+        else:
+            self.log_info("已关闭『周常奖励』，跳过")
 
-        self.log_info(f"未找到「每周事务」奖励")
+        if sanity_enabled:
+            self.claim_sanity_supply()
+        else:
+            self.log_info("已关闭『理智补给』，跳过")
+
         return True
 
     def claim_daily_rewards(self):

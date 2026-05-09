@@ -9,7 +9,7 @@ from ok import Box, TaskDisabledException
 from qfluentwidgets import FluentIcon
 
 from src.data.FeatureList import FeatureList as fL
-from src.tasks.account.account_mixin import AccountMixin
+from src.tasks.mixin.login_mixin import LoginMixin
 from src.tasks.sequence_parser import parse_int_sequence
 from src.tasks.mixin.map_mixin import MapMixin
 from src.tasks.mixin.zip_line_mixin import ZipLineMixin
@@ -30,7 +30,7 @@ class DeliveryRow:
     box: Tuple[float, float, float, float]  # (x1, y1, x2, y2)
 
 
-class DeliveryTask(ZipLineMixin, MapMixin):
+class DeliveryTask(ZipLineMixin, MapMixin, LoginMixin):
     """运输委托自动化任务类 - 处理游戏中的送货操作"""
 
     # 配置键名常量
@@ -597,7 +597,7 @@ class DeliveryTask(ZipLineMixin, MapMixin):
                 self.zip_line_list_go(zip_line_list, need_scroll=self.config.get(self.CFG_SCROLL_ENABLE))
 
     def run(self):
-        if self.multi_account_mode and self.config.get(self.CFG_TEST_TARGET) == self.TEST_NONE:
+        if self.multi_account_mode and self.config.get(self.CFG_TEST_TARGET) == self.TEST_NONE and (not self.config.get(self.CFG_ONLY_DELIVER) or not self.config.get(self.CFG_ONLY_ACCEPT)):
             self.run_multi_account()
         else:
             self.run_one_account({"username": "default", "password": "", "account_id": ""})
