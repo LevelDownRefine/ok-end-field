@@ -668,7 +668,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
             return False
 
         self.log_info("进入『理智补给』页面")
-        if self.wait_click_ocr(match=re.compile("领取"), box=self.box.top_right, time_out=5, after_sleep=1):
+        if self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=5, after_sleep=1):
             self.wait_pop_up(after_sleep=2)
             self.log_info("已领取『理智补给』奖励")
             return True
