@@ -35,7 +35,6 @@ class BattleContext:
 
     enter_text: str = ""          # 进入文本内容
     no_battle: bool = False       # 是否不进行战斗
-    challenge_check: bool = False # 挑战检查状态
 
     stage_reward_tier_override: str | None = None  # 关卡奖励等级覆盖
     ignore_config_reward_tier: bool = False       # 是否忽略配置的奖励等级
@@ -387,8 +386,14 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.battle_ctx.no_battle = self.config.get("仅站桩", False)
 
             self.battle_ctx.extra_run_limit = max(0, int(self.config.get("体力刷完后继续刷取次数", 0) or 0))
+            
+            # 检查是否支持体力刷完后继续刷取
             if self.battle_ctx.extra_run_limit > 0:
-                self.log_info(f"体力刷完后继续刷取次数: {self.battle_ctx.extra_run_limit}")
+                if self.battle_ctx.category_name != "能量淤积点":
+                    self.log_warning(f"体力刷完后继续刷功能仅支持能量淤积点，当前副本为『{self.battle_ctx.category_name}』，已禁用此功能")
+                    self.battle_ctx.extra_run_limit = 0
+                else:
+                    self.log_info(f"体力刷完后继续刷取次数: {self.battle_ctx.extra_run_limit}")
 
             if self.battle_ctx.left_ticket < self._battle_stage_cost:
                 if self.battle_ctx.extra_run_limit <= 0:
@@ -445,7 +450,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
     def battle_gather(self):
         self.battle_ctx.enter_text = "挑战"
-        self.battle_ctx.challenge_check = True
         self._init_gather_transfer_points()
         # 点击追踪按钮，进入地图并传送
         self._click_track_and_transfer()
@@ -472,7 +476,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
     def battle_space(self):
         self.battle_ctx.enter_text = "进入"
-        self.battle_ctx.challenge_check = False
         self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
         if self.wait_click_ocr(match=re.compile("取消"), time_out=5, box=self.box.bottom_left, log=True):
             self.log_info("没有进入战斗，可能是因为已经没理智了")
@@ -539,9 +542,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         enter_bool = False
         self.battle_ctx.extra_run_count = 0
         self.battle_ctx.is_extra_mode = False
-        if self.battle_ctx.extra_run_limit > 0:
-            assert self.battle_ctx.category_name == "能量淤积点", "体力刷完后继续刷功能仅支持能量淤积点"
-            assert self.battle_ctx.challenge_check, "体力刷完后继续刷功能仅支持挑战模式"
 
         while self.battle_ctx.left_ticket >= self._battle_stage_cost or self.battle_ctx.extra_run_count < self.battle_ctx.extra_run_limit:
             if enter_bool:
@@ -676,7 +676,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         return True
 
     def to_battle(self):
-        if not self.battle_ctx.challenge_check:
+        if self.battle_ctx.category_name != "能量淤积点":
             self.wait_pop_up(time_out=4)
             end_time = time.time()
             while not self.wait_ocr(match=re.compile("撤离"), time_out=1, box=self.box.top_left, log=True):
@@ -697,7 +697,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         return self.auto_battle(no_battle=self.battle_ctx.no_battle)
 
     def to_end(self):
-        if self.battle_ctx.challenge_check:
+        if self.battle_ctx.category_name == "能量淤积点":
             end_feature_name = [fL.gather_icon_out_map2, fL.gather_icon_out_map]
             use_yolo = False
             search_box = None
@@ -744,7 +744,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             while self.align_ocr_or_find_target_to_center(end_feature_name, ocr=False, use_yolo=use_yolo, box=search_box,
                                                         only_x=True, threshold=0.5, tolerance=100):
                 if time.time() - start_time > 60:
-                    if self.battle_ctx.challenge_check:
+                    if self.battle_ctx.category_name == "能量淤积点":
                         raise TimeoutError("等待奖励发放点超时")
                     else:
                         return False
