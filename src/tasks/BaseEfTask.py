@@ -46,11 +46,9 @@ class BaseEfTask(
         self.key_manager = KeyConfigManager(self.key_config)  # 初始化热键管理器
 
         self._detector = None
-        self._detector_loading = False
-        self._detector_loaded_event = threading.Event()
+        self._detector_lock = threading.Lock()
         self._yolo_loader = None
         self._yolo_model_key = None
-        self._start_detector_loading()
 
     def set_current_account(self, username, account_id):
         """设置当前账号信息，供账号覆盖功能使用。
@@ -143,3 +141,7 @@ class BaseEfTask(
                 raise e
             else:
                 self.log_info("发生异常，终止游戏", notify=True)
+
+    def on_destroy(self):
+        self.release_yolo_detector()
+        super().on_destroy()

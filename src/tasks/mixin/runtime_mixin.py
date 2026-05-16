@@ -1,3 +1,4 @@
+import gc
 import threading
 import time
 from enum import Enum
@@ -149,44 +150,54 @@ class RuntimeMixin:
             self.back()
         return True
 
-    def _start_detector_loading(self):
+    def yolo_loader(self) -> YoloModelLoader:
+        loader = getattr(self, "_yolo_loader", None)
+        if loader is not None:
+            return loader
 
-        def load_model():
-            self._detector_loading = True
+        lock = getattr(self, "_detector_lock", None)
+        if lock is None:
+            return self._create_yolo_loader()
 
-            try:
-                yolo_config = app_config.get("yolo", {})
-                self._yolo_loader = YoloModelLoader(yolo_config)
-                if not self._yolo_model_key:
-                    self._yolo_model_key = self._yolo_loader.default_model_key
-                self._detector = self._yolo_loader.get_detector(self._yolo_model_key)
-            finally:
-                self._detector_loading = False
-                self._detector_loaded_event.set()
+        with lock:
+            loader = getattr(self, "_yolo_loader", None)
+            if loader is None:
+                loader = self._create_yolo_loader()
+            return loader
 
-        threading.Thread(target=load_model, daemon=True).start()
+    def _create_yolo_loader(self) -> YoloModelLoader:
+        yolo_config = app_config.get("yolo", {})
+        self._yolo_loader = YoloModelLoader(yolo_config)
+        if not getattr(self, "_yolo_model_key", None):
+            self._yolo_model_key = self._yolo_loader.default_model_key
+        return self._yolo_loader
 
     @property
     def detector(self):
-        if self._detector:
-            return self._detector
+        return self.set_yolo_model(getattr(self, "_yolo_model_key", None) or self.yolo_loader().default_model_key)
 
-        if self._detector_loading:
-            self._detector_loaded_event.wait()
-            return self._detector
+    def release_yolo_detector(self):
+        lock = getattr(self, "_detector_lock", None)
+        if lock is None:
+            self._release_yolo_detector_unlocked()
+            return
 
-        self._start_detector_loading()
-        self._detector_loaded_event.wait()
+        with lock:
+            self._release_yolo_detector_unlocked()
 
-        return self._detector
+    def _release_yolo_detector_unlocked(self):
+        loader = getattr(self, "_yolo_loader", None)
+        detector = getattr(self, "_detector", None)
 
-    def yolo_loader(self) -> YoloModelLoader:
-        if self._yolo_loader is not None:
-            return self._yolo_loader
-        self.detector
-        if self._yolo_loader is None:
-            raise RuntimeError("YOLO loader 初始化失败")
-        return self._yolo_loader
+        if loader is not None and hasattr(loader, "release"):
+            loader.release()
+        elif detector is not None and hasattr(detector, "release"):
+            detector.release()
+
+        self._detector = None
+        self._yolo_loader = None
+        self._yolo_model_key = None
+        gc.collect()
 
     def list_yolo_models(self) -> list[str]:
         return self.yolo_loader().available_models()
@@ -196,8 +207,9 @@ class RuntimeMixin:
 
     def set_yolo_model(self, model_key: str):
         loader = self.yolo_loader()
-        self._detector = loader.get_detector(model_key)
-        self._yolo_model_key = model_key
+        key = model_key or loader.default_model_key
+        self._detector = loader.get_detector(key)
+        self._yolo_model_key = key
         return self._detector
 
     def isolate_by_hsv_ranges(self, frame, ranges, invert=True, kernel_size=2):

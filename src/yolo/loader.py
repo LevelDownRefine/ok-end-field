@@ -60,3 +60,10 @@ class YoloModelLoader:
         model_key = self.resolve_model_by_name(name)
         detector = self.get_detector(model_key)
         return model_key, detector
+
+    def release(self):
+        detector = self._active_detector
+        if detector is not None and hasattr(detector, "release"):
+            detector.release()
+        self._active_detector = None
+        self._active_model_key = None

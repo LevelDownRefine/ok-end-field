@@ -1,6 +1,7 @@
 from typing import Tuple
 
 import cv2
+import gc
 import numpy as np
 from openvino import Core
 
@@ -148,3 +149,17 @@ class OpenVinoYolo8Detect:
         except Exception as e:
             logger.error(f"OpenVINO yolo detect error: {e}")
             return []
+
+    def release(self):
+        compiled_model = getattr(self, "compiled_model", None)
+        if compiled_model is not None and hasattr(compiled_model, "release_memory"):
+            try:
+                compiled_model.release_memory()
+            except Exception as e:
+                logger.debug(f"OpenVINO compiled_model release_memory failed: {e}")
+
+        self.compiled_model = None
+        self.input_layer = None
+        self.output_layer = None
+        self.core = None
+        gc.collect()
