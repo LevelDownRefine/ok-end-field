@@ -399,7 +399,11 @@ class BattleMixin(BaseEfTask):
 
         start_time = time.time()
         last_battle_time = None
-        sleep_time = self.config.get("进入战斗后的初始等待时间", 3)
+        # 能量淤积点特殊处理：初始sleep_time为0.1
+        if getattr(self.battle_ctx, 'category_name', None) == "能量淤积点":
+            sleep_time = 0.1
+        else:
+            sleep_time = self.config.get("进入战斗后的初始等待时间", 3)
 
         while True:
 

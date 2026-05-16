@@ -20,26 +20,36 @@ gather_list = stages_dict["能量淤积点"]
 
 @dataclass
 class BattleContext:
-    stage_name: str = ""
-    category_name: str = ""
 
-    left_ticket: int = 0
+    """
+    战斗上下文类，用于存储和管理战斗相关的状态信息
+    """
+    stage_name: str = ""          # 关卡名称
+    category_name: str = ""       # 战斗类别名称
 
-    extra_run_limit: int = 0
-    extra_run_count: int = 0
-    is_extra_mode: bool = False
+    left_ticket: int = 0          # 剩余挑战券数量
 
-    enter_text: str = ""
-    no_battle: bool = False
-    challenge_check: bool = False
+    extra_run_limit: int = 0      # 额外运行次数限制
+    extra_run_count: int = 0      # 已额外运行次数
+    is_extra_mode: bool = False   # 是否处于额外模式
 
-    stage_reward_tier_override: str | None = None
-    ignore_config_reward_tier: bool = False
-    today_reward_tier: str = ""
+    enter_text: str = ""          # 进入文本内容
+    no_battle: bool = False       # 是否不进行战斗
+    challenge_check: bool = False # 挑战检查状态
+
+    stage_reward_tier_override: str | None = None  # 关卡奖励等级覆盖
+    ignore_config_reward_tier: bool = False       # 是否忽略配置的奖励等级
+    today_reward_tier: str = ""                   # 今日奖励等级
 
 
 class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
-    CFG_SCROLL_ENABLE = "是否启用滚动放大视角"
+
+    """
+    日常战斗混合类，用于处理日常战斗任务，包括刷取体力副本、处理奖励档位切换等功能。
+    继承自多个Mixin类，提供地图导航、滑索使用和战斗相关的功能。
+    """
+    # 配置项常量定义
+    CFG_SCROLL_ENABLE = "是否启用滚动放大视角"  # 是否启用滚动放大视角的配置项名称
     CFG_STAGE_REWARD_TIER = "体力本奖励档位"
     REWARD_TIER_KEEP = "保持当前"
     REWARD_TIER_LOW = "低阶"
