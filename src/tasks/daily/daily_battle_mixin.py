@@ -394,34 +394,57 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             return True
 
         self.click(3530 / 3840, 80 / 2160, after_sleep=2)  # 右上角加号
-        box_list = self.ocr(x=0.28, y=0.45, to_x=0.88, to_y=0.66, match=re.compile(r"(\d+)天"))
+        # 支持天和小时单位，按剩余时效升序消耗
+        box_list = self.ocr(x=0.28, y=0.45, to_x=0.88, to_y=0.66, match=re.compile(r"(\d+)(天|小时)"))
         if not box_list:
-            self.log_warning("未找到应急理智加强剂，剩余天数未识别")
+            self.log_warning("未找到应急理智加强剂，剩余时效未识别")
         else:
-            box = box_list[0]
-            validity = int(re.findall(r'(\d+)', box.name)[0])
-            count_box_list = self.ocr(
-                x=box.x / self.width + 0.04,
-                y=box.y / self.height + 0.14,
-                to_x=box.x / self.width + 0.08,
-                to_y=box.y / self.height + 0.18,
-                match=re.compile(r"(\d+)"),
-            )
-            if not count_box_list:
-                self.log_info("数量未识别，按照1个处理")
-                count = 1
-            else:
-                count = int(re.findall(r'(\d+)', count_box_list[0].name)[0])
-            consume = min(max(1, math.ceil(2 * count / validity)), count)
-            self.log_info(f"找到 {count} 个限时 {validity} 天的 应急理智加强剂，本次预计使用 {consume} 个")
-            for _ in range(consume):
-                self.click(box)
-            if not self.wait_click_ocr(match=re.compile("确认"), box=self.box.bottom_right, after_sleep=2):
-                self.log_error("无法使用 应急理智加强剂")
-            else:
-                self.log_info(f"已使用 {consume} 个 应急理智加强剂")
-                self.wait_pop_up()
-
+            # 解析所有药品的时效，排序后依次消耗
+            parsed_boxes = []
+            for box in box_list:
+                match = re.match(r"(\d+)(天|小时)", box.name)
+                if not match:
+                    self.log_warning(f"应急理智加强剂时效格式无法识别: {box.name}")
+                    continue
+                validity_num = int(match.group(1))
+                validity_unit = match.group(2)
+                # 小时优先，小时药排序在前
+                sort_key = (0 if validity_unit == "小时" else 1, validity_num)
+                parsed_boxes.append((sort_key, box, validity_num, validity_unit))
+            if not parsed_boxes:
+                self.log_warning("所有应急理智加强剂时效解析失败，无法消耗")
+                self.safe_back(re.compile("干员"), box=self.box.top_left, time_out=10, ocr_time_out=2)
+                return True
+            parsed_boxes.sort(key=lambda x: x[0])
+            for _, box, validity_num, validity_unit in parsed_boxes:
+                count_box_list = self.ocr(
+                    x=box.x / self.width + 0.04,
+                    y=box.y / self.height + 0.14,
+                    to_x=box.x / self.width + 0.08,
+                    to_y=box.y / self.height + 0.18,
+                    match=re.compile(r"(\d+)"),
+                )
+                if not count_box_list:
+                    self.log_info("数量未识别，按照1个处理")
+                    count = 1
+                else:
+                    count = int(re.findall(r'(\d+)', count_box_list[0].name)[0])
+                if validity_unit == "小时":
+                    consume = count
+                    self.log_info(f"找到 {count} 个限时 {validity_num} 小时的 应急理智加强剂，本次全部用掉")
+                else:
+                    consume = min(max(1, math.ceil(2 * count / validity_num)), count)
+                    self.log_info(f"找到 {count} 个限时 {validity_num} 天的 应急理智加强剂，本次预计使用 {consume} 个")
+                for _ in range(consume):
+                    self.click(box, after_sleep=0.1)
+                if not self.wait_click_ocr(match=re.compile("确认"), box=self.box.bottom_right, after_sleep=2):
+                    self.log_error("无法使用 应急理智加强剂")
+                else:
+                    self.log_info(f"已使用 {consume} 个 应急理智加强剂")
+                    self.wait_pop_up()
+                # 只消耗一种类型后退出（如需全部消耗可去掉break）
+                break
+        # 统一出口，保证异常时也能返回主界面
         if not self.safe_back(re.compile("干员"), box=self.box.top_left, time_out=10, ocr_time_out=2):
             return False
         return True
