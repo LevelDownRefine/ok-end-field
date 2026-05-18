@@ -90,6 +90,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             {
                 "⭐刷体力": [
                     "消耗限时体力药",
+                    "体力本",
                     "体力本配置",
                     # 如果要把 gather_list 里的 key 也折叠
                     "战斗相关选项",
@@ -116,8 +117,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 "是否消耗所有「理智」刷取培养材料。"
             ),
             "消耗限时体力药": (
-                "如果勾选，那么对于随机某项 m 个限时 n 天的体力药，\n"
-                "使用其中的 2*m/n 个（向上取整）。"
+                "如果勾选，将优先全部用掉限时为‘小时’的体力药，\n"
+                "如有‘天’单位的体力药，则按 2*m/n（向上取整）消耗。"
             ),
             "体力本": (
                 "刷取哪个副本。所选副本必须领完所有等级的首通奖励。"
@@ -393,7 +394,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         if not self.config.get("消耗限时体力药", False):
             return True
 
-        self.click(3530 / 3840, 80 / 2160, after_sleep=2)  # 右上角加号
+        self.wait_click_feature(feature=fL.stamina_plus_icon, vertical_variance=0.01, horizontal_variance=0.01, time_out=5, box=self.box_of_screen((3530-40) / 3840, 0, (3600) / 3840, (80+40) / 2160))  # 右上角加号
+        self.wait_ocr(match=re.compile("恢复理智"), time_out=5, box=self.box.top_left)
         # 支持天和小时单位，按剩余时效升序消耗
         box_list = self.ocr(x=0.28, y=0.45, to_x=0.88, to_y=0.66, match=re.compile(r"(\d+)(天|小时)"))
         if not box_list:
@@ -480,7 +482,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.battle_ctx.no_battle = self.config.get("仅站桩", False)
 
             self.battle_ctx.extra_run_limit = max(0, int(self.config.get("体力刷完后继续刷取次数", 0) or 0))
-            
+
             # 检查是否支持体力刷完后继续刷取
             if self.battle_ctx.extra_run_limit > 0:
                 if self.battle_ctx.category_name != "能量淤积点":

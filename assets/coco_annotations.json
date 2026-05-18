@@ -719,6 +719,11 @@
             "id": 141,
             "name": "baker_click",
             "supercategory": ""
+        },
+        {
+            "id": 142,
+            "name": "stamina_plus_icon",
+            "supercategory": ""
         }
     ],
     "images": [
@@ -1058,7 +1063,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/4.png",
+            "file_name": "images/5.png",
             "height": 1080,
             "width": 1920,
             "date_captured": null,
@@ -1076,7 +1081,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/4.png",
+            "file_name": "images/5.png",
             "height": 1080,
             "width": 1920,
             "date_captured": null,
@@ -1094,7 +1099,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "height": 1080,
             "width": 1920,
             "date_captured": null,
@@ -1103,7 +1108,7 @@
         {
             "license": 0,
             "url": null,
-            "file_name": "images/6.png",
+            "file_name": "images/4.png",
             "height": 1080,
             "width": 1920,
             "date_captured": null,
@@ -1424,7 +1429,7 @@
                 53,
                 54
             ],
-            "area": 2841.0405338768296,
+            "area": 2862,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1452,7 +1457,7 @@
                 62,
                 61
             ],
-            "area": 3781.2933045788473,
+            "area": 3782,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1480,7 +1485,7 @@
                 37,
                 43
             ],
-            "area": 1607.9633127450195,
+            "area": 1591,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1508,7 +1513,7 @@
                 47,
                 46
             ],
-            "area": 2129.875618886606,
+            "area": 2162,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1536,7 +1541,7 @@
                 34,
                 33
             ],
-            "area": 1102.080000000001,
+            "area": 1122,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1564,7 +1569,7 @@
                 35,
                 32
             ],
-            "area": 1121.282682902559,
+            "area": 1120,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1579,7 +1584,7 @@
                 31,
                 32
             ],
-            "area": 1013.3381518214413,
+            "area": 992,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1620,7 +1625,7 @@
                 24,
                 20
             ],
-            "area": 493.6799999999981,
+            "area": 480,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1648,7 +1653,7 @@
                 35,
                 35
             ],
-            "area": 1214.5000000000016,
+            "area": 1225,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1676,7 +1681,7 @@
                 39,
                 45
             ],
-            "area": 1748.2809229779946,
+            "area": 1755,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1704,7 +1709,7 @@
                 25,
                 28
             ],
-            "area": 697.4628142414548,
+            "area": 700,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1719,7 +1724,7 @@
                 53,
                 23
             ],
-            "area": 1237.5858027406236,
+            "area": 1219,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1760,7 +1765,7 @@
                 131,
                 62
             ],
-            "area": 8137.066166150395,
+            "area": 8122,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1775,7 +1780,7 @@
                 58,
                 59
             ],
-            "area": 3397.797601826378,
+            "area": 3422,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1816,7 +1821,7 @@
                 196,
                 84
             ],
-            "area": 16477.55898645444,
+            "area": 16464,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1844,7 +1849,7 @@
                 64,
                 60
             ],
-            "area": 3863.0162517436165,
+            "area": 3840,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1872,7 +1877,7 @@
                 30,
                 33
             ],
-            "area": 996.5049664470661,
+            "area": 990,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1887,7 +1892,7 @@
                 28,
                 34
             ],
-            "area": 946.0795281143277,
+            "area": 952,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1928,7 +1933,7 @@
                 57,
                 57
             ],
-            "area": 3224.5423352760627,
+            "area": 3249,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1956,7 +1961,7 @@
                 62,
                 29
             ],
-            "area": 1794.641954583515,
+            "area": 1798,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -1984,7 +1989,7 @@
                 33,
                 33
             ],
-            "area": 1095.6000000000015,
+            "area": 1089,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2012,7 +2017,7 @@
                 34,
                 34
             ],
-            "area": 1139.0600000000038,
+            "area": 1156,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2040,7 +2045,7 @@
                 29,
                 27
             ],
-            "area": 788.1146934729284,
+            "area": 783,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2055,7 +2060,7 @@
                 28,
                 26
             ],
-            "area": 734.9054708353831,
+            "area": 728,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2070,7 +2075,7 @@
                 26,
                 28
             ],
-            "area": 705.2097142187229,
+            "area": 728,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2085,7 +2090,7 @@
                 29,
                 27
             ],
-            "area": 778.5262740217709,
+            "area": 783,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2100,7 +2105,7 @@
                 30,
                 27
             ],
-            "area": 803.5062089116132,
+            "area": 810,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2115,7 +2120,7 @@
                 31,
                 27
             ],
-            "area": 845.2596740885028,
+            "area": 837,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2130,7 +2135,7 @@
                 27,
                 27
             ],
-            "area": 738.5764142520873,
+            "area": 729,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2236,7 +2241,7 @@
                 79,
                 69
             ],
-            "area": 5426.255682077146,
+            "area": 5451,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2264,7 +2269,7 @@
                 78,
                 70
             ],
-            "area": 5451.502074565231,
+            "area": 5460,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2292,10 +2297,23 @@
                 119,
                 105
             ],
-            "area": 12520.429042474156,
+            "area": 12495,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
+        },
+        {
+            "id": 63,
+            "image_id": 84,
+            "category_id": 59,
+            "bbox": [
+                710,
+                573,
+                85,
+                82
+            ],
+            "area": 6970,
+            "iscrowd": 0
         },
         {
             "id": 64,
@@ -2307,10 +2325,23 @@
                 120,
                 102
             ],
-            "area": 12319.486992269949,
+            "area": 12240,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
+        },
+        {
+            "id": 65,
+            "image_id": 84,
+            "category_id": 61,
+            "bbox": [
+                708,
+                747,
+                83,
+                85
+            ],
+            "area": 7055,
+            "iscrowd": 0
         },
         {
             "id": 66,
@@ -2322,7 +2353,7 @@
                 85,
                 63
             ],
-            "area": 5341.783612494341,
+            "area": 5355,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2337,10 +2368,23 @@
                 84,
                 62
             ],
-            "area": 5185.604345857864,
+            "area": 5208,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
+        },
+        {
+            "id": 68,
+            "image_id": 84,
+            "category_id": 142,
+            "bbox": [
+                1762,
+                27,
+                34,
+                33
+            ],
+            "area": 1122,
+            "iscrowd": 0
         },
         {
             "id": 108,
@@ -2352,7 +2396,7 @@
                 64,
                 64
             ],
-            "area": 4121.322969059607,
+            "area": 4096,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2367,7 +2411,7 @@
                 68,
                 62
             ],
-            "area": 4191.434232586492,
+            "area": 4216,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2382,7 +2426,7 @@
                 25,
                 25
             ],
-            "area": 624.8771726788366,
+            "area": 625,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2397,7 +2441,7 @@
                 31,
                 30
             ],
-            "area": 919.8987582688458,
+            "area": 930,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2412,7 +2456,7 @@
                 30,
                 29
             ],
-            "area": 878.0251635994078,
+            "area": 870,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2427,7 +2471,7 @@
                 32,
                 33
             ],
-            "area": 1058.5258537863533,
+            "area": 1056,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2442,7 +2486,7 @@
                 42,
                 45
             ],
-            "area": 1891.2064592929894,
+            "area": 1890,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2457,7 +2501,7 @@
                 32,
                 30
             ],
-            "area": 933.5965849414683,
+            "area": 960,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2472,7 +2516,7 @@
                 29,
                 26
             ],
-            "area": 741.4766937432679,
+            "area": 754,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2487,7 +2531,7 @@
                 64,
                 62
             ],
-            "area": 4002.188981945102,
+            "area": 3968,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2502,7 +2546,7 @@
                 38,
                 37
             ],
-            "area": 1396.2703017025706,
+            "area": 1406,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2517,7 +2561,7 @@
                 62,
                 64
             ],
-            "area": 3969.4793488713462,
+            "area": 3968,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2532,7 +2576,7 @@
                 60,
                 61
             ],
-            "area": 3666.0050471486707,
+            "area": 3660,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2547,7 +2591,7 @@
                 82,
                 60
             ],
-            "area": 4922.359042218353,
+            "area": 4920,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2562,7 +2606,7 @@
                 40,
                 42
             ],
-            "area": 1694.9610726643607,
+            "area": 1680,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2577,7 +2621,7 @@
                 44,
                 44
             ],
-            "area": 1946.366782006921,
+            "area": 1936,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2592,7 +2636,7 @@
                 89,
                 86
             ],
-            "area": 7720.385674931119,
+            "area": 7654,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2607,7 +2651,7 @@
                 92,
                 94
             ],
-            "area": 8682.277318640967,
+            "area": 8648,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2622,37 +2666,7 @@
                 82,
                 83
             ],
-            "area": 6818.181818181825,
-            "iscrowd": 0,
-            "ignore": 0,
-            "segmentation": []
-        },
-        {
-            "id": 148,
-            "image_id": 84,
-            "category_id": 59,
-            "bbox": [
-                710,
-                573,
-                85,
-                82
-            ],
-            "area": 6942.148760330566,
-            "iscrowd": 0,
-            "ignore": 0,
-            "segmentation": []
-        },
-        {
-            "id": 149,
-            "image_id": 84,
-            "category_id": 61,
-            "bbox": [
-                708,
-                747,
-                83,
-                85
-            ],
-            "area": 7070.707070707057,
+            "area": 6806,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2667,7 +2681,7 @@
                 58,
                 51
             ],
-            "area": 3010.067798756598,
+            "area": 2958,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2682,7 +2696,7 @@
                 57,
                 51
             ],
-            "area": 2891.8608863663835,
+            "area": 2907,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2697,7 +2711,7 @@
                 24,
                 27
             ],
-            "area": 640.520000000002,
+            "area": 648,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2712,7 +2726,7 @@
                 30,
                 23
             ],
-            "area": 697.6199999999991,
+            "area": 690,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2727,7 +2741,7 @@
                 25,
                 23
             ],
-            "area": 577.1601405313079,
+            "area": 575,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2742,7 +2756,7 @@
                 50,
                 54
             ],
-            "area": 2694.9400164424605,
+            "area": 2700,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2757,7 +2771,7 @@
                 26,
                 11
             ],
-            "area": 292.6699999999985,
+            "area": 286,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2772,7 +2786,7 @@
                 78,
                 69
             ],
-            "area": 5345.872899926952,
+            "area": 5382,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2787,7 +2801,7 @@
                 77,
                 68
             ],
-            "area": 5166.755724693389,
+            "area": 5236,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2802,7 +2816,7 @@
                 34,
                 14
             ],
-            "area": 472.59999999999997,
+            "area": 476,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2817,7 +2831,7 @@
                 113,
                 75
             ],
-            "area": 8543.965824136705,
+            "area": 8475,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2832,7 +2846,7 @@
                 104,
                 79
             ],
-            "area": 8223.56710573158,
+            "area": 8216,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2847,7 +2861,7 @@
                 55,
                 37
             ],
-            "area": 2050.642176364252,
+            "area": 2035,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2862,7 +2876,7 @@
                 52,
                 34
             ],
-            "area": 1766.67315440431,
+            "area": 1768,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2877,7 +2891,7 @@
                 42,
                 39
             ],
-            "area": 1622.9418766117894,
+            "area": 1638,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2892,7 +2906,7 @@
                 53,
                 46
             ],
-            "area": 2459.2019003263863,
+            "area": 2438,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2907,7 +2921,7 @@
                 53,
                 52
             ],
-            "area": 2750.423177996625,
+            "area": 2756,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2922,7 +2936,7 @@
                 100,
                 77
             ],
-            "area": 7741.935483870975,
+            "area": 7700,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2937,7 +2951,7 @@
                 98,
                 131
             ],
-            "area": 12942.525885051777,
+            "area": 12838,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2952,7 +2966,7 @@
                 98,
                 123
             ],
-            "area": 11993.303986607987,
+            "area": 12054,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2967,7 +2981,7 @@
                 99,
                 132
             ],
-            "area": 13124.186248372494,
+            "area": 13068,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2982,7 +2996,7 @@
                 102,
                 123
             ],
-            "area": 12458.677685950413,
+            "area": 12546,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -2997,7 +3011,7 @@
                 97,
                 118
             ],
-            "area": 11460.055096418731,
+            "area": 11446,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3012,7 +3026,7 @@
                 95,
                 123
             ],
-            "area": 11714.876033057859,
+            "area": 11685,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3027,7 +3041,7 @@
                 98,
                 120
             ],
-            "area": 11788.337924701545,
+            "area": 11760,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3042,7 +3056,7 @@
                 58,
                 38
             ],
-            "area": 2184.153777513381,
+            "area": 2204,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3057,7 +3071,7 @@
                 346,
                 246
             ],
-            "area": 85017.36111111114,
+            "area": 85116,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3072,7 +3086,7 @@
                 299,
                 239
             ],
-            "area": 71531.19092627599,
+            "area": 71461,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3087,7 +3101,7 @@
                 58,
                 54
             ],
-            "area": 3157.6143023954537,
+            "area": 3132,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3102,7 +3116,7 @@
                 116,
                 103
             ],
-            "area": 11883.65650969534,
+            "area": 11948,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3117,7 +3131,7 @@
                 116,
                 102
             ],
-            "area": 11826.715912588541,
+            "area": 11832,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3132,7 +3146,7 @@
                 36,
                 37
             ],
-            "area": 1324.0526740123546,
+            "area": 1332,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3147,7 +3161,7 @@
                 62,
                 68
             ],
-            "area": 4262.27275369779,
+            "area": 4216,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3162,7 +3176,7 @@
                 78,
                 78
             ],
-            "area": 6054.3647069570625,
+            "area": 6084,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3177,7 +3191,7 @@
                 75,
                 78
             ],
-            "area": 5812.190118678802,
+            "area": 5850,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3192,7 +3206,7 @@
                 371,
                 81
             ],
-            "area": 30051.303905981076,
+            "area": 30051,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3207,7 +3221,7 @@
                 40,
                 61
             ],
-            "area": 2462.3299999999817,
+            "area": 2440,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3222,7 +3236,7 @@
                 199,
                 12
             ],
-            "area": 2429.410778224657,
+            "area": 2388,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3237,7 +3251,7 @@
                 193,
                 9
             ],
-            "area": 1688.0510990352675,
+            "area": 1737,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3252,7 +3266,7 @@
                 206,
                 13
             ],
-            "area": 2680.9929123919906,
+            "area": 2678,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3267,7 +3281,7 @@
                 36,
                 35
             ],
-            "area": 1275.088547815809,
+            "area": 1260,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3282,7 +3296,7 @@
                 41,
                 37
             ],
-            "area": 1515.7954815695466,
+            "area": 1517,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3297,7 +3311,7 @@
                 42,
                 33
             ],
-            "area": 1397.6008971333026,
+            "area": 1386,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3312,7 +3326,7 @@
                 34,
                 31
             ],
-            "area": 1065.5681884244589,
+            "area": 1054,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3327,7 +3341,7 @@
                 29,
                 31
             ],
-            "area": 890.5393131086724,
+            "area": 899,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3342,7 +3356,7 @@
                 34,
                 34
             ],
-            "area": 1172.1250072668938,
+            "area": 1156,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3357,7 +3371,7 @@
                 27,
                 29
             ],
-            "area": 775.2461799532261,
+            "area": 783,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3372,7 +3386,7 @@
                 28,
                 28
             ],
-            "area": 789.2946930945196,
+            "area": 784,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3387,7 +3401,7 @@
                 30,
                 31
             ],
-            "area": 923.0172591334646,
+            "area": 930,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3402,7 +3416,7 @@
                 25,
                 29
             ],
-            "area": 731.137147112434,
+            "area": 725,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3417,7 +3431,7 @@
                 24,
                 31
             ],
-            "area": 744.82174251332,
+            "area": 744,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3432,7 +3446,7 @@
                 30,
                 34
             ],
-            "area": 1018.5962104455472,
+            "area": 1020,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3447,7 +3461,7 @@
                 100,
                 32
             ],
-            "area": 3177.9353836623054,
+            "area": 3200,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
@@ -3462,7 +3476,7 @@
                 51,
                 51
             ],
-            "area": 2559.169550173008,
+            "area": 2601,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []

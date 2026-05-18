@@ -111,6 +111,7 @@ class FeatureList(str, Enum):
     skip_dialog_esc = 'skip_dialog_esc'
     snowshine_contact = 'snowshine_contact'
     source_ore = 'source_ore'
+    stamina_plus_icon = 'stamina_plus_icon'
     switch_q = 'switch_q'
     tangtang_contact = 'tangtang_contact'
     ticket_valley = 'ticket_valley'
