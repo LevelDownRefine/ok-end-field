@@ -7,6 +7,13 @@ from src.tasks.daily.daily_liaison_mixin import DailyLiaisonMixin
 from src.tasks.daily.daily_routine_mixin import DailyRoutineMixin
 from src.tasks.daily.daily_shop_mixin import DailyShopMixin
 from src.tasks.daily.daily_trade_mixin import DailyTradeMixin
+from src.tasks.daily.finally_file import (
+    create_daily_summary_report,
+)
+import tempfile
+import os
+import webbrowser
+from pathlib import Path
 from src.tasks.daily.daily_task_runner import DailyTaskRunner
 from src.tasks.mixin.end_command_mixin import EndCommandMixin
 
@@ -29,6 +36,7 @@ class DailyTask(
         self.icon = FluentIcon.SYNC
         self.support_schedule_task = True
         self.support_multi_account = True
+        self.daily_runner: DailyTaskRunner | None = None
         self.config_description.update(
             {
                 "仅退出游戏": "是否在完成所有任务后仅退出游戏，开启后会自动关闭游戏进程,但不关闭软件\n开启发生异常时终止游戏时此选项不生效",
@@ -44,7 +52,11 @@ class DailyTask(
                 "可选填写『结尾外部命令起始于』作为命令工作目录。"
             ),
         )
-        self.default_config.update({"⭐传送到帝江号右侧传送点": True, "发生异常时终止游戏": False, "仅退出游戏": False})
+        self.default_config.update({
+            "⭐传送到帝江号右侧传送点": True,
+            "发生异常时终止游戏": False,
+            "仅退出游戏": False,
+        })
         self.add_exit_after_config()
         if self.debug:
             self.default_config.update({"重复测试的次数": 1})
@@ -74,4 +86,38 @@ class DailyTask(
     def run(self):
         """日常任务主入口。"""
         repeat_times = self.config.get("重复测试的次数", 1) if self.debug else 1
-        DailyTaskRunner(self, self.build_task_plan()).run(repeat_times=repeat_times)
+        try:
+            self.daily_runner = DailyTaskRunner(self, self.build_task_plan())
+            self.daily_runner.run(repeat_times=repeat_times)
+        finally:
+            self.run_daily_finally()
+
+    def run_daily_finally(self):
+        try:
+            # 在任务完成或停止时自动生成一个临时的汇总文件并打开（不再依赖配置项）
+            target_directory = Path(tempfile.gettempdir())
+
+            # 仅在 runner 产生了有效汇总数据时才创建临时文件
+            if not (self.daily_runner and self.daily_runner.has_summary_data()):
+                # 若没有可用的汇总信息，则不创建也不打开临时文件
+                self.log_info("无可用汇总信息，跳过生成临时汇总文件")
+                return True
+
+            summary_info = self.daily_runner.final_summary
+            summary_path = create_daily_summary_report(target_directory, summary_info)
+
+            # 立即用系统默认程序打开临时汇总文件
+            try:
+                if os.name == "nt":
+                    os.startfile(summary_path)
+                else:
+                    webbrowser.open(f"file://{summary_path}")
+            except Exception:
+                webbrowser.open(f"file://{summary_path}")
+
+            self.log_info(f"日常执行情况汇总已创建并打开: {summary_path}")
+            
+            return True
+        except Exception as e:
+            self.log_info(f"创建日常任务结尾文件失败: {e}", notify=True)
+            return False
