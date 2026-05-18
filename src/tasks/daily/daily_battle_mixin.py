@@ -54,6 +54,9 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
     REWARD_TIER_LOW = "低阶"
     REWARD_TIER_HIGH = "高阶"
     REWARD_TIER_STAGE_SET = {"干员经验", "干员进阶", "技能提升", "武器进阶"}
+    CFG_PRE_ENTER_TEAM_SWITCH = "指定的队伍编号"
+    PRE_ENTER_TEAM_SWITCH_NONE = "不换队伍"
+    PRE_ENTER_TEAM_SWITCH_TEAM_OPTIONS = ["1", "2", "3", "4", "5"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -79,6 +82,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             "后台结束战斗通知": True,
             "无数字操作间隔": 6,
             "进入战斗后的初始等待时间": 3,
+            self.CFG_PRE_ENTER_TEAM_SWITCH: self.PRE_ENTER_TEAM_SWITCH_NONE,
             "启用排轴": False,
             "排轴序列": "ult_2,1,e,ult_3,sleep_8",
         })
@@ -91,7 +95,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     "战斗相关选项",
                     "淤积点相关选项",
                 ],
-                "体力本配置": ["体力本", self.CFG_STAGE_REWARD_TIER, "刷体力开始日期", "刷本序列"],
+                "体力本配置": [self.CFG_STAGE_REWARD_TIER, "刷体力开始日期", "刷本序列"],
                 "淤积点相关选项": ["仅站桩", "体力刷完后继续刷取次数", self.CFG_SCROLL_ENABLE]
                 + [key for key in gather_list],
                 "战斗相关选项": [
@@ -100,6 +104,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     "后台结束战斗通知",
                     "无数字操作间隔",
                     "进入战斗后的初始等待时间",
+                    self.CFG_PRE_ENTER_TEAM_SWITCH,
                     "启用排轴",
                     "排轴序列",
                 ],
@@ -150,6 +155,9 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 "可能会提高对齐成功率，但也可能导致对齐成功率下降较为明显\n"
                 "建议启用此项时不要使用非白发或有白帽角色"
             ),
+            self.CFG_PRE_ENTER_TEAM_SWITCH: (
+                "选择要更换的队伍编号。"
+            ),
             **{key: (
                 "需要设好「预刻写属性」。默认留空表示不使用滑索前往，\n"
                 "更多用法参见 ./docs/体力本.md > 能量淤积点 。"
@@ -168,6 +176,69 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             "type": "drop_down",
             "options": [self.REWARD_TIER_KEEP, self.REWARD_TIER_LOW, self.REWARD_TIER_HIGH]
         }
+        self.config_type[self.CFG_PRE_ENTER_TEAM_SWITCH] = {
+            "type": "drop_down",
+            "options": [self.PRE_ENTER_TEAM_SWITCH_NONE] + self.PRE_ENTER_TEAM_SWITCH_TEAM_OPTIONS,
+        }
+
+    def _switch_team_before_reenter(self):
+        mode = str(self.config.get(self.CFG_PRE_ENTER_TEAM_SWITCH, self.PRE_ENTER_TEAM_SWITCH_NONE) or "").strip()
+        if mode == self.PRE_ENTER_TEAM_SWITCH_NONE:
+            return
+        if mode not in self.PRE_ENTER_TEAM_SWITCH_TEAM_OPTIONS:
+            self.log_info(f"未知换队模式: {mode}，已跳过")
+            return
+
+        selected_team = mode
+        expected_text = f"0{selected_team}"
+        team_switch_box = self.box_of_screen(0.0, 968 / 1080, 650 / 1920, 1.0, name="team_switch_left_bottom")
+        expected_pattern = re.compile(rf"\b{re.escape(expected_text)}\b")
+
+        self.log_info(f"准备换队: 指定目标={expected_text}")
+        results = self.wait_ocr(
+            match=expected_pattern,
+            box=team_switch_box,
+            time_out=3,
+            raise_if_not_found=False,
+        )
+        if not results:
+            self.log_info(f"未识别到换队伍文本: {expected_text}")
+            return
+
+        self.click(results[0], move_back=True, after_sleep=1.5)
+        self.log_info(f"已识别并点击换队伍文本: {expected_text}")
+
+    def _switch_team_before_activate_for_gather(self):
+        mode = str(self.config.get(self.CFG_PRE_ENTER_TEAM_SWITCH, self.PRE_ENTER_TEAM_SWITCH_NONE) or "").strip()
+        if mode == self.PRE_ENTER_TEAM_SWITCH_NONE:
+            return True
+
+        self.ensure_main()
+        self.press_key("u", after_sleep=2)
+
+        # 先换队，再处理出战按钮。
+        self._switch_team_before_reenter()
+
+        deploy_results = self.wait_ocr(
+            match=[re.compile("已出战"), re.compile("出战")],
+            box=self.box.bottom_right,
+            time_out=3,
+            raise_if_not_found=False,
+            log=True,
+        )
+        if not deploy_results:
+            self.log_info("换队后未识别到『出战/已出战』按钮")
+            return False
+
+        deploy_text = deploy_results[0].name
+        if "已出战" in deploy_text:
+            self.log_info("当前为『已出战』状态，跳过点击出战")
+        else:
+            self.click(deploy_results[0], move_back=True, after_sleep=0.8)
+            self.log_info("已点击『出战』按钮")
+
+        self.ensure_main()
+        return True
 
     def _reset_battle_state(self):
         self.battle_ctx = BattleContext(today_reward_tier=self.REWARD_TIER_KEEP)
@@ -462,6 +533,9 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.log_info("放弃未领取的奖励")
             self.wait_click_ocr(match=re.compile("放弃"), box=self.box.bottom_right, time_out=5, recheck_time=1, alt=True)
             self.click_confirm()
+        if not self._switch_team_before_activate_for_gather():
+            self.log_info("淤积点激发前换队失败")
+            return False
         #
         result = self.wait_ocr(match=re.compile("激发"), box=self.box.bottom_right, time_out=5)
         if not result:
@@ -480,6 +554,9 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         if self.wait_click_ocr(match=re.compile("取消"), time_out=5, box=self.box.bottom_left, log=True):
             self.log_info("没有进入战斗，可能是因为已经没理智了")
             return True
+        # 插入点：在首次『进入』之后、下一次『进入』之前执行换队。
+        # 若上面已经点击到『取消』，则直接结束，不会触发该逻辑。
+        self._switch_team_before_reenter()
         return self.battle_recycle()
 
     def _gather_retry_navigate(self):
