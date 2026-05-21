@@ -30,10 +30,14 @@ class ItemNavigatorTask(WsPositionMixin,BaseEfTask, TriggerTask):
 
     # minimal, user-facing defaults only (用户可见/配置)
     def __init__(self, *args, **kwargs):
+        # 初始化父类
         super().__init__(*args, **kwargs)
-        self.name = "物品导航"
-        self.description = "监听本地 WebSocket 位置数据，指向已选物品的最近点并支持按键标记"
-        self.icon = FluentIcon.SEARCH
+
+        
+        # 设置导航模块的基本信息
+        self.name = "物品导航"  # 模块名称
+        self.description = "监听本地 WebSocket 位置数据，指向已选物品的最近点并支持按键标记"  # 模块描述
+        self.icon = FluentIcon.SEARCH  # 模块图标
         # 只把面向用户的选项放在 default_config
         self.default_config.update({
             # 由用户在 UI 中配置要导航的物品名列表（可空）
@@ -42,8 +46,6 @@ class ItemNavigatorTask(WsPositionMixin,BaseEfTask, TriggerTask):
             '标记按键': 'f',
             # 标记时需要按住的最小时长（秒）
             '标记按住时长': 0.8,
-            # 接近提示的水平阈值（世界坐标单位）
-            '接近阈值': 20.0,
         })
 
         # config type: use button_list for multi-select UI
@@ -72,12 +74,8 @@ class ItemNavigatorTask(WsPositionMixin,BaseEfTask, TriggerTask):
                 '默认按键为 f。'
             ),
             '标记按住时长': (
-                '保留项。\n'
-                '当前标记判定使用内部固定按住时长。'
-            ),
-            '接近阈值': (
-                '与目标在 XZ 平面的接近判定阈值。\n'
-                '单位为世界坐标。'
+                '按住标记按键并持续达到这个时长后，\n'
+                '才会把当前目标标记为已获取。'
             ),
             '油猴脚本帮助': (
                 '打开临时帮助文档。\n'
@@ -102,6 +100,11 @@ class ItemNavigatorTask(WsPositionMixin,BaseEfTask, TriggerTask):
         self._arrow_color = (0, 255, 0)  # RGB
         self._arrow_alpha = 160  # 透明度 0-255，160 为半透明
         self._arrow_shaft_width_norm = 0.005  # 箭身宽度（细）
+        self._height_arrow_start_rel = (0.02, 0.12)
+        self._height_arrow_min_len_norm = 0.02
+        self._height_arrow_max_len_norm = 0.08
+        self._near_xz_threshold = 20.0
+        self._height_arrow_max_abs_dy = 30.0
 
         self._load_marked()
         # dirty-save 控制：标记后延迟合并写盘
@@ -228,6 +231,7 @@ class ItemNavigatorTask(WsPositionMixin,BaseEfTask, TriggerTask):
                 color=self._arrow_color,
                 alpha=self._arrow_alpha,
                 shaft_width_norm=self._arrow_shaft_width_norm,
+                arrow_type='default',
             )
             
             if not success:
@@ -238,6 +242,43 @@ class ItemNavigatorTask(WsPositionMixin,BaseEfTask, TriggerTask):
                 self.info_set('导航箭头', tooltip)
         except Exception as e:
             self.log_error(f"[箭头] 异常: {e}")
+
+    def _draw_height_arrow(self, dy_height: float, tooltip: str):
+        try:
+            abs_dy = abs(float(dy_height))
+            if abs_dy <= 1e-6:
+                return
+
+            max_abs_dy = max(1e-6, float(self._height_arrow_max_abs_dy))
+            t = min(abs_dy / max_abs_dy, 1.0)
+            draw_len_norm = self._height_arrow_min_len_norm + (
+                (self._height_arrow_max_len_norm - self._height_arrow_min_len_norm) * t
+            )
+            draw_len_norm = max(self._height_arrow_min_len_norm, min(draw_len_norm, self._height_arrow_max_len_norm))
+
+            start_x_norm, start_y_norm = self._height_arrow_start_rel
+            end_x_norm = start_x_norm
+            end_y_norm = start_y_norm - draw_len_norm if dy_height > 0 else start_y_norm + draw_len_norm
+
+            success = self.draw_window_arrow(
+                start_x_norm=start_x_norm,
+                start_y_norm=start_y_norm,
+                end_x_norm=end_x_norm,
+                end_y_norm=end_y_norm,
+                shaft_width_norm=self._arrow_shaft_width_norm,
+                color=self._arrow_color,
+                alpha=self._arrow_alpha,
+                arrow_type='height',
+            )
+
+            if not success:
+                self.log_info('[箭头] 高差箭头绘制失败')
+                return
+
+            if tooltip:
+                self.info_set('高差箭头', tooltip)
+        except Exception as e:
+            self.log_error(f'[箭头] 高差异常: {e}')
 
     # --- keyboard check (detect player pressing mark key) ---
     def _is_key_pressed(self, key: str) -> bool:
@@ -312,7 +353,7 @@ class ItemNavigatorTask(WsPositionMixin,BaseEfTask, TriggerTask):
 
             # y 是高度，方位与水平距离都在 xz 平面
             dy_height = best.get('y', 0) - py
-            near_xz = best_dxz <= float(self.config.get('接近阈值', 5.0))
+            near_xz = best_dxz <= float(self._near_xz_threshold)
 
             # direction angle in degrees for XZ vector (player->target) relative to +X
             dx = best.get('x', 0) - px
@@ -327,8 +368,9 @@ class ItemNavigatorTask(WsPositionMixin,BaseEfTask, TriggerTask):
             # publish minimal UI info (任务显示栏)
             self.info_set('导航', status)
 
-            # overlay: 左上角矢量箭头（固定中心 + 最大长度 + 自由箭头结尾）
+            # overlay: 默认方向箭头 + 高差箭头
             self._draw_nav_arrow(dx, dz, tooltip=f"{best_meta} | XZ:{best_dxz:.1f} | Y:{dy_height:.1f}")
+            self._draw_height_arrow(dy_height, tooltip=f"{best_meta} | Y:{dy_height:.1f}")
 
             # 标记逻辑：锁定目标并要求连续按住指定时长（_mark_lock_required）才能标记
             mark_key = str(self.config.get('标记按键') or '').strip() or 'f'

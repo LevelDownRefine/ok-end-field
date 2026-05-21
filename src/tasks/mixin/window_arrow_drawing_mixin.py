@@ -16,6 +16,7 @@ logger = Logger.get_logger(__name__)
 
 @dataclass
 class ArrowSpec:
+    arrow_type: str
     start_x_norm: float
     start_y_norm: float
     end_x_norm: float
@@ -66,6 +67,13 @@ class WindowArrowOverlay(QWidget):
         except Exception as e:
             logger.error(f"绑定箭头叠层到游戏窗口失败: {e}")
 
+    def _should_show_overlay(self) -> bool:
+        """仅在游戏窗口处于前台时显示箭头叠层。"""
+        try:
+            return win32gui.GetForegroundWindow() == self._hwnd
+        except Exception:
+            return False
+
     def set_style(self, color: Tuple[int, int, int], head_angle_deg: float, head_len_ratio: float):
         # 支持三元/四元元组或直接传入 QColor；三元组使用默认 alpha
         try:
@@ -82,10 +90,21 @@ class WindowArrowOverlay(QWidget):
         self._arrow_head_len_ratio = head_len_ratio
 
     def set_arrows(self, arrows: List[ArrowSpec]):
-        self._arrows = arrows
+        unique_arrows: Dict[str, ArrowSpec] = {}
+        ordered_types: List[str] = []
+        for spec in arrows:
+            arrow_type = getattr(spec, 'arrow_type', None) or 'default'
+            if arrow_type not in unique_arrows:
+                ordered_types.append(arrow_type)
+            unique_arrows[arrow_type] = spec
+
+        self._arrows = [unique_arrows[arrow_type] for arrow_type in ordered_types]
         self._sync_geometry()
-        self.show()
-        self.raise_()
+        if self._should_show_overlay():
+            self.show()
+            self.raise_()
+        else:
+            self.hide()
         self.update()
         app = QApplication.instance()
         if app is not None:
@@ -129,8 +148,11 @@ class WindowArrowOverlay(QWidget):
                 max(1, int(round(width / ratio))),
                 max(1, int(round(height / ratio))),
             )
-            if self._arrows:
+            if self._arrows and self._should_show_overlay():
                 self.show()
+                self.raise_()
+            else:
+                self.hide()
         except Exception as e:
             logger.error(f"同步箭头叠层几何失败: {e}")
 
@@ -245,7 +267,8 @@ class WindowArrowOverlay(QWidget):
 class WindowArrowOverlayController(QObject):
     """把箭头更新切回 GUI 线程执行。"""
 
-    arrows_requested = Signal(object)
+    arrows_replaced = Signal(object)
+    arrow_updated = Signal(object)
     clear_requested = Signal()
     style_requested = Signal(tuple, float, float)
 
@@ -253,7 +276,9 @@ class WindowArrowOverlayController(QObject):
         super().__init__()
         self._hwnd = hwnd
         self._overlay: Optional[WindowArrowOverlay] = None
-        self.arrows_requested.connect(self._on_arrows_requested)
+        self._arrow_map: Dict[str, ArrowSpec] = {}
+        self.arrows_replaced.connect(self._on_arrows_replaced)
+        self.arrow_updated.connect(self._on_arrow_updated)
         self.clear_requested.connect(self._on_clear_requested)
         self.style_requested.connect(self._on_style_requested)
 
@@ -262,15 +287,31 @@ class WindowArrowOverlayController(QObject):
             self._overlay = WindowArrowOverlay(self._hwnd)
         return self._overlay
 
+    def _apply_arrow_state(self):
+        overlay = self._ensure_overlay()
+        overlay.set_arrows(list(self._arrow_map.values()))
+
     @Slot(object)
+    def _on_arrows_replaced(self, arrows: List[ArrowSpec]):
+        self._arrow_map = {}
+        for spec in arrows:
+            arrow_type = getattr(spec, 'arrow_type', None) or 'default'
+            self._arrow_map[arrow_type] = spec
+        self._apply_arrow_state()
+
+    @Slot(object)
+    def _on_arrow_updated(self, arrow: ArrowSpec):
+        arrow_type = getattr(arrow, 'arrow_type', None) or 'default'
+        self._arrow_map[arrow_type] = arrow
+        self._apply_arrow_state()
+
     def _on_arrows_requested(self, arrows: List[ArrowSpec]):
         overlay = self._ensure_overlay()
-        # 立即清空之前的绘制，保证新的绘制立刻生效
-        try:
-            overlay.clear_arrows()
-        except Exception:
-            pass
-        overlay.set_arrows(arrows)
+        self._arrow_map = {}
+        for spec in arrows:
+            arrow_type = getattr(spec, 'arrow_type', None) or 'default'
+            self._arrow_map[arrow_type] = spec
+        overlay.set_arrows(list(self._arrow_map.values()))
 
     @Slot()
     def _on_clear_requested(self):
@@ -298,6 +339,11 @@ class WindowArrowDrawingMixin:
         self._window_arrow_overlay: Optional[WindowArrowOverlay] = None
         self._window_arrow_controller: Optional[WindowArrowOverlayController] = None
 
+    def _get_game_hwnd(self) -> int:
+        """返回游戏主窗口句柄，优先使用 self.hwnd.hwnd。"""
+        hwnd = self.hwnd.hwnd if hasattr(self.hwnd, 'hwnd') else self.hwnd
+        return int(hwnd)
+
     def _ensure_window_arrow_controller(self):
         if self._window_arrow_controller is not None:
             return self._window_arrow_controller
@@ -314,7 +360,7 @@ class WindowArrowDrawingMixin:
             logger.error("无法创建箭头叠层：未找到 QApplication 实例")
             return None
 
-        hwnd = self.hwnd.hwnd if hasattr(self.hwnd, 'hwnd') else self.hwnd
+        hwnd = self._get_game_hwnd()
         self._window_arrow_controller = WindowArrowOverlayController(hwnd)
         self._window_arrow_controller.moveToThread(app.thread())
         self._window_arrow_controller.style_requested.emit(
@@ -382,6 +428,7 @@ class WindowArrowDrawingMixin:
         head_len_norm: Optional[float] = None,
         color: Optional[Tuple[int, int, int]] = None,
         alpha: Optional[int] = None,
+        arrow_type: str = 'default',
     ) -> bool:
         """
         在游戏窗口上绘制单个箭头。
@@ -409,8 +456,9 @@ class WindowArrowDrawingMixin:
             if alpha is not None and isinstance(final_color, tuple) and len(final_color) == 3:
                 final_color = (final_color[0], final_color[1], final_color[2], alpha)
 
-            controller.arrows_requested.emit([
+            controller.arrow_updated.emit(
                 ArrowSpec(
+                    arrow_type=arrow_type or 'default',
                     start_x_norm=start_x_norm,
                     start_y_norm=start_y_norm,
                     end_x_norm=end_x_norm,
@@ -419,7 +467,7 @@ class WindowArrowDrawingMixin:
                     shaft_width_norm=shaft_width_norm or self._window_arrow_shaft_width_norm,
                     head_len_norm=head_len_norm,
                 )
-            ])
+            )
             return True
         except Exception as e:
             logger.error(f"绘制窗口箭头失败: {e}")
@@ -438,6 +486,7 @@ class WindowArrowDrawingMixin:
         alpha: Optional[int] = None,
         center_is_norm: bool = False,
         length_is_norm: bool = False,
+        arrow_type: str = 'default',
     ) -> bool:
         """
         以中心点、最大长度、绘制长度和角度直接绘制箭头。
@@ -493,6 +542,7 @@ class WindowArrowDrawingMixin:
             head_len_norm=head_len_norm,
             color=color,
             alpha=alpha,
+            arrow_type=arrow_type,
         )
 
     def draw_window_arrows(
@@ -528,6 +578,7 @@ class WindowArrowDrawingMixin:
             for arrow in arrows:
                 arrow_specs.append(
                     ArrowSpec(
+                        arrow_type=arrow.get('arrow_type', 'default'),
                         start_x_norm=arrow.get('start_x_norm', 0.0),
                         start_y_norm=arrow.get('start_y_norm', 0.0),
                         end_x_norm=arrow.get('end_x_norm', 1.0),
@@ -538,7 +589,7 @@ class WindowArrowDrawingMixin:
                     )
                 )
 
-            controller.arrows_requested.emit(arrow_specs)
+            controller.arrows_replaced.emit(arrow_specs)
             return len(arrow_specs)
         except Exception as e:
             logger.error(f"绘制多个窗口箭头失败: {e}")
