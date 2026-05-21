@@ -3,6 +3,7 @@ import math
 from typing import Dict, Tuple, Optional, List
 
 import win32gui
+import win32con
 from PySide6.QtCore import QPoint, QPointF, QTimer, Qt, QObject, Signal, Slot
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtGui import QColor, QPainter, QPainterPath, QPen, QPolygonF, QBrush
@@ -25,7 +26,7 @@ class ArrowSpec:
 
 
 class WindowArrowOverlay(QWidget):
-    """透明置顶叠层窗口，直接绘制实际箭头。"""
+    """透明叠层窗口，依附到游戏窗口之上绘制箭头。"""
 
     def __init__(self, hwnd: int, parent=None):
         super().__init__(parent)
@@ -47,13 +48,23 @@ class WindowArrowOverlay(QWidget):
         self.setWindowFlags(
             Qt.Tool |
             Qt.FramelessWindowHint |
-            Qt.WindowStaysOnTopHint |
             Qt.WindowTransparentForInput
         )
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         self.setAttribute(Qt.WA_NoSystemBackground, True)
         self.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+        self._bind_to_game_window_layer()
         self._sync_geometry()
+
+    def _bind_to_game_window_layer(self):
+        """将叠层绑定为游戏窗口的 owned window，保持在游戏窗口之上但不全局置顶。"""
+        try:
+            # 确保原生窗口句柄已创建
+            overlay_hwnd = int(self.winId())
+            if overlay_hwnd and win32gui.IsWindow(self._hwnd):
+                win32gui.SetWindowLong(overlay_hwnd, win32con.GWL_HWNDPARENT, self._hwnd)
+        except Exception as e:
+            logger.error(f"绑定箭头叠层到游戏窗口失败: {e}")
 
     def set_style(self, color: Tuple[int, int, int], head_angle_deg: float, head_len_ratio: float):
         # 支持三元/四元元组或直接传入 QColor；三元组使用默认 alpha

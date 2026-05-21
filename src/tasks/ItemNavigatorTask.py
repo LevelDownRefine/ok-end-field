@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
 import math
+import os
+import subprocess
 import threading
+import tempfile
 import time
+import webbrowser
 from pathlib import Path
 from typing import Dict, Tuple
 
@@ -52,6 +56,35 @@ class ItemNavigatorTask(WsPositionMixin,BaseEfTask, TriggerTask):
             # fallback to empty options if data unavailable
             self.config_type['选择物品'] = {'type': 'button_list', 'options': []}
 
+        self.config_type['油猴脚本帮助'] = {
+            'type': 'button',
+            'text': '浏览器油猴脚本帮助',
+            'icon': FluentIcon.LINK,
+            'callback': self.open_userscript_help,
+        }
+        self.config_description.update({
+            '选择物品': (
+                '选择要参与导航的物品列表。\n'
+                '只会在当前地图里匹配这些物品。'
+            ),
+            '标记按键': (
+                '接近目标后用于标记“已获取”的键位。\n'
+                '默认按键为 f。'
+            ),
+            '标记按住时长': (
+                '保留项。\n'
+                '当前标记判定使用内部固定按住时长。'
+            ),
+            '接近阈值': (
+                '与目标在 XZ 平面的接近判定阈值。\n'
+                '单位为世界坐标。'
+            ),
+            '油猴脚本帮助': (
+                '打开临时帮助文档。\n'
+                '同时打开油猴脚本目录。'
+            ),
+        })
+
         # internal constants (not user-facing)
         self._init_ws_position_mixin()
         self._marked_store = Path('assets') / 'items' / 'map' / 'marked_points.json'
@@ -83,6 +116,51 @@ class ItemNavigatorTask(WsPositionMixin,BaseEfTask, TriggerTask):
         self._mark_lock_target = None
         # 标记所需的最短连续按住时长（秒）
         self._mark_lock_required = 2.0
+
+    def open_userscript_help(self, *_):
+        """打开浏览器油猴脚本使用帮助，并打开脚本目录。"""
+        script_rel = Path('assets') / 'scripts' / 'endfield-ws-position-relay.user.js'
+        script_abs = (Path.cwd() / script_rel).resolve()
+        script_dir = script_abs.parent
+        help_text = (
+            '终末地坐标转发油猴脚本使用帮助\n\n'
+            '1. 安装浏览器扩展 Tampermonkey（油猴）。\n'
+            '2. 打开脚本目录并导入脚本文件：\n'
+            f'   {script_abs}\n'
+            '3. 在 Tampermonkey 中启用该脚本。\n'
+            '4. 打开网页地图 https://game.skland.com/map/endfield ，确认脚本已运行。\n'
+            '5. 启动物品导航任务后，程序会监听 ws://127.0.0.1:3001 的位置数据。\n\n'
+            '提示：\n'
+            '- 先确保本地未被防火墙拦截 3001 端口。\n'
+            '- 如脚本无日志，检查 Tampermonkey 是否允许在目标网址运行。\n'
+        )
+
+        try:
+            tf = tempfile.NamedTemporaryFile(delete=False, suffix='.txt', mode='w', encoding='utf-8')
+            tf.write(help_text)
+            tf.flush()
+            tf.close()
+            help_path = tf.name
+
+            if os.name == 'nt':
+                os.startfile(help_path)
+            else:
+                webbrowser.open(f'file://{help_path}')
+            self.log_info(f'已打开油猴脚本帮助: {help_path}')
+        except Exception as e:
+            self.log_error(f'打开油猴脚本帮助失败: {e}')
+
+        try:
+            if os.name == 'nt':
+                if script_abs.exists():
+                    subprocess.Popen(['explorer', f'/select,{script_abs}'])
+                else:
+                    os.startfile(str(script_dir))
+            else:
+                webbrowser.open(f'file://{script_dir}')
+            self.log_info(f'已打开油猴脚本目录: {script_dir}')
+        except Exception as e:
+            self.log_error(f'打开油猴脚本目录失败: {e}')
 
     # --- persistence for marked points ---
     def _load_marked(self):
