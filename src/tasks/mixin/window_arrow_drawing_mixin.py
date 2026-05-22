@@ -35,26 +35,32 @@ class WindowArrowOverlay(QWidget):
         self._arrows: List[ArrowSpec] = []
         self._arrow_head_angle_deg = 28.0
         self._arrow_head_len_ratio = 0.35
-        # 默认使用半透明绿色（alpha=160）以减少视觉遮挡
         self._base_color = QColor(0, 255, 0, 160)
+
         self._sync_timer = QTimer(self)
         self._sync_timer.timeout.connect(self._sync_geometry)
         self._sync_timer.start(50)
 
-        # 自动清除计时器：每次 set_arrows 后会启动，超时后清空箭头（最大停留时长）
         self._auto_clear_timer = QTimer(self)
         self._auto_clear_timer.setSingleShot(True)
         self._auto_clear_timer.timeout.connect(self.clear_arrows)
 
+        # ==================== 修改重点 ====================
         self.setWindowFlags(
-            Qt.Tool |
-            Qt.FramelessWindowHint |
-            Qt.WindowTransparentForInput
+            Qt.Tool  # 工具窗口
+            | Qt.FramelessWindowHint  # 无边框
+            | Qt.WindowTransparentForInput
+            | Qt.WindowStaysOnTopHint  # ← 新增：全局置顶
         )
+        # ================================================
+
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         self.setAttribute(Qt.WA_NoSystemBackground, True)
         self.setAttribute(Qt.WA_TransparentForMouseEvents, True)
-        self._bind_to_game_window_layer()
+
+        # 不再绑定为游戏窗口的子窗口（全局置顶不需要）
+        # self._bind_to_game_window_layer()   # 可注释或删除
+
         self._sync_geometry()
 
     def _bind_to_game_window_layer(self):

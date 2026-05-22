@@ -393,7 +393,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         self.wait_click_feature(feature=fL.stamina_plus_icon, vertical_variance=0.01, horizontal_variance=0.01, time_out=5, box=self.box_of_screen((3530-40) / 3840, 0, (3600) / 3840, (80+40) / 2160))  # 右上角加号
         self.wait_ocr(match=re.compile("恢复理智"), time_out=5, box=self.box.top_left)
         # 支持天和小时单位，按剩余时效升序消耗
-        box_list = self.ocr(x=0.28, y=0.45, to_x=0.88, to_y=0.66, match=re.compile(r"(\d+)(天|小时)"))
+        box_list = self.wait_ocr(x=0.28, y=0.45, to_x=0.88, to_y=0.66, match=re.compile(r"(\d+)(天|小时)"), log=True)
         if not box_list:
             self.log_warning("未找到应急理智加强剂，剩余时效未识别")
         else:

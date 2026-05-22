@@ -389,7 +389,8 @@ class RuntimeMixin:
         )
 
     def get_arrow_angle(self, center: tuple | None = None, target_image: np.ndarray | None = None,
-                        two_stage: bool = True, benchmark_width: int = 2560, max_cache_scales: int = 10):
+                        two_stage: bool = True, benchmark_width: int = 2560, max_cache_scales: int = 10,
+                        smoothing_threshold: float = 0.35):
         """
         便捷 API：使用 ArrowAngleMatcher 检测 arrow.png 在目标图中的旋转角度（二阶段搜索）。
         支持多分辨率自动适应（缓存键 (scale_key, angle)，scale_key 四舍五入避免浮点误差）。
@@ -422,9 +423,29 @@ class RuntimeMixin:
             center = (215.0 / 2560.0, 222.0 / 1440.0)
 
         # 使用缓存匹配器，支持多分辨率自适应与 LRU 限制
-        matcher = ArrowAngleMatcher(template_path=None, template_center=(12, 12), 
+        matcher = ArrowAngleMatcher(template_path=None, template_center=(12, 12),
                                    benchmark_width=benchmark_width, max_cache_scales=max_cache_scales)
-        return matcher.match(tgt, center=center, two_stage=two_stage)
+
+        detected_angle, score = matcher.match(tgt, center=center, two_stage=two_stage)
+
+        # 角度平滑：当得分低于阈值时，继承上一帧角度
+        last_angle = getattr(self, "_last_arrow_angle", None)
+        last_score = getattr(self, "_last_arrow_score", None)
+
+        if score is None:
+            score = 0.0
+
+        if smoothing_threshold is not None and last_angle is not None and score < smoothing_threshold:
+            # 继承上一帧角度和得分（保留历史得分以便后续逻辑参考）
+            smoothed_angle = last_angle
+            smoothed_score = last_score if last_score is not None else score
+            # 不覆盖 _last_arrow_angle，使得低分连续时继续沿用上一帧
+            return smoothed_angle, smoothed_score
+
+        # 更新历史记录并返回检测结果
+        self._last_arrow_angle = detected_angle
+        self._last_arrow_score = score
+        return detected_angle, score
 
     def wait_ui_stable(
             self,
