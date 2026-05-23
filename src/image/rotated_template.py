@@ -5,6 +5,9 @@ import numpy as np
 import os
 
 
+ARROW_TEMPLATE_FILENAME = "arrow.png"
+
+
 def _to_rgba(img: np.ndarray) -> np.ndarray:
     if img is None:
         raise ValueError("image is None")
@@ -84,10 +87,10 @@ class ArrowAngleMatcher:
         # 加载模板
         if template_path is None:
             default_paths = [
-                os.path.join(os.getcwd(), "arrow.png"),
-                os.path.join(os.path.dirname(__file__), "..", "..", "arrow.png"),
-                os.path.join(os.path.dirname(__file__), "..", "..", "assets", "arrow.png"),
-                os.path.join(os.path.dirname(__file__), "..", "..", "icons", "arrow.png"),
+                os.path.join(os.getcwd(), ARROW_TEMPLATE_FILENAME),
+                os.path.join(os.path.dirname(__file__), "..", "..", ARROW_TEMPLATE_FILENAME),
+                os.path.join(os.path.dirname(__file__), "..", "..", "assets", ARROW_TEMPLATE_FILENAME),
+                os.path.join(os.path.dirname(__file__), "..", "..", "icons", ARROW_TEMPLATE_FILENAME),
             ]
             for p in default_paths:
                 if os.path.exists(p):
@@ -300,7 +303,7 @@ def rotated_template_match(
     tpl = _to_rgba(template_image)
 
     # 按缩放系数调整模板
-    if template_scale != 1.0:
+    if abs(template_scale - 1.0) > 1e-6:
         tpl = _scale_template(tpl, template_scale)
         template_center = _scale_point(template_center, template_scale)
 
