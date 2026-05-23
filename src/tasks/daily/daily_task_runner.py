@@ -53,7 +53,7 @@ class DailyTaskRunner:
             account_id = ""
         if account_id not in self.failure_details:
             self.failure_details[account_id] = {}
-        self.failure_details[account_id][resolved_task_name] = resolved_message
+        self.failure_details[account_id].setdefault(resolved_task_name, resolved_message)
         try:
             self.task.log_info(f"任务失败标记 | {resolved_task_name}: {resolved_message}")
         except Exception:
