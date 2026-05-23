@@ -330,16 +330,16 @@ class RuntimeMixin:
         return sorted(filtered_results, key=lambda item: item.confidence, reverse=True)
 
     def rotated_template_match_runtime(
-        self,
-        template_image,
-        target_image: np.ndarray | None = None,
-        target_center: tuple | None = None,
-        template_center: tuple | None = None,
-        angle_start: float = 0.0,
-        angle_end: float = 360.0,
-        angle_step: float = 5.0,
-        roi: tuple | None = None,
-        method: int = cv2.TM_CCORR_NORMED,
+            self,
+            template_image,
+            target_image: np.ndarray | None = None,
+            target_center: tuple | None = None,
+            template_center: tuple | None = None,
+            angle_start: float = 0.0,
+            angle_end: float = 360.0,
+            angle_step: float = 5.0,
+            roi: tuple | None = None,
+            method: int = cv2.TM_CCORR_NORMED,
     ):
         """
         运行时包装：在当前帧或给定 `target_image` 上执行旋转模板匹配。
@@ -424,7 +424,7 @@ class RuntimeMixin:
 
         # 使用缓存匹配器，支持多分辨率自适应与 LRU 限制
         matcher = ArrowAngleMatcher(template_path=None, template_center=(12, 12),
-                                   benchmark_width=benchmark_width, max_cache_scales=max_cache_scales)
+                                    benchmark_width=benchmark_width, max_cache_scales=max_cache_scales)
 
         detected_angle, score = matcher.match(tgt, center=center, two_stage=two_stage)
 

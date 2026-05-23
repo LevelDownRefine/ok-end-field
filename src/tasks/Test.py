@@ -1,4 +1,7 @@
 import time
+import re
+from src.data.FeatureList import FeatureList as fL
+from src.image.hsv_config import HSVRange as hR
 from src.tasks.BaseEfTask import BaseEfTask
 
 
@@ -16,31 +19,4 @@ class Test(BaseEfTask):
         self.interval = 0.3  # 读取间隔（秒）
 
     def run(self):
-        self.log_info("=== 箭头角度实时检测开始 ===", notify=True)
-        self.log_info("按 Ctrl+C 停止\n")
-
-        try:
-            iteration = 0
-            while True:
-                iteration += 1
-
-                # 直接调用 API 获取角度
-                angle, score = self.get_arrow_angle(
-                    two_stage=True,  # 推荐开启两阶段搜索
-                    benchmark_width=2560,
-                )
-
-                status = "✓" if score > 0.75 else "⚠"
-
-                self.log_info(f"{status} [#{iteration:03d}] " f"角度: {angle:6.1f}°    " f"置信度: {score:.4f}")
-
-                # 每 10 次输出一次分隔线
-                if iteration % 10 == 0:
-                    self.log_info("-" * 50)
-
-                time.sleep(self.interval)
-
-        except KeyboardInterrupt:
-            self.log_info("\n已停止角度检测", notify=True)
-        except Exception as e:
-            self.log_info(f"发生错误: {e}", notify=True)
+        box_list = self.wait_ocr(x=0.20, y=0.45, to_x=0.88, to_y=0.66, match=re.compile(r"(\d+)(天|小时)"), log=True)

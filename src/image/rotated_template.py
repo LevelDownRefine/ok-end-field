@@ -74,11 +74,11 @@ class ArrowAngleMatcher:
     """
 
     def __init__(
-        self,
-        template_path: str | None = None,
-        template_center: Tuple[int, int] = None,
-        benchmark_width: int = 2560,
-        max_cache_scales: int = 12,
+            self,
+            template_path: str | None = None,
+            template_center: Tuple[int, int] = None,
+            benchmark_width: int = 2560,
+            max_cache_scales: int = 12,
     ):
 
         # 加载模板
@@ -178,8 +178,8 @@ class ArrowAngleMatcher:
         else:
             y0, y1 = ys.min(), ys.max()
             x0, x1 = xs.min(), xs.max()
-            bgr_cropped = rotated_bgr[y0 : y1 + 1, x0 : x1 + 1].copy()
-            alpha_mask_final = ((rotated_alpha_chan[y0 : y1 + 1, x0 : x1 + 1] > 8) * 255).astype(np.uint8)
+            bgr_cropped = rotated_bgr[y0: y1 + 1, x0: x1 + 1].copy()
+            alpha_mask_final = ((rotated_alpha_chan[y0: y1 + 1, x0: x1 + 1] > 8) * 255).astype(np.uint8)
             rel_center = (template_center[0] - x0, template_center[1] - y0)
             bbox = (x0, y0, x1 - x0 + 1, y1 - y0 + 1)
 
@@ -195,7 +195,7 @@ class ArrowAngleMatcher:
         return sorted(set(angles))
 
     def _search(
-        self, tgt: np.ndarray, center: Tuple[float, float], scale_key: float, angles: List[float]
+            self, tgt: np.ndarray, center: Tuple[float, float], scale_key: float, angles: List[float]
     ) -> Tuple[float, float]:
         """在给定角度列表中搜索最佳匹配"""
         best_angle = 0.0
@@ -268,16 +268,16 @@ class ArrowAngleMatcher:
 
 # ====================== 兼容旧接口 ======================
 def rotated_template_match(
-    target_image: np.ndarray,
-    template_image: np.ndarray,
-    target_center: Tuple[float, float],
-    template_center: Tuple[float, float],
-    angle_start: float = 0.0,
-    angle_end: float = 360.0,
-    angle_step: float = 5.0,
-    roi: Optional[Tuple[int, int, int, int]] = None,
-    method: int = cv2.TM_CCORR_NORMED,
-    template_scale: float = 1.0,
+        target_image: np.ndarray,
+        template_image: np.ndarray,
+        target_center: Tuple[float, float],
+        template_center: Tuple[float, float],
+        angle_start: float = 0.0,
+        angle_end: float = 360.0,
+        angle_step: float = 5.0,
+        roi: Optional[Tuple[int, int, int, int]] = None,
+        method: int = cv2.TM_CCORR_NORMED,
+        template_scale: float = 1.0,
 ) -> Tuple[float, float, Optional[Tuple[float, float]]]:
     """
     通用旋转模板匹配函数（兼容旧接口）
@@ -298,12 +298,12 @@ def rotated_template_match(
     """
     tgt = _to_rgba(target_image)
     tpl = _to_rgba(template_image)
-    
+
     # 按缩放系数调整模板
     if template_scale != 1.0:
         tpl = _scale_template(tpl, template_scale)
         template_center = _scale_point(template_center, template_scale)
-    
+
     # ROI 处理
     if roi is not None:
         x, y, w, h = roi
@@ -312,22 +312,22 @@ def rotated_template_match(
             return 0.0, 0.0, None
         # 调整目标中心相对于 ROI
         target_center = (target_center[0] - x, target_center[1] - y)
-    
+
     th, tw = tpl.shape[:2]
     best_angle = 0.0
     best_score = -float("inf")
     best_pos = None
-    
+
     # 转换中心为绝对坐标
     H, W = tgt.shape[:2]
     tx, ty = target_center
     if isinstance(tx, float) and 0.0 <= tx <= 1.0 and isinstance(ty, float) and 0.0 <= ty <= 1.0:
         tx, ty = tx * W, ty * H
-    
+
     # 遍历所有角度
     for angle in np.arange(angle_start, angle_end + angle_step / 2, angle_step):
         angle_norm = float(angle % 360)
-        
+
         # 完成旋转
         M = cv2.getRotationMatrix2D(template_center, angle_norm, 1.0)
         rotated_bgr = cv2.warpAffine(
@@ -336,55 +336,54 @@ def rotated_template_match(
         rotated_alpha = cv2.warpAffine(
             tpl[:, :, 3], M, (tw, th), flags=cv2.INTER_NEAREST, borderMode=cv2.BORDER_CONSTANT, borderValue=0
         )
-        
+
         # 提取 bbox
         alpha_mask = rotated_alpha > 8
         ys, xs = np.where(alpha_mask)
-        
+
         if ys.size == 0:
             continue
-        
+
         y0, y1 = ys.min(), ys.max()
         x0, x1 = xs.min(), xs.max()
-        
-        rotated_bgr_crop = rotated_bgr[y0 : y1 + 1, x0 : x1 + 1].copy()
-        alpha_mask_crop = ((rotated_alpha[y0 : y1 + 1, x0 : x1 + 1] > 8) * 255).astype(np.uint8)
+
+        rotated_bgr_crop = rotated_bgr[y0: y1 + 1, x0: x1 + 1].copy()
+        alpha_mask_crop = ((rotated_alpha[y0: y1 + 1, x0: x1 + 1] > 8) * 255).astype(np.uint8)
         rel_center = (template_center[0] - x0, template_center[1] - y0)
-        
+
         # 计算搜索位置
         search_x = tx - rel_center[0]
         search_y = ty - rel_center[1]
-        
+
         # 提取目标 ROI
         target_patch = _safe_roi(tgt, search_x, search_y, x1 - x0 + 1, y1 - y0 + 1)
         if target_patch is None:
             continue
-        
+
         try:
             res = cv2.matchTemplate(target_patch[:, :, :3], rotated_bgr_crop, method, mask=alpha_mask_crop)
             score = float(res[0, 0])
         except Exception:
             score = -1.0
-        
+
         if score > best_score:
             best_angle = angle_norm
             best_score = score
             best_pos = (search_x, search_y)
-    
+
     return best_angle, best_score if best_score > -float("inf") else 0.0, best_pos
 
 
 def get_arrow_angle(
-    screenshot: np.ndarray,
-    center: tuple,
-    template_path: str | None = None,
-    template_center: tuple = (12, 12),
-    angle_start: float = 0.0,
-    angle_end: float = 360.0,
-    angle_step: float = 5.0,
-    benchmark_width: int = 2560,
+        screenshot: np.ndarray,
+        center: tuple,
+        template_path: str | None = None,
+        template_center: tuple = (12, 12),
+        angle_start: float = 0.0,
+        angle_end: float = 360.0,
+        angle_step: float = 5.0,
+        benchmark_width: int = 2560,
 ) -> Tuple[float, float]:
-
     matcher = ArrowAngleMatcher(
         template_path=template_path, template_center=template_center, benchmark_width=benchmark_width
     )

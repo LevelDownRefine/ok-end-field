@@ -201,7 +201,8 @@ class WindowArrowOverlay(QWidget):
         color = self._color_for(spec.color)
         # 允许更细的箭身，最小为 1 像素
         shaft_width = max(1, int(min(width, height) * spec.shaft_width_norm))
-        head_len = spec.head_len_norm * min(width, height) if spec.head_len_norm is not None else max(10.0, length * self._arrow_head_len_ratio)
+        head_len = spec.head_len_norm * min(width, height) if spec.head_len_norm is not None else max(10.0,
+                                                                                                      length * self._arrow_head_len_ratio)
         head_len = max(8.0, min(head_len, min(width, height) * 0.18))
 
         ux = dx / length
@@ -392,11 +393,11 @@ class WindowArrowDrawingMixin:
             return 0, 0
 
     def set_window_arrow_style(
-        self,
-        arrow_color: Optional[Tuple[int, int, int]] = None,
-        shaft_width_norm: Optional[float] = None,
-        head_angle_deg: Optional[float] = None,
-        head_len_ratio: Optional[float] = None,
+            self,
+            arrow_color: Optional[Tuple[int, int, int]] = None,
+            shaft_width_norm: Optional[float] = None,
+            head_angle_deg: Optional[float] = None,
+            head_len_ratio: Optional[float] = None,
     ):
         """
         设置窗口箭头的全局样式。
@@ -415,7 +416,7 @@ class WindowArrowDrawingMixin:
             self._window_arrow_head_angle_deg = head_angle_deg
         if head_len_ratio is not None:
             self._window_arrow_head_len_ratio = head_len_ratio
-        
+
         controller = self._ensure_window_arrow_controller()
         if controller is not None:
             controller.style_requested.emit(
@@ -425,16 +426,16 @@ class WindowArrowDrawingMixin:
             )
 
     def draw_window_arrow(
-        self,
-        start_x_norm: float,
-        start_y_norm: float,
-        end_x_norm: float,
-        end_y_norm: float,
-        shaft_width_norm: Optional[float] = None,
-        head_len_norm: Optional[float] = None,
-        color: Optional[Tuple[int, int, int]] = None,
-        alpha: Optional[int] = None,
-        arrow_type: str = 'default',
+            self,
+            start_x_norm: float,
+            start_y_norm: float,
+            end_x_norm: float,
+            end_y_norm: float,
+            shaft_width_norm: Optional[float] = None,
+            head_len_norm: Optional[float] = None,
+            color: Optional[Tuple[int, int, int]] = None,
+            alpha: Optional[int] = None,
+            arrow_type: str = 'default',
     ) -> bool:
         """
         在游戏窗口上绘制单个箭头。
@@ -480,19 +481,19 @@ class WindowArrowDrawingMixin:
             return False
 
     def draw_window_arrow_from_center(
-        self,
-        center_x: float,
-        center_y: float,
-        max_length: float,
-        draw_length: float,
-        angle_deg: float,
-        shaft_width_norm: Optional[float] = None,
-        head_len_norm: Optional[float] = None,
-        color: Optional[Tuple[int, int, int]] = None,
-        alpha: Optional[int] = None,
-        center_is_norm: bool = False,
-        length_is_norm: bool = False,
-        arrow_type: str = 'default',
+            self,
+            center_x: float,
+            center_y: float,
+            max_length: float,
+            draw_length: float,
+            angle_deg: float,
+            shaft_width_norm: Optional[float] = None,
+            head_len_norm: Optional[float] = None,
+            color: Optional[Tuple[int, int, int]] = None,
+            alpha: Optional[int] = None,
+            center_is_norm: bool = False,
+            length_is_norm: bool = False,
+            arrow_type: str = 'default',
     ) -> bool:
         """
         以中心点、最大长度、绘制长度和角度直接绘制箭头。
@@ -552,9 +553,9 @@ class WindowArrowDrawingMixin:
         )
 
     def draw_window_arrows(
-        self,
-        arrows: List[Dict],
-        default_shaft_width_norm: Optional[float] = None,
+            self,
+            arrows: List[Dict],
+            default_shaft_width_norm: Optional[float] = None,
     ) -> int:
         """
         在游戏窗口上绘制多个箭头。
@@ -590,7 +591,8 @@ class WindowArrowDrawingMixin:
                         end_x_norm=arrow.get('end_x_norm', 1.0),
                         end_y_norm=arrow.get('end_y_norm', 1.0),
                         color=arrow.get('color') or self._window_arrow_color,
-                        shaft_width_norm=arrow.get('shaft_width_norm', default_shaft_width_norm or self._window_arrow_shaft_width_norm),
+                        shaft_width_norm=arrow.get('shaft_width_norm',
+                                                   default_shaft_width_norm or self._window_arrow_shaft_width_norm),
                         head_len_norm=arrow.get('head_len_norm'),
                     )
                 )
