@@ -115,11 +115,9 @@ class LiaisonMixin(NavigationMixin):
         self.click(tp_icon)
 
         # 查找传送按钮
-        transfer_btn = self.wait_ocr(
-            match="传送",
-            box=self.box.bottom_right,
+        transfer_btn = self.wait_feature(
+            feature=fL.transfer_go,
             time_out=10,
-            log=True
         )
 
         if not transfer_btn:
@@ -308,11 +306,9 @@ class LiaisonMixin(NavigationMixin):
 
             self.click(list(result.values())[0], after_sleep=0.5)
 
-            if not self.wait_click_ocr(
-                    match=re.compile("确认联络"),
-                    box=self.box.bottom_right,
+            if not self.wait_click_feature(
+                    feature=fL.liaison_confirm,
                     time_out=5,
-                    log=True,
                     after_sleep=2,
             ):
                 self.log_info("未找到确认联络按钮，任务失败")
@@ -436,9 +432,9 @@ class LiaisonMixin(NavigationMixin):
         self.wait_ocr(match=re.compile("默认"), box=self.box.bottom_left, time_out=5)
         self.click(144 / 1920, 855 / 1080)
         self.log_info("点击赠送礼物位置")
-        if self.wait_click_ocr(
-                match=re.compile("确认赠送"),
-                box=self.box.bottom_right,
+        if self.wait_click_feature(
+                feature=fL.give_gift,
+                box=self.box_of_screen(0.942, 0.898, 0.963, 0.937),
                 time_out=5,
                 after_sleep=0.5,
         ):

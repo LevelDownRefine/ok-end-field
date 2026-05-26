@@ -5,8 +5,6 @@ from src.tasks.BaseEfTask import BaseEfTask
 from src.data.FeatureList import FeatureList as fL
 from src.interaction.Mouse import run_at_window_pos
 from ok import Box
-
-
 class LoginMixin(BaseEfTask):
 
     def login_flow(self, username: str, password: str | None = None):
@@ -63,7 +61,7 @@ class LoginMixin(BaseEfTask):
             raise RuntimeError("未找到登出按钮，可能没有先登录，请先登录任意账号")
         self.click(result[0], after_sleep=1)
         self.active_and_send_mouse_delta(0, 0, activate=True, only_activate=True)
-        self.wait_click_ocr(match=re.compile("确认"), time_out=10, box=self.box.bottom_right, after_sleep=2)
+        self.wait_click_feature(feature=fL.log_out_confirm, time_out=5)
         self._logged_in = False
         result = self.click_text(re.compile("最近"), box=self.box.center, success_match=re.compile("上次"),
                                  need_wait_disappear=False)  # 点击当前账号（假设是唯一的）"最近", box=self.box.center, need_wait_disappear=False)  # 点击当前账号（假设是唯一的）
@@ -73,7 +71,7 @@ class LoginMixin(BaseEfTask):
         self.click_text(re.compile(username[-4:]),
                         box=self.box_of_screen(0, (result[0].y + result[0].height) / self.height, 1,
                                                1))  # 点击最近登录的账号（假设是唯一的）
-        self.click_text("登录")
+        self.click_text("登录", box=self.box.center)  # 点击登录按钮
         if not self._confirm_logged_in():
             raise RuntimeError("登录失败")
 

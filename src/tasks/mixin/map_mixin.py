@@ -1,6 +1,6 @@
 import re
 from src.tasks.BaseEfTask import BaseEfTask
-
+from src.data.FeatureList import FeatureList as fL
 
 class MapMixin(BaseEfTask):
     def task_to_transfer_point(self, test_target_box=None, search_box_resolver=None):
@@ -138,11 +138,9 @@ class MapMixin(BaseEfTask):
         self.click(result, after_sleep=2)
 
         # 查找“传送”按钮
-        result = self.wait_ocr(
-            match="传送",
-            box=self.box.bottom_right,
+        result = self.wait_feature(
+            feature=fL.transfer_go,
             time_out=10,
-            log=True
         )
 
         # 如果未找到传送按钮
