@@ -7,16 +7,17 @@ from dataclasses import dataclass
 
 from ok import TaskDisabledException
 from src.data.FeatureList import FeatureList as fL
-from src.data.world_map import stages_cost, higher_order_feature_dict
+from src.data.world_map import stages_cost, higher_order_feature_dict, STAGE_CATEGORY_ENERGY_POOLING, \
+    STAGE_CATEGORY_DANGER_REHEARSAL
 from src.data.world_map import stages_dict, stages_list
-from src.data.world_map_utils import get_stage_category
+from src.data.world_map_utils import get_stage_category, get_world_map_matcher, is_world_map_text
 from src.tasks.sequence_parser import parse_int_sequence, parse_sequence
 from src.tasks.mixin.battle_mixin import BattleMixin
 from src.tasks.mixin.common import Common
 from src.tasks.mixin.map_mixin import MapMixin
 from src.tasks.mixin.zip_line_mixin import ZipLineMixin
 
-gather_list = stages_dict["能量淤积点"]
+gather_list = stages_dict[STAGE_CATEGORY_ENERGY_POOLING]
 
 
 @dataclass
@@ -213,7 +214,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         self._switch_team_before_reenter()
 
         deploy_results = self.wait_ocr(
-            match=[re.compile("已出战"), re.compile("出战")],
+            match=[self.lang.daily_battle_mixin.k_62b5b688, self.lang.daily_battle_mixin.k_12577cd1],
             box=self.box.bottom_right,
             time_out=3,
             raise_if_not_found=False,
@@ -261,14 +262,12 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         """F8 打开索引页面。"""
         self.ensure_main()
         self.press_key("f8")
-        self.wait_click_ocr(match=re.compile("索引"), time_out=7, after_sleep=2, box=self.box.top, log=True)
+        self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_79f91106, time_out=7, after_sleep=2, box=self.box.top, log=True)
 
     def _click_track_and_transfer(self):
         """点击『追踪』按钮，进入地图并传送至最近传送点。"""
-        if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
-            if "追踪" in result[0].name and "取" not in result[0].name and "消" not in result[0].name:
-                self.log_info("点击追踪按钮")
-                self.click(result, after_sleep=1)
+        if result := self.wait_feature(feature=fL.start_follow, box=self.box.bottom_right, time_out=5, raise_if_not_found=False):
+            self.click(result, after_sleep=1)
         self.to_near_transfer_point(self.gather_near_transfer_point_dict[self.battle_ctx.stage_name])
         self.ensure_main()
 
@@ -276,7 +275,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         """若配置了滑索路线，则通过滑索移动至目标。"""
         zip_line_str = self.config.get(self.battle_ctx.stage_name)
         if zip_line_str:
-            self.wait_click_ocr(match=re.compile("登上滑索架"), time_out=10, after_sleep=2, recheck_time=1,
+            self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_b0e3a2da, time_out=10, after_sleep=2, recheck_time=1,
                                 box=self.box.bottom_right, log=True, alt=True)
             zip_line_list = parse_int_sequence(zip_line_str)
             self.zip_line_list_go(
@@ -389,12 +388,15 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         if not self.config.get("消耗限时体力药", False):
             return True
 
-        self.wait_click_feature(feature=fL.stamina_plus_icon, vertical_variance=0.01, horizontal_variance=0.01,
-                                time_out=5,
-                                box=self.box_of_screen((3530 - 40) / 3840, 0, (3600) / 3840, (80 + 40) / 2160))  # 右上角加号
-        self.wait_ocr(match=re.compile("恢复理智"), time_out=5, box=self.box.top_left)
+        self.wait_click_feature(
+            feature=fL.stamina_plus_icon, vertical_variance=0.01, horizontal_variance=0.01,
+            time_out=5,
+            box=self.box_of_screen((3530 - 40) / 3840, 0, (3600) / 3840, (80 + 40) / 2160),
+            raise_if_not_found=False,
+        )  # 右上角加号
+        self.wait_ocr(match=self.lang.daily_battle_mixin.k_6c4d77af, time_out=5, box=self.box.top_left)
         # 支持天和小时单位，按剩余时效升序消耗
-        box_list = self.wait_ocr(x=0.20, y=0.45, to_x=0.88, to_y=0.66, match=re.compile(r"(\d+)(天|小时)"), log=True)
+        box_list = self.wait_ocr(x=0.20, y=0.45, to_x=0.88, to_y=0.66, match=self.lang.daily_battle_mixin.k_4e1f3d8b, log=True)
         if not box_list:
             self.log_warning("未找到应急理智加强剂，剩余时效未识别")
         else:
@@ -412,7 +414,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 parsed_boxes.append((sort_key, box, validity_num, validity_unit))
             if not parsed_boxes:
                 self.log_warning("所有应急理智加强剂时效解析失败，无法消耗")
-                self.safe_back(re.compile("干员"), box=self.box.top_left, time_out=10, ocr_time_out=2)
+                self.safe_back(self.lang.daily_battle_mixin.k_a0d434d4, box=self.box.top_left, time_out=10, ocr_time_out=2)
                 return True
             parsed_boxes.sort(key=lambda x: x[0])
             for _, box, validity_num, validity_unit in parsed_boxes:
@@ -436,7 +438,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     self.log_info(f"找到 {count} 个限时 {validity_num} 天的 应急理智加强剂，本次预计使用 {consume} 个")
                 for _ in range(consume):
                     self.click(box, after_sleep=0.1)
-                if not self.wait_click_ocr(match=re.compile("确认"), box=self.box.bottom_right, after_sleep=2):
+                if not self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_b56d9ac6, box=self.box.bottom_right, after_sleep=2):
                     self.log_error("无法使用 应急理智加强剂")
                 else:
                     self.log_info(f"已使用 {consume} 个 应急理智加强剂")
@@ -444,7 +446,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 # 只消耗一种类型后退出（如需全部消耗可去掉break）
                 break
         # 统一出口，保证异常时也能返回主界面
-        if not self.safe_back(re.compile("干员"), box=self.box.top_left, time_out=10, ocr_time_out=2):
+        if not self.safe_back(self.lang.daily_battle_mixin.k_a0d434d4, box=self.box.top_left, time_out=10, ocr_time_out=2):
             return False
         return True
 
@@ -482,9 +484,9 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
             # 检查是否支持体力刷完后继续刷取
             if self.battle_ctx.extra_run_limit > 0:
-                if self.battle_ctx.category_name != "能量淤积点":
+                if not is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
                     self.log_warning(
-                        f"体力刷完后继续刷功能仅支持能量淤积点，当前副本为『{self.battle_ctx.category_name}』，已禁用此功能")
+                        f"体力刷完后继续刷功能仅支持{STAGE_CATEGORY_ENERGY_POOLING}，当前副本为『{self.battle_ctx.category_name}』，已禁用此功能")
                     self.battle_ctx.extra_run_limit = 0
                 else:
                     self.log_info(f"体力刷完后继续刷取次数: {self.battle_ctx.extra_run_limit}")
@@ -494,7 +496,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     self.log_info("体力不足")
                     return True
                 else:
-                    if self.battle_ctx.category_name != "能量淤积点":
+                    if not is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
                         self.log_info(f"不支持无体力刷取的副本: {self.battle_ctx.category_name}")
                         return True
                     # 体力不足，执行额外刷取
@@ -515,7 +517,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             if not self.to_stage():
                 return False
 
-            if self.battle_ctx.category_name == "能量淤积点":
+            if is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
                 try:
                     return self.battle_gather()
                 except Exception as e:
@@ -559,24 +561,24 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         # 滑索移动
         self._navigate_via_zip_line()
         #
-        self.navigate_until_target(target_ocr_pattern=re.compile("激发|放弃"), nav_feature_name=fL.gather_icon_out_map,
+        self.navigate_until_target(target_ocr_pattern=self.lang.daily_battle_mixin.k_bfe73e18, nav_feature_name=fL.gather_icon_out_map,
                                    time_out=60)
         #
-        if self.wait_ocr(match=re.compile("放弃"), box=self.box.bottom_right, time_out=1):
+        if self.wait_ocr(match=self.lang.daily_battle_mixin.k_b8a81b7a, box=self.box.bottom_right, time_out=1):
             self.log_info("放弃未领取的奖励")
-            self.wait_click_ocr(match=re.compile("放弃"), box=self.box.bottom_right, time_out=5, recheck_time=1,
+            self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_b8a81b7a, box=self.box.bottom_right, time_out=5, recheck_time=1,
                                 alt=True)
             self.click_confirm()
         if not self._switch_team_before_activate_for_gather():
             self.mark_task_failure("淤积点激发前换队失败")
             return False
         #
-        result = self.wait_ocr(match=re.compile("激发"), box=self.box.bottom_right, time_out=5)
+        result = self.wait_ocr(match=self.lang.daily_battle_mixin.k_cd9eabf7, box=self.box.bottom_right, time_out=5)
         if not result:
             self.log_info("没有找到『激发』按钮")
             return False
         self.sleep(1)
-        if not self.wait_click_ocr(match=re.compile("激发"), box=self.box.bottom_right, time_out=5, recheck_time=1,
+        if not self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_cd9eabf7, box=self.box.bottom_right, time_out=5, recheck_time=1,
                                    alt=True):
             self.log_info("没有找到『激发』按钮")
             return False
@@ -585,8 +587,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
     def battle_space(self):
         self.battle_ctx.enter_text = "进入"
-        self.wait_click_ocr(match=re.compile("进入"), time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
-        if self.wait_click_ocr(match=re.compile("取消"), time_out=5, box=self.box.bottom_left, log=True):
+        self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_0e25578e, time_out=5, after_sleep=2, box=self.box.bottom_right, log=True)
+        if self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_4d0b4688, time_out=5, box=self.box.bottom_left, log=True):
             self.log_info("没有进入战斗，可能是因为已经没理智了")
             return True
         # 插入点：在首次『进入』之后、下一次『进入』之前执行换队。
@@ -613,7 +615,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         # 滑索移动
         self._navigate_via_zip_line()
         #
-        self.navigate_until_target(target_ocr_pattern=re.compile("领取"), nav_feature_name=fL.gather_icon_out_map,
+        self.navigate_until_target(target_ocr_pattern=self.lang.daily_battle_mixin.k_39d12e73_1, nav_feature_name=fL.gather_icon_out_map,
                                    time_out=60)
         click_key = "放弃" if self.battle_ctx.is_extra_mode else "领取"
         result = self.wait_ocr(match=re.compile(click_key), box=self.box.bottom_right, time_out=5)
@@ -639,16 +641,16 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         """
         if self.battle_ctx.is_extra_mode:
             # 放弃领取奖励后需要重新点击激发按钮
-            result = self.wait_ocr(match=re.compile("激发"), box=self.box.bottom_right, time_out=5)
+            result = self.wait_ocr(match=self.lang.daily_battle_mixin.k_cd9eabf7, box=self.box.bottom_right, time_out=5)
             if not result:
                 self.log_info("未找到『激发』按钮，无法继续进行额外刷取")
                 return False
             self.click_with_alt(result[0], after_sleep=2)
-            self.wait_click_ocr(match=re.compile("挑战"), time_out=10, after_sleep=2, box=self.box.bottom_right_quarter,
+            self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_9294c931, time_out=10, after_sleep=2, box=self.box.bottom_right_quarter,
                                 log=True, recheck_time=1)
             self.click_confirm()
         else:
-            self.wait_click_ocr(match=re.compile("重新挑战"), box=self.box.bottom_left, log=True, time_out=5,
+            self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_55cfd979, box=self.box.bottom_left, log=True, time_out=5,
                                 after_sleep=2, recheck_time=1)
         return True
 
@@ -663,7 +665,10 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 self.to_restart()
             else:
                 # 根据 enter_str 决定点击位置, 如果是「挑战」, 并且刷取的是「能量淤积点」, 则点击右下四分之一区域, 避免误触
-                enter_box = self.box.bottom_right_quarter if self.battle_ctx.enter_text == "挑战" and self.battle_ctx.category_name == "能量淤积点" else self.box.bottom_right
+                enter_box = self.box.bottom_right_quarter if (
+                        self.battle_ctx.enter_text == "挑战"
+                        and is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING)
+                ) else self.box.bottom_right
                 self.wait_click_ocr(match=re.compile(self.battle_ctx.enter_text), time_out=10, after_sleep=2,
                                     box=enter_box,
                                     log=True, recheck_time=1)
@@ -689,7 +694,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 #
                 self.sleep(2)
                 if self.battle_ctx.left_ticket <= 0:
-                    self.wait_click_ocr(match=re.compile("离开"), box=self.box.bottom_right, log=True, recheck_time=1)
+                    self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_0ba18905, box=self.box.bottom_right, log=True, recheck_time=1)
 
                     # 如果体力耗尽但设置了额外刷取次数，则开始额外刷取
                     self.battle_ctx.is_extra_mode = self.battle_ctx.extra_run_limit > 0 and self.battle_ctx.extra_run_count < self.battle_ctx.extra_run_limit
@@ -705,7 +710,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         """
         # 点击左侧关卡类别
         self.wait_click_ocr(
-            match=re.compile(self.battle_ctx.category_name),
+            match=get_world_map_matcher(self.lang, self.battle_ctx.category_name),
             box=self.box.left,
             log=True,
             after_sleep=2,
@@ -714,10 +719,10 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
         # 默认按钮文本
         to_text = "前往"
-        if self.battle_ctx.category_name == "能量淤积点":
+        if is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
             to_text = "查看"
         # 判断是否是高阶关卡
-        is_higher_order = self.battle_ctx.category_name == "危境预演"
+        is_higher_order = is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_DANGER_REHEARSAL)
         for _ in range(5):
             if is_higher_order:
                 # 高阶关卡，使用 feature_dict 查找位置
@@ -743,9 +748,9 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         return False
 
     def _get_current_stage_reward_tier(self):
-        if self.wait_ocr(match=re.compile("当前"), box=self.box.top, time_out=1, log=True):
+        if self.wait_ocr(match=self.lang.daily_battle_mixin.k_25e74dce, box=self.box.top, time_out=1, log=True):
             return self.REWARD_TIER_LOW
-        if self.wait_ocr(match=re.compile("当前"), box=self.box.bottom, time_out=1, log=True):
+        if self.wait_ocr(match=self.lang.daily_battle_mixin.k_25e74dce, box=self.box.bottom, time_out=1, log=True):
             return self.REWARD_TIER_HIGH
         return None
 
@@ -765,7 +770,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         if target_tier == self.REWARD_TIER_KEEP:
             return True
 
-        if not self.wait_click_ocr(match=re.compile("自选"), box=self.box.bottom_right, time_out=6, after_sleep=1):
+        if not self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_a6ee3a67, box=self.box.bottom_right, time_out=6, after_sleep=1):
             self.log_info(f"{self.battle_ctx.stage_name} 未识别到『自选』，跳过奖励档位切换")
             return True
         self.wait_ui_stable(refresh_interval=0.5)
@@ -775,7 +780,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         else:
             target_box = self.box.top if target_tier == self.REWARD_TIER_LOW else self.box.bottom
             candidates = self.wait_ocr(
-                match=[re.compile("当前"), re.compile("选择")],
+                match=[self.lang.daily_battle_mixin.k_25e74dce, self.lang.daily_battle_mixin.k_70b20820],
                 box=target_box,
                 time_out=4,
                 log=True,
@@ -786,34 +791,34 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             else:
                 self.log_info(f"{self.battle_ctx.stage_name} 未识别到{target_tier}对应按钮，保持当前档位")
 
-        if not self.safe_back(match=re.compile("进入"), box=self.box.bottom_right, time_out=10, ocr_time_out=1):
+        if not self.safe_back(match=self.lang.daily_battle_mixin.k_0e25578e, box=self.box.bottom_right, time_out=10, ocr_time_out=1):
             self.log_info("切换奖励档位后未返回到『进入』界面")
             return False
         return True
 
     def to_battle(self):
-        if self.battle_ctx.category_name != "能量淤积点":
+        if not is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
             self.wait_pop_up(time_out=4)
             end_time = time.time()
-            while not self.wait_ocr(match=re.compile("撤离"), time_out=1, box=self.box.top_left, log=True):
+            while not self.wait_ocr(match=self.lang.daily_battle_mixin.k_6afbae72, time_out=1, box=self.box.top_left, log=True):
                 if time.time() - end_time > 300:
                     self.log_info("等待超时，进入协议空间超时")
                     return False
             self.move_keys("w", duration=0.25)
-            while not self.wait_ocr(match=re.compile("触碰"), time_out=1, box=self.box.bottom_right, log=True):
+            while not self.wait_ocr(match=self.lang.daily_battle_mixin.k_4cc61900, time_out=1, box=self.box.bottom_right, log=True):
                 self.move_keys('w', duration=0.25)
             self.press_key("f")
         else:
             self.wait_pop_up(time_out=4)
             end_time = time.time()
-            while not self.wait_ocr(match=re.compile("挑战"), time_out=1, box=self.box.top_left, log=True):
+            while not self.wait_ocr(match=self.lang.daily_battle_mixin.k_9294c931, time_out=1, box=self.box.top_left, log=True):
                 if time.time() - end_time > 30:
                     self.log_info("等待超时，进入挑战超时")
                     return False
         return self.auto_battle(no_battle=self.battle_ctx.no_battle)
 
     def to_end(self):
-        if self.battle_ctx.category_name == "能量淤积点":
+        if is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
             end_feature_name = [fL.gather_icon_out_map2, fL.gather_icon_out_map]
             use_yolo = False
             search_box = None
@@ -837,10 +842,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 if not self.to_stage():
                     self.mark_task_failure("二次寻路失败：无法进入『能量淤积点』详情页")
                     return False
-                if result := self.wait_ocr(match=re.compile("追踪"), box=self.box.bottom_right, time_out=5):
-                    if "追踪" in result[0].name and "取" not in result[0].name and "消" not in result[0].name:
-                        self.log_info("点击追踪按钮")
-                        self.click(result, after_sleep=2)
+                if result := self.wait_feature(feature=fL.start_follow, box=self.box.bottom_right, time_out=5, raise_if_not_found=False):
+                    self.click(result, after_sleep=1)
                     self.ensure_main()
                 else:
                     raise Exception("未找到追踪按钮")
@@ -861,7 +864,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                                                           box=search_box,
                                                           only_x=True, threshold=0.5, tolerance=100):
                 if time.time() - start_time > 60:
-                    if self.battle_ctx.category_name == "能量淤积点":
+                    if is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
                         raise TimeoutError("等待奖励发放点超时")
                     else:
                         return False
@@ -880,7 +883,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         except Exception as e:
             if isinstance(e, TaskDisabledException):
                 raise
-            if self.battle_ctx.category_name == "能量淤积点":
+            if is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
                 self.log_info(f"未找到奖励发放点，尝试二次寻路: {e}")
                 if self._gather_retry_navigate():
                     return True
@@ -910,7 +913,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         start_time = time.time()
 
         # 等待界面出现“可领取”
-        while not self.wait_ocr(match=re.compile("可领取"), box=self.box.top, time_out=1):
+        while not self.wait_ocr(match=self.lang.daily_battle_mixin.k_45ff3e5f, box=self.box.top, time_out=1):
             if time.time() - start_time > 60:
                 return 0
             self.press_key("f", down_time=0.2)
@@ -921,7 +924,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
         # 尝试点击“获得奖励”，失败则本轮减少消耗理智
         if not self.wait_click_ocr(
-                match=re.compile("获得奖励"),
+                match=self.lang.daily_battle_mixin.k_60064e16,
                 box=self.box_of_screen(530 / 1920, 330 / 1080, 1400 / 1920, 570 / 1080),
                 time_out=2,
                 after_sleep=1,
@@ -938,7 +941,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
         # 点击“领取”，失败则返回0
         self.next_frame()
-        if not self.wait_click_ocr(match=re.compile("领取"), box=self.box.bottom_right, time_out=2, log=True):
+        if not self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_39d12e73, box=self.box.bottom_right, time_out=2, log=True):
             self.mark_task_failure("领取失败")
             return 0
         # 预测下一轮是否还能继续

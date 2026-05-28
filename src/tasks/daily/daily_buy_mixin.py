@@ -39,7 +39,7 @@ class DailyBuyMixin(Common):
         for area in areas_list:
             self.ensure_main()
             self.log_info(f"进入区域: {area}")
-            self.to_model_area(area, "物资调度")
+            self.to_model_area(area, self.lang.daily_buy_mixin.k_02894ea7)
             #
             self.click_relative(100 / 3840, 464 / 2160, after_sleep=2)
             self.log_info("购买「日用消耗」")
@@ -66,7 +66,7 @@ class DailyBuyMixin(Common):
             self.click(box_list[0], after_sleep=2)
             self.log_info(f"已选定货品：{box_list[0].name}")
         self.plus_max()
-        if self.wait_click_ocr(match=re.compile("确认购买"), box=self.box.bottom_right, time_out=2):
+        if self.wait_click_ocr(match=self.lang.daily_buy_mixin.k_8f834df1, box=self.box.bottom_right, time_out=2):
             self.wait_pop_up(after_sleep=2)
         else:
             self.back(after_sleep=2)

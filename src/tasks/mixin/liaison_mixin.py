@@ -22,6 +22,7 @@ import re
 import time
 
 from src.data.FeatureList import FeatureList as fL
+from src.data.characters import characters
 from src.data.characters_utils import get_contact_list_with_feature_list
 from src.tasks.mixin.common import LiaisonResult, build_name_patterns
 from src.tasks.mixin.navigation_mixin import NavigationMixin
@@ -51,7 +52,7 @@ class LiaisonMixin(NavigationMixin):
         super().__init__(*args, **kwargs)
 
         # 获取所有可联络干员
-        self.can_contact_dict = get_contact_list_with_feature_list()
+        self.can_contact_dict = get_contact_list_with_feature_list(self.lang)
 
         # 为每个干员构建 OCR 名称匹配规则
         self.contact_name_patterns = {
@@ -85,7 +86,7 @@ class LiaisonMixin(NavigationMixin):
 
         # 查找帝江号区域
         target_area = self.wait_ocr(
-            match=re.compile("帝江号"),
+            match=self.lang.liaison_mixin.k_ff0a81cd,
             box=self.box.top,
             time_out=8
         )
@@ -118,6 +119,7 @@ class LiaisonMixin(NavigationMixin):
         transfer_btn = self.wait_feature(
             feature=fL.transfer_go,
             time_out=10,
+            raise_if_not_found=False
         )
 
         if not transfer_btn:
@@ -153,7 +155,7 @@ class LiaisonMixin(NavigationMixin):
             self.move_keys("w", duration=1)
 
             if self.wait_ocr(
-                    match="中央环厅",
+                    match=self.lang.liaison_mixin.k_80b758b9,
                     box=self.box.left,
                     log=True
             ):
@@ -203,11 +205,29 @@ class LiaisonMixin(NavigationMixin):
             return None
 
         return self.navigate_until_target(
-            target_ocr_pattern=re.compile("联络"),
+            target_ocr_pattern=self.lang.liaison_mixin.k_4f35d7ac,
             nav_feature_name="operator_liaison_station_out_map",
             time_out=60,
             found_special_callback=special_chat_detect,
         )
+
+    def _resolve_contact_feature_name(self, target_name: str | None) -> str | None:
+        if not target_name:
+            return None
+
+        if target_name in self.can_contact_dict:
+            return self.can_contact_dict[target_name]
+
+        if target_name in self.can_contact_dict.values():
+            return target_name
+
+        for info in characters.values():
+            if target_name == info.get("zh"):
+                feature_name = f"{info.get('en')}_contact"
+                if feature_name in self.can_contact_dict.values():
+                    return feature_name
+
+        return None
 
     def perform_operator_liaison(self):
         """
@@ -219,7 +239,14 @@ class LiaisonMixin(NavigationMixin):
         self.log_info("开始执行干员联络任务")
 
         target_name = self.config.get("优先送礼对象")
-        target_feature_name = self.can_contact_dict[target_name]
+        target_feature_name = self._resolve_contact_feature_name(target_name)
+        if not target_feature_name:
+            self.log_info(f"未识别联络对象 {target_name}，改用默认联络对象")
+            target_name = next(iter(self.can_contact_dict.keys()), None)
+            if not target_name:
+                self.log_info("未找到任何可联络对象")
+                return False
+            target_feature_name = self.can_contact_dict[target_name]
 
         search_char_box = self.box_of_screen(
             795 / 1920,
@@ -310,6 +337,7 @@ class LiaisonMixin(NavigationMixin):
                     feature=fL.liaison_confirm,
                     time_out=5,
                     after_sleep=2,
+                    raise_if_not_found=False,
             ):
                 self.log_info("未找到确认联络按钮，任务失败")
                 return False
@@ -318,7 +346,7 @@ class LiaisonMixin(NavigationMixin):
 
             wait_disappear_count = 0
 
-            while self.ocr(match=re.compile("干员联络"), box=self.box.top_left):
+            while self.ocr(match=self.lang.liaison_mixin.k_47eaf0c5, box=self.box.top_left):
 
                 wait_disappear_count += 1
 
@@ -429,7 +457,7 @@ class LiaisonMixin(NavigationMixin):
 
     def _finish_give_gift_after_clicked(self):
         """在已点击『赠送』后，完成选礼与确认赠送流程。"""
-        self.wait_ocr(match=re.compile("默认"), box=self.box.bottom_left, time_out=5)
+        self.wait_ocr(match=self.lang.liaison_mixin.k_c8d09cf9, box=self.box.bottom_left, time_out=5)
         self.click(144 / 1920, 855 / 1080)
         self.log_info("点击赠送礼物位置")
         if self.wait_click_feature(
@@ -437,6 +465,7 @@ class LiaisonMixin(NavigationMixin):
                 box=self.box_of_screen(0.942, 0.898, 0.963, 0.937),
                 time_out=5,
                 after_sleep=0.5,
+                raise_if_not_found=False
         ):
             self.log_info("确认赠送按钮已出现")
             self.skip_dialog()
@@ -449,7 +478,7 @@ class LiaisonMixin(NavigationMixin):
         """仅执行收礼流程。"""
         self.log_info("开始仅收礼流程")
         result = self._loop_wait_click_ocr(
-            match=[re.compile("收下")],
+            match=[self.lang.liaison_mixin.k_ae0c20b5],
             box=self._gift_action_box(),
             timeout=timeout,
             log_msg="等待 收下 超时",
@@ -464,7 +493,7 @@ class LiaisonMixin(NavigationMixin):
         self.log_info("开始仅送礼流程")
         if not gift_entry_clicked:
             result = self._loop_wait_click_ocr(
-                match=[re.compile("赠送")],
+                match=[self.lang.liaison_mixin.k_662dc863],
                 box=self._gift_action_box(),
                 timeout=timeout,
                 log_msg="等待 赠送 超时",
@@ -489,7 +518,7 @@ class LiaisonMixin(NavigationMixin):
                 return False
             self.sleep(0.5)
         result = self._loop_wait_click_ocr(
-            match=[re.compile("收下"), re.compile("赠送")],
+            match=[self.lang.liaison_mixin.k_ae0c20b5, self.lang.liaison_mixin.k_662dc863],
             box=self._gift_action_box(),
             timeout=30,
             log_msg="等待 收下/赠送 超时",

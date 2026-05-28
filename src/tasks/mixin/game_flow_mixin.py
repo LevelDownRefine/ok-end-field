@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 
 from src.data.world_map import areas_list
+from src.data.world_map_utils import get_world_map_matcher, get_world_map_text
 from src.essence.essence_recognizer import EssenceInfo, read_essence_info
 from src.image.login_screenshot import capture_window_by_screen
 from src.interaction.Mouse import run_at_window_pos
@@ -138,7 +139,7 @@ class GameFlowMixin:
                 feature_name="reward_ok", box=self.box.bottom, threshold=0.8
             )
             if not result:
-                result = self.wait_ocr(match=re.compile("点击空白处继续"), time_out=1, box=self.box.bottom)
+                result = self.wait_ocr(match=self.lang.game_flow_mixin.k_8b2ca27a, time_out=1, box=self.box.bottom)
             if result:
                 self.click(result, after_sleep=after_sleep)
                 return True
@@ -230,7 +231,7 @@ class GameFlowMixin:
             return True
         if self.click_confirm(time_out=1):
             return False
-        rules = [[None, None, [re.compile("点击空白处继续"), re.compile("结束拜访")], self.box.bottom]]
+        rules = [[None, None, [self.lang.game_flow_mixin.k_8b2ca27a, self.lang.game_flow_mixin.k_7cd2e0c0], self.box.bottom]]
         if not self.run_ocr_rules(rules):
             return False
         if esc:
@@ -258,7 +259,7 @@ class GameFlowMixin:
         self.press_key("i")
 
         exchange_help_box = self.box_of_screen(0.1, 561 / 861, 0.9, 0.9)
-        room_keywords = [re.compile("会客室"), re.compile("制造")]
+        room_keywords = [self.lang.game_flow_mixin.k_f546849b, self.lang.game_flow_mixin.k_04afbdcd]
 
         results = self.wait_ocr(match=room_keywords, time_out=timeout, box=exchange_help_box)
 
@@ -276,13 +277,13 @@ class GameFlowMixin:
 
         for _ in range(3):
             self.press_key("y")
-            check = self.wait_ocr(match=re.compile("建设"), box=self.box.top_left, time_out=5)
+            check = self.wait_ocr(match=self.lang.game_flow_mixin.k_d6b103ab, box=self.box.top_left, time_out=5)
             if check:
                 success = True
             else:
                 self.log_info("未识别到区域且未检测到建设，重新尝试打开界面")
                 continue
-            result = self.wait_ocr(match=[re.compile(area) for area in areas_list], box=self.box.left, time_out=1)
+            result = self.wait_ocr(match=[get_world_map_matcher(self.lang, area) for area in areas_list], box=self.box.left, time_out=1)
             if result:
                 success = True
                 break
@@ -292,17 +293,18 @@ class GameFlowMixin:
         if not success:
             self.log_error("未能识别到区域列表")
             return False
+        expected_area_text = get_world_map_text(self.lang, area)
         for i in result:
-            if area in i.name:
+            if expected_area_text in i.name or area in i.name:
                 need_change = False
                 break
         if need_change:
             if not self.wait_click_ocr(
-                    match=re.compile("更换"), box=self.box.left, time_out=2, log=True
+                    match=self.lang.game_flow_mixin.k_b1a3fede, box=self.box.left, time_out=2, log=True
             ):
                 return False
             if not self.wait_click_ocr(
-                    match=re.compile(area),
+                    match=get_world_map_matcher(self.lang, area),
                     box=self.box_of_screen(
                         648 / 1920, 196 / 1080, 648 / 1920 + 628 / 1920, 196 / 1080 + 192 / 1080
                     ),
@@ -310,7 +312,7 @@ class GameFlowMixin:
             ):
                 return False
             if not self.wait_click_ocr(
-                    match=re.compile("确认"),
+                    match=self.lang.game_flow_mixin.k_b56d9ac6,
                     box=self.box.bottom_right,
                     time_out=2,
             ):
@@ -329,13 +331,14 @@ class GameFlowMixin:
 
     def switch_to_area_delivery_list(self, target_area):
         """切换到指定区域的交付列表。"""
-        if result := self.wait_ocr(match=[re.compile(area) for area in areas_list],
+        if result := self.wait_ocr(match=[get_world_map_matcher(self.lang, area) for area in areas_list],
                                    box=self.box_of_screen(0, 960 / 1080, 260 / 1920, 1), time_out=5):
-            if target_area in result[0].name:
+            expected_target_text = get_world_map_text(self.lang, target_area)
+            if expected_target_text in result[0].name or target_area in result[0].name:
                 return True
             else:
                 self.click(result[0], move_back=True)
-                self.wait_click_ocr(match=re.compile(target_area),
+                self.wait_click_ocr(match=get_world_map_matcher(self.lang, target_area),
                                     box=self.box_of_screen(0, (960 - 60 * len(areas_list)) / 1080, 260 / 1920, 1),
                                     time_out=5)
                 return True
@@ -344,10 +347,10 @@ class GameFlowMixin:
         """确保进入地图界面。"""
         start_time = time.time()
         if addtional_match:
-            match = [re.compile("事务")] + addtional_match if isinstance(addtional_match, list) else [
-                re.compile("事务"), re.compile(addtional_match)]
+            match = [self.lang.game_flow_mixin.k_d3ade189] + addtional_match if isinstance(addtional_match, list) else [
+                self.lang.game_flow_mixin.k_d3ade189, re.compile(addtional_match)]
         else:
-            match = [re.compile("事务")]
+            match = [self.lang.game_flow_mixin.k_d3ade189]
         self.press_key("m")
         while not self.wait_ocr(match=match, time_out=2, box=self.box.top_left):
             if time.time() - start_time > time_out:
@@ -356,7 +359,7 @@ class GameFlowMixin:
 
     def in_friend_boat(self):
         """判断是否在好友的帝江号舰船中。"""
-        return self.wait_ocr(match=re.compile("离开"), box=self.box.top_left)
+        return self.wait_ocr(match=self.lang.game_flow_mixin.k_0ba18905, box=self.box.top_left)
 
     def ensure_in_friend_boat(self):
         """确保进入好友帝江号舰船。"""
