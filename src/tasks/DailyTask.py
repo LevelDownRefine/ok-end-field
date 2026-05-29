@@ -33,7 +33,7 @@ class DailyTask(
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "日常任务"
-        self.description = "子任务开关用⭐标出，自上而下顺序执行，最后执行『日常奖励』。\n如果出现反复按ESC的情形，请调高『设置/主界面单次动作后延迟』（建议1.5以上）。"
+        self.description = "子任务开关用⭐标出，自上而下顺序执行，默认展开在最前面的『⭐⭐⭐ 默认』分组，最后执行『日常奖励』。\n如果出现反复按ESC的情形，请调高『设置/主界面单次动作后延迟』（建议1.5以上）。"
         self.icon = FluentIcon.SYNC
         self.support_schedule_task = True
         self.support_multi_account = True
@@ -55,11 +55,11 @@ class DailyTask(
         )
         self.default_config.update({
             "⭐传送到帝江号右侧传送点": True,
-            "配置选择": "",
+            "配置选择": "⭐⭐⭐ 默认",
             "发生异常时终止游戏": False,
             "仅退出游戏": False,
         })
-        task_group = {"隐藏": [], "子任务配置": [i for i, _ in self.build_task_plan()]}
+        task_group = {"⭐⭐⭐ 默认": [i for i, _ in self.build_task_plan()]}
 
         # 合并两个分组字典
         all_groups = {**task_group, **self.default_config_group, **{"其他配置": ["发生异常时终止游戏", "仅退出游戏"]}}
