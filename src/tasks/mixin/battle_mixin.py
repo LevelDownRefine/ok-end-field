@@ -67,7 +67,7 @@ class BattleMixin(BaseEfTask):
             ),
             "无数字操作间隔": (
                 "战斗中周期触发锁敌+向前闪避的最小间隔秒数。\n"
-                "取值不小于6。"
+                "取值不小于1。"
             ),
             "启用排轴": (
                 "是否启用排轴功能。\n"
@@ -302,7 +302,7 @@ class BattleMixin(BaseEfTask):
     def approach_enemy(self):
         """战斗中周期触发操作（无伤害数字）"""
         interval = self.config.get("无数字操作间隔", 6)
-        interval = max(6.0, min(float(interval), 30.0))
+        interval = max(1.0, min(float(interval), 30.0))
         if time.time() - getattr(self, 'last_no_number_action_time', 0) < interval:
             return
         self.log_info("战斗中周期触发：执行索敌+向前闪避（贴近敌人）")
@@ -402,9 +402,13 @@ class BattleMixin(BaseEfTask):
         start_time = time.time()
         last_battle_time = None
         # 能量淤积点特殊处理：初始sleep_time为0.1
-        if is_world_map_text(self.lang, getattr(self.battle_ctx, 'category_name', None), STAGE_CATEGORY_ENERGY_POOLING):
-            sleep_time = 0.1
-        else:
+        try:
+            if is_world_map_text(self.lang, getattr(self.battle_ctx, 'category_name', None), STAGE_CATEGORY_ENERGY_POOLING):
+                sleep_time = 0.1
+            else:
+                sleep_time = self.config.get("进入战斗后的初始等待时间", 3)
+        except Exception as e:
+            self.log_error(f"判断是否为能量淤积点时发生错误: {e}")
             sleep_time = self.config.get("进入战斗后的初始等待时间", 3)
 
         while True:

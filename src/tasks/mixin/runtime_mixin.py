@@ -143,13 +143,36 @@ class RuntimeMixin:
 
         raise AttributeError(f"未找到任何可用资源: {base_name}")
 
-    def safe_back(self, match, box=None, time_out: float = 30, ocr_time_out: float = 2):
+    def safe_back(self, match=None, feature=None, 
+                box=None, time_out: float = 30, once_time_out: float = 2):
+        """
+        安全返回：持续点击「返回」直到找到指定目标（OCR文本或特征）
+        """
+        if match is None and feature is None:
+            self.log_warning("safe_back 被调用时 match 和 feature 都为空")
+            return False
+
         self.start_time = time.time()
-        while not self.wait_ocr(match=match, time_out=ocr_time_out, box=box):
+
+        while True:
+            # 检查是否已超时
             if time.time() - self.start_time > time_out:
+                self.log_info(f"safe_back 超时（{time_out}s），目标未出现")
                 return False
+
+            # 优先检查 OCR（match）
+            if match is not None:
+                if self.wait_ocr(match=match, time_out=once_time_out, box=box, raise_if_not_found=False):
+                    return True
+
+            # 检查 Feature
+            if feature is not None:
+                if self.wait_feature(feature=feature, time_out=once_time_out, box=box, raise_if_not_found=False):
+                    return True
+
+            # 都没找到 → 点击返回
             self.back()
-        return True
+            self.sleep(0.3)  # 建议加上短暂间隔，避免点击过快
 
     def yolo_loader(self) -> YoloModelLoader:
         loader = getattr(self, "_yolo_loader", None)

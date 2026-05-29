@@ -142,7 +142,7 @@ config = {
         ["src.tasks.DeliveryTask", "DeliveryTask"],
         ["src.tasks.EssenceScanTask", "EssenceScanTask"],
         ["src.tasks.BattleTask", "BattleTask"],
-        ["src.tasks.PeriodicScreenshotTask", "PeriodicScreenshotTask"],
+        ["src.tasks.YingTuoTask", "YingTuoTask"],
         ["src.tasks.TestStartGame", "TestStartGame"],
         ["src.tasks.Test", "Test"],
         ["src.tasks.RealtimeDetectTask", "RealtimeDetectTask"],

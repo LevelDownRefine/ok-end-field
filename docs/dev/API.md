@@ -733,7 +733,7 @@ def safe_back(
     match,
     box=None,
     time_out: float = 30,
-    ocr_time_out: float = 2,
+    once_time_out: float = 2,
 )
 ```
 

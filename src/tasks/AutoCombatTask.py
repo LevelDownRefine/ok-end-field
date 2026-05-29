@@ -36,7 +36,7 @@ class AutoCombatTask(BattleMixin, TriggerTask):
             ),
             "无数字操作间隔": (
                 "战斗中周期触发锁敌+向前闪避的最小间隔秒数。\n"
-                "取值不小于6。"
+                "取值不小于1。"
             ),
         })
         self._combat_logic = AutoCombatLogic(self)

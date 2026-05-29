@@ -1,0 +1,88 @@
+import time
+from src.data.FeatureList import FeatureList as fL
+from src.tasks.BaseEfTask import BaseEfTask
+from src.tasks.mixin.battle_mixin import BattleMixin
+
+class YingTuoTask(BattleMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.name = "影拓丰碑"
+        self.description = "自动完成当前所有普通影拓丰碑关卡"
+        self.default_config.update({
+            "技能释放": ["1", "2", "3"],
+            "启动技能点数": 2,
+            "后台结束战斗通知": True,
+            "无数字操作间隔": 6,
+            "进入战斗后的初始等待时间": 3,
+            "启用排轴": False,
+            "排轴序列": "ult_2,1,e,ult_3,sleep_8",
+        })
+        self.config_description.update({
+            "启动技能点数": (
+                "当「技力条」达到该数值时，\n"
+                "开始执行技能序列。取值范围1-3。"
+            ),
+            "无数字操作间隔": (
+                "战斗中周期触发锁敌+向前闪避的最小间隔秒数。\n"
+                "取值不小于1。"
+            ),
+        })
+    def run(self):
+        self.ensure_main(time_out=400)
+        if not self.enter_yingtuo():
+            return
+        while self.find_normal_challenge():
+            self.log_info("找到普通关卡，进入挑战页面")
+            while self.wait_click_feature(feature=fL.yingtuo_not_cleared_icon, box=self.box_of_screen(0.033, 0.133, 0.058, 0.778), time_out=5, raise_if_not_found=False, after_sleep=1):
+                self.log_info("进入挑战页面，开始挑战")
+                if not self.wait_click_feature(feature=fL.to_max_produce_num, box=self.box_of_screen(0.934, 0.881, 0.977, 0.965), time_out=10, raise_if_not_found=False, after_sleep=2):
+                    self.log_info("未能找到挑战开始按钮")
+                    raise Exception("未能找到挑战开始按钮")
+                if not self.wait_click_feature(feature=fL.give_gift, box=self.box_of_screen(0.934, 0.881, 0.977, 0.965), time_out=10, raise_if_not_found=False):
+                    self.log_info("未能进入战斗")
+                    raise Exception("未能进入战斗")
+                if not self.battle_and_exit():
+                    self.log_info("战斗过程中发生错误，返回失败")
+                    raise Exception("战斗过程中发生错误")
+                if not self.wait_feature(feature=fL.to_max_produce_num, box=self.box_of_screen(0.934, 0.881, 0.977, 0.965), time_out=60, raise_if_not_found=False):
+                    self.log_info("未能找到挑战开始按钮，返回失败")
+                    raise Exception("未能找到挑战开始按钮")
+                self.log_info("挑战完成，继续寻找下一个普通关卡")
+            if not self.safe_back(feature=fL.yingtuo_monument, box=self.box_of_screen(0.002, 0.750, 0.990, 0.783)):
+                self.log_info("未能安全返回，任务结束")
+                return
+        self.log_info("影拓丰碑任务完成", notify=True)
+    def enter_yingtuo(self):
+        self.log_info("开始影拓丰碑任务", notify=True)
+        self.press_key("f8", after_sleep=2)
+        if not self.wait_click_feature(feature=fL.resident_icon, time_out=10, raise_if_not_found=False, after_sleep=2):
+            self.log_info("未能进入常驻战斗页，任务结束", notify=True)
+            return False
+        if not self.wait_click_feature(feature=fL.yingtuo_entrance, time_out=10, raise_if_not_found=False):
+            self.log_info("未能找到影拓入口，任务结束", notify=True)
+            return False
+        if not self.wait_feature(feature=fL.yingtuo_monument, time_out=10, raise_if_not_found=False):
+            self.log_info("未能找到影拓丰碑活动页标志，任务结束", notify=True)
+            return False
+        self.log_info("成功进入影拓丰碑页面")
+        return True
+    def find_normal_challenge(self):
+        normal_features = [fL.level_not_cleared_short, fL.level_not_cleared_long]
+        for _ in range(3):  # 尝试多次寻找，增加成功率
+            for feature in normal_features:
+                if self.wait_click_feature(feature=feature, box=self.box_of_screen(0.004, 0.756, 0.999, 0.781), time_out=2, raise_if_not_found=False, after_sleep=2):
+                    return feature
+            self.scroll_relative(0.5, 0.5, 5)
+        return None
+    def battle_and_exit(self):
+        end_time = time.time()
+        while not self.wait_ocr(match=self.lang.daily_battle_mixin.k_6afbae72, time_out=1, box=self.box.top_left, log=True):
+            if time.time() - end_time > 300:
+                self.log_info("等待超时，进入协议空间超时")
+                return False
+        self.auto_battle()
+        if not self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_0ba18905, box=self.box.bottom_right, log=True, recheck_time=1):
+            self.log_info("未能退出按钮")
+            return False
+        return True
+        
