@@ -277,11 +277,11 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         mid_items = [i for i in mid_items if getattr(i, "name", "").strip()]
         # === 分组 ===
         left_groups = [
-            g for g in split_items_by_marker(left_items, "查看位置") if len(g) >= 2
+            g for g in split_items_by_marker(left_items, self.lang.DeliveryTask.k_view_location) if len(g) >= 2
         ]
 
         right_groups = [
-            g for g in split_items_by_marker(right_items, "接取运送委托") if len(g) >= 2
+            g for g in split_items_by_marker(right_items, self.lang.DeliveryTask.k_accept_delivery) if len(g) >= 2
         ]
         available_left = left_groups.copy()
         available_mid = mid_items.copy()
@@ -447,8 +447,8 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                     ticket_type = self.detect_ticket_type(row)
                     if ticket_type == "ticket_delivery_area" and enable_delivery_area:
                         if (
-                                "易损" in row.elems[2].name
-                                and "不易损" not in row.elems[2].name
+                                self.lang.DeliveryTask.k_fragile in row.elems[2].name
+                                and self.lang.DeliveryTask.k_not_fragile not in row.elems[2].name
                         ):
                             target_num = self.config.get(self.CFG_TARGET_TICKET_NUM)
                             x, y, to_x, to_y = row.box

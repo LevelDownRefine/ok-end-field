@@ -31,5 +31,17 @@
   },
   "k_a72a252f_1": {
     "string": "Warehousing node"
+  },
+  "k_view_location": {
+    "string": "View location"
+  },
+  "k_accept_delivery": {
+    "string": "Accept delivery order"
+  },
+  "k_fragile": {
+    "pattern": "Fragile"
+  },
+  "k_not_fragile": {
+    "string": "Non-fragile"
   }
 }

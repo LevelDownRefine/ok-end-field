@@ -76,5 +76,14 @@
   },
   "k_70b20820": {
     "pattern": "选择"
+  },
+  "k_unit_day": {
+    "string": "天"
+  },
+  "k_unit_hour": {
+    "string": "小时"
+  },
+  "k_reward_select": {
+    "string": "奖励选择"
   }
 }

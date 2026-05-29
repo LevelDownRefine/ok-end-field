@@ -1,9 +1,9 @@
 from src.config import config
-from src.log_upload_patch import install_log_upload_patch
+from src.startup_patches import install_startup_patches
 
 if __name__ == '__main__':
     config = config
-    install_log_upload_patch()
+    install_startup_patches()
     import ok
     ok = ok.OK(config)
     ok.start()

@@ -26,6 +26,9 @@
   "k_cd9eabf7": {
     "pattern": "excitación"
   },
+  "k_bfe73e18": {
+    "pattern": "excitación|abandonar"
+  },
   "k_b0e3a2da": {
     "pattern": "Sube a la tirolesa"
   },
@@ -63,7 +66,7 @@
     "pattern": "recibir"
   },
   "k_4e1f3d8b": {
-    "pattern": "(\\d+)(cielo|Hora)"
+    "pattern": "(\\d+)(día|hora)"
   },
   "k_62b5b688": {
     "pattern": "Ya en batalla"
@@ -73,5 +76,14 @@
   },
   "k_70b20820": {
     "pattern": "elegir"
+  },
+  "k_unit_day": {
+    "string": "día"
+  },
+  "k_unit_hour": {
+    "string": "hora"
+  },
+  "k_reward_select": {
+    "string": "Selección de recompensa"
   }
 }

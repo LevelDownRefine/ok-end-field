@@ -31,5 +31,17 @@
   },
   "k_a72a252f_1": {
     "string": "倉庫ノード"
+  },
+  "k_view_location": {
+    "string": "場所を確認"
+  },
+  "k_accept_delivery": {
+    "string": "配送注文を受け取る"
+  },
+  "k_fragile": {
+    "pattern": "壊れやすい"
+  },
+  "k_not_fragile": {
+    "string": "壊れにくい"
   }
 }

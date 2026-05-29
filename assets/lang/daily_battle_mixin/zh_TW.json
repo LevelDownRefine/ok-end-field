@@ -26,6 +26,9 @@
   "k_cd9eabf7": {
     "pattern": "激發"
   },
+  "k_bfe73e18": {
+    "pattern": "激發|放棄"
+  },
   "k_b0e3a2da": {
     "pattern": "登上滑索架"
   },
@@ -73,5 +76,14 @@
   },
   "k_70b20820": {
     "pattern": "選擇"
+  },
+  "k_unit_day": {
+    "string": "天"
+  },
+  "k_unit_hour": {
+    "string": "小時"
+  },
+  "k_reward_select": {
+    "string": "獎勵選擇"
   }
 }

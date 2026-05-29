@@ -26,6 +26,9 @@
   "k_cd9eabf7": {
     "pattern": "励起"
   },
+  "k_bfe73e18": {
+    "pattern": "励起|あきらめる"
+  },
   "k_b0e3a2da": {
     "pattern": "ジップラインを登る"
   },
@@ -63,7 +66,7 @@
     "pattern": "受け取る"
   },
   "k_4e1f3d8b": {
-    "pattern": "(\\d+)(空|時間)"
+    "pattern": "(\\d+)(日|時間)"
   },
   "k_62b5b688": {
     "pattern": "すでに戦闘中"
@@ -73,5 +76,14 @@
   },
   "k_70b20820": {
     "pattern": "選ぶ"
+  },
+  "k_unit_day": {
+    "string": "日"
+  },
+  "k_unit_hour": {
+    "string": "時間"
+  },
+  "k_reward_select": {
+    "string": "報酬選択"
   }
 }

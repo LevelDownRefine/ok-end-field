@@ -26,6 +26,9 @@
   "k_cd9eabf7": {
     "pattern": "excitation"
   },
+  "k_bfe73e18": {
+    "pattern": "excitation|give up"
+  },
   "k_b0e3a2da": {
     "pattern": "Climb the zipline"
   },
@@ -63,7 +66,7 @@
     "pattern": "receive"
   },
   "k_4e1f3d8b": {
-    "pattern": "(\\d+)(sky|Hour)"
+    "pattern": "(\\d+)(day|hour)"
   },
   "k_62b5b688": {
     "pattern": "Already in battle"
@@ -73,5 +76,14 @@
   },
   "k_70b20820": {
     "pattern": "choose"
+  },
+  "k_unit_day": {
+    "string": "day"
+  },
+  "k_unit_hour": {
+    "string": "hour"
+  },
+  "k_reward_select": {
+    "string": "Reward Selection"
   }
 }

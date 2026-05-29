@@ -31,5 +31,17 @@
   },
   "k_a72a252f_1": {
     "string": "Nodo de almacenamiento"
+  },
+  "k_view_location": {
+    "string": "Ver ubicación"
+  },
+  "k_accept_delivery": {
+    "string": "Aceptar orden de envío"
+  },
+  "k_fragile": {
+    "pattern": "Frágil"
+  },
+  "k_not_fragile": {
+    "string": "No frágil"
   }
 }

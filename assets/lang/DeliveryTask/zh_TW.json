@@ -31,5 +31,17 @@
   },
   "k_a72a252f_1": {
     "string": "倉儲節點"
+  },
+  "k_view_location": {
+    "string": "查看位置"
+  },
+  "k_accept_delivery": {
+    "string": "接取運送委託"
+  },
+  "k_fragile": {
+    "pattern": "易損"
+  },
+  "k_not_fragile": {
+    "string": "不易損"
   }
 }
