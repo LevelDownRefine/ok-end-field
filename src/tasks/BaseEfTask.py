@@ -199,11 +199,21 @@ class BaseEfTask(
                 self.log_info("发生异常，终止游戏", notify=True)
 
     def mark_task_failure(self, message: str, task_name: str | None = None):
-        """统一标记任务失败消息。
+        """统一标记任务失败消息，并截图（包含时间和任务名称）。
 
         在日常任务编排器可用时写入 runner.failure_details；
         否则退化为普通日志，避免在独立任务中报错。
         """
+        # 生成截图文件名：失败时间+任务名
+        from datetime import datetime
+        now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        name = task_name or getattr(self, "current_task", None) or "UnknownTask"
+        screenshot_name = f"fail_{now_str}_{name}"
+        try:
+            self.screenshot(screenshot_name)
+        except Exception:
+            pass
+
         runner = getattr(self, "daily_runner", None)
         if runner is not None and hasattr(runner, "set_task_failure"):
             runner.set_task_failure(message, task_name=task_name)

@@ -849,7 +849,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
             return True
         if self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_f546849b, time_out=6, box=exchange_help_box):
             self.logger.info("进入会客室,准备处理收集线索")
-            self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_b56d9ac6, time_out=6, box=self.box.bottom)
+            self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_b56d9ac6, time_out=15, box=self.box.bottom)
             if self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_3297422a, time_out=4, box=self.box.right, after_sleep=1):
                 self.logger.info("点击收集线索")
                 self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_39d12e73, time_out=4, box=self.box.bottom_right, after_sleep=1)

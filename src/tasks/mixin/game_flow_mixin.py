@@ -231,7 +231,7 @@ class GameFlowMixin:
             return True
         if self.click_confirm(time_out=1):
             return False
-        rules = [[None, None, [self.lang.game_flow_mixin.k_8b2ca27a, self.lang.game_flow_mixin.k_7cd2e0c0], self.box.bottom]]
+        rules = [[None, None, [self.lang.game_flow_mixin.k_8b2ca27a, self.lang.game_flow_mixin.k_7cd2e0c0, self.lang.game_flow.k_b56d9ac6], self.box.bottom]]
         if not self.run_ocr_rules(rules):
             return False
         if esc:
