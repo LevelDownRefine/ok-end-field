@@ -6,13 +6,26 @@ import zipfile
 from pathlib import Path
 
 import requests
+from PySide6.QtWidgets import QInputDialog, QLineEdit
 from qfluentwidgets import FluentIcon, PushButton
 
 
 _PATCH_INSTALLED = False
 
 
-def _build_logs_zip():
+def _normalize_note_filename(note_text: str) -> str:
+    note_text = (note_text or "").strip()
+    if not note_text:
+        return ""
+
+    invalid_chars = '<>:"/\\|?*'
+    for char in invalid_chars:
+        note_text = note_text.replace(char, "_")
+
+    return note_text.strip(" ._")
+
+
+def _build_logs_zip(note_text: str = ""):
     from ok import og
     from ok.gui.util.Alert import alert_error
     from ok.util.file import get_downloads_folder
@@ -24,6 +37,10 @@ def _build_logs_zip():
     downloads_path.mkdir(parents=True, exist_ok=True)
     try:
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
+            note_name = _normalize_note_filename(note_text)
+            if note_name:
+                zipf.writestr(f"{note_name}.txt", "")
+
             for folder in ["screenshots", "logs"]:
                 source_dir = Path.cwd() / folder
                 if not source_dir.is_dir():
@@ -49,7 +66,7 @@ def _export_logs():
         return
 
 
-def _upload_logs_bg():
+def _upload_logs_bg(note_text: str = ""):
     from ok import Logger, og
     from ok.gui.util.Alert import alert_error, alert_info
 
@@ -59,7 +76,7 @@ def _upload_logs_bg():
         return
 
     try:
-        zip_path = _build_logs_zip()
+        zip_path = _build_logs_zip(note_text)
         with open(zip_path, 'rb') as file_handle:
             response = requests.post(
                 upload_api,
@@ -74,8 +91,29 @@ def _upload_logs_bg():
         Logger.get_logger(__name__).error('upload_logs exception', exc)
 
 
+def _prompt_upload_note() -> str:
+    from ok import og
+
+    try:
+        text, ok = QInputDialog.getText(
+            None,
+            og.app.tr("日志上传"),
+            og.app.tr("请输入遇到的问题描述"),
+            QLineEdit.Normal,
+            "",
+        )
+    except Exception:
+        return ""
+
+    if not ok:
+        return ""
+
+    return text.strip()
+
+
 def _upload_logs():
-    worker = threading.Thread(target=_upload_logs_bg)
+    note_text = _prompt_upload_note()
+    worker = threading.Thread(target=_upload_logs_bg, args=(note_text,))
     worker.daemon = True
     worker.start()
 
