@@ -10,515 +10,522 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "73100"
-msgstr ""
+msgstr "73100"
 
 msgid "79800"
-msgstr ""
+msgstr "79800"
 
 msgid "Area Build Key"
-msgstr ""
+msgstr "エリア建築キー"
 
 msgid "Baker Key"
-msgstr ""
+msgstr "ベーカーキー"
 
 msgid "BitBlt_RenderFull"
-msgstr ""
+msgstr "BitBlt_RenderFull"
 
 msgid "Blueprint Key"
-msgstr ""
+msgstr "設計図キー"
 
 msgid "D96钢"
-msgstr ""
+msgstr "D96 Steel"
 
 msgid "Dodge Key"
-msgstr ""
+msgstr "回避キー"
 
 msgid "Ensure Main Once Action Sleep"
-msgstr ""
+msgstr "メイン一回アクションスリープ"
 
 msgid "Equipment List Key"
-msgstr ""
+msgstr "装備リストキー"
 
 msgid "F10"
-msgstr ""
+msgstr "F10"
 
 msgid "F11"
-msgstr ""
+msgstr "F11"
 
 msgid "F12"
-msgstr ""
+msgstr "F12"
 
 msgid "F9"
-msgstr ""
+msgstr "F9"
 
 msgid "Game Hotkey Config"
-msgstr ""
+msgstr "ゲームホットキー設定"
 
 msgid "Handbook Key"
-msgstr ""
+msgstr "ハンドブックキー"
 
 msgid "In Game Hotkey Config"
-msgstr ""
+msgstr "ゲーム内ホットキー設定"
 
 msgid "Industry Plan Key"
-msgstr ""
+msgstr "産業計画キー"
 
 msgid "Interact Key"
-msgstr ""
+msgstr "インタラクトキー"
 
 msgid "Jump Key"
-msgstr ""
+msgstr "ジャンプキー"
 
 msgid "Mail Key"
-msgstr ""
+msgstr "メールキー"
 
 msgid "Map Key"
-msgstr ""
+msgstr "マップキー"
 
 msgid "Mission Key"
-msgstr ""
+msgstr "ミッションキー"
 
 msgid "Overview Mode Key"
-msgstr ""
+msgstr "概観モードキー"
 
 msgid "Place Belt Key"
-msgstr ""
+msgstr "ベルト設置キー"
 
 msgid "Place Pipeline Key"
-msgstr ""
+msgstr "パイプライン設置キー"
 
 msgid "Product Icon Toggle Key"
-msgstr ""
+msgstr "製品アイコン切替キー"
 
 msgid "Quick Tool Key"
-msgstr ""
+msgstr "クイックツールキー"
 
 msgid "Recruitment Key"
-msgstr ""
+msgstr "採用キー"
 
 msgid "SingleActionWithDelay"
-msgstr ""
+msgstr "SingleActionWithDelay"
 
 msgid "Storage Mode Key"
-msgstr ""
+msgstr "ストレージモードキー"
 
 msgid "Team Key"
-msgstr ""
+msgstr "チームキー"
 
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 msgid "Track Key"
-msgstr ""
+msgstr "トラックキー"
 
 msgid "Valuables Key"
-msgstr ""
+msgstr "貴重品キー"
 
 msgid "WGC"
-msgstr ""
+msgstr "WGC"
 
 msgid "valley4"
-msgstr ""
+msgstr "valley4"
 
 msgid "wuling"
-msgstr ""
+msgstr "wuling"
 
 msgid "一键收菜"
-msgstr ""
+msgstr "一括収穫"
 
 msgid "三位一体"
-msgstr ""
+msgstr "トリニティ"
 
 msgid "三相纳米片"
-msgstr ""
+msgstr "三相ナノシート"
 
 msgid "上锁毕业基质"
-msgstr ""
+msgstr "卒業エッセンスロック"
 
 msgid "买信用商店"
-msgstr ""
+msgstr "クレジットストア購入"
 
 msgid "买卖货"
-msgstr ""
+msgstr "売買取引"
 
 msgid "仅接取"
-msgstr ""
+msgstr "受取のみ"
 
 msgid "仅武陵7.98w/7.31w送货,教程视频 BV1LLc7zFEF9"
-msgstr ""
+msgstr "Wuling 7.98w/7.31w delivery only, tutorial BV1LLc7zFEF9"
 
 msgid "仅送货"
-msgstr ""
+msgstr "配送のみ"
 
 msgid "从发货仓库取出指定物品，切到收货仓库后一键存放 （目前只支持中文版）"
-msgstr ""
+msgstr "出荷倉庫から指定アイテムを取り出し、受入倉庫で一括保管（中国語版のみ）"
 
 msgid "从这个仓库拿货"
-msgstr ""
+msgstr "この倉庫から荷物を取る"
 
 msgid "仓库物品转移"
-msgstr ""
+msgstr "倉庫アイテム転送"
 
 msgid "优先送礼对象"
-msgstr ""
+msgstr "優先ギフト対象"
 
 msgid "体力本"
-msgstr ""
+msgstr "スタミナダンジョン"
 
 msgid "余烬"
-msgstr ""
+msgstr "エンバー"
 
 msgid "佩丽卡"
-msgstr ""
+msgstr "ペリカ"
 
 msgid "供能高地"
-msgstr ""
+msgstr "パワーハイランド"
 
 msgid "保存目录"
-msgstr ""
+msgstr "保存ディレクトリ"
 
 msgid "倒货的轮次"
-msgstr ""
+msgstr "商品移動ラウンド"
 
 msgid "别礼"
-msgstr ""
+msgstr "ビエリ"
 
 msgid "刷体力"
-msgstr ""
+msgstr "スタミナ周回"
 
 msgid "刷体力任务"
-msgstr ""
+msgstr "スタミナ周回タスク"
 
 msgid ""
 "前置是选择测试对象部分选择\"无\"\n"
 "仅接取7.31w武陵委托，不送货"
 msgstr ""
+"Prerequisite: Select \"None\" for test target\n"
+"Only accept 7.31w Wuling commission, no delivery"
 
 msgid ""
 "前置是选择测试对象部分选择\"无\"\n"
 "接取武陵委托后启动自动识别送货"
 msgstr ""
+"Prerequisite: Select \"None\" for test target\n"
+"Auto-detect delivery after accepting Wuling commission"
 
 msgid "发货仓库"
-msgstr ""
+msgstr "出荷倉庫"
 
 msgid "后台结束战斗通知"
-msgstr ""
+msgstr "バックグラウンド戦闘終了通知"
 
 msgid "启动技能点数"
-msgstr ""
+msgstr "スキルポイント初期値"
 
 msgid ""
 "启用后在对齐滑索时会自动滚动放大视角\n"
 "可能会提高对齐成功率，但也可能导致对齐成功率下降较为明显\n"
 "建议启用此项时不要使用非白发或有白帽角色"
 msgstr ""
+"Auto-scroll zoom when aligning zipline\n"
+"May improve or reduce alignment success\n"
+"Avoid non-white hair or white hat characters"
 
 msgid "命中毕业词条后自动点击右侧小锁上锁"
-msgstr ""
+msgstr "Auto-lock upon hitting graduated affix"
 
 msgid "四号谷地"
-msgstr ""
+msgstr "バレーNo.4"
 
 msgid "四号谷地买入价"
-msgstr ""
+msgstr "バレーNo.4 買値"
 
 msgid "四号谷地卖出价"
-msgstr ""
+msgstr "バレーNo.4 売値"
 
 msgid "在好友交流助力时，优先尝试仅收取培育室的助力,但每次至少助力一次舱室"
-msgstr ""
+msgstr "Prioritize cultivation room support, assist at least one chamber each time"
 
 msgid "埃特拉"
-msgstr ""
+msgstr "エトラ"
 
 msgid "大世界自动拾取"
-msgstr ""
+msgstr "オープンワールド自動ピックアップ"
 
 msgid "大潘"
-msgstr ""
+msgstr "ダーパン"
 
 msgid "安塔尔"
-msgstr ""
+msgstr "アンタール"
 
 msgid "完整循环测试"
-msgstr ""
+msgstr "フルサイクルテスト"
 
 msgid "定时截图"
-msgstr ""
+msgstr "定期スクリーンショット"
 
 msgid "尝试仅收培育室"
-msgstr ""
+msgstr "培育室のみ回収を試行"
 
 msgid "常沄"
-msgstr ""
+msgstr "チャン・ユン"
 
 msgid "干员经验"
-msgstr ""
+msgstr "オペレーター経験値"
 
 msgid "干员进阶"
-msgstr ""
+msgstr "オペレーター昇格"
 
 msgid "弧光"
-msgstr ""
+msgstr "アークライト"
 
 msgid "当技能点达到该数值时，开始执行技能序列, 1-3"
-msgstr ""
+msgstr "Start skill sequence when skill points reach this value (1-3)"
 
 msgid "彦宁"
-msgstr ""
+msgstr "イェン・ニン"
 
 msgid "快子遴捡晶格"
-msgstr ""
+msgstr "タキオン選別格子"
 
 msgid "战斗中周期触发锁敌+向前闪避的最小间隔(秒，最少6秒)"
-msgstr ""
+msgstr "Min interval (seconds, min 6s) for lock-on + forward dodge"
 
 msgid "截图保存路径（相对于项目根目录）"
-msgstr ""
+msgstr "スクリーンショット保存パス（プロジェクトルートからの相対パス）"
 
 msgid "技能提升"
-msgstr ""
+msgstr "スキル強化"
 
 msgid "技能释放"
-msgstr ""
+msgstr "スキル発動"
 
 msgid "据点兑换"
-msgstr ""
+msgstr "拠点交換"
 
 msgid "接取武陵券"
-msgstr ""
+msgstr "ウーリン券受取"
 
 msgid "接取武陵券最低金额(万)"
-msgstr ""
+msgstr "ウーリン券最低金額(万)"
 
 msgid "接取武陵券最高金额(万)"
-msgstr ""
+msgstr "ウーリン券最高金額(万)"
 
 msgid "接取谷地券"
-msgstr ""
+msgstr "バレー券受取"
 
 msgid "接取谷地券最低金额(万)"
-msgstr ""
+msgstr "バレー券最低金額(万)"
 
 msgid "接取谷地券最高金额(万)"
-msgstr ""
+msgstr "バレー券最高金額(万)"
 
 msgid "收信用"
-msgstr ""
+msgstr "クレジット回収"
 
 msgid "收货仓库"
-msgstr ""
+msgstr "受入倉庫"
 
 msgid "收集线索"
-msgstr ""
+msgstr "ヒント収集"
 
 msgid "教程"
-msgstr ""
+msgstr "チュートリアル"
 
 msgid "无"
-msgstr ""
+msgstr "なし"
 
 msgid "无数字操作间隔"
-msgstr ""
+msgstr "数値操作間隔なし"
 
 msgid "日常任务"
-msgstr ""
+msgstr "デイリータスク"
 
 msgid "日常奖励"
-msgstr ""
+msgstr "デイリーリワード"
 
 msgid "是否启用滚动放大视角"
-msgstr ""
+msgstr "Enable Scroll Zoom View"
 
 msgid "昼雪"
-msgstr ""
+msgstr "チューシュエ"
 
 msgid "枢纽区"
-msgstr ""
+msgstr "ハブエリア"
 
 msgid "武器经验"
-msgstr ""
+msgstr "武器経験値"
 
 msgid "武器进阶"
-msgstr ""
+msgstr "武器昇格"
 
 msgid "武陵"
-msgstr ""
+msgstr "ウーリン"
 
 msgid "武陵买入价"
-msgstr ""
+msgstr "ウーリン買値"
 
 msgid "武陵卖出价"
-msgstr ""
+msgstr "ウーリン売値"
 
 msgid "武陵城"
-msgstr ""
+msgstr "ウーリンシティ"
 
 msgid "每次截图的间隔时间（秒），最小 1 秒"
-msgstr ""
+msgstr "Interval between screenshots (seconds), minimum 1"
 
 msgid "每隔指定秒数截图保存，用于数据采集 / YOLO 样本收集"
-msgstr ""
+msgstr "Save screenshots every N seconds for data / YOLO sample collection"
 
 msgid "毕业基质识别"
-msgstr ""
+msgstr "卒業エッセンス識別"
 
 msgid "洁尔佩塔"
-msgstr ""
+msgstr "ジェルペータ"
 
 msgid "源石研究园"
-msgstr ""
+msgstr "源石研究園"
 
 msgid "源矿"
-msgstr ""
+msgstr "源鉱"
 
 msgid "满技能时, 开始释放技能, 如123, 建议只放3个技能"
-msgstr ""
+msgstr "When skill is full, start releasing (e.g. 123); recommend only 3"
 
 msgid "物品"
-msgstr ""
+msgstr "アイテム"
 
 msgid "狼卫"
-msgstr ""
+msgstr "ウルフガード"
 
 msgid "白垩界卫"
-msgstr ""
+msgstr "白亜界衛"
 
 msgid "目标券数"
-msgstr ""
+msgstr "目標券数"
 
 msgid "矿脉源区"
-msgstr ""
+msgstr "鉱脈源エリア"
 
 msgid "秋栗"
-msgstr ""
+msgstr "チューリ"
 
 msgid "罗丹"
-msgstr ""
+msgstr "ロダン"
 
 msgid "自动战斗"
-msgstr ""
+msgstr "自動戦闘"
 
 msgid "自动战斗(进入战斗后自动战斗直到结束)"
-msgstr ""
+msgstr "自動戦闘（戦闘開始後自動で最後まで戦う）"
 
 msgid "自动抢单"
-msgstr ""
+msgstr "自動受注"
 
 msgid "自动拾取"
-msgstr ""
+msgstr "自動ピックアップ"
 
 msgid "自动登录"
-msgstr ""
+msgstr "自動ログイン"
 
 msgid "自动登录领月卡"
-msgstr ""
+msgstr "自動ログインで月額カード受取"
 
 msgid "自动跳过剧情"
-msgstr ""
+msgstr "自動スキップ"
 
 msgid "自动送货"
-msgstr ""
+msgstr "自動配送"
 
 msgid "艾尔黛拉"
-msgstr ""
+msgstr "エルデラ"
 
 msgid "艾维文娜"
-msgstr ""
+msgstr "アヴィウェナ"
 
 msgid "莱万汀"
-msgstr ""
+msgstr "レヴァンティン"
 
 msgid "萤石"
-msgstr ""
+msgstr "蛍石"
 
 msgid "蓝铁矿"
-msgstr ""
+msgstr "青鉄鉱"
 
 msgid "象限拟合液"
-msgstr ""
+msgstr "象限フィッティング液"
 
 msgid "资源"
-msgstr ""
+msgstr "リソース"
 
 msgid "赛希"
-msgstr ""
+msgstr "サイシー"
 
 msgid "超距辉映管"
-msgstr ""
+msgstr "超距離発光管"
 
 msgid "转交委托奖励领取"
-msgstr ""
+msgstr "委託報酬受取"
 
 msgid "转交运送委托"
-msgstr ""
+msgstr "運送委託移管"
 
 msgid "转移轮次"
-msgstr ""
+msgstr "転送ラウンド"
 
 msgid "转运到这个仓库"
-msgstr ""
+msgstr "この倉庫に転送"
 
 msgid "运送委托接取"
-msgstr ""
+msgstr "運送委託受取"
 
 msgid "进入战斗后的初始等待时间"
-msgstr ""
+msgstr "戦闘開始後の初期待機時間"
 
 msgid "送礼"
-msgstr ""
+msgstr "ギフト"
 
 msgid "送礼任务最多尝试次数"
-msgstr ""
+msgstr "ギフトタスク最大試行回数"
 
 msgid "选择测试对象"
-msgstr ""
+msgstr "テスト対象選択"
 
 msgid "选择要转移的物品"
-msgstr ""
+msgstr "転送アイテム選択"
 
 msgid "通向送货点"
-msgstr ""
+msgstr "納品ポイントへ"
 
 msgid "造装备"
-msgstr ""
+msgstr "装備製作"
 
 msgid "遍历武器基质列表，匹配 weapon_data.csv 并处理毕业基质上锁"
-msgstr ""
+msgstr "武器エッセンス一覧を走査し、weapon_data.csv と照合して卒業エッセンスをロック"
 
 msgid "重复测试的次数"
-msgstr ""
+msgstr "テスト繰り返し回数"
 
 msgid "钱币收集"
-msgstr ""
+msgstr "通貨収集"
 
 msgid "间隔秒数"
-msgstr ""
+msgstr "間隔（秒）"
 
 msgid "阿列什"
-msgstr ""
+msgstr "アレシュ"
 
 msgid "陈千语"
-msgstr ""
+msgstr "チェン・チアンユー"
 
 msgid "非毕业基质会尝试取消上锁（已上锁的会解锁）"
-msgstr ""
+msgstr "Non-graduated essences will attempt to unlock"
 
 msgid "非毕业基质取消上锁"
-msgstr ""
+msgstr "非卒業エッセンスのロック解除"
 
 msgid "非毕业基质弃置"
-msgstr ""
+msgstr "非卒業エッセンス廃棄"
 
 msgid "骏卫"
-msgstr ""
+msgstr "ジュンウェイ"
 
 msgid "高容谷地电池"
-msgstr ""
+msgstr "大容量バレー電池"
 
 msgid "黎风"
-msgstr ""
+msgstr "リーフォン"
 
 msgid ""
 "默认是无，表示正常执行相关任务\n"
@@ -526,63 +533,67 @@ msgid ""
 "选择完整循环测试则会依次测试每个送货目标的完整流程\n"
 "(需要锁定次要任务在送货任务上或附近)"
 msgstr ""
+"Default is None (normal task)\n"
+"Select zipline fork sequences to test\n"
+"Full Cycle Test tests each delivery target's complete flow\n"
+"(Requires locking sub-task on or near delivery task)"
 
 msgid "齐纶"
-msgstr ""
+msgstr "チールン"
 
 msgid "⭐买信用商店"
-msgstr ""
+msgstr "⭐クレジットストア購入"
 
 msgid "⭐买卖货"
-msgstr ""
+msgstr "⭐売買取引"
 
 msgid "⭐买物资"
-msgstr ""
+msgstr "⭐物資購入"
 
 msgid "⭐传送到帝江号右侧传送点"
-msgstr ""
+msgstr "⭐帝江号右側ワープポイントへ移動"
 
 msgid "⭐刷体力"
-msgstr ""
+msgstr "⭐スタミナ周回"
 
 msgid "⭐周常奖励"
-msgstr ""
+msgstr "⭐ウィークリーリワード"
 
 msgid "⭐帝江号收菜"
-msgstr ""
+msgstr "⭐帝江号回収"
 
 msgid "⭐据点兑换"
-msgstr ""
+msgstr "⭐拠点交換"
 
 msgid "⭐收信用"
-msgstr ""
+msgstr "⭐クレジット回収"
 
 msgid "⭐收邮件"
-msgstr ""
+msgstr "⭐メール受取"
 
 msgid "⭐日常奖励"
-msgstr ""
+msgstr "⭐デイリーリワード"
 
 msgid "⭐简易制作"
-msgstr ""
+msgstr "⭐簡易製作"
 
 msgid "⭐转交委托奖励领取"
-msgstr ""
+msgstr "⭐委託報酬受取"
 
 msgid "⭐转交运送委托"
-msgstr ""
+msgstr "⭐運送委託移管"
 
 msgid "⭐送礼"
-msgstr ""
+msgstr "⭐ギフト"
 
 msgid "⭐造装备"
-msgstr ""
+msgstr "⭐装備製作"
 
 msgid "「战技」释放角色顺序，比如123。建议只放3个技能。"
-msgstr ""
+msgstr "Skill release order, e.g. 123. Recommend only 3 skills."
 
 msgid "交易货品优先序列"
-msgstr ""
+msgstr "取引商品優先順序"
 
 msgid ""
 "仅接受'1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n]'这些值的逗号分隔字符串，代表技能释放优先级顺序\n"
@@ -590,202 +601,809 @@ msgid ""
 "启用排轴功能后，系统会按照该配置的顺序尝试释放技能，一旦成功释放一个技能，就会等待下一个技能，而不是继续尝试后续技能\n"
 "这可以用于更精细地控制技能释放顺序，例如优先释放某个干员的技能来配合特定的战术需求。"
 msgstr ""
+"Comma-separated values: '1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n]' for skill priority\n"
+"e.g. 'ult_2,1,e,ult_1'\n"
+"With rotation, system tries skills in order, waits after success\n"
+"Use for fine-grained control."
 
 msgid "仅站桩"
-msgstr ""
+msgstr "スタンドのみ"
 
 msgid "伊冯"
-msgstr ""
+msgstr "イヴォンヌ"
 
 msgid "使用说明参见选项，更多用法参见 ./docs/日常任务.md"
-msgstr ""
+msgstr "See options for instructions, more in ./docs/日常任务.md"
 
 msgid "信用商店保留信用"
-msgstr ""
+msgstr "クレジットストア保留クレジット"
 
 msgid "制造舱"
-msgstr ""
+msgstr "製造ベイ"
 
 msgid "刷取哪个副本。所选副本必须领完所有等级的首通奖励。"
-msgstr ""
+msgstr "周回するダンジョン。選択したダンジョンの初回クリア報酬を全て受け取っている必要があります。"
 
 msgid "发生异常时终止游戏"
-msgstr ""
+msgstr "例外発生時にゲーム終了"
 
 msgid "只买不卖"
-msgstr ""
+msgstr "購入のみ・売却なし"
 
 msgid "启动一次游戏,120s后自动关闭"
-msgstr ""
+msgstr "Launch game once, auto-close after 120s"
 
 msgid "启用后将只进行购买操作，不进行出售操作。"
-msgstr ""
+msgstr "When enabled, only purchase, no selling."
 
 msgid "启用排轴"
-msgstr ""
+msgstr "スキルローテーション有効"
 
 msgid "四号谷地物资买入价格上限，超出则拒绝买入。若必买，则设大数。"
-msgstr ""
+msgstr "Valley No.4 buy price cap. Set high if must buy."
 
 msgid "四号谷地物资卖出价格下限，不足则拒绝卖出。若必卖，则设1。"
-msgstr ""
+msgstr "Valley No.4 sell price floor. Set to 1 if must sell."
 
 msgid "回到主页后等待的时间"
-msgstr ""
+msgstr "Wait time after returning to main page"
 
 msgid "多账户模式"
-msgstr ""
+msgstr "マルチアカウントモード"
 
 msgid "多账户模式下，账号密码列表，每行一个账号，账号密码用逗号分隔"
-msgstr ""
+msgstr "Account/password list, one per line, comma-separated"
 
 msgid "如果勾选，那么对于随机某项 m 个限时 n 天的体力药，使用其中的 2*m/n 个（向上取整）。"
-msgstr ""
+msgstr "If checked, use 2*m/n of limited-time stamina potions (rounded up)."
 
 msgid ""
 "子任务开关用⭐标出，自上而下顺序执行，最后执行『日常奖励』。\n"
 "如果出现反复按ESC的情形，请调高『设置/主界面单次动作后延迟』（建议1.5以上）。"
 msgstr ""
+"Sub-tasks marked with ⭐, top to bottom, Daily Rewards last.\n"
+"If ESC repeats, increase Action Delay (recommended 1.5+)."
 
 msgid "帮助"
-msgstr ""
+msgstr "ヘルプ"
 
 msgid "当「技力条」达到该数值时，开始执行技能序列。取值范围1-3。"
-msgstr ""
+msgstr "Start skill sequence when skill gauge reaches this value. Range: 1-3."
 
 msgid "战斗中周期触发锁敌+向前闪避的最小间隔秒数。取值不小于6。"
-msgstr ""
+msgstr "Min interval (seconds) for lock-on + forward dodge. Min 6."
 
 msgid "排轴序列"
-msgstr ""
+msgstr "スキルローテーション順序"
 
 msgid "是否买礼物"
-msgstr ""
+msgstr "ギフト購入"
 
 msgid "是否前往「帝江号/会客室」收集全部线索。若集齐线索，则开启情报交流。"
-msgstr ""
+msgstr "Go to Dijiang/Reception Room to collect all clues."
 
 msgid "是否前往「帝江号/制造仓」收取培养材料。收取后会补足待制造数量。"
-msgstr ""
+msgstr "Go to Dijiang/Manufacturing Bay to collect materials."
 
 msgid "是否前往「装备制造/套组装备制造」并制作一件列表首位的装备。请确保有足够的装备原件和调度券。"
-msgstr ""
+msgstr "Go to Equipment Crafting and craft the first item."
 
 msgid "是否前往「邮箱」领取邮件。"
-msgstr ""
+msgstr "Go to mailbox to collect mail."
 
 msgid "是否前往好友的「帝江号」并在「访客终端」上进行助力获得信用。助力结束后，前往「采购中心/信用交易所」收取全部助力。"
-msgstr ""
+msgstr "Visit friend's Dijiang, assist at Visitor Terminal, then collect at Credit Exchange."
 
 msgid "是否前往好友的「帝江号」并在「访客终端」上进行收集线索、制造舱操作"
-msgstr ""
+msgstr "Visit friend's Dijiang for clue collection and manufacturing"
 
 msgid "是否启用「地区建设/四号谷地物资调度/弹性需求物资」交易。"
-msgstr ""
+msgstr "Enable Region Building/Valley No.4/Flexible Demand trading."
 
 msgid "是否启用「地区建设/武陵物资调度/弹性需求物资」交易。"
-msgstr ""
+msgstr "Enable Region Building/Wuling/Flexible Demand trading."
 
 msgid "是否启用多账户模式"
-msgstr ""
+msgstr "Enable Multi-Account Mode"
 
 msgid "是否启用排轴功能。启用后会根据「排轴序列」配置的顺序优先释放对应角色的技能,当排轴失败时回退到非排轴状态"
-msgstr ""
+msgstr "Enable skill rotation. Falls back on failure."
 
 msgid "是否在「地区建设/仓储结点」中转交全部运送委托。"
-msgstr ""
+msgstr "Transfer all delivery commissions at Storage Node."
 
 msgid "是否在「地区建设/据点管理」中通过交易获得调度券。"
-msgstr ""
+msgstr "Obtain dispatch tickets via trading at Outpost Management."
 
 msgid "是否在「地区建设/物资调度/稳定物资需求」中通过调度券购买物资。依次购买「日用消耗」「工业货品」「人文物产」首行某个物品。"
-msgstr ""
+msgstr "Purchase supplies via dispatch tickets at Stable Supply Demand."
 
 msgid "是否在「弹性需求物资」与好友交易赚取调度券。自动选择利润最高的方案，然后用价格上下限判定是否交易。（除非可购买数量即将溢出，这种情况下必定交易。）"
-msgstr ""
+msgstr "Trade with friends for dispatch tickets. Auto-selects highest profit."
 
 msgid "是否在「采购中心/信用交易所」采购。自动刷新 且 仅购买「武库配额」「嵌晶玉」。"
-msgstr ""
+msgstr "Purchase at Credit Exchange. Only buy Arsenal Quota and Embedded Jade."
 
 msgid "是否消耗所有「理智」刷取培养材料。"
-msgstr ""
+msgstr "Consume all Sanity to farm materials."
 
 msgid "是否购买「人文物产」。"
-msgstr ""
+msgstr "Purchase Cultural Products."
 
 msgid "是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。如果途中偶遇干员，则直接交互完成送礼。任务开始时候，角色不能位于「帝江号/剑桥」传送点附近。"
-msgstr ""
+msgstr "Raise operator affinity via gifts. Cannot start near Cambridge waypoint."
 
 msgid "是否领取「地区建设/仓储结点/我转交的委托」。超时委托也会被领取。"
-msgstr ""
+msgstr "Claim delegated commissions. Expired ones will also be claimed."
 
 msgid "是否领取「活动中心/每周事物」中的奖励。"
-msgstr ""
+msgstr "Claim rewards from Activity Center/Weekly Tasks."
 
 msgid "是否领取「行动手册/日常」和「通行证」中的奖励。"
-msgstr ""
+msgstr "Claim rewards from Handbook/Daily and Battle Pass."
 
 msgid "武陵物资买入价格上限，超出则拒绝买入。若必买，则设大数。"
-msgstr ""
+msgstr "Wuling buy price cap. Set high if must buy."
 
 msgid "武陵物资卖出价格下限，不足则拒绝卖出。若必卖，则设1。"
-msgstr ""
+msgstr "Wuling sell price floor. Set to 1 if must sell."
 
 msgid "汤汤"
-msgstr ""
+msgstr "タンタン"
 
 msgid "洛茜"
-msgstr ""
+msgstr "ルオシー"
 
 msgid "消耗限时体力药"
-msgstr ""
+msgstr "期間限定スタミナ薬使用"
 
 msgid "清波寨"
-msgstr ""
+msgstr "チンボー村"
 
 msgid "自动检测战斗开始和结束，使用说明参见选项"
-msgstr ""
+msgstr "Auto-detect battle start/end. See options."
 
 msgid "若剩余信用小于这个数值，则终止采购。"
-msgstr ""
+msgstr "Stop purchasing if credit is below this value."
 
 msgid "若启用，则开始挑战后角色原地不动（不输出），仅对「重度能量淤积点」生效。可以用于建好防御塔情形，避免角色离开副本区域。"
-msgstr ""
+msgstr "Character stays still after challenge. Only for Heavy Stagnation."
 
 msgid "若选项开启，则优先尝试仅助力好友「帝江号」上的「培养仓」。如果不能，至少助力一次其它舱室。"
-msgstr ""
+msgstr "Prioritize assisting friend's Cultivation Chamber."
 
 msgid "账号列表"
-msgstr ""
+msgstr "アカウント一覧"
 
 msgid "购物白名单"
-msgstr ""
+msgstr "購入ホワイトリスト"
 
 msgid "配合任务计划程序提前启动游戏,防止游戏更新/弹公告导致的后续问题"
-msgstr ""
+msgstr "Launch game early via Task Scheduler to prevent update issues"
 
 msgid "需要设好「预刻写属性」。默认留空表示直线前往，更多用法参见 ./docs/体力本.md > 能量淤积点 。"
-msgstr ""
+msgstr "Set Pre-Inscription attribute first. See ./docs for more."
 
 msgid "默认留空，交易货品顺序随机。更多用法参见 ./docs/日常任务.md > 优先货品交易序列 。"
-msgstr ""
+msgstr "Leave empty for random trade order. See docs."
 
 msgid "默认留空，表示购买「日用消耗」「工业货品」首行首个物资。更多用法参见 ./docs/日常任务.md > 买物资 。"
-msgstr ""
+msgstr "Leave empty to buy first item of each category. See docs."
 
 msgid "Backpack Key"
-msgstr ""
+msgstr "バックパックキー"
 
 msgid "Link Skill Key"
-msgstr ""
+msgstr "リンクスキルキー"
 
 msgid "Operator Key"
-msgstr ""
+msgstr "オペレーターキー"
 
 msgid "仅退出游戏"
-msgstr ""
+msgstr "ゲーム終了のみ"
 
 msgid ""
 "是否在完成所有任务后仅退出游戏，开启后会自动关闭游戏进程,但不关闭软件\n"
 "开启发生异常时终止游戏时此选项不生效"
 msgstr ""
+"Exit game only after all tasks\n"
+"Auto-closes game but not software\n"
+"Ignored when Terminate on Exception is on"
+
+msgid "0~1，值越高越严格"
+msgstr "0〜1、高いほど厳格"
+
+msgid "1"
+msgstr "1"
+
+msgid "119000"
+msgstr "119000"
+
+msgid "2"
+msgstr "2"
+
+msgid "3"
+msgstr "3"
+
+msgid "4"
+msgstr "4"
+
+msgid "5"
+msgstr "5"
+
+msgid "YOLO模型"
+msgstr "YOLOモデル"
+
+msgid "battle_end"
+msgstr "battle_end"
+
+msgid "battle_end_default"
+msgstr "battle_end_default"
+
+msgid "⭐⭐⭐ 默认"
+msgstr "⭐⭐⭐ デフォルト"
+
+msgid "⭐帝江号一键存放"
+msgstr "⭐帝江号一括収納"
+
+msgid "⭐执行结尾外部命令"
+msgstr "⭐終了時コマンド実行"
+
+msgid "⭐活动奖励"
+msgstr "⭐イベント報酬"
+
+msgid "不换队伍"
+msgstr "チーム変更なし"
+
+msgid "中容武陵电池"
+msgstr "中容量ウーリン電池"
+
+msgid "仅在“完整循环测试”时生效，用于限定测试的小区域（当前地区可选地点）"
+msgstr "Only effective during Full Cycle Test to limit test area"
+
+msgid ""
+"仅接受'1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'这些值的逗号分隔字符串，\n"
+"代表技能释放优先级顺序\n"
+"例如'ult_2,1,e,ult_1'表示优先尝试干员2的终结技，再干员1的战技，\n"
+"再尝试连携，再干员1的终极技\n"
+"normal_[n] 表示临时切换为普通战斗模式 n 秒，期间按「技能释放」顺序自动出技，\n"
+"n 秒结束后自动恢复排轴模式（从下一个排轴技能继续）\n"
+"启用排轴功能后，系统会按照该配置的顺序尝试释放技能，\n"
+"一旦成功释放一个技能，就会等待下一个技能，而不是继续尝试后续技能\n"
+"这可以用于更精细地控制技能释放顺序，\n"
+"例如优先释放某个干员的技能来配合特定的战术需求。"
+msgstr ""
+"Comma-separated values for skill priority\n"
+"normal_[n] = switch to normal combat for n seconds, then resume rotation\n"
+"With rotation, system tries in order, waits after success\n"
+"Use for fine-grained control."
+
+msgid "从账号列表或已有覆盖中选择"
+msgstr "アカウント一覧または既存上書きから選択"
+
+msgid "任务"
+msgstr "タスク"
+
+msgid "优质芽针针剂"
+msgstr "プレミアム芽針注射"
+
+msgid "会根据开始日期自动轮换，留空表示不启用自动轮换。"
+msgstr "開始日に基づき自動ローテーション。空で無効。"
+
+msgid "低阶"
+msgstr "低ランク"
+
+msgid "体力刷完后继续刷取次数"
+msgstr "スタミナ消費後の追加周回回数"
+
+msgid "体力本奖励档位"
+msgstr "スタミナダンジョン報酬ランク"
+
+msgid "体力本配置"
+msgstr "スタミナダンジョン設定"
+
+msgid "使用说明参见选项，更多用法参见 ./docs/体力本.md"
+msgstr "オプションを参照、詳細は ./docs"
+
+msgid "保持当前"
+msgstr "現状維持"
+
+msgid "储藏箱I"
+msgstr "収納ボックスI"
+
+msgid "储藏箱II"
+msgstr "収納ボックスII"
+
+msgid "储藏箱III"
+msgstr "収納ボックスIII"
+
+msgid "储藏箱IV"
+msgstr "収納ボックスIV"
+
+msgid "其他配置"
+msgstr "その他の設定"
+
+msgid "刷体力开始日期"
+msgstr "スタミナ周回開始日"
+
+msgid ""
+"刷体力自动切换的起始日期，格式如2026-04-05。\n"
+"用于计算今天是第几天，配合刷本序列使用。"
+msgstr ""
+"Start date for auto rotation, format: 2026-04-05.\n"
+"Used to calculate day number for dungeon sequence."
+
+msgid "刷本序列"
+msgstr "ダンジョンシーケンス"
+
+msgid ""
+"前置是选择测试对象部分选择\"无\"\n"
+"仅接取当前地区委托，不送货"
+msgstr ""
+"Prerequisite: Select \"None\"\n"
+"Accept current region commission only, no delivery"
+
+msgid ""
+"前置是选择测试对象部分选择\"无\"\n"
+"接取当前地区委托后启动自动识别送货"
+msgstr ""
+"Prerequisite: Select \"None\"\n"
+"Auto-detect delivery after accepting commission"
+
+msgid ""
+"勾选要在帝江号收菜时执行的操作。\n"
+"收集线索：前往「会客室」收集全部线索，若集齐则开启情报交流。\n"
+"制造舱：前往「制造仓」收取培养材料并补足待制造数量。\n"
+"培养舱：前往「培养仓」收取培养材料并直接再次培养。"
+msgstr ""
+"Select operations during Dijiang harvest.\n"
+"Collect Clues: Go to Reception Room.\n"
+"Manufacturing Bay: Collect and restock.\n"
+"Cultivation Chamber: Collect and restart."
+
+msgid ""
+"勾选要在活动中心里领取的奖励。\n"
+"周常奖励：领取「每周事务」中的奖励。\n"
+"理智补给：领取「理智补给」中的奖励。"
+msgstr ""
+"Select rewards at Activity Center.\n"
+"Weekly Rewards: Claim from Weekly Tasks.\n"
+"Sanity Supply: Claim Sanity rewards."
+
+msgid ""
+"勾选要自动循环释放「战技」的角色编号。\n"
+"按编号从小到大的顺序依次释放，至少勾选一个。"
+msgstr ""
+"Select characters for auto skill cycling.\n"
+"Released in ascending order. Select at least one."
+
+msgid "勾选这个选项：如果「完成后退出」被选定，那么抛出异常也会退出游戏和App。"
+msgstr "自動終了が有効な場合、例外発生時もゲームとアプリを終了。"
+
+msgid "可选。设置外部命令的起始目录（工作目录）；留空则使用默认目录。"
+msgstr "外部コマンドの作業ディレクトリを設定（任意）。"
+
+msgid "周常奖励"
+msgstr "ウィークリーリワード"
+
+msgid "地区切换"
+msgstr "エリア切替"
+
+msgid "培养舱"
+msgstr "育成チャンバー"
+
+msgid "多账户独立配置"
+msgstr "アカウント別設定"
+
+msgid ""
+"如果勾选，将优先全部用掉限时为‘小时’的体力药，\n"
+"如有‘天’单位的体力药，则按 2*m/n（向上取整）消耗。"
+msgstr ""
+"If checked, use hourly potions first.\n"
+"For daily potions, consume 2*m/n (rounded up)."
+
+msgid ""
+"子任务开关用⭐标出，自上而下顺序执行，默认展开在最前面的『⭐⭐⭐ 默认』分组，最后执行『日常奖励』。\n"
+"如果出现反复按ESC的情形，请调高『设置/主界面单次动作后延迟』（建议1.5以上）。"
+msgstr ""
+"Sub-tasks marked with ⭐, Default group first, Daily Rewards last.\n"
+"If ESC repeats, increase Action Delay (recommended 1.5+)."
+
+msgid "完整循环测试区域"
+msgstr "フルサイクルテストエリア"
+
+msgid "实时循环执行 YOLO 检测，用于在线观察目标识别结果。"
+msgstr "YOLO検出をリアルタイムでループ実行。"
+
+msgid "实时检测"
+msgstr "リアルタイム検出"
+
+msgid "帝江号收菜操作"
+msgstr "帝江号回収操作"
+
+msgid "庄方宜"
+msgstr "ジュアン・ファンイ"
+
+msgid "开启后仅显示与原配置不同的项"
+msgstr "有効にすると、デフォルト設定と異なる項目のみ表示"
+
+msgid "开启后等待外部命令执行完成；关闭则后台启动后立即继续。开启此选项可支持多账户模式。"
+msgstr "外部コマンドの完了を待機。オフで即時続行。マルチアカウントモードで必要。"
+
+msgid "开启后若检测到目标命令已在运行，将跳过本次启动。"
+msgstr "有効にすると、対象コマンド実行中はスキップ。"
+
+msgid ""
+"当「技力条」达到该数值时，\n"
+"开始执行技能序列。取值范围1-3。"
+msgstr ""
+"Start skill sequence when gauge reaches this value.\n"
+"Range: 1-3."
+
+msgid ""
+"战斗中周期触发锁敌+向前闪避的最小间隔秒数。\n"
+"取值不小于6。"
+msgstr ""
+"Min interval for lock-on + forward dodge.\n"
+"Min 6."
+
+msgid "战斗相关选项"
+msgstr "戦闘関連オプション"
+
+msgid ""
+"打开临时帮助文档。\n"
+"同时打开油猴脚本目录。"
+msgstr ""
+"Open temporary help doc.\n"
+"Also open Tampermonkey script directory."
+
+msgid "打开帮助"
+msgstr "ヘルプを開く"
+
+msgid "打开教程"
+msgstr "チュートリアルを開く"
+
+msgid "打开日常任务使用说明网页。"
+msgstr "デイリータスク使用説明ページを開く。"
+
+msgid "扫描间隔(秒)"
+msgstr "スキャン間隔（秒）"
+
+msgid "持续读取并显示当前箭头的角度"
+msgstr "現在の矢印角度を継続的に読み取り表示"
+
+msgid "指定的队伍编号"
+msgstr "指定チーム番号"
+
+msgid ""
+"按住标记按键并持续达到这个时长后，\n"
+"才会把当前目标标记为已获取。"
+msgstr ""
+"Hold mark key for this duration to mark target as collected."
+
+msgid ""
+"接近目标后用于标记“已获取”的键位。\n"
+"默认按键为 f。"
+msgstr ""
+"Key to mark target as collected when approaching.\n"
+"Default: F."
+
+msgid ""
+"是否前往「装备制造/套组装备制造」并制作一件列表首位的装备。\n"
+"请确保有足够的装备原件和调度券。"
+msgstr ""
+"Go to Equipment Crafting and craft first item.\n"
+"Ensure enough parts and dispatch tickets."
+
+msgid ""
+"是否前往好友的「帝江号」并在「访客终端」上进行助力获得信用。\n"
+"助力结束后，前往「采购中心/信用交易所」收取全部助力。"
+msgstr ""
+"Visit friend's Dijiang, assist at Visitor Terminal.\n"
+"Then collect at Credit Exchange."
+
+msgid ""
+"是否启用多账户模式\n"
+"需要已登录任意账号,可能不支持全屏游戏"
+msgstr ""
+"Enable multi-account mode\n"
+"Requires logged-in account; fullscreen may not work"
+
+msgid ""
+"是否启用排轴功能。\n"
+"启用后会根据「排轴序列」配置的顺序优先释放对应角色的技能，\n"
+"当排轴失败时回退到非排轴状态"
+msgstr ""
+"Enable skill rotation.\n"
+"Prioritizes skills per sequence; falls back on failure."
+
+msgid ""
+"是否启用账号独立配置覆盖\n"
+"开启后同一任务可按账号使用不同参数"
+msgstr ""
+"Enable per-account config override\n"
+"Different parameters per account for same task"
+
+msgid ""
+"是否在「地区建设/物资调度/稳定物资需求」中通过调度券购买物资。\n"
+"依次购买「日用消耗」「工业货品」「人文物产」首行某个物品。"
+msgstr ""
+"Purchase supplies via dispatch tickets.\n"
+"Buys first item of each category."
+
+msgid ""
+"是否在「帝江号」打开背包并点击「一键存放」。\n"
+"确认不会自动存可用道具导致治疗药被存入后再开启"
+msgstr ""
+"Open backpack and click One-Click Store at Dijiang.\n"
+"Ensure usable items won't be auto-stored."
+
+msgid ""
+"是否在「弹性需求物资」与好友交易赚取调度券。\n"
+"自动选择利润最高的方案，然后用价格上下限判定是否交易。\n"
+"（除非可购买数量即将溢出，这种情况下必定交易。）"
+msgstr ""
+"Trade with friends for dispatch tickets.\n"
+"Auto-selects highest profit within price limits.\n"
+"(Always trades if quantity about to overflow.)"
+
+msgid ""
+"是否在「采购中心/信用交易所」采购。\n"
+"自动刷新 且 仅购买「武库配额」「嵌晶玉」。"
+msgstr ""
+"Purchase at Credit Exchange.\n"
+"Auto-refresh, only buy Arsenal Quota and Embedded Jade."
+
+msgid "是否在日常任务末尾执行一次外部命令行程序。"
+msgstr "デイリータスク終了時に外部コマンドを実行。"
+
+msgid "是否购买「人文物产」（同样应用购物白名单序列）。"
+msgstr "文化製品を購入（ショッピングホワイトリスト適用）。"
+
+msgid ""
+"是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。\n"
+"如果途中偶遇干员，则直接交互完成送礼。\n"
+"任务开始时候，角色不能位于「帝江号/剑桥」传送点附近。"
+msgstr ""
+"Raise operator affinity via gifts.\n"
+"Direct interaction if operator encountered.\n"
+"Cannot start near Cambridge waypoint."
+
+msgid ""
+"是否领取「地区建设/仓储结点/我转交的委托」。\n"
+"超时委托也会被领取。"
+msgstr ""
+"Claim delegated commissions at Storage Node.\n"
+"Expired ones will also be claimed."
+
+msgid "是否领取「活动中心」中的每周事务和理智补给奖励。"
+msgstr "イベントセンターのウィークリーと理性補給報酬を受け取る。"
+
+msgid "标记按住时长"
+msgstr "マーキング長押し時間"
+
+msgid "标记按键"
+msgstr "マーキングキー"
+
+msgid "根据 assets 目录下的 weapon_data*.csv 自动生成可选语言"
+msgstr "assets/weapon_data*.csv から選択言語を自動生成"
+
+msgid "根据地区配置自动送货,教程视频 BV1LLc7zFEF9"
+msgstr "エリア設定に基づき自動配送、チュートリアル動画 BV1LLc7zFEF9"
+
+msgid "检测目标"
+msgstr "検出対象"
+
+msgid "检测置信度"
+msgstr "検出信頼度"
+
+msgid "武器数据语言"
+msgstr "武器データ言語"
+
+msgid "每次检测后的等待时间"
+msgstr "検出後の待機時間"
+
+msgid "每行一个账号名（手机号），无需密码"
+msgstr "1行1アカウント名（電話番号）、パスワード不要"
+
+msgid "油猴脚本帮助"
+msgstr "Tampermonkeyスクリプトヘルプ"
+
+msgid "活动奖励"
+msgstr "イベント報酬"
+
+msgid "浏览器油猴脚本帮助"
+msgstr "ブラウザTampermonkeyスクリプトヘルプ"
+
+msgid "淤积点相关选项"
+msgstr "停滞ポイント関連オプション"
+
+msgid "游戏内开启全屏模式时请确保游戏内分辨率与你的屏幕分辨率一致"
+msgstr "フルスクリーン時はゲーム解像度と画面解像度の一致を確認"
+
+msgid "物品导航"
+msgstr "アイテムナビ"
+
+msgid "理智补给"
+msgstr "理性補給"
+
+msgid ""
+"用于『干员经验/干员进阶/技能提升/武器进阶』的奖励档位选择。\n"
+"保持当前：不切换。\n"
+"低阶/高阶：点击『前往』后自动打开『自选』并切换。"
+msgstr ""
+"Reward tier for Operator/Weapon EXP and upgrades.\n"
+"Keep Current: don't switch.\n"
+"Low/High Tier: auto-open Selection and switch."
+
+msgid "监听本地 WebSocket 位置数据，指向已选物品的最近点并支持按键标记"
+msgstr "ローカルWebSocket位置データを監視し、選択アイテムの最寄りポイントを表示"
+
+msgid "简体中文"
+msgstr "簡体字中国語"
+
+msgid "箭头角度实时读取"
+msgstr "矢印角度リアルタイム読み取り"
+
+msgid "精选荞愈胶囊"
+msgstr "プレミアム蕎麦カプセル"
+
+msgid "结尾外部命令"
+msgstr "終了時外部コマンド"
+
+msgid "结尾外部命令已运行时跳过"
+msgstr "終了時コマンド実行済みならスキップ"
+
+msgid "结尾外部命令等待退出"
+msgstr "終了時コマンド終了待機"
+
+msgid "结尾外部命令起始于"
+msgstr "終了時コマンド作業ディレクトリ"
+
+msgid ""
+"结算时点击「放弃」而非「领取」，不消耗体力。\n"
+"只支持能量淤积点。\n"
+"0 表示不启用。"
+msgstr ""
+"Click Abandon instead of Claim. No stamina consumed.\n"
+"Only for Energy Stagnation.\n"
+"0 = disabled."
+
+msgid "聂菲斯"
+msgstr "ネフィス"
+
+msgid "致密源石粉末"
+msgstr "密源石粉末"
+
+msgid ""
+"若启用，则开始挑战后角色原地不动（不输出），\n"
+"仅对「重度能量淤积点」生效。可以用于建好防御塔情形，避免角色离开副本区域。"
+msgstr ""
+"Character stays still after challenge.\n"
+"Only for Heavy Energy Stagnation."
+
+msgid ""
+"若选项开启，则优先尝试仅助力好友「帝江号」上的「培养仓」。\n"
+"如果不能，至少助力一次其它舱室。"
+msgstr ""
+"Prioritize friend's Cultivation Chamber.\n"
+"Otherwise, assist at least one other chamber."
+
+msgid "裴令容"
+msgstr "ペイ・リンロン"
+
+msgid "视图"
+msgstr "ビュー"
+
+msgid "试验园区"
+msgstr "テストゾーン"
+
+msgid "账号"
+msgstr "アカウント"
+
+msgid "账号任务覆盖操作"
+msgstr "アカウントタスク上書き操作"
+
+msgid "账号列表操作"
+msgstr "アカウント一覧操作"
+
+msgid ""
+"账号列表，每行一个账号（手机号）。\n"
+"兼容旧格式：每行可写成 `账号, 密码`，但密码字段会被忽略且不会被存储。\n"
+"登录时也可使用手机号后四位进行匹配（若唯一）。"
+msgstr ""
+"Account list, one per line (phone number).\n"
+"Legacy format: `account, password` (password ignored).\n"
+"Last 4 digits can be used for matching."
+
+msgid "赫铜零件"
+msgstr "銅パーツ"
+
+msgid "赵昭"
+msgstr "チャオ・チャオ"
+
+msgid "选择任务后自动渲染属性控件"
+msgstr "タスク選択後に属性コントロールを自動描画"
+
+msgid "选择模型 labels 的 value 作为目标类别"
+msgstr "モデルラベルの値をターゲットクラスとして選択"
+
+msgid "选择模型配置（来自 src/yolo/models.py）"
+msgstr "モデル設定を選択（src/yolo/models.py）"
+
+msgid "选择物品"
+msgstr "アイテム選択"
+
+msgid ""
+"选择要参与导航的物品列表。\n"
+"只会在当前地图里匹配这些物品。"
+msgstr ""
+"Select items for navigation.\n"
+"Only matched on current map."
+
+msgid "选择要更换的队伍编号。"
+msgstr "切替先チーム番号を選択。"
+
+msgid "通向送货点试验园区"
+msgstr "納品ポイント：テストゾーンへ"
+
+msgid "通过下拉框切换送货地区配置"
+msgstr "ドロップダウンで配送エリア設定を切替"
+
+msgid "配置选择"
+msgstr "設定選択"
+
+msgid "配置默认隐藏，选择后展开对应配置项。"
+msgstr "設定はデフォルト非表示。選択後に展開。"
+
+msgid "重息壤"
+msgstr "重シロ"
+
+msgid "阮一"
+msgstr "ルアン・イー"
+
+msgid "阿禾"
+msgstr "アーホー"
+
+msgid "隐藏"
+msgstr "非表示"
+
+msgid ""
+"需要执行的命令行内容。\n"
+"建议：优先绝对路径；路径或参数含空格时按系统 shell 规则加引号。\n"
+"开启『结尾外部命令等待退出』可支持多账户模式。\n"
+"可选填写『结尾外部命令起始于』作为命令工作目录。"
+msgstr ""
+"Command line to execute.\n"
+"Tip: Use absolute paths; quote paths with spaces.\n"
+"Enable Wait For End Command for multi-account mode."
+
+msgid ""
+"需要设好「预刻写属性」。默认留空表示不使用滑索前往，\n"
+"更多用法参见 ./docs/体力本.md > 能量淤积点 。"
+msgstr ""
+"Set Pre-Inscription attribute first. Leave empty for no zipline.\n"
+"See docs for more."
+
+msgid "首墩"
+msgstr "シュードゥン"
+
+msgid "高阶"
+msgstr "高ランク"
+
+msgid ""
+"默认留空，交易货品顺序随机。\n"
+"更多用法参见 ./docs/日常任务.md > 优先货品交易序列 。"
+msgstr ""
+"Leave empty for random trade order.\n"
+"See docs for more."
+
+msgid ""
+"默认留空，表示购买「日用消耗」「工业货品」「人文物产」首行首个物资。\n"
+"更多用法参见 ./docs/日常任务.md > 买物资 。"
+msgstr ""
+"Leave empty to buy first item of each category.\n"
+"See docs for more."
+
+msgid "Upload Logs"
+msgstr "ログアップロード"
