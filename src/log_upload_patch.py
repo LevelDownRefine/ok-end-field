@@ -6,8 +6,8 @@ import zipfile
 from pathlib import Path
 
 import requests
-from PySide6.QtWidgets import QInputDialog, QLineEdit
-from qfluentwidgets import FluentIcon, PushButton
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout
+from qfluentwidgets import FluentIcon, PushButton, PrimaryPushButton, BodyLabel, TextEdit
 
 
 _PATCH_INSTALLED = False
@@ -95,24 +95,69 @@ def _prompt_upload_note() -> str:
     from ok import og
 
     try:
-        text, ok = QInputDialog.getText(
-            None,
-            og.app.tr("日志上传"),
-            og.app.tr("请输入遇到的问题描述"),
-            QLineEdit.Normal,
-            "",
-        )
+        from PySide6.QtWidgets import QApplication
+        parent = QApplication.activeWindow()
+        dlg = QDialog(parent)
+        if parent is not None:
+            try:
+                dlg.setPalette(parent.palette())
+                dlg.setAutoFillBackground(True)
+                # 如果主窗口使用了样式表，也一并应用
+                parent_ss = parent.styleSheet()
+                if parent_ss:
+                    dlg.setStyleSheet(parent_ss)
+            except Exception:
+                pass
+        dlg.setWindowTitle(og.app.tr("日志上传"))
+
+        # 使用系统/父窗口标题栏（保持原生外观和行为）
+
+        layout = QVBoxLayout(dlg)
+        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setSpacing(8)
+
+        tip = BodyLabel(og.app.tr("请输入遇到的问题描述（必填）"))
+        tip.setWordWrap(True)
+        layout.addWidget(tip)
+
+        # 使用项目现有的 TextEdit（qfluentwidgets），以复用深/浅主题和样式
+        text_edit = TextEdit()
+        text_edit.setPlaceholderText(og.app.tr("例如：进入战斗时崩溃，重现步骤..."))
+        text_edit.setMinimumHeight(120)
+        layout.addWidget(text_edit)
+
+        btn_row = QHBoxLayout()
+        btn_row.addStretch(1)
+        send_btn = PrimaryPushButton(og.app.tr("上传"))
+        cancel_btn = PushButton(og.app.tr("取消"))
+        send_btn.setEnabled(False)
+        btn_row.addWidget(cancel_btn)
+        btn_row.addWidget(send_btn)
+        layout.addLayout(btn_row)
+
+        def on_text_changed():
+            send_btn.setEnabled(bool(text_edit.toPlainText().strip()))
+
+        text_edit.textChanged.connect(on_text_changed)
+
+        send_btn.clicked.connect(dlg.accept)
+        cancel_btn.clicked.connect(dlg.reject)
+
+        accepted = dlg.exec()
+        if not accepted:
+            return ""
+
+        return text_edit.toPlainText().strip()
     except Exception:
         return ""
-
-    if not ok:
-        return ""
-
-    return text.strip()
 
 
 def _upload_logs():
     note_text = _prompt_upload_note()
+    # 如果未填写说明，则中断上传（不弹窗、不上传）
+    if not note_text:
+        return
+
     worker = threading.Thread(target=_upload_logs_bg, args=(note_text,))
     worker.daemon = True
     worker.start()

@@ -185,6 +185,8 @@ class AutoCombatLogic:
                             self.skill_index = (self.skill_index + 1) % len(self.skill_sequence)
                             self.last_rotation_ok_time = time.time()
                             continue
+        except Exception as exc:
+            task.log_info(f"自动战斗发生异常: {exc}")
         finally:
             self._normal_attack_hold_enabled = False
             self._sync_normal_attack_hold()
