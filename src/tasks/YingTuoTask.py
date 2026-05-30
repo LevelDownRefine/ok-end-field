@@ -1,4 +1,6 @@
 import time
+from qfluentwidgets import FluentIcon
+from src.icons import BATTLE, load_svg_icon
 from src.data.FeatureList import FeatureList as fL
 from src.tasks.BaseEfTask import BaseEfTask
 from src.tasks.mixin.battle_mixin import BattleMixin
@@ -9,6 +11,7 @@ class YingTuoTask(BattleMixin):
         super().__init__(*args, **kwargs)
         self.name = "影拓丰碑"
         self.description = "自动完成当前所有普通影拓丰碑关卡"
+        self.icon = BATTLE
         self.default_config.update({
             "技能释放": ["1", "2", "3"],
             "启动技能点数": 2,

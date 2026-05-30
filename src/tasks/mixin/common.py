@@ -138,7 +138,7 @@ class Common(BaseEfTask):
         """
 
         result = self.wait_ocr(
-            match=re.compile(r'^\d{1,4}/\d{1,3}$'),
+            match=re.compile(r'^[\d.]*k?/\d+k?$', re.IGNORECASE),
             box=self.box_of_screen(
                 1400 / 1920,
                 0,
@@ -149,7 +149,13 @@ class Common(BaseEfTask):
         )
 
         if result:
-            ticket = int(result[0].name.split("/")[0])
+            ticket_str = result[0].name.split("/")[0]
+            if "k" in ticket_str.lower():
+                # "2k" -> 2000, "k" -> 1000
+                num_part = ticket_str.lower().replace("k", "")
+                ticket = int(float(num_part) * 1000) if num_part else 1000
+            else:
+                ticket = int(ticket_str)
 
             self.log_info(f"ticket:{ticket}")
 

@@ -41,6 +41,7 @@ class NavigationMixin(BaseEfTask):
             only_x=True,
             threshold=0.7,
             ocr=False,
+            forward_seconds=0.5,
         )
         self.log_info("已对齐地图目标")
         return True
@@ -60,7 +61,7 @@ class NavigationMixin(BaseEfTask):
         while not self.wait_ocr(
                 match=target_ocr_pattern,
                 box=self.box.bottom_right,
-                time_out=1,
+                time_out=0.5,
         ):
             if time.time() - start_time > time_out:
                 self.log_info("导航超时")
@@ -95,6 +96,7 @@ class NavigationMixin(BaseEfTask):
                         only_x=True,
                         threshold=0.7,
                         ocr=False,
+                        forward_seconds=0.5,            
                     )
 
                     self.move_keys("w", duration=0.75)
@@ -133,7 +135,9 @@ class NavigationMixin(BaseEfTask):
             deadzone=4,
             once_time=0.5,
             tolerance=TOLERANCE,
-            ocr_frame_processor_list=None
+            ocr_frame_processor_list=None,
+            forward_seconds=0,
+            center_band_ratio=0.4,
     ):
         """将OCR识别或图像特征检测的目标对准屏幕中心（自动移动视角/鼠标）
 
@@ -157,6 +161,8 @@ class NavigationMixin(BaseEfTask):
             once_time: 每次循环最小耗时(秒)，保证操作频率
             tolerance: 目标中心与屏幕中心的容忍偏差(像素)，默认50，偏差在范围内判定成功
             ocr_frame_processor_list: OCR帧处理函数列表(可用于色彩隔离等预处理)
+            forward_seconds: 找到目标且位于横向中心带内时，向前移动的秒数，默认0表示不移动
+            center_band_ratio: 横向中心带总宽度占屏幕宽度的比例，必须在0-1之间，否则默认0.4
 
         Returns:
             bool: 成功对中返回True，失败返回False(当raise_if_fail=False时)
@@ -165,6 +171,12 @@ class NavigationMixin(BaseEfTask):
             Exception: 对中失败且raise_if_fail=True时抛出异常
         """
         scaled_tolerance = self.scale_distance(tolerance)
+
+        if isinstance(center_band_ratio, bool) or not isinstance(center_band_ratio, (int, float)) or not 0 < center_band_ratio <= 1:
+            center_band_ratio = 0.4
+
+        if isinstance(forward_seconds, bool) or not isinstance(forward_seconds, (int, float)) or forward_seconds <= 0:
+            forward_seconds = 0
 
         if box:
             feature_box = box
@@ -269,6 +281,8 @@ class NavigationMixin(BaseEfTask):
                     return True
                 else:
                     move_bool = True
+                    if forward_seconds > 0 and abs(target_center[0] - screen_center_pos[0]) <= self.width * center_band_ratio / 2:
+                        self.move_keys("w", duration=forward_seconds)
                     dx, dy = self.move_to_target_once(
                         result,
                         max_step=max_step,

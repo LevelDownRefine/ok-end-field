@@ -163,5 +163,20 @@
   },
   "k_9f929560": {
     "string": "據點管理"
+  },
+  "k_next_step": {
+    "string": "下一步"
+  },
+  "k_fill_to_max": {
+    "string": "填充到滿"
+  },
+  "k_start_shipping": {
+    "string": "開始運送"
+  },
+  "k_get_dispatch_ticket": {
+    "string": "獲得調度券"
+  },
+  "k_view_quote": {
+    "string": "查看報價"
   }
 }

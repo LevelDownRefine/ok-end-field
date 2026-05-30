@@ -1,5 +1,6 @@
 from qfluentwidgets import FluentIcon
 
+from src.icons import BATTLE
 from src.tasks.daily.daily_battle_mixin import DailyBattleMixin
 
 
@@ -8,7 +9,7 @@ class BattleTask(DailyBattleMixin):
         super().__init__(*args, **kwargs)
         self.name = "刷体力"
         self.description = "使用说明参见选项，更多用法参见 ./docs/体力本.md"
-        self.icon = FluentIcon.BRIGHTNESS
+        self.icon = BATTLE
         self.default_config_group.pop("⭐刷体力", None)
         self.default_config.pop("⭐刷体力", None)
         task_group = {"隐藏": []}

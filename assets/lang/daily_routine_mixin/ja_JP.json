@@ -163,5 +163,20 @@
   },
   "k_9f929560": {
     "string": "サイト管理"
+  },
+  "k_next_step": {
+    "string": "次へ"
+  },
+  "k_fill_to_max": {
+    "string": "最大まで埋める"
+  },
+  "k_start_shipping": {
+    "string": "配送開始"
+  },
+  "k_get_dispatch_ticket": {
+    "string": "配達券を獲得"
+  },
+  "k_view_quote": {
+    "string": "見積書を見る"
   }
 }

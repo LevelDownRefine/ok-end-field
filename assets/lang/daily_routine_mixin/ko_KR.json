@@ -163,5 +163,20 @@
   },
   "k_9f929560": {
     "string": "사이트 관리"
+  },
+  "k_next_step": {
+    "string": "다음"
+  },
+  "k_fill_to_max": {
+    "string": "최대까지 채우기"
+  },
+  "k_start_shipping": {
+    "string": "배송 시작"
+  },
+  "k_get_dispatch_ticket": {
+    "string": "배송권 획득"
+  },
+  "k_view_quote": {
+    "string": "견적 보기"
   }
 }

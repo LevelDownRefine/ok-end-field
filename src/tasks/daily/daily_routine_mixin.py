@@ -359,13 +359,13 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                     )
 
                 self.click(results[0], after_sleep=2)
-                start_index = 0 if not ("查看报价" in results[0].name) else 2
+                start_index = 0 if not (self.lang.daily_routine_mixin.k_view_quote in results[0].name) else 2
                 steps = [
-                    ("下一步", self.box.bottom_right),
-                    ("填充至满", self.box.top_right),
-                    ("下一步", self.box.bottom_right),
-                    ("开始运送", self.box_of_screen(1548 / 1920, 951 / 1080, 1, 1)),
-                    ("获得调度券", self.box.bottom_right)
+                    (self.lang.daily_routine_mixin.k_next_step, self.box.bottom_right),
+                    (self.lang.daily_routine_mixin.k_fill_to_max, self.box.top_right),
+                    (self.lang.daily_routine_mixin.k_next_step, self.box.bottom_right),
+                    (self.lang.daily_routine_mixin.k_start_shipping, self.box_of_screen(1548 / 1920, 951 / 1080, 1, 1)),
+                    (self.lang.daily_routine_mixin.k_get_dispatch_ticket, self.box.bottom_right)
                 ]
 
                 for i in range(start_index, len(steps)):

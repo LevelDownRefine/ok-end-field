@@ -163,5 +163,20 @@
   },
   "k_9f929560": {
     "string": "Site management"
+  },
+  "k_next_step": {
+    "string": "Next"
+  },
+  "k_fill_to_max": {
+    "string": "Fill to max"
+  },
+  "k_start_shipping": {
+    "string": "Start shipping"
+  },
+  "k_get_dispatch_ticket": {
+    "string": "Get dispatch ticket"
+  },
+  "k_view_quote": {
+    "string": "View quote"
   }
 }

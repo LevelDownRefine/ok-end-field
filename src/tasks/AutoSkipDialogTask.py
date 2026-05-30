@@ -13,7 +13,7 @@ class AutoSkipDialogTask(BaseEfTask, TriggerTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.default_config = {'_enabled': True}
-        self.name = "自动跳过剧情"
+        self.name = "自动跳过剧情，自动点击传送"
         self.icon = FluentIcon.ACCEPT
 
     def run(self):
