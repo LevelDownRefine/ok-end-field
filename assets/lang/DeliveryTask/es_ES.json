@@ -39,7 +39,7 @@
     "string": "Aceptar orden de envío"
   },
   "k_fragile": {
-    "pattern": "Frágil"
+    "string": "Frágil"
   },
   "k_not_fragile": {
     "string": "No frágil"

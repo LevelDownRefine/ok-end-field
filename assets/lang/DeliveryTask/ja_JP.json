@@ -39,7 +39,7 @@
     "string": "配送注文を受け取る"
   },
   "k_fragile": {
-    "pattern": "壊れやすい"
+    "string": "壊れやすい"
   },
   "k_not_fragile": {
     "string": "壊れにくい"

@@ -39,7 +39,7 @@
     "string": "接取運送委託"
   },
   "k_fragile": {
-    "pattern": "易損"
+    "string": "易損"
   },
   "k_not_fragile": {
     "string": "不易損"

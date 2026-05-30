@@ -39,7 +39,7 @@
     "string": "배송 주문 수락"
   },
   "k_fragile": {
-    "pattern": "파손되기 쉬운"
+    "string": "파손되기 쉬운"
   },
   "k_not_fragile": {
     "string": "파손되지 않는"

@@ -30,6 +30,7 @@ class YingTuoTask(BattleMixin):
         })
         self.index = 0
         self.yingtuo_list = permanent_dict[YINGTUO_MONUMENT]
+        self.support_schedule_task = True
     def run(self):
         self.ensure_main(time_out=400)
         if not self.enter_yingtuo():

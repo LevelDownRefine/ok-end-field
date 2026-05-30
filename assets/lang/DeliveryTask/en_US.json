@@ -39,7 +39,7 @@
     "string": "Accept delivery order"
   },
   "k_fragile": {
-    "pattern": "Fragile"
+    "string": "Fragile"
   },
   "k_not_fragile": {
     "string": "Non-fragile"
