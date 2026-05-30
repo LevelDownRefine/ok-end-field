@@ -2,6 +2,7 @@ import re
 
 from src.data.FeatureList import FeatureList
 from src.data.delivery_area import DELIVERY_AREA_CONFIG
+from src.data.world_map_utils import get_world_map_matcher, get_world_map_text
 
 VALID_FEATURE_LABELS = {feature.value for feature in FeatureList}
 
@@ -36,31 +37,44 @@ def _get_area_config(area_name: str) -> dict:
     return DELIVERY_AREA_CONFIG[area_name]
 
 
-def get_delivery_locations(area_name: str) -> list[str]:
-    return _get_area_config(area_name)["delivery_locations"]
+def get_delivery_locations(area_name: str, lang_accessor=None) -> list[str]:
+    locations = _get_area_config(area_name)["delivery_locations"]
+    if lang_accessor is None:
+        return list(locations)
+    return [get_world_map_text(lang_accessor, location_name) for location_name in locations]
 
 
-def get_delivery_targets(area_name: str) -> list[str]:
+def get_delivery_targets(area_name: str, lang_accessor=None) -> list[str]:
     area_config = _get_area_config(area_name)
     targets_by_location = area_config["delivery_targets_by_location"]
     targets = []
     for location_name in area_config["delivery_locations"]:
         targets.extend(targets_by_location.get(location_name, []))
-    return targets
+    if lang_accessor is None:
+        return targets
+    return [get_world_map_text(lang_accessor, target_name) for target_name in targets]
 
 
-def get_ocr_priority_locations(area_name: str) -> list[str]:
-    return _get_area_config(area_name)["ocr_priority_locations"]
+def get_ocr_priority_locations(area_name: str, lang_accessor=None) -> list[str]:
+    locations = _get_area_config(area_name)["ocr_priority_locations"]
+    if lang_accessor is None:
+        return list(locations)
+    return [get_world_map_text(lang_accessor, location_name) for location_name in locations]
 
 
-def get_full_cycle_targets(area_name: str, location_name: str) -> list[str]:
-    return _get_area_config(area_name)["delivery_targets_by_location"].get(location_name, [])
+def get_full_cycle_targets(area_name: str, location_name: str, lang_accessor=None) -> list[str]:
+    targets = _get_area_config(area_name)["delivery_targets_by_location"].get(location_name, [])
+    if lang_accessor is None:
+        return list(targets)
+    return [get_world_map_text(lang_accessor, target_name) for target_name in targets]
 
 
-def extract_delivery_location(text: str, area_name: str) -> str | None:
-    for location_name in get_delivery_locations(area_name):
-        if location_name in text:
-            return location_name
+def extract_delivery_location(text: str, area_name: str, lang_accessor=None) -> str | None:
+    canonical_locations = get_delivery_locations(area_name)
+    localized_locations = get_delivery_locations(area_name, lang_accessor=lang_accessor)
+    for canonical_name, localized_name in zip(canonical_locations, localized_locations):
+        if canonical_name in text or localized_name in text:
+            return canonical_name
     return None
 
 
@@ -71,13 +85,39 @@ def get_transfer_search_area(location_name: str | None, area_name: str) -> dict 
     return _get_area_config(area_name)["transfer_search_area"].get(location_name)
 
 
-def get_task_model_area(area_name: str) -> str:
-    return _get_area_config(area_name).get("task_model_area", area_name)
+def get_task_model_area(area_name: str, lang_accessor=None) -> str:
+    task_model_area = _get_area_config(area_name).get("task_model_area", area_name)
+    if lang_accessor is None:
+        return task_model_area
+    return get_world_map_text(lang_accessor, task_model_area)
 
 
-def get_delivery_target_ocr_pattern(area_name: str, target_name: str) -> re.Pattern:
+def compile_ocr_pattern(text: str, override_text: str | None = None) -> re.Pattern:
+    """Compile a data-driven OCR pattern with optional override text."""
+    pattern_text = override_text or text
+    return re.compile(pattern_text)
+
+
+def _normalize_matcher_to_pattern(matcher, fallback_text: str) -> re.Pattern:
+    if isinstance(matcher, re.Pattern):
+        return matcher
+    if isinstance(matcher, str) and matcher:
+        return re.compile(matcher)
+    if isinstance(matcher, list):
+        candidates = [str(item).strip() for item in matcher if str(item).strip()]
+        if candidates:
+            return re.compile("|".join(re.escape(item) for item in candidates))
+    return re.compile(fallback_text)
+
+
+def get_delivery_target_ocr_pattern(area_name: str, target_name: str, lang_accessor=None) -> re.Pattern:
     pattern_overrides = _get_area_config(area_name).get("target_ocr_pattern_overrides", {})
-    return re.compile(pattern_overrides.get(target_name, target_name))
+    override_text = pattern_overrides.get(target_name)
+    if override_text:
+        return compile_ocr_pattern(target_name, override_text)
+    if lang_accessor is not None:
+        return _normalize_matcher_to_pattern(get_world_map_matcher(lang_accessor, target_name), target_name)
+    return compile_ocr_pattern(target_name)
 
 
 def get_accept_feature_labels(area_name: str, target_ticket_num: str) -> list[str]:

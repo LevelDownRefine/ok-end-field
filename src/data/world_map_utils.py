@@ -4,7 +4,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from src.data.lang import LangNode, build_matcher
+from src.data.lang import build_matcher, get_lang_module_value
 from src.data.world_map import outpost_dict, goods_dict, stages_dict
 
 
@@ -79,14 +79,9 @@ def get_world_map_matcher(lang_accessor: Any, zh_text: str) -> re.Pattern | str 
         return None
     key = _world_map_zh_key_map().get(zh_text)
     if key and lang_accessor is not None:
-        try:
-            module = getattr(lang_accessor, "world_map")
-            node = getattr(module, "_data", {}).get(key)
-            matcher = build_matcher(LangNode(node)) if isinstance(node, dict) else None
-            if matcher is not None:
-                return matcher
-        except Exception:
-            pass
+        matcher = get_lang_module_value(lang_accessor, "world_map", key, None)
+        if matcher is not None:
+            return matcher
     return re.compile(zh_text)
 
 

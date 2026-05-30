@@ -771,6 +771,11 @@
             "supercategory": ""
         },
         {
+            "id": 152,
+            "name": "baker_page_icon",
+            "supercategory": ""
+        },
+        {
             "id": 153,
             "name": "in_map",
             "supercategory": ""
@@ -788,6 +793,11 @@
         {
             "id": 156,
             "name": "yingtuo_entrance",
+            "supercategory": ""
+        },
+        {
+            "id": 157,
+            "name": "sentence_part_feature",
             "supercategory": ""
         },
         {
@@ -1559,6 +1569,12 @@
         {
             "id": 166,
             "file_name": "images/4.png",
+            "width": 1920,
+            "height": 1080
+        },
+        {
+            "id": 167,
+            "file_name": "images/5.png",
             "width": 1920,
             "height": 1080
         }
@@ -2675,6 +2691,19 @@
             "iscrowd": 0
         },
         {
+            "id": 80,
+            "image_id": 167,
+            "category_id": 152,
+            "bbox": [
+                1674,
+                118,
+                77,
+                60
+            ],
+            "area": 4620,
+            "iscrowd": 0
+        },
+        {
             "id": 81,
             "image_id": 162,
             "category_id": 154,
@@ -2724,6 +2753,19 @@
                 31
             ],
             "area": 1364,
+            "iscrowd": 0
+        },
+        {
+            "id": 85,
+            "image_id": 167,
+            "category_id": 157,
+            "bbox": [
+                1525,
+                832,
+                74,
+                58
+            ],
+            "area": 4292,
             "iscrowd": 0
         },
         {

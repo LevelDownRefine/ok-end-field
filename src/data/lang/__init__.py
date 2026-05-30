@@ -224,6 +224,34 @@ def get_lang_accessor(obj_or_locale: Any = None) -> LangAccessor:
     return LangAccessor(locale)
 
 
+def get_lang_module_value(lang_accessor: Any, module_name: str, item: str, fallback=None):
+    """Read a localized value from self.lang.<module_name> with fallback.
+
+    The returned value keeps the existing semantics of LangModule/LangNode:
+    - dict nodes are converted through build_matcher(LangNode(...))
+    - missing values fall back to the provided fallback
+    - non-dict values are returned as-is
+    """
+    if lang_accessor is None:
+        return fallback
+
+    try:
+        module = getattr(lang_accessor, module_name)
+        data = getattr(module, "_data", {})
+        if not isinstance(data, dict):
+            return fallback
+
+        value = data.get(item)
+        if value is None:
+            return fallback
+        if isinstance(value, dict):
+            localized = build_matcher(LangNode(value))
+            return fallback if localized is None else localized
+        return value
+    except Exception:
+        return fallback
+
+
 __all__ = [
     "LangAccessor",
     "LangModule",
@@ -231,6 +259,7 @@ __all__ = [
     "LocaleCode",
     "SUPPORTED_LOCALES",
     "build_matcher",
+    "get_lang_module_value",
     "get_lang_accessor",
     "get_supported_locales",
 ]

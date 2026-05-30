@@ -17,7 +17,8 @@ class AutoSkipDialogTask(BaseEfTask, TriggerTask):
         self.icon = FluentIcon.ACCEPT
 
     def run(self):
-        if self.find_one(fL.skip_dialog_esc, horizontal_variance=0.05):
+        now = self.next_frame()
+        if self.find_one(fL.skip_dialog_esc, horizontal_variance=0.05, frame=now):
             self.send_key('esc', after_sleep=0.1)  # 确认使用send_key：esc为系统通用退出键，非游戏可配置热键
             start = time.time()
             clicked_confirm = False
@@ -30,12 +31,16 @@ class AutoSkipDialogTask(BaseEfTask, TriggerTask):
                     self.log_debug('AutoSkipDialogTask no confirm break')
                     return
                 self.next_frame()
-        if self.find_one(fL.baker_icon, horizontal_variance=0.05, vertical_variance=0.05):
-            self.next_frame()
-            if result:= self.find_one(fL.baker_click, horizontal_variance=0.05, vertical_variance=0.05):
+        if self.find_one([fL.baker_icon, fL.baker_page_icon], horizontal_variance=0.05, vertical_variance=0.05, frame=now):
+            now = self.next_frame()
+            if result:= self.find_one(fL.baker_click, horizontal_variance=0.05, vertical_variance=0.1, frame=now):
+                self.click(result, after_sleep=0.4)
+            if result:= self.find_one(fL.sentence_part_feature, horizontal_variance=0.05, vertical_variance=0.1, frame=now):
                 self.click(result, after_sleep=0.4)
             if result:= self.ocr(match=self.lang.AutoSkipDialogTask.k_92399078, box=self.box_of_screen(1294/1920, 806/1080, 1412/1920, 860/1080)):
                 self.click(result, after_sleep=0.4)
                 return
+        if result :=self.find_one(feature_name=fL.in_map, frame=now) and self.find_one(feature_name=fL.transfer_go, frame=now):
+            self.click(result, after_sleep=0.4)
         
             

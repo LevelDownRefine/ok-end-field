@@ -5,6 +5,7 @@ import webbrowser
 from qfluentwidgets import FluentIcon
 
 from src.data.characters_utils import get_contact_list_with_feature_list
+from src.data.characters import all_list
 from src.tasks.mixin.common import LiaisonResult, build_name_patterns
 from src.tasks.mixin.liaison_mixin import LiaisonMixin
 
@@ -14,10 +15,11 @@ class DailyLiaisonMixin(LiaisonMixin):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         self.can_contact_dict = get_contact_list_with_feature_list(self.lang)
         self.contact_name_patterns = {name: build_name_patterns(name) for name in self.can_contact_dict.keys()}
         #
-        self.config_type["优先送礼对象"] = {"type": "drop_down", "options": list(self.can_contact_dict.keys())}
+        self.config_type["优先送礼对象"] = {"type": "drop_down", "options": all_list}
         self.config_type["帮助"] = {
             "type": "button",
             "text": "打开帮助",
@@ -28,7 +30,7 @@ class DailyLiaisonMixin(LiaisonMixin):
             "⭐送礼": True,
             "⭐帝江号一键存放": False,
             "送礼任务最多尝试次数": 2,
-            "优先送礼对象": list(self.can_contact_dict.keys())[0],
+            "优先送礼对象": all_list[0],
         })
         self.config_description.update({
             "⭐送礼": (

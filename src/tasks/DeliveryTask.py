@@ -350,7 +350,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
             str: 票券类型("ticket_delivery_area")或None
         """
         first_name = row.elems[0].name
-        if extract_delivery_location(first_name, self.delivery_area):
+        if extract_delivery_location(first_name, self.delivery_area, self.lang):
             return "ticket_delivery_area"
         return None
 
@@ -383,7 +383,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
     def _remember_delivery_location(self, row: DeliveryRow):
         """从接取到的委托行里缓存地点信息，供后续传送点搜索复用。"""
         first_name = row.elems[0].name
-        self._accepted_delivery_location = extract_delivery_location(first_name, self.delivery_area)
+        self._accepted_delivery_location = extract_delivery_location(first_name, self.delivery_area, self.lang)
         if self._accepted_delivery_location:
             self.log_info(f"已缓存委托地点: {self._accepted_delivery_location}")
         else:
@@ -619,7 +619,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
             return False
 
         try:
-            delivery_locations = get_delivery_locations(self.delivery_area)
+            delivery_locations = get_delivery_locations(self.delivery_area, self.lang)
             if not delivery_locations:
                 return False
 
@@ -656,7 +656,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         if self.config.get(self.CFG_TEST_TARGET) == self.TEST_NONE:
             ends_list_pattern_dict = {}
             for end in self.ends:
-                pattern = get_delivery_target_ocr_pattern(self.delivery_area, end)
+                pattern = get_delivery_target_ocr_pattern(self.delivery_area, end, self.lang)
                 ends_list_pattern_dict[pattern] = end
             for _ in range(3):
                 self._accepted_delivery_location = None

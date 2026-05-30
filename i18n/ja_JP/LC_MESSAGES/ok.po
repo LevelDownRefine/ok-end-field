@@ -166,7 +166,7 @@ msgid "体力本"
 msgstr "スタミナダンジョン"
 
 msgid "余烬"
-msgstr "エンバー"
+msgstr "残り火"
 
 msgid "佩丽卡"
 msgstr "ペリカ"
@@ -181,7 +181,7 @@ msgid "倒货的轮次"
 msgstr "商品移動ラウンド"
 
 msgid "别礼"
-msgstr "ビエリ"
+msgstr "別れ"
 
 msgid "刷体力"
 msgstr "スタミナ周回"
@@ -243,10 +243,10 @@ msgid "大世界自动拾取"
 msgstr "オープンワールド自動ピックアップ"
 
 msgid "大潘"
-msgstr "ダーパン"
+msgstr "ダパン"
 
 msgid "安塔尔"
-msgstr "アンタール"
+msgstr "アンタル"
 
 msgid "完整循环测试"
 msgstr "フルサイクルテスト"
@@ -267,7 +267,7 @@ msgid "干员进阶"
 msgstr "オペレーター昇格"
 
 msgid "弧光"
-msgstr "アークライト"
+msgstr "アーク"
 
 msgid "当技能点达到该数值时，开始执行技能序列, 1-3"
 msgstr "Start skill sequence when skill points reach this value (1-3)"
@@ -339,7 +339,7 @@ msgid "是否启用滚动放大视角"
 msgstr "Enable Scroll Zoom View"
 
 msgid "昼雪"
-msgstr "チューシュエ"
+msgstr "日中の雪"
 
 msgid "枢纽区"
 msgstr "ハブエリア"
@@ -372,7 +372,7 @@ msgid "毕业基质识别"
 msgstr "卒業エッセンス識別"
 
 msgid "洁尔佩塔"
-msgstr "ジェルペータ"
+msgstr "ゲルペタ"
 
 msgid "源石研究园"
 msgstr "源石研究園"
@@ -399,7 +399,7 @@ msgid "矿脉源区"
 msgstr "鉱脈源エリア"
 
 msgid "秋栗"
-msgstr "チューリ"
+msgstr "九里"
 
 msgid "罗丹"
 msgstr "ロダン"
@@ -432,10 +432,10 @@ msgid "艾尔黛拉"
 msgstr "エルデラ"
 
 msgid "艾维文娜"
-msgstr "アヴィウェナ"
+msgstr "アビバ"
 
 msgid "莱万汀"
-msgstr "レヴァンティン"
+msgstr "ルウォンティン"
 
 msgid "萤石"
 msgstr "蛍石"
@@ -450,7 +450,7 @@ msgid "资源"
 msgstr "リソース"
 
 msgid "赛希"
-msgstr "サイシー"
+msgstr "サイヒ"
 
 msgid "超距辉映管"
 msgstr "超距離発光管"
@@ -504,10 +504,10 @@ msgid "间隔秒数"
 msgstr "間隔（秒）"
 
 msgid "阿列什"
-msgstr "アレシュ"
+msgstr "アレス"
 
 msgid "陈千语"
-msgstr "チェン・チアンユー"
+msgstr "チェン・チエンユー"
 
 msgid "非毕业基质会尝试取消上锁（已上锁的会解锁）"
 msgstr "Non-graduated essences will attempt to unlock"
@@ -519,13 +519,13 @@ msgid "非毕业基质弃置"
 msgstr "非卒業エッセンス廃棄"
 
 msgid "骏卫"
-msgstr "ジュンウェイ"
+msgstr "順威"
 
 msgid "高容谷地电池"
 msgstr "大容量バレー電池"
 
 msgid "黎风"
-msgstr "リーフォン"
+msgstr "李峰"
 
 msgid ""
 "默认是无，表示正常执行相关任务\n"
@@ -752,7 +752,7 @@ msgid "汤汤"
 msgstr "タンタン"
 
 msgid "洛茜"
-msgstr "ルオシー"
+msgstr "ロージー"
 
 msgid "消耗限时体力药"
 msgstr "期間限定スタミナ薬使用"
@@ -1022,7 +1022,7 @@ msgid "帝江号收菜操作"
 msgstr "帝江号回収操作"
 
 msgid "庄方宜"
-msgstr "ジュアン・ファンイ"
+msgstr "荘方儀"
 
 msgid "开启后仅显示与原配置不同的项"
 msgstr "有効にすると、デフォルト設定と異なる項目のみ表示"
@@ -1078,8 +1078,7 @@ msgstr "指定チーム番号"
 msgid ""
 "按住标记按键并持续达到这个时长后，\n"
 "才会把当前目标标记为已获取。"
-msgstr ""
-"Hold mark key for this duration to mark target as collected."
+msgstr "Hold mark key for this duration to mark target as collected."
 
 msgid ""
 "接近目标后用于标记“已获取”的键位。\n"
@@ -1407,3 +1406,33 @@ msgstr ""
 
 msgid "Upload Logs"
 msgstr "ログアップロード"
+
+msgid "Log"
+msgstr "ログ"
+
+msgid "['送礼', '帝江号一键存放', '收邮件', '据点兑换', '转交运送委托', '转交委托奖励领取', '造装备', '简易制作', '收信用', '帝江号收菜', '买信用商店', '买卖货', '刷体力', '买物资', '活动奖励', '日常奖励', '传送到帝江号右侧传送点', '执行结尾外部命令']"
+msgstr "['贈り物', '帝江号1クリック収納', 'メール受領', '拠点交換', '運送委譲渡', '委譲報酬受領', '装備製作', '簡易作成', 'クレジット回収', '帝江号収穫', 'クレジット商店購入', '売買', 'スタミナ周回', '物資購入', 'イベント報酬', 'デイリー報酬', '帝江号右側ワープポイントへ転送', '終了外部コマンド実行']"
+
+msgid "current task"
+msgstr "現在のタスク"
+
+msgid "wait main esc=True"
+msgstr "メイン待機 esc=True"
+
+msgid "卡契尔"
+msgstr "カッヘル"
+
+msgid "影拓丰碑"
+msgstr "影拓の碑"
+
+msgid "未处理的任务列表"
+msgstr "未処理タスクリスト"
+
+msgid "点击确认超时"
+msgstr "確認クリックタイムアウト"
+
+msgid "管理员"
+msgstr "管理者"
+
+msgid "自动完成当前所有普通影拓丰碑关卡"
+msgstr "現在の全ての通常影拓の碑ステージを自動クリア"

@@ -225,36 +225,75 @@ class GameFlowMixin:
 
     def is_main(self, esc=False, need_active=True):
         """判断是否处于可执行任务的主界面状态。"""
+
         self.next_frame()
-        if not self._logged_in:
-            if need_active:
-                self.active_and_send_mouse_delta(activate=True, only_activate=True)
+
+        if not self._logged_in and need_active:
+            self.active_and_send_mouse_delta(activate=True, only_activate=True)
+
+        # 已进入世界
         if self.wait_until(self.in_world, time_out=1):
             self._logged_in = True
             return True
+
+        # 登录流程处理成功
         if self.wait_login():
             return True
-        if self.click_confirm(time_out=0) or self.wait_click_feature(feature=fL.to_max_produce_num):
+
+        # 某些弹窗状态不视为主界面
+        if result := (
+            self.find_one(
+                feature_name=fL.skip_dialog_confirm,
+                horizontal_variance=0.05,
+                vertical_variance=0.05
+            )
+            or self.find_one(
+                feature_name=fL.to_max_produce_num,
+                box=self.box_of_screen(0.550, 0.885, 0.573, 0.920)
+            )
+        ):
+            self.log_info("检测到特定弹窗，尝试点击确认")
+            self.click(result, after_sleep=self.once_sleep_time)
             return False
-        rules = [[None, None, [self.lang.game_flow_mixin.k_8b2ca27a, self.lang.game_flow_mixin.k_7cd2e0c0], self.box.bottom]]
-        if not self.run_ocr_rules(rules):
+
+        # 命中 OCR 干扰并进行了处理，当前不视为稳定主界面
+        rules = [[
+            None,
+            None,
+            [self.lang.game_flow_mixin.k_8b2ca27a, self.lang.game_flow_mixin.k_7cd2e0c0],
+            self.box.bottom
+        ]]
+
+        if self.handle_ocr_rules(rules):
             return False
+
         if esc:
             self.back(after_sleep=self.once_sleep_time)
-            return False
+
         return False
 
-    def run_ocr_rules(self, rules: list[list]) -> bool:
-        for need, need_box, match, box in rules:
-            if need is not None:
-                if not self.ocr(match=need, box=need_box, log=True):
-                    continue
 
+    def handle_ocr_rules(self, rules: list[list]) -> bool:
+        """
+        OCR 规则处理。
+
+        Returns:
+            True: 命中规则并已处理
+            False: 未命中任何规则
+        """
+
+        for need, need_box, match, box in rules:
+
+            # 前置条件检测
+            if need is not None and not self.ocr(match=need, box=need_box, log=True):
+                continue
+
+            # 命中目标
             if result := self.ocr(match=match, box=box, log=True):
                 self.click_with_alt(result, after_sleep=self.once_sleep_time)
-                return False
+                return True
 
-        return True
+        return False
 
     def enter_home_room_list(self, timeout=6):
         """进入基地房间列表页面（i 面板）。"""

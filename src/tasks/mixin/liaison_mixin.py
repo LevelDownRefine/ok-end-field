@@ -23,7 +23,7 @@ import time
 
 from src.data.FeatureList import FeatureList as fL
 from src.data.characters import characters
-from src.data.characters_utils import get_contact_list_with_feature_list
+from src.data.characters_utils import get_contact_list_with_feature_list, get_localized_name_by_canonical
 from src.tasks.mixin.common import LiaisonResult, build_name_patterns
 from src.tasks.mixin.navigation_mixin import NavigationMixin
 
@@ -239,6 +239,16 @@ class LiaisonMixin(NavigationMixin):
         self.log_info("开始执行干员联络任务")
 
         target_name = self.config.get("优先送礼对象")
+        # 如果配置里存的是 canonical（原始中文名），在读取时通过 characters_utils 统一转换为本地化显示名
+        # 以便后续使用 self.can_contact_dict（可能是本地化键）进行匹配。
+        if target_name:
+            try:
+                localized = get_localized_name_by_canonical(self.lang, target_name)
+                if localized:
+                    target_name = localized
+            except Exception:
+                # 容错：如果本地化转换失败，保留原值继续处理
+                pass
         target_feature_name = self._resolve_contact_feature_name(target_name)
         if not target_feature_name:
             self.log_info(f"未识别联络对象 {target_name}，改用默认联络对象")
