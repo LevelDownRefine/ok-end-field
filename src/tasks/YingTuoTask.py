@@ -2,7 +2,8 @@ import time
 from src.data.FeatureList import FeatureList as fL
 from src.tasks.BaseEfTask import BaseEfTask
 from src.tasks.mixin.battle_mixin import BattleMixin
-
+from src.data.world_map import permanent_dict, YINGTUO_MONUMENT
+from src.data.world_map_utils import get_world_map_text
 class YingTuoTask(BattleMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -27,13 +28,18 @@ class YingTuoTask(BattleMixin):
                 "取值不小于1。"
             ),
         })
+        self.index = 0
+        self.yingtuo_list = permanent_dict[YINGTUO_MONUMENT]
     def run(self):
         self.ensure_main(time_out=400)
         if not self.enter_yingtuo():
             return
         while self.find_normal_challenge():
             self.log_info("找到普通关卡，进入挑战页面")
-            while self.wait_click_feature(feature=fL.yingtuo_not_cleared_icon, box=self.box_of_screen(0.033, 0.133, 0.058, 0.778), time_out=5, raise_if_not_found=False, after_sleep=1):
+            self.wait_ocr(match=self.target, time_out=3, box=self.box.top_left, log=True)
+            results = self.find_feature(feature_name=fL.yingtuo_not_cleared_icon, box=self.box_of_screen(0.033, 0.133, 0.058, 0.778))
+            for result in results:
+                self.click(result, after_sleep=0.5)
                 self.log_info("进入挑战页面，开始挑战")
                 if not self.wait_click_feature(feature=fL.to_max_produce_num, box=self.box_of_screen(0.934, 0.881, 0.977, 0.965), time_out=10, raise_if_not_found=False, after_sleep=2):
                     self.log_info("未能找到挑战开始按钮")
@@ -64,15 +70,21 @@ class YingTuoTask(BattleMixin):
         if not self.wait_feature(feature=fL.yingtuo_monument, time_out=10, raise_if_not_found=False):
             self.log_info("未能找到影拓丰碑活动页标志，任务结束", notify=True)
             return False
+        self.sleep(1)
         self.log_info("成功进入影拓丰碑页面")
         return True
     def find_normal_challenge(self):
-        normal_features = [fL.level_not_cleared_short, fL.level_not_cleared_long]
+        if self.index >= len(self.yingtuo_list):
+            self.log_info("已完成所有普通关卡")
+            return None
+        self.target = get_world_map_text(self.lang, self.yingtuo_list[self.index])
+        self.log_info(f"寻找{self.target}关卡")
         for _ in range(3):  # 尝试多次寻找，增加成功率
-            for feature in normal_features:
-                if self.wait_click_feature(feature=feature, box=self.box_of_screen(0.004, 0.756, 0.999, 0.781), time_out=2, raise_if_not_found=False, after_sleep=2):
-                    return feature
-            self.scroll_relative(0.5, 0.5, 5)
+            if self.wait_click_ocr(match=self.target, box=self.box_of_screen(0.013, 0.759, 0.991, 0.824), time_out=2, raise_if_not_found=False, after_sleep=2):
+                self.log_info(f"找到{self.target}关卡")
+                self.index += 1
+                return self.target
+            self.scroll_relative(0.5, 0.5, -5)
         return None
     def battle_and_exit(self):
         end_time = time.time()

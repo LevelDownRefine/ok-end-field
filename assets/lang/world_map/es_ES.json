@@ -235,5 +235,20 @@
   },
   "k_d5586b4b": {
     "pattern": "Batería de valle de alta capacidad"
+  },
+  "yingtuo_monument": {
+    "pattern": "Monumento Yingtuo"
+  },
+  "k_zhuoliu": {
+    "pattern": "Manifestación Turbia"
+  },
+  "k_zhuotong": {
+    "pattern": "Cicatriz Ardiente"
+  },
+  "k_wuji": {
+    "pattern": "Creación Inorgánica"
+  },
+  "k_dadiqizi": {
+    "pattern": "Desterrado de la Tierra"
   }
 }

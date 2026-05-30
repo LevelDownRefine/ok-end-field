@@ -771,16 +771,6 @@
             "supercategory": ""
         },
         {
-            "id": 152,
-            "name": "level_not_cleared_short",
-            "supercategory": ""
-        },
-        {
-            "id": 153,
-            "name": "level_not_cleared_long",
-            "supercategory": ""
-        },
-        {
             "id": 154,
             "name": "yingtuo_not_cleared_icon",
             "supercategory": ""
@@ -2658,32 +2648,6 @@
                 28
             ],
             "area": 784,
-            "iscrowd": 0
-        },
-        {
-            "id": 79,
-            "image_id": 161,
-            "category_id": 152,
-            "bbox": [
-                120,
-                823,
-                37,
-                10
-            ],
-            "area": 370,
-            "iscrowd": 0
-        },
-        {
-            "id": 80,
-            "image_id": 161,
-            "category_id": 153,
-            "bbox": [
-                704,
-                822,
-                74,
-                12
-            ],
-            "area": 888,
             "iscrowd": 0
         },
         {

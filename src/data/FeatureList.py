@@ -70,8 +70,6 @@ class FeatureList(str, Enum):
     industrial_equipment_icon = 'industrial_equipment_icon'
     laevatain_contact = 'laevatain_contact'
     last_rite_contact = 'last_rite_contact'
-    level_not_cleared_long = 'level_not_cleared_long'
-    level_not_cleared_short = 'level_not_cleared_short'
     liaison_confirm = 'liaison_confirm'
     lifeng_contact = 'lifeng_contact'
     log_out_confirm = 'log_out_confirm'

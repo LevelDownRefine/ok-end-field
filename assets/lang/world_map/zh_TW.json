@@ -235,5 +235,20 @@
   },
   "k_d5586b4b": {
     "pattern": "高容量谷地電池"
+  },
+  "yingtuo_monument": {
+    "pattern": "影拓豐碑"
+  },
+  "k_zhuoliu": {
+    "pattern": "濁流具現"
+  },
+  "k_zhuotong": {
+    "pattern": "灼痛疤痕"
+  },
+  "k_wuji": {
+    "pattern": "無機造物"
+  },
+  "k_dadiqizi": {
+    "pattern": "大地的棄子"
   }
 }

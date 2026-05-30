@@ -235,5 +235,20 @@
   },
   "k_d5586b4b": {
     "pattern": "고용량 밸리 배터리"
+  },
+  "yingtuo_monument": {
+    "pattern": "영탁 비석"
+  },
+  "k_zhuoliu": {
+    "pattern": "탁류 구현"
+  },
+  "k_zhuotong": {
+    "pattern": "작열의 상처"
+  },
+  "k_wuji": {
+    "pattern": "무기 창조물"
+  },
+  "k_dadiqizi": {
+    "pattern": "대지의 버려진 자"
   }
 }

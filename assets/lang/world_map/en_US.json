@@ -235,5 +235,20 @@
   },
   "k_d5586b4b": {
     "pattern": "High capacity valley battery"
+  },
+  "yingtuo_monument": {
+    "pattern": "Yingtuo Monument"
+  },
+  "k_zhuoliu": {
+    "pattern": "Turbid Manifestation"
+  },
+  "k_zhuotong": {
+    "pattern": "Scorching Scar"
+  },
+  "k_wuji": {
+    "pattern": "Inorganic Creation"
+  },
+  "k_dadiqizi": {
+    "pattern": "Castaway of the Earth"
   }
 }
