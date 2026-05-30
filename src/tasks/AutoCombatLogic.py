@@ -1,6 +1,7 @@
 import time
 import threading
 import pyautogui
+import traceback
 from src.tasks.BaseEfTask import BaseEfTask
 
 
@@ -187,6 +188,7 @@ class AutoCombatLogic:
                             continue
         except Exception as exc:
             task.log_info(f"自动战斗发生异常: {exc}")
+            task.log_info(traceback.format_exc())
         finally:
             self._normal_attack_hold_enabled = False
             self._sync_normal_attack_hold()
