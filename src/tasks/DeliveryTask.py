@@ -84,6 +84,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         self.default_config.update({"_enabled": True})
         self.name = "自动送货"
         self.description = "根据地区配置自动送货,教程视频 BV1LLc7zFEF9"
+        self.icon = FluentIcon.SHOPPING_CART
         self._configure_delivery_area(DEFAULT_DELIVERY_AREA)
         self.support_schedule_task = True
         self.support_multi_account = True

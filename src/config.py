@@ -153,7 +153,7 @@ config = {
     ],
     "trigger_tasks": [  # 不断执行的触发式任务
         ["src.tasks.AutoCombatTask", "AutoCombatTask"],
-        ["src.tasks.AutoSkipDialogTask", "AutoSkipDialogTask"],
+        ["src.tasks.AutoInteractionTask", "AutoInteractionTask"],
         ["src.tasks.AutoPickTask", "AutoPickTask"],
         ["src.tasks.AutoLoginTask", "AutoLoginTask"],
         ["src.tasks.ItemNavigatorTask", "ItemNavigatorTask"],

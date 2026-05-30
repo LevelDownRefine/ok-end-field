@@ -57,7 +57,7 @@ main.py / main_debug.py
         │
         └── trigger_tasks  ← 后台持续运行的触发式任务
                 ├── AutoCombatTask    (自动战斗)
-                ├── AutoSkipDialogTask(自动跳过剧情)
+                ├── AutoInteractionTask(自动跳过剧情)
                 ├── AutoPickTask      (自动拾取)
                 └── AutoLoginTask     (自动登录/领月卡)
 ```
@@ -131,7 +131,7 @@ ok-end-field/
 │       ├── AutoCombatTask.py  # 触发任务：后台自动战斗（使用 AutoCombatLogic）
 │       ├── AutoLoginTask.py   # 触发任务：自动登录/领取月卡奖励
 │       ├── AutoPickTask.py    # 触发任务：大世界自动拾取（白名单/黑名单）
-│       ├── AutoSkipDialogTask.py # 触发任务：自动跳过剧情对话
+│       ├── AutoInteractionTask.py # 触发任务：自动跳过剧情对话
 │       ├── BattleTask.py      # 一次性任务：单独刷体力（复用 DailyBattleMixin）
 │       ├── DailyTask.py       # 一次性任务：日常任务聚合执行器（MRO 组合各子 Mixin）
 │       ├── DeliveryTask.py    # 一次性任务：自动送货（武陵，含滑索路径）
