@@ -771,6 +771,11 @@
             "supercategory": ""
         },
         {
+            "id": 153,
+            "name": "in_map",
+            "supercategory": ""
+        },
+        {
             "id": 154,
             "name": "yingtuo_not_cleared_icon",
             "supercategory": ""
@@ -1547,6 +1552,12 @@
         },
         {
             "id": 165,
+            "file_name": "images/4.png",
+            "width": 1920,
+            "height": 1080
+        },
+        {
+            "id": 166,
             "file_name": "images/4.png",
             "width": 1920,
             "height": 1080
@@ -2648,6 +2659,19 @@
                 28
             ],
             "area": 784,
+            "iscrowd": 0
+        },
+        {
+            "id": 79,
+            "image_id": 166,
+            "category_id": 153,
+            "bbox": [
+                64,
+                916,
+                30,
+                25
+            ],
+            "area": 750,
             "iscrowd": 0
         },
         {

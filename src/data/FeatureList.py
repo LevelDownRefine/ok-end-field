@@ -67,6 +67,7 @@ class FeatureList(str, Enum):
     higher_order_quadrant_liquid = 'higher_order_quadrant_liquid'
     higher_order_reflection_tube = 'higher_order_reflection_tube'
     higher_order_three_photos = 'higher_order_three_photos'
+    in_map = 'in_map'
     industrial_equipment_icon = 'industrial_equipment_icon'
     laevatain_contact = 'laevatain_contact'
     last_rite_contact = 'last_rite_contact'

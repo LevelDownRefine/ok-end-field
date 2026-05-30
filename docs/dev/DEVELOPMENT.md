@@ -325,9 +325,9 @@ python main_debug.py
 1. 以 `main_debug.py` 模式启动程序，框架会根据 `ok_templates/` 子模块下的文件数据自动生成标签列表。
 2. 点击 GUI 左侧的**模板 tab**，即可查看所有已加载的截图及其对应的标签 label（详细机制见 ok-script 库文档）。
 3. 在 `ok_templates/` 中添加或更新标注文件后并保存到assets，重启程序即可使用新特征模板。
-4. 在代码中通过 `self.find_feature(fL.my_new_feature)` 调用新特征。
+4. 在代码中通过 `self.find_feature(fL.my_new_feature)` 调用新特征；如果需要同时等待多个候选特征，可以传入特征名列表。
 
-> 分辨率适配：本项目默认1080P，若需要精确支持 2K/4K，按命名约定 `feature_name_2k`、`feature_name_4k` 提供对应尺寸的图片，`BaseEfTask.get_feature_by_resolution()` 会自动按分辨率选择。
+> 分辨率适配：本项目默认1080P，若需要精确支持 2K/4K，按命名约定 `feature_name_2k`、`feature_name_4k` 提供对应尺寸的图片，`BaseEfTask.get_feature_by_resolution()` 会自动按分辨率选择；列表参数中的每个特征名也会分别执行这一步适配。
 
 ### 5.5 添加新的 OCR 识别逻辑
 
@@ -558,7 +558,7 @@ python auto_release.py
 | 方法 | 说明 |
 |------|------|
 | `self.ensure_main()` | 等待并确保进入游戏主界面 |
-| `self.find_feature(fL.xxx)` | 模板匹配，返回 Box 列表或 None |
+| `self.find_feature(fL.xxx)` | 模板匹配，返回 Box 列表或 None；也支持传入特征名列表 |
 | `self.find_one(fL.xxx)` | 模板匹配，返回第一个 Box 或 None |
 | `self.ocr(box=..., match=...)` | OCR 识别指定区域，match 可为字符串/正则 |
 | `self.wait_ocr(match=..., time_out=5)` | 等待 OCR 匹配，超时返回 None |

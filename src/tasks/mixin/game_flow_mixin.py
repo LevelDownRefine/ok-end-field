@@ -11,6 +11,7 @@ from src.data.world_map_utils import get_world_map_matcher, get_world_map_text
 from src.essence.essence_recognizer import EssenceInfo, read_essence_info
 from src.image.login_screenshot import capture_window_by_screen
 from src.interaction.Mouse import run_at_window_pos
+from src.data.FeatureList import FeatureList as fL
 
 
 class GameFlowMixin:
@@ -111,20 +112,24 @@ class GameFlowMixin:
         """点击对话框中的确认按钮。"""
         start_time = time.time()
         while True:
-            if time.time() - start_time > time_out:
-                self.log_info("点击确认超时")
-                return False
+            self.next_frame()
             confirm = self.find_confirm()
             if confirm:
                 self.click(confirm, after_sleep=after_sleep)
+
                 if recheck_time > 0:
                     self.sleep(recheck_time)
+
                     if confirm := self.find_confirm():
                         self.click(confirm, after_sleep=after_sleep)
-                        return True
+
                 return True
+            # 超时检测
+            if time.time() - start_time > time_out:
+                self.log_info("点击确认超时")
+                return False
+
             self.sleep(0.1)
-            self.next_frame()
 
     def wait_pop_up(self, time_out=15, after_sleep=0):
         """等待奖励弹窗出现并点击 OK 按钮。"""
@@ -229,9 +234,9 @@ class GameFlowMixin:
             return True
         if self.wait_login():
             return True
-        if self.click_confirm(time_out=1):
+        if self.click_confirm(time_out=0) or self.wait_click_feature(feature=fL.to_max_produce_num):
             return False
-        rules = [[None, None, [self.lang.game_flow_mixin.k_8b2ca27a, self.lang.game_flow_mixin.k_7cd2e0c0, self.lang.game_flow_mixin.k_b56d9ac6], self.box.bottom]]
+        rules = [[None, None, [self.lang.game_flow_mixin.k_8b2ca27a, self.lang.game_flow_mixin.k_7cd2e0c0], self.box.bottom]]
         if not self.run_ocr_rules(rules):
             return False
         if esc:
@@ -343,16 +348,16 @@ class GameFlowMixin:
                                     time_out=5)
                 return True
 
-    def ensure_map(self, addtional_match=None, time_out=30):
+    def ensure_map(self, addtional_feature=None, time_out=30):
         """确保进入地图界面。"""
         start_time = time.time()
-        if addtional_match:
-            match = [self.lang.game_flow_mixin.k_d3ade189] + addtional_match if isinstance(addtional_match, list) else [
-                self.lang.game_flow_mixin.k_d3ade189, re.compile(addtional_match)]
+        if addtional_feature:
+            features = [fL.in_map] + addtional_feature if isinstance(addtional_feature, list) else [
+                fL.in_map, addtional_feature]
         else:
-            match = [self.lang.game_flow_mixin.k_d3ade189]
+            features = [fL.in_map]
         self.press_key("m")
-        while not self.wait_ocr(match=match, time_out=2, box=self.box.top_left):
+        while not self.wait_feature(feature=features, time_out=2, raise_if_not_found=False):
             if time.time() - start_time > time_out:
                 raise Exception("进入地图失败")
             self.press_key("m")

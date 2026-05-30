@@ -69,13 +69,15 @@ def find_feature(
 )
 ```
 
+`feature_name` 可传入单个特征名，也可传入由特征名组成的列表。代码会先按当前分辨率解析每个特征名，再逐个执行模板匹配。
+
 在当前帧中进行模板匹配，返回匹配到的 `Box` 列表（未匹配时返回空列表）。
-`feature_name` 可传入 `FeatureList` 枚举成员或字符串（图片文件名，不含 `.png`）。
+`feature_name` 可传入 `FeatureList` 枚举成员、字符串（图片文件名，不含 `.png`），或由它们组成的列表。
 会根据当前分辨率自动选择 `_2k` / `_4k` 后缀图片。
 
 | 参数 | 类型 | 说明 |
 |------|------|------|
-| `feature_name` | `FeatureList` \| `str` | 特征名（枚举成员或字符串） |
+| `feature_name` | `FeatureList` \| `str` \| `list[FeatureList \| str]` | 特征名（单个或列表） |
 | `box` | `Box \| None` | 限制搜索区域；`None` 时框架从 `coco_annotations.json` 读取该模板的标注位置作为默认搜索范围 |
 | `threshold` | `float` | 匹配阈值，默认 `0`（使用框架默认值） |
 | `use_gray_scale` | `bool` | 是否转灰度匹配 |
@@ -102,6 +104,7 @@ def find_one(
 ```
 
 `find_feature` 的简化版：返回第一个匹配的 `Box`，未匹配时返回 `None`。参数同 `find_feature`。
+同样支持单个特征名或特征名列表。
 
 ```python
 box = self.find_one(fL.confirm_btn)
@@ -127,6 +130,8 @@ def get_feature_by_resolution(
 - `width < 2500`：无后缀、`_2k`、`_4k` 顺序查找
 
 若找不到任何可用资源，抛出 `AttributeError`。
+
+> 说明：如果 `feature_name` 是列表，框架会对列表中的每个元素分别执行分辨率适配；因此列表内元素仍应使用同一套命名约定（如 `xxx` / `xxx_2k` / `xxx_4k`）。
 
 ---
 
@@ -632,12 +637,12 @@ def skip_dialog(self)
 ```python
 def ensure_map(
     self,
-    addtional_match=None,
+    addtional_feature=None,
     time_out=30,
 )
 ```
 
-等待并确保地图界面已打开。`addtional_match` 为额外的 OCR 匹配条件。
+等待并确保地图界面已打开。`addtional_feature` 为额外的特征名，可以是单个特征名或特征名列表。
 
 ---
 

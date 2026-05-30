@@ -134,7 +134,7 @@ class Common(BaseEfTask):
             int
                 当前门票数量
 
-                若识别失败则返回默认值 200
+                若识别失败则返回默认值 0
         """
 
         result = self.wait_ocr(
@@ -155,7 +155,7 @@ class Common(BaseEfTask):
 
             return ticket
         else:
-            # OCR失败时默认返回最大值
+            # OCR失败时默认返回 0
             return 0
 
     def plus_max(self):
