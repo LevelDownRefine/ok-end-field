@@ -480,7 +480,19 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.battle_ctx.left_ticket = self.detect_ticket_number()
             self.log_info(f"当前体力: {self.battle_ctx.left_ticket}")
             self.battle_ctx.category_name = get_stage_category(self.battle_ctx.stage_name)
-            self.battle_ctx.no_battle = self.config.get("仅站桩", False)
+            # 仅在支持能量淤积（体力池）的副本上生效的“仅站桩”选项
+            no_battle_cfg = bool(self.config.get("仅站桩", False))
+            if no_battle_cfg:
+                # 直接根据 category_name 判断是否为能量淤积点（体力池），无需 i18n 内部判定
+                if self.battle_ctx.category_name == STAGE_CATEGORY_ENERGY_POOLING:
+                    self.battle_ctx.no_battle = True
+                else:
+                    self.log_warning(
+                        f"仅站桩仅在{STAGE_CATEGORY_ENERGY_POOLING}支持，当前副本为『{self.battle_ctx.category_name}』，已忽略该设置"
+                    )
+                    self.battle_ctx.no_battle = False
+            else:
+                self.battle_ctx.no_battle = False
 
             self.battle_ctx.extra_run_limit = max(0, int(self.config.get("体力刷完后继续刷取次数", 0) or 0))
 
