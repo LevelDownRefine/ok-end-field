@@ -678,7 +678,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 # 开始下一轮刷取
                 self.to_restart()
             else:
-                # 根据 enter_str 决定点击位置, 如果是「挑战」, 并且刷取的是「能量淤积点」, 则点击右下四分之一区域, 避免误触
                 enter_feature = fL.to_max_produce_num  if (
                     self.battle_ctx.enter_text == "挑战"
                     and is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING)

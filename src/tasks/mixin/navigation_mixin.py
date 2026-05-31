@@ -30,9 +30,10 @@ class NavigationMixin(BaseEfTask):
         self.press_key("m", after_sleep=2)
         self.log_info("关闭地图界面 (按下 M)")
         start_time = time.time()
-        while not self.find_feature(feature_name=target_feature_out_map, box=self.box_of_screen(0, 0, 1, 1),
-                                    threshold=0.7
-                                    ):
+        while not self.find_feature(
+            feature_name=target_feature_out_map, box=self.box_of_screen(0, 0, 1, 1),
+            threshold=0.7
+        ):
             if time.time() - start_time > 5:
                 self.log_info("等待追踪图标超时")
                 return False
@@ -40,8 +41,7 @@ class NavigationMixin(BaseEfTask):
             ocr_match_or_feature_name_list=target_feature_out_map,
             only_x=True,
             threshold=0.7,
-            ocr=False,
-            forward_seconds=0.5,
+            ocr=False
         )
         self.log_info("已对齐地图目标")
         return True
@@ -52,7 +52,7 @@ class NavigationMixin(BaseEfTask):
             nav_feature_name,
             time_out: int = 60,
             pre_loop_callback=None,
-            found_special_callback=None,
+            found_special_callback=None
     ):
         """通用导航循环：识别目标前持续前进并动态对齐。"""
         start_time = time.time()
@@ -95,8 +95,7 @@ class NavigationMixin(BaseEfTask):
                         ocr_match_or_feature_name_list=nav_feature_name,
                         only_x=True,
                         threshold=0.7,
-                        ocr=False,
-                        forward_seconds=0.5,            
+                        ocr=False        
                     )
 
                     self.move_keys("w", duration=0.75)
@@ -111,8 +110,6 @@ class NavigationMixin(BaseEfTask):
                     self.move_keys("w", duration=0.25)
             else:
                 self.move_keys("w", duration=0.25)
-
-            self.sleep(0.5)
         return True
 
     def align_ocr_or_find_target_to_center(
@@ -135,9 +132,7 @@ class NavigationMixin(BaseEfTask):
             deadzone=4,
             once_time=0.5,
             tolerance=TOLERANCE,
-            ocr_frame_processor_list=None,
-            forward_seconds=0,
-            center_band_ratio=0.4,
+            ocr_frame_processor_list=None
     ):
         """将OCR识别或图像特征检测的目标对准屏幕中心（自动移动视角/鼠标）
 
@@ -161,8 +156,6 @@ class NavigationMixin(BaseEfTask):
             once_time: 每次循环最小耗时(秒)，保证操作频率
             tolerance: 目标中心与屏幕中心的容忍偏差(像素)，默认50，偏差在范围内判定成功
             ocr_frame_processor_list: OCR帧处理函数列表(可用于色彩隔离等预处理)
-            forward_seconds: 找到目标且位于横向中心带内时，向前移动的秒数，默认0表示不移动
-            center_band_ratio: 横向中心带总宽度占屏幕宽度的比例，必须在0-1之间，否则默认0.4
 
         Returns:
             bool: 成功对中返回True，失败返回False(当raise_if_fail=False时)
@@ -171,13 +164,6 @@ class NavigationMixin(BaseEfTask):
             Exception: 对中失败且raise_if_fail=True时抛出异常
         """
         scaled_tolerance = self.scale_distance(tolerance)
-
-        if isinstance(center_band_ratio, bool) or not isinstance(center_band_ratio, (int, float)) or not 0 < center_band_ratio <= 1:
-            center_band_ratio = 0.4
-
-        if isinstance(forward_seconds, bool) or not isinstance(forward_seconds, (int, float)) or forward_seconds <= 0:
-            forward_seconds = 0
-
         if box:
             feature_box = box
         else:
@@ -280,9 +266,6 @@ class NavigationMixin(BaseEfTask):
                 if abs(dx) <= scaled_tolerance and abs(dy) <= scaled_tolerance:
                     return True
                 else:
-                    move_bool = True
-                    if forward_seconds > 0 and abs(target_center[0] - screen_center_pos[0]) <= self.width * center_band_ratio / 2:
-                        self.move_keys("w", duration=forward_seconds)
                     dx, dy = self.move_to_target_once(
                         result,
                         max_step=max_step,
@@ -295,7 +278,6 @@ class NavigationMixin(BaseEfTask):
 
             else:
                 # 每次 OCR 失败，直接随机移动
-                move_bool = True
                 max_offset = self.scale_distance(60)  # 最大随机偏移
                 if last_target:
                     decay = 0.9 ** last_target_fail_count

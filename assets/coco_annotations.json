@@ -804,6 +804,21 @@
             "id": 158,
             "name": "resident_icon",
             "supercategory": ""
+        },
+        {
+            "id": 159,
+            "name": "transaction_icon",
+            "supercategory": ""
+        },
+        {
+            "id": 160,
+            "name": "main_centre_icon",
+            "supercategory": ""
+        },
+        {
+            "id": 161,
+            "name": "boat_entrance_icon",
+            "supercategory": ""
         }
     ],
     "images": [
@@ -1575,6 +1590,12 @@
         {
             "id": 167,
             "file_name": "images/5.png",
+            "width": 1920,
+            "height": 1080
+        },
+        {
+            "id": 169,
+            "file_name": "images/4.png",
             "width": 1920,
             "height": 1080
         }
@@ -2682,12 +2703,12 @@
             "image_id": 166,
             "category_id": 153,
             "bbox": [
-                64,
+                65,
                 916,
-                30,
-                25
+                25,
+                24
             ],
-            "area": 750,
+            "area": 600,
             "iscrowd": 0
         },
         {
@@ -2766,6 +2787,45 @@
                 58
             ],
             "area": 4292,
+            "iscrowd": 0
+        },
+        {
+            "id": 86,
+            "image_id": 166,
+            "category_id": 159,
+            "bbox": [
+                222,
+                80,
+                21,
+                20
+            ],
+            "area": 420,
+            "iscrowd": 0
+        },
+        {
+            "id": 87,
+            "image_id": 169,
+            "category_id": 160,
+            "bbox": [
+                993,
+                54,
+                17,
+                18
+            ],
+            "area": 306,
+            "iscrowd": 0
+        },
+        {
+            "id": 88,
+            "image_id": 166,
+            "category_id": 161,
+            "bbox": [
+                1657,
+                106,
+                68,
+                44
+            ],
+            "area": 2992,
             "iscrowd": 0
         },
         {

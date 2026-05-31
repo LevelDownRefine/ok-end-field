@@ -390,11 +390,11 @@ class GameFlowMixin:
     def ensure_map(self, addtional_feature=None, time_out=30):
         """确保进入地图界面。"""
         start_time = time.time()
+        default_features = [fL.in_map, fL.transaction_icon, fL.main_centre_icon]
         if addtional_feature:
-            features = [fL.in_map] + addtional_feature if isinstance(addtional_feature, list) else [
-                fL.in_map, addtional_feature]
+            features = default_features + addtional_feature if isinstance(addtional_feature, list) else default_features + [addtional_feature]
         else:
-            features = [fL.in_map]
+            features = default_features
         self.press_key("m")
         while not self.wait_feature(feature=features, time_out=2, raise_if_not_found=False):
             if time.time() - start_time > time_out:

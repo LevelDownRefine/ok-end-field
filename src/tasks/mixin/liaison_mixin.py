@@ -85,21 +85,18 @@ class LiaisonMixin(NavigationMixin):
         self.log_info("打开地图界面 (按下 M)")
 
         # 查找帝江号区域
-        target_area = self.wait_ocr(
-            match=self.lang.liaison_mixin.k_ff0a81cd,
-            box=self.box.top,
-            time_out=8
+        target_area = self.wait_click_feature(
+            feature=fL.boat_entrance_icon,
+            time_out=2,
+            raise_if_not_found=False,
+            after_sleep=2
         )
         if should_check_out_boat:
-            if target_area[0].x < self.width / 2:
+            if not target_area:
                 self.log_info("已在帝江号区域内，无需传送")
                 self.ensure_main()
                 return True
-        if not target_area:
-            self.log_info("未找到帝江号区域，传送失败")
-            return False
         self.log_info("找到帝江号区域，点击进入")
-        self.click(target_area, after_sleep=2)
 
         # 查找传送点
         tp_icon = self.find_feature(
@@ -344,10 +341,10 @@ class LiaisonMixin(NavigationMixin):
             self.click(list(result.values())[0], after_sleep=0.5)
 
             if not self.wait_click_feature(
-                    feature=fL.liaison_confirm,
-                    time_out=5,
-                    after_sleep=2,
-                    raise_if_not_found=False,
+                feature=fL.liaison_confirm,
+                time_out=5,
+                after_sleep=2,
+                raise_if_not_found=False,
             ):
                 self.log_info("未找到确认联络按钮，任务失败")
                 return False
@@ -471,11 +468,11 @@ class LiaisonMixin(NavigationMixin):
         self.click(144 / 1920, 855 / 1080)
         self.log_info("点击赠送礼物位置")
         if self.wait_click_feature(
-                feature=fL.give_gift,
-                box=self.box_of_screen(0.942, 0.898, 0.963, 0.937),
-                time_out=5,
-                after_sleep=0.5,
-                raise_if_not_found=False
+            feature=fL.give_gift,
+            box=self.box_of_screen(0.942, 0.898, 0.963, 0.937),
+            time_out=5,
+            after_sleep=0.5,
+            raise_if_not_found=False
         ):
             self.log_info("确认赠送按钮已出现")
             self.skip_dialog()
