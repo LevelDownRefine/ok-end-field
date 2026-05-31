@@ -28,6 +28,10 @@ An image-recognition-based automation tool for End Field, with background mode s
 
 </div>
 
+## Downloads
+
+![downloads](./assets/downloads.svg)
+
 ### [English Readme](README_en.md) | 中文说明
 
 ---

@@ -1,0 +1,43 @@
+name: download stats
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "0 0 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: install deps
+        run: pip install requests
+
+      - name: generate svg
+        run: python scripts/download_stats.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: commit
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          git add assets/downloads.svg
+
+          if ! git diff --cached --quiet; then
+            git commit -m "update download stats"
+            git push
+          fi

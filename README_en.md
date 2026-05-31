@@ -5,6 +5,10 @@
     width="256"
     height="256"
   />
+
+## Downloads
+
+![downloads](./assets/downloads.svg)
 </p>
 
 <h1 align="center">ok-ef</h1>
