@@ -19,8 +19,5 @@ class Test(BaseEfTask):
         self.interval = 0.3  # 读取间隔（秒）
 
     def run(self):
-        temp=self.runtime_locale
-        self.log_info(f"当前运行时语言环境: {temp}")
-        text=self.lang.daily_liaison_mixin.k_27d2b829
-        self.log_info(f"当前文本为{str(text)}")
+        self.ensure_map()
         self.log_info("开始")

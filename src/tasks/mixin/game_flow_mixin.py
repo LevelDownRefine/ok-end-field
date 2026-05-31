@@ -390,16 +390,23 @@ class GameFlowMixin:
     def ensure_map(self, addtional_feature=None, time_out=30):
         """确保进入地图界面。"""
         start_time = time.time()
-        default_features = [fL.in_map, fL.transaction_icon, fL.main_centre_icon]
+        default_features = [fL.transaction_icon, fL.main_centre_icon]
         if addtional_feature:
             features = default_features + addtional_feature if isinstance(addtional_feature, list) else default_features + [addtional_feature]
         else:
             features = default_features
-        self.press_key("m")
-        while not self.wait_feature(feature=features, time_out=2, raise_if_not_found=False):
+        in_map = False
+        while not in_map:
             if time.time() - start_time > time_out:
                 raise Exception("进入地图失败")
-            self.press_key("m")
+            self.press_key("m", after_sleep=1)
+            if self.find_one(fL.in_map, box=self.box_of_screen(0.027, 0.531, 0.051, 0.896)):
+                in_map = True
+                break
+            for feature in features:
+                if self.find_one(feature):
+                    in_map = True
+                    break
 
     def in_friend_boat(self):
         """判断是否在好友的帝江号舰船中。"""

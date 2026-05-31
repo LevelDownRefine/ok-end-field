@@ -46,5 +46,6 @@ class AutoInteractionTask(BaseEfTask, TriggerTask):
                     self.click(result, after_sleep=0.4)
                     return
         if self.config.get('自动点击传送', True):
-            if result :=self.find_one(feature_name=fL.in_map, frame=now) and self.find_one(feature_name=fL.transfer_go, frame=now):
-                self.click(result, after_sleep=0.4)
+            if result := self.find_one(feature_name=fL.transfer_go, frame=now):
+                if self.find_one(feature_name=fL.in_map,box=self.box_of_screen(0.027, 0.531, 0.051, 0.896) , frame=now):
+                    self.click(result, after_sleep=0.4)
