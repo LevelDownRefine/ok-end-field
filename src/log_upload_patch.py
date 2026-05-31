@@ -3,10 +3,12 @@ from __future__ import annotations
 import calendar
 import subprocess
 import threading
+import time
 import zipfile
 from pathlib import Path
 
 import requests
+from PIL import Image
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QHBoxLayout, QWidget
 from qfluentwidgets import (
@@ -31,13 +33,53 @@ def _normalize_note_filename(note_text: str) -> str:
 
 
 def _build_logs_zip(note_text: str = ""):
-    from ok import og
+    from ok import Logger, og
     from ok.gui.util.Alert import alert_error
     from ok.util.file import get_downloads_folder
 
     app_name = og.config.get('gui_title')
     downloads_path = Path(get_downloads_folder())
     zip_path = downloads_path / f"{app_name}-log.zip"
+    logger = Logger.get_logger(__name__)
+
+    def _is_image_file(file_path: Path) -> bool:
+        return file_path.suffix.lower() in {".png", ".jpg", ".jpeg", ".bmp", ".webp", ".gif"}
+
+    def _wait_file_settled(file_path: Path, settle_seconds: float = 0.8) -> bool:
+        try:
+            first = file_path.stat()
+        except Exception:
+            return False
+
+        if first.st_size <= 0:
+            return False
+
+        if (time.time() - first.st_mtime) < settle_seconds:
+            time.sleep(settle_seconds)
+            try:
+                second = file_path.stat()
+            except Exception:
+                return False
+            if second.st_size != first.st_size or second.st_mtime_ns != first.st_mtime_ns:
+                return False
+
+        return True
+
+    def _write_snapshot_file(zipf: zipfile.ZipFile, file_path: Path, arcname: Path):
+        if not _wait_file_settled(file_path):
+            logger.debug(f"skip unstable file: {file_path}")
+            return
+
+        if _is_image_file(file_path):
+            try:
+                with Image.open(file_path) as img:
+                    img.verify()
+            except Exception as exc:
+                logger.warning(f"skip invalid image file: {file_path} ({exc})")
+                return
+
+        with file_path.open("rb") as src:
+            zipf.writestr(str(arcname).replace("\\", "/"), src.read())
 
     downloads_path.mkdir(parents=True, exist_ok=True)
     try:
@@ -51,12 +93,19 @@ def _build_logs_zip(note_text: str = ""):
                     continue
                 for file_path in source_dir.rglob("*"):
                     if file_path.is_file():
-                        zipf.write(file_path, file_path.relative_to(Path.cwd()))
+                        _write_snapshot_file(zipf, file_path, file_path.relative_to(Path.cwd()))
+
+        # 本地先做一次完整性校验，避免把损坏的 zip 继续上传到服务器
+        try:
+            with zipfile.ZipFile(zip_path, "r") as zipf:
+                bad_name = zipf.testzip()
+                if bad_name is not None:
+                    raise RuntimeError(f"zip integrity check failed: {bad_name}")
+        except Exception:
+            raise
     except Exception as exc:
         alert_error(f"{og.app.tr('Export failed')}: {exc}", tray=True)
-        from ok import Logger
-
-        Logger.get_logger(__name__).error('export_logs exception', exc)
+        logger.error('export_logs exception', exc)
         raise
 
     return zip_path
@@ -79,20 +128,34 @@ def _upload_logs_bg(note_text: str = ""):
         alert_error(og.app.tr("Please configure log upload api in config"), tray=True)
         return
 
-    try:
-        zip_path = _build_logs_zip(note_text)
-        with open(zip_path, 'rb') as file_handle:
-            response = requests.post(
-                upload_api,
-                files={'file': (zip_path.name, file_handle, 'application/zip')},
-                data={'app_name': og.config.get('gui_title')},
-                timeout=60,
-            )
-        response.raise_for_status()
-        alert_info(og.app.tr("Upload succeeded"), tray=True)
-    except Exception as exc:
-        alert_error(f"{og.app.tr('Upload failed')}: {exc}", tray=True)
-        Logger.get_logger(__name__).error('upload_logs exception', exc)
+    zip_path = _build_logs_zip(note_text)
+    logger = Logger.get_logger(__name__)
+    file_size_mb = zip_path.stat().st_size / (1024 * 1024)
+
+    last_exc = None
+    for attempt in range(1, 4):
+        try:
+            with open(zip_path, 'rb') as file_handle:
+                response = requests.post(
+                    upload_api,
+                    files={'file': (zip_path.name, file_handle, 'application/zip')},
+                    data={
+                        'app_name': og.config.get('gui_title'),
+                        'note_text': note_text,
+                    },
+                    timeout=(10, 900),
+                )
+            response.raise_for_status()
+            alert_info(og.app.tr("Upload succeeded"), tray=True)
+            return
+        except Exception as exc:
+            last_exc = exc
+            logger.warning(f'upload attempt {attempt}/3 failed ({file_size_mb:.1f} MB): {exc}')
+            if attempt < 3:
+                time.sleep(2 ** (attempt - 1))
+
+    alert_error(f"{og.app.tr('Upload failed')}: {last_exc}", tray=True)
+    logger.error('upload_logs exception', last_exc)
 
 
 def _prompt_upload_note() -> str:
@@ -339,6 +402,8 @@ def _upload_logs():
     worker = threading.Thread(target=_upload_logs_bg, args=(note_text,))
     worker.daemon = True
     worker.start()
+
+
 def install_log_upload_patch():
     global _PATCH_INSTALLED
     if _PATCH_INSTALLED:
