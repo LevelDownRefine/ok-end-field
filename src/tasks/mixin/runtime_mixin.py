@@ -44,14 +44,36 @@ class RuntimeMixin:
     BASE_HEIGHT = 1080
 
     def resolution_scale(self) -> float:
+        """
+        返回当前分辨率相对于基准分辨率的缩放系数。
+
+        Returns:
+            float: 当前窗口分辨率相对于基准分辨率的缩放比例。
+        """
         width = getattr(self, "width", self.BASE_WIDTH) or self.BASE_WIDTH
         height = getattr(self, "height", self.BASE_HEIGHT) or self.BASE_HEIGHT
         return min(width / self.BASE_WIDTH, height / self.BASE_HEIGHT)
 
     def scale_distance(self, value: int | float, minimum: int = 1) -> int:
+        """
+        按当前分辨率缩放距离并保证不小于最小值。
+
+        Args:
+            value: 原始距离值。
+            minimum: 缩放后的最小返回值。
+
+        Returns:
+            int: 缩放后的距离。
+        """
         return max(minimum, int(round(value * self.resolution_scale())))
 
     def find_danger(self):
+        """
+        检测危险状态图标，必要时触发保底退出。
+
+        Returns:
+            bool: 检测到危险图标返回 True，否则返回 False。
+        """
         danger_group_fixed = ["danger_" + str(i) for i in range(3, 6)]
         for danger in danger_group_fixed:
             result = self.find_one(danger, threshold=0.8, vertical_variance=0.01, horizontal_variance=0.01)
@@ -68,6 +90,28 @@ class RuntimeMixin:
 
     def click(self, x=-1, y=-1, move_back=False, name=None, interval=-1, move=True, down_time=0.01, after_sleep=0,
               key='left', hcenter=False, vcenter=False):
+        """
+        带危险态检查的点击封装。
+
+        Args:
+            x: 点击位置 X 或目标框。
+            y: 点击位置 Y。
+            move_back: 点击后是否恢复窗口前台。
+            name: 目标名称。
+            interval: 点击间隔。
+            move: 是否先移动鼠标。
+            down_time: 鼠标按下时长。
+            after_sleep: 点击后额外等待时间。
+            key: 鼠标按键名称。
+            hcenter: 是否水平居中。
+            vcenter: 是否垂直居中。
+
+        Returns:
+            Any: 基类 click 的返回值。
+
+        Raises:
+            Exception: 检测到危险状态时抛出。
+        """
         self.sleep(0.1)
         if self.find_danger():
             self.log_info("dangerous")
@@ -81,6 +125,36 @@ class RuntimeMixin:
                      use_gray_scale=False, x=-1, y=-1, to_x=-1, to_y=-1, width=-1, height=-1, box=None, canny_lower=0,
                      canny_higher=0, frame_processor=None, template=None, match_method=cv2.TM_CCOEFF_NORMED,
                      screenshot=False, mask_function=None, frame=None, limit=0, target_height=0):
+        """
+        按当前分辨率映射后执行特征识别。
+
+        Args:
+            feature_name: 特征名称或名称列表。
+            horizontal_variance: 水平容差。
+            vertical_variance: 垂直容差。
+            threshold: 匹配阈值。
+            use_gray_scale: 是否使用灰度图。
+            x: 区域左上角 X 坐标。
+            y: 区域左上角 Y 坐标。
+            to_x: 区域右下角 X 坐标。
+            to_y: 区域右下角 Y 坐标。
+            width: 识别区域宽度。
+            height: 识别区域高度。
+            box: 识别框。
+            canny_lower: Canny 下限。
+            canny_higher: Canny 上限。
+            frame_processor: 额外帧处理器。
+            template: 自定义模板。
+            match_method: 模板匹配方法。
+            screenshot: 是否截图后识别。
+            mask_function: 掩码函数。
+            frame: 输入帧。
+            limit: 返回数量限制。
+            target_height: 目标缩放高度。
+
+        Returns:
+            list: 特征识别结果列表。
+        """
         if isinstance(feature_name, (list, tuple)):
             feature_name = [self.get_feature_by_resolution(name) for name in feature_name]
         else:
@@ -123,6 +197,18 @@ class RuntimeMixin:
                           y, count)
 
     def get_feature_by_resolution(self, base_name: str):
+        """
+        根据当前分辨率选择最合适的资源后缀。
+
+        Args:
+            base_name: 资源基础名称。
+
+        Returns:
+            str: 匹配到的资源名称。
+
+        Raises:
+            AttributeError: 当没有任何可用资源时抛出。
+        """
         cache_key = (base_name, self.width)
 
         if not hasattr(self, "_feature_cache"):
@@ -149,7 +235,17 @@ class RuntimeMixin:
     def safe_back(self, match=None, feature=None, 
                 box=None, time_out: float = 30, once_time_out: float = 2):
         """
-        安全返回：持续点击「返回」直到找到指定目标（OCR文本或特征）
+        安全返回：持续点击返回直到找到指定目标（OCR文本或特征）。
+
+        Args:
+            match: 需要等待出现的 OCR 文本。
+            feature: 需要等待出现的特征名。
+            box: 识别范围。
+            time_out: 总超时时间。
+            once_time_out: 单次等待超时。
+
+        Returns:
+            bool: 是否成功找到目标。
         """
         if match is None and feature is None:
             self.log_warning("safe_back 被调用时 match 和 feature 都为空")
@@ -178,6 +274,12 @@ class RuntimeMixin:
             self.sleep(0.3)  # 建议加上短暂间隔，避免点击过快
 
     def yolo_loader(self) -> YoloModelLoader:
+        """
+        返回当前任务使用的 YOLO 加载器实例。
+
+        Returns:
+            YoloModelLoader: 当前任务的 YOLO 加载器。
+        """
         loader = getattr(self, "_yolo_loader", None)
         if loader is not None:
             return loader
@@ -280,6 +382,23 @@ class RuntimeMixin:
             detections: list[Box] | None = None,
             model_key: str | None = None,
     ) -> list[Box]:
+        """
+        对当前帧执行 YOLO 检测并返回命中的框。
+
+        Args:
+            name: 目标名称或名称列表。
+            frame: 输入图像帧。
+            box: 裁剪检测区域。
+            conf: 置信度阈值。
+            detections: 外部提供的检测结果。
+            model_key: 指定的模型键。
+
+        Returns:
+            list[Box]: 命中的检测框，按置信度降序排列。
+
+        Raises:
+            ValueError: 当 name 为空或无效时抛出。
+        """
         if not name:
             raise ValueError("yolo_detect 至少需要传入一个 name")
         raw_names = [name] if isinstance(name, str) else name
@@ -368,7 +487,7 @@ class RuntimeMixin:
             method: int = cv2.TM_CCORR_NORMED,
     ):
         """
-        运行时包装：在当前帧或给定 `target_image` 上执行旋转模板匹配。
+        运行时包装：在当前帧或给定 target_image 上执行旋转模板匹配。
 
         参数:
           template_image: 模板图像（ndarray，支持 alpha）或模板文件路径（string）
@@ -379,7 +498,11 @@ class RuntimeMixin:
           roi: (x,y,w,h) 可选裁剪目标区域以提高性能
           method: cv2.matchTemplate 方法
 
-        返回: (best_angle, best_score)
+        Returns:
+            tuple[float, float]: 最佳角度和对应分数。
+
+        Raises:
+            ValueError: 当模板文件无法读取或目标图像为空时抛出。
         """
         # 加载/解析 template_image
         tpl = template_image
@@ -428,7 +551,11 @@ class RuntimeMixin:
           benchmark_width: 基准分辨率宽度（默认 2560），用于计算模板缩放比例
           max_cache_scales: 最多缓存多少个不同 scale（默认 10，防止 LRU 膨胀）
 
-        返回: (best_angle, best_score)
+        Returns:
+            tuple[float, float]: 检测到的角度和分数。
+
+        Raises:
+            ValueError: 当目标图像为空时抛出。
         
         说明: 
           - 缓存键 (scale_key, angle)：scale_key = round(scale, 4) 避免浮点误差
@@ -482,6 +609,23 @@ class RuntimeMixin:
             refresh_interval: float = 0.2,
             box: Box | tuple | list | None = None,
     ):
+        """
+        等待指定区域在视觉上稳定下来。
+
+        Args:
+            method: 稳定性判断方法。
+            threshold: 稳定阈值。
+            stable_time: 持续稳定时长。
+            max_wait: 最长等待时间。
+            refresh_interval: 帧刷新间隔。
+            box: 需要监测的区域。
+
+        Returns:
+            bool: 稳定后返回 True，超时返回 False。
+
+        Raises:
+            ValueError: 当 method 不支持或 box 非法时抛出。
+        """
         def parse_box(frame, box: Box | tuple | list | None):
             if box is None:
                 return frame
@@ -550,6 +694,16 @@ class RuntimeMixin:
             self.sleep(refresh_interval)
 
     def info_set(self, key, value):
+        """
+        写入运行时信息，并自动追加当前账号后缀。
+
+        Args:
+            key: 信息键名。
+            value: 信息值。
+
+        Returns:
+            Any: 基类 info_set 的返回值。
+        """
         if self.current_user:
             suffix = self.current_user[-4:] if len(self.current_user) >= 4 else self.current_user
             key = f"{key}({suffix})"
@@ -560,18 +714,65 @@ class RuntimeMixin:
         return super().info_set(key, value)
 
     def press_key(self, key: str, down_time: float = 0.02, after_sleep: float = 0, interval: int = -1):
+        """
+        按配置映射后的通用按键。
+
+        Args:
+            key: 按键名称。
+            down_time: 按下时长。
+            after_sleep: 释放后等待时间。
+            interval: 按键间隔。
+
+        Returns:
+            Any: send_key 的返回值。
+        """
         actual_key = self.key_manager.resolve_key(key, "common")
         return self.send_key(actual_key, interval=interval, down_time=down_time, after_sleep=after_sleep)
 
     def press_industry_key(self, key: str, down_time: float = 0.02, after_sleep: float = 0, interval: int = -1):
+        """
+        按配置映射后的行业按键。
+
+        Args:
+            key: 按键名称。
+            down_time: 按下时长。
+            after_sleep: 释放后等待时间。
+            interval: 按键间隔。
+
+        Returns:
+            Any: send_key 的返回值。
+        """
         actual_key = self.key_manager.resolve_key(key, "industry")
         return self.send_key(actual_key, interval=interval, down_time=down_time, after_sleep=after_sleep)
 
     def press_combat_key(self, key: str, down_time: float = 0.02, after_sleep: float = 0, interval: int = -1):
+        """
+        按配置映射后的战斗按键。
+
+        Args:
+            key: 按键名称。
+            down_time: 按下时长。
+            after_sleep: 释放后等待时间。
+            interval: 按键间隔。
+
+        Returns:
+            Any: send_key 的返回值。
+        """
         actual_key = self.key_manager.resolve_key(key, "combat")
         return self.send_key(actual_key, interval=interval, down_time=down_time, after_sleep=after_sleep)
 
     def move_keys(self, keys, duration, need_back=False):
+        """
+        在窗口中持续按下移动键。
+
+        Args:
+            keys: 按键序列。
+            duration: 持续时间。
+            need_back: 结束后是否恢复窗口焦点。
+
+        Returns:
+            None
+        """
         if need_back:
             prev = win32gui.GetForegroundWindow()
         send_move_keys(self.hwnd.hwnd, keys, duration)
@@ -580,6 +781,18 @@ class RuntimeMixin:
 
     def _dodge_with_direction(self, direction_key: str, pre_hold: float = 0.004,
                               dodge_down_time: float = 0.003, after_sleep: float = 0.005):
+        """
+        按指定方向执行闪避。
+
+        Args:
+            direction_key: 方向键。
+            pre_hold: 闪避前预按时长。
+            dodge_down_time: 闪避键按下时长。
+            after_sleep: 闪避后等待时间。
+
+        Returns:
+            None
+        """
         move_thread = threading.Thread(target=self.move_keys, args=(direction_key, pre_hold), daemon=True)
         move_thread.start()
         self.sleep(0.005)
@@ -589,12 +802,47 @@ class RuntimeMixin:
             self.sleep(after_sleep)
 
     def dodge_forward(self, pre_hold: float = 0.004, dodge_down_time: float = 0.003, after_sleep: float = 0.005):
+        """
+        向前闪避。
+
+        Args:
+            pre_hold: 闪避前预按时长。
+            dodge_down_time: 闪避键按下时长。
+            after_sleep: 闪避后等待时间。
+
+        Returns:
+            None
+        """
         self._dodge_with_direction('w', pre_hold=pre_hold, dodge_down_time=dodge_down_time, after_sleep=after_sleep)
 
     def dodge_backward(self, pre_hold: float = 0.004, dodge_down_time: float = 0.003, after_sleep: float = 0.005):
+        """
+        向后闪避。
+
+        Args:
+            pre_hold: 闪避前预按时长。
+            dodge_down_time: 闪避键按下时长。
+            after_sleep: 闪避后等待时间。
+
+        Returns:
+            None
+        """
         self._dodge_with_direction('s', pre_hold=pre_hold, dodge_down_time=dodge_down_time, after_sleep=after_sleep)
 
     def move_to_target_once(self, ocr_obj, max_step=100, min_step=20, slow_radius=200, deadzone=4):
+        """
+        移动一次以逼近 OCR 目标。
+
+        Args:
+            ocr_obj: OCR 目标对象。
+            max_step: 最大步长。
+            min_step: 最小步长。
+            slow_radius: 减速半径。
+            deadzone: 误差死区。
+
+        Returns:
+            Any: move_to_target_once_impl 的返回值。
+        """
         scaled_max_step = self.scale_distance(max_step)
         scaled_min_step = min(scaled_max_step, self.scale_distance(min_step))
         scaled_slow_radius = self.scale_distance(slow_radius)
@@ -610,6 +858,20 @@ class RuntimeMixin:
         )
 
     def active_and_send_mouse_delta(self, dx=1, dy=1, activate=True, only_activate=False, delay=0.02, steps=3):
+        """
+        激活窗口后发送鼠标位移。
+
+        Args:
+            dx: 水平位移。
+            dy: 垂直位移。
+            activate: 是否激活窗口。
+            only_activate: 是否只激活不移动。
+            delay: 步进间隔延迟。
+            steps: 步进次数。
+
+        Returns:
+            Any: send_mouse_delta 的返回值。
+        """
         return send_mouse_delta(self.hwnd.hwnd, dx, dy, activate, only_activate, delay, steps)
 
     def click_with_alt(self, x: int | float | Box | List[Box] = -1, y: int | float = -1, move_back: bool = False,
@@ -625,6 +887,36 @@ class RuntimeMixin:
                        threshold=0, frame=None, target_height=0, time_out=0, raise_if_not_found=False,
                        recheck_time=0, after_sleep=0, post_action=None, log=False, screenshot=False,
                        settle_time=-1, lib="default", alt: bool = False):
+        """
+        等待 OCR 命中后立即点击目标。
+
+        Args:
+            x: 区域左上角相对 X 坐标。
+            y: 区域左上角相对 Y 坐标。
+            to_x: 区域右下角相对 X 坐标。
+            to_y: 区域右下角相对 Y 坐标。
+            width: 识别区域宽度。
+            height: 识别区域高度。
+            box: 识别框。
+            name: 识别区域名称。
+            match: 需要匹配的文本或正则。
+            threshold: OCR 置信度阈值。
+            frame: 输入帧。
+            target_height: 目标缩放高度。
+            time_out: 等待超时时间。
+            raise_if_not_found: 是否在未找到时抛异常。
+            recheck_time: 复检等待时间。
+            after_sleep: 点击后等待时间。
+            post_action: 后置动作。
+            log: 是否记录日志。
+            screenshot: 是否截图。
+            settle_time: 稳定等待时间。
+            lib: OCR 引擎名称。
+            alt: 是否使用 alt+click。
+
+        Returns:
+            Any: 命中时返回 OCR 结果，否则返回 None。
+        """
         result = self.wait_ocr(
             x,
             y,
@@ -676,4 +968,10 @@ class RuntimeMixin:
         self.log_info(f"wait ocr no box {x} {y} {width} {height} {to_x} {to_y} {match}")
 
     def screen_center(self) -> tuple[int, int]:
+        """
+        返回当前屏幕中心点坐标。
+
+        Returns:
+            tuple[int, int]: 屏幕中心点坐标。
+        """
         return int(self.width / 2), int(self.height / 2)

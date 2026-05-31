@@ -40,7 +40,8 @@ pat_compile = re.compile(r're\.compile\(r?"([^"]+)"\)')
 
 # 新增：函数参数 OCR
 pat_to_model_area = re.compile(
-    r'self\.to_model_area\(\s*[^,]+,\s*"([^"]+)"\s*\)'
+    r'self\.to_model_area\s*(?=[^,]*,\s*")([^",]{0,400})"',
+    re.DOTALL
 )
 
 OCR_HINTS = (
@@ -102,8 +103,8 @@ def make_key(s: str) -> str:
         if key[0].isdigit():
             key = 'k_' + key
         return key
-
-    h = hashlib.sha1(s.encode('utf-8')).hexdigest()[:8]
+    # non-cryptographic usage: used only for deterministic key generation
+    h = hashlib.sha256(s.encode('utf-8')).hexdigest()[:8]
     return 'k_' + h
 
 

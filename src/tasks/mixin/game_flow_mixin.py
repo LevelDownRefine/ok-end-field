@@ -18,6 +18,15 @@ class GameFlowMixin:
     """登录弹窗、主界面状态与场景导航流程能力。"""
 
     def login_screenshot(self, need_active=True):
+        """
+        截取登录或弹窗场景下的窗口截图。
+
+        Args:
+            need_active: 是否先激活窗口。
+
+        Returns:
+            np.ndarray: 截取到的窗口图像。
+        """
         if need_active:
             self.active_and_send_mouse_delta(0, 0, activate=True, only_activate=True)
         self.sleep(0.1)
@@ -26,6 +35,30 @@ class GameFlowMixin:
     def login_ocr(self, x=0, y=0, to_x=1, to_y=1, match=None, width=0, height=0, box=None, name=None, threshold=0,
                   target_height=0, use_grayscale=False, log=False, frame_processor=None, lib='default',
                   need_active=True):
+        """
+        基于登录截图执行 OCR 识别。
+
+        Args:
+            x: 区域左上角相对 X 坐标。
+            y: 区域左上角相对 Y 坐标。
+            to_x: 区域右下角相对 X 坐标。
+            to_y: 区域右下角相对 Y 坐标。
+            match: 需要匹配的文本或正则。
+            width: 识别区域宽度。
+            height: 识别区域高度。
+            box: 识别框。
+            name: 识别区域名称。
+            threshold: OCR 置信度阈值。
+            target_height: 目标缩放高度。
+            use_grayscale: 是否转灰度。
+            log: 是否记录日志。
+            frame_processor: 额外帧处理器。
+            lib: OCR 引擎名称。
+            need_active: 是否先激活窗口。
+
+        Returns:
+            list: OCR 识别结果列表。
+        """
         img = self.login_screenshot(need_active=need_active)
         if not isinstance(img, np.ndarray):
             img = np.array(img)
@@ -53,6 +86,37 @@ class GameFlowMixin:
                            canny_lower=0, canny_higher=0, frame_processor=None, template=None,
                            match_method=cv2.TM_CCOEFF_NORMED, screenshot=False, mask_function=None, frame=None,
                            limit=0, target_height=0, need_active=True):
+        """
+        基于登录截图执行特征识别。
+
+        Args:
+            feature_name: 特征名称。
+            horizontal_variance: 水平容差。
+            vertical_variance: 垂直容差。
+            threshold: 匹配阈值。
+            use_gray_scale: 是否使用灰度图。
+            x: 区域左上角相对 X 坐标。
+            y: 区域左上角相对 Y 坐标。
+            to_x: 区域右下角相对 X 坐标。
+            to_y: 区域右下角相对 Y 坐标。
+            width: 识别区域宽度。
+            height: 识别区域高度。
+            box: 识别框。
+            canny_lower: Canny 下限。
+            canny_higher: Canny 上限。
+            frame_processor: 额外帧处理器。
+            template: 自定义模板。
+            match_method: 模板匹配方法。
+            screenshot: 是否先截图。
+            mask_function: 掩码函数。
+            frame: 输入帧。
+            limit: 返回数量限制。
+            target_height: 目标缩放高度。
+            need_active: 是否先激活窗口。
+
+        Returns:
+            list: 特征识别结果列表。
+        """
         img = self.login_screenshot(need_active=need_active)
         frame = img if isinstance(img, np.ndarray) else np.array(img)
         return super().find_feature(
@@ -81,7 +145,12 @@ class GameFlowMixin:
         )
 
     def skip_dialog(self):
-        """跳过对话框，自动点击确认或跳过按钮。"""
+        """
+        跳过对话框，自动点击确认或跳过按钮。
+
+        Returns:
+            bool: 成功处理返回 True，超时返回 False。
+        """
         start_time = time.time()
         while True:
             if time.time() - start_time > 60:
@@ -103,13 +172,28 @@ class GameFlowMixin:
             self.sleep(0.5)
 
     def find_confirm(self):
-        """寻找对话框中的确认按钮。"""
+        """
+        寻找对话框中的确认按钮。
+
+        Returns:
+            list: 匹配到的确认按钮结果列表。
+        """
         return self.find_one(
             "skip_dialog_confirm", horizontal_variance=0.05, vertical_variance=0.05
         )
 
     def click_confirm(self, after_sleep=0.5, time_out=5, recheck_time=0):
-        """点击对话框中的确认按钮。"""
+        """
+        点击对话框中的确认按钮。
+
+        Args:
+            after_sleep: 点击后的延迟时间。
+            time_out: 总超时时间。
+            recheck_time: 点击后重新检测的等待时间。
+
+        Returns:
+            bool: 找到并点击确认按钮返回 True，超时返回 False。
+        """
         start_time = time.time()
         while True:
             self.next_frame()
@@ -132,7 +216,16 @@ class GameFlowMixin:
             self.sleep(0.1)
 
     def wait_pop_up(self, time_out=15, after_sleep=0):
-        """等待奖励弹窗出现并点击 OK 按钮。"""
+        """
+        等待奖励弹窗出现并点击 OK 按钮。
+
+        Args:
+            time_out: 总超时时间。
+            after_sleep: 点击后的延迟时间。
+
+        Returns:
+            bool: 找到并点击返回 True，超时返回 False。
+        """
         count = 0
         start_time = time.time()
         while True:
@@ -151,7 +244,12 @@ class GameFlowMixin:
             count += 1
 
     def wait_login(self):
-        """处理登录界面的各种弹窗（月卡、签到、奖励等）。"""
+        """
+        处理登录界面的各种弹窗（月卡、签到、奖励等）。
+
+        Returns:
+            bool: 已进入主界面或已成功处理登录弹窗时返回 True，否则返回 False。
+        """
         close = None
         if not self._logged_in:
             if self.in_world():
@@ -179,31 +277,70 @@ class GameFlowMixin:
         return False
 
     def find_reward_ok(self):
-        """寻找奖励对话框中的确定按钮。"""
+        """
+        寻找奖励对话框中的确定按钮。
+
+        Returns:
+            list: 匹配到的奖励确认按钮结果列表。
+        """
         return self.find_one("reward_ok", vertical_variance=0.05,
                              box=self.box_of_screen(1760 / 3840, 1760 / 2160, 2100 / 3840, 2100 / 2160))
 
     def find_f(self):
-        """寻找 F 键提示（拾取物品）。"""
+        """
+        寻找 F 键提示（拾取物品）。
+
+        Returns:
+            list: 匹配到的 F 键提示结果列表。
+        """
         return self.find_one("pick_f", vertical_variance=0.05)
 
     def read_essence_info(self) -> EssenceInfo | None:
-        """读取当前屏幕中的精华信息（用于装备识别）。"""
+        """
+        读取当前屏幕中的精华信息（用于装备识别）。
+
+        Returns:
+            EssenceInfo | None: 识别到则返回精华信息，否则返回 None。
+        """
         return read_essence_info(self)
 
     def in_bg(self):
-        """判断游戏窗口是否在后台。"""
+        """
+        判断游戏窗口是否在后台。
+
+        Returns:
+            bool: 窗口不在前台时返回 True。
+        """
         return not self.hwnd.is_foreground()
 
     def in_combat_world(self):
-        """判断是否在战斗场景中。"""
+        """
+        判断是否在战斗场景中。
+
+        Returns:
+            bool: 检测到战斗场景返回 True。
+        """
         in_combat_world = self.find_one("top_left_tab")
         if in_combat_world:
             self._logged_in = True
         return in_combat_world
 
     def ensure_main(self, esc=True, time_out=60, after_sleep=2, need_active=True):
-        """确保回到主界面（游戏世界），超时会抛出异常。"""
+        """
+        确保回到主界面（游戏世界）。
+
+        Args:
+            esc: 是否在失败时执行返回键处理。
+            time_out: 等待主界面的总超时时间。
+            after_sleep: 成功后额外等待时间。
+            need_active: 是否先激活窗口。
+
+        Returns:
+            None
+
+        Raises:
+            Exception: 当无法回到主界面时抛出。
+        """
         self.info_set("current task", f"wait main esc={esc}")
         if not self.wait_until(
                 lambda: self.is_main(esc=esc, need_active=need_active), time_out=time_out, raise_if_not_found=False
@@ -213,7 +350,12 @@ class GameFlowMixin:
         self.info_set("current task", f"in main esc={esc}")
 
     def in_world(self):
-        """判断是否在游戏世界中（非菜单/对话状态）。"""
+        """
+        判断是否在游戏世界中（非菜单/对话状态）。
+
+        Returns:
+            bool: 当前处于游戏世界返回 True。
+        """
         main_world_features = ["esc"]
 
         in_world = all(self.find_one(f, vertical_variance=0.01, horizontal_variance=0.02) for f in main_world_features)
@@ -224,7 +366,16 @@ class GameFlowMixin:
         return in_world
 
     def is_main(self, esc=False, need_active=True):
-        """判断是否处于可执行任务的主界面状态。"""
+        """
+        判断是否处于可执行任务的主界面状态。
+
+        Args:
+            esc: 是否在处理失败时按返回键。
+            need_active: 是否需要先激活窗口。
+
+        Returns:
+            bool: 处于主界面返回 True，否则返回 False。
+        """
 
         self.next_frame()
 
@@ -277,6 +428,9 @@ class GameFlowMixin:
         """
         OCR 规则处理。
 
+        Args:
+            rules: OCR 规则列表，格式为 [need, need_box, match, box]。
+
         Returns:
             True: 命中规则并已处理
             False: 未命中任何规则
@@ -296,7 +450,15 @@ class GameFlowMixin:
         return False
 
     def enter_home_room_list(self, timeout=6):
-        """进入基地房间列表页面（i 面板）。"""
+        """
+        进入基地房间列表页面（i 面板）。
+
+        Args:
+            timeout: OCR 等待超时时间。
+
+        Returns:
+            bool: 进入成功返回 True，否则返回 False。
+        """
         self.log_info("进入基地房间列表页面")
 
         self.transfer_to_home_point(should_check_out_boat=True)
@@ -315,7 +477,16 @@ class GameFlowMixin:
         return False
 
     def to_model_area(self, area, model):
-        """导航到指定区域的特定模块。"""
+        """
+        导航到指定区域的特定模块。
+
+        Args:
+            area: 目标区域。
+            model: 目标模块名称。
+
+        Returns:
+            bool: 定位并点击成功返回 True，否则返回 False。
+        """
         need_change = True
         success = False
 
@@ -374,7 +545,15 @@ class GameFlowMixin:
             return False
 
     def switch_to_area_delivery_list(self, target_area):
-        """切换到指定区域的交付列表。"""
+        """
+        切换到指定区域的交付列表。
+
+        Args:
+            target_area: 目标区域。
+
+        Returns:
+            bool | None: 成功时返回 True，未命中时返回 None。
+        """
         if result := self.wait_ocr(match=[get_world_map_matcher(self.lang, area) for area in areas_list],
                                    box=self.box_of_screen(0, 960 / 1080, 260 / 1920, 1), time_out=5):
             expected_target_text = get_world_map_text(self.lang, target_area)
@@ -388,7 +567,19 @@ class GameFlowMixin:
                 return True
 
     def ensure_map(self, addtional_feature=None, time_out=30):
-        """确保进入地图界面。"""
+        """
+        确保进入地图界面。
+
+        Args:
+            addtional_feature: 额外需要检测的特征。
+            time_out: 总超时时间。
+
+        Returns:
+            None
+
+        Raises:
+            Exception: 当超时仍未进入地图时抛出。
+        """
         start_time = time.time()
         default_features = [fL.transaction_icon, fL.main_centre_icon]
         if addtional_feature:
@@ -409,11 +600,21 @@ class GameFlowMixin:
                     break
 
     def in_friend_boat(self):
-        """判断是否在好友的帝江号舰船中。"""
+        """
+        判断是否在好友的帝江号舰船中。
+
+        Returns:
+            bool: 检测到好友帝江号返回 True。
+        """
         return self.wait_ocr(match=self.lang.game_flow_mixin.k_0ba18905, box=self.box.top_left)
 
     def ensure_in_friend_boat(self):
-        """确保进入好友帝江号舰船。"""
+        """
+        确保进入好友帝江号舰船。
+
+        Returns:
+            bool: 成功进入返回 True，超时返回 False。
+        """
         start_time = time.time()
         while True:
             if time.time() - start_time > 60:
