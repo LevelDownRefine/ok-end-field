@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Dict, Tuple
 
 from qfluentwidgets import FluentIcon
-
+from src.icons import Icons
 from ok import Logger, TriggerTask
 from src.config import config
 from src.tasks.BaseEfTask import BaseEfTask
@@ -37,7 +37,7 @@ class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
         # 设置导航模块的基本信息
         self.name = "物品导航"  # 模块名称
         self.description = "监听本地 WebSocket 位置数据，指向已选物品的最近点并支持按键标记"  # 模块描述
-        self.icon = FluentIcon.SEARCH  # 模块图标
+        self.icon = Icons.ItemNavigator  # 模块图标
         # 只把面向用户的选项放在 default_config
         self.default_config.update({
             # 由用户在 UI 中配置要导航的物品名列表（可空）

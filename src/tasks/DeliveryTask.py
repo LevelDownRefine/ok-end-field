@@ -8,7 +8,7 @@ from typing import List, Tuple
 from ok import Box, TaskDisabledException
 from qfluentwidgets import FluentIcon
 
-from src import icons
+from src.icons import Icons
 from src.data.delivery_area import (
     DEFAULT_DELIVERY_AREA,
     DELIVERY_AREA_CONFIG,
@@ -85,7 +85,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         self.default_config.update({"_enabled": True})
         self.name = "自动送货"
         self.description = "根据地区配置自动送货,教程视频 BV1LLc7zFEF9"
-        self.icon = icons.DELIVERY
+        self.icon = Icons.DELIVERY
         self._configure_delivery_area(DEFAULT_DELIVERY_AREA)
         self.support_schedule_task = True
         self.support_multi_account = True
