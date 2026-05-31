@@ -1,13 +1,18 @@
 from __future__ import annotations
 
+import calendar
 import subprocess
 import threading
 import zipfile
 from pathlib import Path
 
 import requests
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout
-from qfluentwidgets import FluentIcon, PushButton, PrimaryPushButton, BodyLabel, TextEdit
+from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QHBoxLayout, QWidget
+from qfluentwidgets import (
+    FluentIcon, PushButton, BodyLabel, FluentStyleSheet, ComboBox,
+    MessageBoxBase, SubtitleLabel,
+)
 
 
 _PATCH_INSTALLED = False
@@ -37,9 +42,8 @@ def _build_logs_zip(note_text: str = ""):
     downloads_path.mkdir(parents=True, exist_ok=True)
     try:
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
-            note_name = _normalize_note_filename(note_text)
-            if note_name:
-                zipf.writestr(f"{note_name}.txt", "")
+            # 将用户输入写入 info.txt，方便查看上传时的说明
+            zipf.writestr("info.txt", note_text or "")
 
             for folder in ["screenshots", "logs"]:
                 source_dir = Path.cwd() / folder
@@ -93,76 +97,248 @@ def _upload_logs_bg(note_text: str = ""):
 
 def _prompt_upload_note() -> str:
     from ok import og
+    try:
+        from ok import Logger
+        Logger.get_logger(__name__).debug('prompt_upload_note called')
+    except Exception:
+        pass
 
     try:
+        from datetime import datetime
         from PySide6.QtWidgets import QApplication
+        from ok.gui.tasks.ConfigCard import ConfigCard
+
         parent = QApplication.activeWindow()
-        dlg = QDialog(parent)
-        if parent is not None:
-            try:
-                dlg.setPalette(parent.palette())
-                dlg.setAutoFillBackground(True)
-                # 如果主窗口使用了样式表，也一并应用
-                parent_ss = parent.styleSheet()
-                if parent_ss:
-                    dlg.setStyleSheet(parent_ss)
-            except Exception:
-                pass
+        dlg = MessageBoxBase(parent)
         dlg.setWindowTitle(og.app.tr("日志上传"))
 
-        # 使用系统/父窗口标题栏（保持原生外观和行为）
+        try:
+            FluentStyleSheet.DIALOG.apply(dlg)
+        except Exception:
+            pass
 
-        layout = QVBoxLayout(dlg)
-        layout.setContentsMargins(12, 12, 12, 12)
-        layout.setSpacing(8)
-
-        tip = BodyLabel(og.app.tr("请输入遇到的问题描述（必填）"))
+        title = SubtitleLabel(og.app.tr("日志上传"), dlg)
+        tip = BodyLabel(og.app.tr("请填写如下信息以便排查（错误描述为必填）"))
         tip.setWordWrap(True)
-        layout.addWidget(tip)
+        dlg.viewLayout.addWidget(title)
+        dlg.viewLayout.addWidget(tip)
 
-        # 使用项目现有的 TextEdit（qfluentwidgets），以复用深/浅主题和样式
-        text_edit = TextEdit()
-        text_edit.setPlaceholderText(og.app.tr("例如：进入战斗时崩溃，重现步骤..."))
-        text_edit.setMinimumHeight(120)
-        layout.addWidget(text_edit)
+        class _LocalInMemoryConfig(dict):
+            def __init__(self, initial, defaults):
+                super().__init__(initial)
+                self.default = defaults
+                self.on_reset = None
 
-        btn_row = QHBoxLayout()
-        btn_row.addStretch(1)
-        send_btn = PrimaryPushButton(og.app.tr("上传"))
-        cancel_btn = PushButton(og.app.tr("取消"))
-        send_btn.setEnabled(False)
-        btn_row.addWidget(cancel_btn)
-        btn_row.addWidget(send_btn)
-        layout.addLayout(btn_row)
+            def get_default(self, key):
+                return self.default.get(key)
 
-        def on_text_changed():
-            send_btn.setEnabled(bool(text_edit.toPlainText().strip()))
+            def has_user_config(self):
+                return any(not str(k).startswith("_") for k in self.keys())
 
-        text_edit.textChanged.connect(on_text_changed)
+            def reset_to_default(self):
+                # 重置文本项为空；时间项重置为触发重置时的当前时间
+                from datetime import datetime
 
-        send_btn.clicked.connect(dlg.accept)
-        cancel_btn.clicked.connect(dlg.reject)
+                now_local = datetime.now()
+                self["出错的任务"] = ""
+                self["错误描述"] = ""
+                self["复现步骤"] = ""
+                self["time_month"] = f"{now_local.month:02d}"
+                self["time_day"] = f"{now_local.day:02d}"
+                self["time_hour"] = f"{now_local.hour:02d}"
+                self["time_minute"] = f"{now_local.minute:02d}"
+
+                if callable(self.on_reset):
+                    self.on_reset(now_local)
+
+        now = datetime.now()
+        keys = [
+            "出错的任务",
+            "错误描述",
+            "复现步骤",
+        ]
+
+        defaults = {k: "" for k in keys}
+        initial = dict(defaults)
+
+        task_options = []
+        try:
+            executor = getattr(og, 'executor', None)
+            tasks = getattr(executor, 'tasks', None)
+            if tasks:
+                task_options = [t.name for t in tasks if getattr(t, 'name', None)]
+        except Exception:
+            task_options = []
+
+        config_type = {
+            "复现步骤": {"type": "text_edit"},
+        }
+        if task_options:
+            config_type["出错的任务"] = {"type": "drop_down", "options": task_options}
+
+        config_description = {
+            "出错的任务": og.app.tr("发生错误的任务名（可选）"),
+            "错误描述": og.app.tr("简要描述错误（必填）"),
+            "复现步骤": og.app.tr("复现步骤（可选）"),
+        }
+
+        virtual_config = _LocalInMemoryConfig(initial, defaults)
+        card = ConfigCard(
+            None,
+            og.app.tr("错误信息"),
+            virtual_config,
+            og.app.tr("请填写错误相关信息"),
+            defaults,
+            config_description,
+            config_type,
+            None,
+        )
+        dlg.viewLayout.addWidget(card)
+
+        # 月/日/时/分放在一行
+        time_row_label = BodyLabel(og.app.tr("大致发生时间（月/日/时/分）"), dlg)
+        dlg.viewLayout.addWidget(time_row_label)
+
+        time_row_widget = QWidget(dlg)
+        time_row_layout = QHBoxLayout(time_row_widget)
+        time_row_layout.setContentsMargins(0, 0, 0, 0)
+        time_row_layout.setSpacing(8)
+
+        month_cb = ComboBox(time_row_widget)
+        # 月份不允许超过当前月
+        month_cb.addItems([f"{m:02d}" for m in range(1, now.month + 1)])
+        month_cb.setCurrentText(f"{now.month:02d}")
+        month_cb.setFixedWidth(82)
+        time_row_layout.addWidget(month_cb)
+
+        day_cb = ComboBox(time_row_widget)
+        day_cb.setFixedWidth(82)
+        time_row_layout.addWidget(day_cb)
+
+        hour_cb = ComboBox(time_row_widget)
+        hour_cb.addItems([f"{h:02d}" for h in range(0, 24)])
+        hour_cb.setCurrentText(f"{now.hour:02d}")
+        hour_cb.setFixedWidth(82)
+        time_row_layout.addWidget(hour_cb)
+
+        minute_cb = ComboBox(time_row_widget)
+        minute_cb.addItems([f"{mi:02d}" for mi in range(0, 60)])
+        minute_cb.setCurrentText(f"{now.minute:02d}")
+        minute_cb.setFixedWidth(82)
+        time_row_layout.addWidget(minute_cb)
+        time_row_layout.addStretch(1)
+
+        dlg.viewLayout.addWidget(time_row_widget)
+
+        def _rebuild_day_options(preferred_day: str | None = None):
+            """按月份重建日期下拉：当前月最大到今天，其它月份到月底。"""
+            try:
+                selected_month = int(month_cb.currentText())
+            except Exception:
+                selected_month = now.month
+
+            if selected_month == now.month:
+                max_day = now.day
+            else:
+                max_day = calendar.monthrange(now.year, selected_month)[1]
+
+            previous_day = preferred_day or day_cb.currentText() or f"{max_day:02d}"
+            day_cb.clear()
+            day_cb.addItems([f"{d:02d}" for d in range(1, max_day + 1)])
+
+            if previous_day in [f"{d:02d}" for d in range(1, max_day + 1)]:
+                day_cb.setCurrentText(previous_day)
+            else:
+                day_cb.setCurrentText(f"{max_day:02d}")
+
+        _rebuild_day_options(preferred_day=f"{now.day:02d}")
+        month_cb.currentTextChanged.connect(lambda _: _rebuild_day_options())
+
+        # 将 ConfigCard 的重置操作同步到时间下拉框（当前时间）
+        def _sync_time_controls(dt):
+            month_cb.setCurrentText(f"{dt.month:02d}")
+            _rebuild_day_options(preferred_day=f"{dt.day:02d}")
+            hour_cb.setCurrentText(f"{dt.hour:02d}")
+            minute_cb.setCurrentText(f"{dt.minute:02d}")
+
+        virtual_config.on_reset = _sync_time_controls
+
+        dlg.yesButton.setText(og.app.tr("上传"))
+        dlg.cancelButton.setText(og.app.tr("取消"))
+        dlg.yesButton.setEnabled(False)
+
+        def _adjust_dialog_width():
+            try:
+                content_width = max(
+                    dlg.widget.sizeHint().width(),
+                    card.sizeHint().width(),
+                    time_row_widget.sizeHint().width() + 40,
+                )
+                desired_width = max(680, int(content_width + 96))
+                if desired_width > dlg.minimumWidth():
+                    dlg.setMinimumWidth(desired_width)
+                    dlg.widget.setMinimumWidth(max(620, desired_width - 32))
+                if desired_width > dlg.width():
+                    dlg.resize(desired_width, dlg.height())
+            except Exception:
+                pass
+
+        def _timer_check():
+            try:
+                has = bool((virtual_config.get('错误描述') or '').strip())
+                dlg.yesButton.setEnabled(has)
+                _adjust_dialog_width()
+            except Exception:
+                dlg.yesButton.setEnabled(False)
+
+        timer = QTimer(dlg)
+        timer.setInterval(200)
+        timer.timeout.connect(_timer_check)
+        timer.start()
+        _timer_check()
+
+        dlg.yesButton.clicked.connect(dlg.accept)
+        dlg.cancelButton.clicked.connect(dlg.reject)
+        dlg.widget.setMinimumHeight(420)
 
         accepted = dlg.exec()
+        try:
+            timer.stop()
+        except Exception:
+            pass
         if not accepted:
             return ""
 
-        return text_edit.toPlainText().strip()
-    except Exception:
+        import json
+        data = {
+            "task": (virtual_config.get('出错的任务') or '').strip(),
+            "error_description": (virtual_config.get('错误描述') or '').strip(),
+            "reproduction_steps": (virtual_config.get('复现步骤') or '').strip(),
+            "time": (
+                f"{now.year}-{month_cb.currentText()}-{day_cb.currentText()} "
+                f"{hour_cb.currentText()}:{minute_cb.currentText()}"
+            ),
+        }
+        return json.dumps(data, ensure_ascii=False, indent=2)
+    except Exception as exc:
+        try:
+            from ok import Logger
+            Logger.get_logger(__name__).exception('prompt_upload_note exception')
+            from ok.gui.util.Alert import alert_error
+            alert_error(f"{og.app.tr('打开日志上传窗口失败')}: {exc}", tray=True)
+        except Exception:
+            pass
         return ""
 
 
 def _upload_logs():
     note_text = _prompt_upload_note()
-    # 如果未填写说明，则中断上传（不弹窗、不上传）
     if not note_text:
         return
 
     worker = threading.Thread(target=_upload_logs_bg, args=(note_text,))
     worker.daemon = True
     worker.start()
-
-
 def install_log_upload_patch():
     global _PATCH_INSTALLED
     if _PATCH_INSTALLED:

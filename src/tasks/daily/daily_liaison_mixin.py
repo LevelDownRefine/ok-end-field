@@ -1,7 +1,9 @@
 import re
 import time
-import webbrowser
+import threading
 
+from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QApplication
 from qfluentwidgets import FluentIcon
 
 from src.data.characters_utils import get_contact_list_with_feature_list
@@ -49,7 +51,26 @@ class DailyLiaisonMixin(LiaisonMixin):
         })
 
     def open_help_link(self, *_):
-        webbrowser.open(self.HELP_LINK)
+        """打开帮助链接，使用独立的内嵌 WebView 对话框。"""
+        from src.gui.WebViewDialog import WebViewDialog
+
+        def _show_dialog():
+            try:
+                dialog = WebViewDialog("日常任务帮助", self.HELP_LINK, None)
+                dialog.show()
+                self._help_dialog = dialog
+                self.log_info("已打开帮助 WebView 对话框")
+            except Exception as e:
+                self.log_error(f"打开帮助对话框失败: {e}")
+                # 如果 WebView 失败，回退到打开浏览器
+                import webbrowser
+                webbrowser.open(self.HELP_LINK)
+
+        # 确保在 GUI 线程中执行
+        if threading.current_thread() is threading.main_thread():
+            _show_dialog()
+        else:
+            QTimer.singleShot(0, _show_dialog)
 
     def execute_gift_to_liaison(self):
         """传送至帝江号后执行联络与送礼链路。"""
