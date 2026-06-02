@@ -41,10 +41,6 @@ class WindowArrowOverlay(QWidget):
         self._sync_timer.timeout.connect(self._sync_geometry)
         self._sync_timer.start(50)
 
-        self._auto_clear_timer = QTimer(self)
-        self._auto_clear_timer.setSingleShot(True)
-        self._auto_clear_timer.timeout.connect(self.clear_arrows)
-
         # ==================== 修改重点 ====================
         self.setWindowFlags(
             Qt.Tool  # 工具窗口
@@ -116,11 +112,6 @@ class WindowArrowOverlay(QWidget):
         if app is not None:
             app.processEvents()
         # 每次绘制后启动自动清除计时器，2s 后尝试清空
-        try:
-            self._auto_clear_timer.stop()
-            self._auto_clear_timer.start(2000)
-        except Exception:
-            pass
 
     def clear_arrows(self):
         self._arrows = []
@@ -128,12 +119,6 @@ class WindowArrowOverlay(QWidget):
         app = QApplication.instance()
         if app is not None:
             app.processEvents()
-        # 停止自动清除计时器（如果存在），避免计时器后续再触发清空
-        try:
-            if hasattr(self, '_auto_clear_timer') and self._auto_clear_timer is not None:
-                self._auto_clear_timer.stop()
-        except Exception:
-            pass
 
     def _sync_geometry(self):
         try:
@@ -281,6 +266,8 @@ class WindowArrowOverlayController(QObject):
 
     def __init__(self, hwnd: int):
         super().__init__()
+        self._arrow_timers: Dict[str, QTimer] = {}
+        self._arrow_timeout_ms = 2000
         self._hwnd = hwnd
         self._overlay: Optional[WindowArrowOverlay] = None
         self._arrow_map: Dict[str, ArrowSpec] = {}
@@ -288,6 +275,31 @@ class WindowArrowOverlayController(QObject):
         self.arrow_updated.connect(self._on_arrow_updated)
         self.clear_requested.connect(self._on_clear_requested)
         self.style_requested.connect(self._on_style_requested)
+
+    def _expire_arrow(self, arrow_type: str):
+        self._arrow_map.pop(arrow_type, None)
+
+        timer = self._arrow_timers.pop(arrow_type, None)
+        if timer is not None:
+            timer.stop()
+            timer.deleteLater()
+
+        self._apply_arrow_state()
+
+    def _restart_arrow_timer(self, arrow_type: str):
+        timer = self._arrow_timers.get(arrow_type)
+
+        if timer is None:
+            timer = QTimer(self)
+            timer.setSingleShot(True)
+
+            timer.timeout.connect(
+                lambda at=arrow_type: self._expire_arrow(at)
+            )
+
+            self._arrow_timers[arrow_type] = timer
+
+        timer.start(self._arrow_timeout_ms)
 
     def _ensure_overlay(self) -> WindowArrowOverlay:
         if self._overlay is None:
@@ -297,19 +309,27 @@ class WindowArrowOverlayController(QObject):
     def _apply_arrow_state(self):
         overlay = self._ensure_overlay()
         overlay.set_arrows(list(self._arrow_map.values()))
-
     @Slot(object)
     def _on_arrows_replaced(self, arrows: List[ArrowSpec]):
         self._arrow_map = {}
+
         for spec in arrows:
             arrow_type = getattr(spec, 'arrow_type', None) or 'default'
+
             self._arrow_map[arrow_type] = spec
+
+            self._restart_arrow_timer(arrow_type)
+
         self._apply_arrow_state()
 
     @Slot(object)
     def _on_arrow_updated(self, arrow: ArrowSpec):
         arrow_type = getattr(arrow, 'arrow_type', None) or 'default'
+
         self._arrow_map[arrow_type] = arrow
+
+        self._restart_arrow_timer(arrow_type)
+
         self._apply_arrow_state()
 
     def _on_arrows_requested(self, arrows: List[ArrowSpec]):
@@ -322,6 +342,14 @@ class WindowArrowOverlayController(QObject):
 
     @Slot()
     def _on_clear_requested(self):
+        self._arrow_map.clear()
+
+        for timer in self._arrow_timers.values():
+            timer.stop()
+            timer.deleteLater()
+
+        self._arrow_timers.clear()
+
         if self._overlay is not None:
             self._overlay.clear_arrows()
 

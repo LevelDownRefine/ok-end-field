@@ -7,6 +7,7 @@ import threading
 import tempfile
 import time
 import webbrowser
+import re
 from pathlib import Path
 from typing import Dict, Tuple
 
@@ -19,7 +20,13 @@ from src.tasks.mixin.ws_position_mixin import WsPositionMixin
 from src.data import item_map_query
 
 logger = Logger.get_logger(__name__)
-
+# 特殊物品Y坐标修正
+SPECIAL_ITEM_Y_OFFSET = {
+    '储藏箱': {
+        "value": -0.06055,
+        "pattern": re.compile(r'^储藏箱'),
+    },
+}
 
 class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
     """实时从本地 WebSocket 拿玩家位置，指向已选物品的最近点，并支持按键标记已获取。
@@ -90,7 +97,9 @@ class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
         self._arrow_center_rel = (162 / 1920, 166 / 1080)  # 相对于窗口的箭头中心位置（比例），默认在左上角稍微偏右下
         self._arrow_max_len_ratio = 0.08
         self._arrow_min_len_px = 20.0
-        self._arrow_scale = 3.0
+        self._arrow_scale = 1.144
+        self._nearby_marker_max_distance = 75.524
+        self._nearby_marker_len_px = 12
         # 箭头样式参数（可调）
         self._arrow_color = (0, 255, 0)  # RGB
         self._arrow_alpha = 160  # 透明度 0-255，160 为半透明
@@ -114,7 +123,56 @@ class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
         self._mark_lock_target = None
         # 标记所需的最短连续按住时长（秒）
         self._mark_lock_required = 2.0
+    def _draw_nearby_markers(
+            self,
+            px: float,
+            pz: float,
+            candidates: Dict[str, list],
+            map_id: str,
+    ):
+        try:
+            width, height = self._get_window_arrow_size()
+            if width <= 0 or height <= 0:
+                return
 
+            center_x = width * self._arrow_center_rel[0]
+            center_y = height * self._arrow_center_rel[1]
+
+            max_distance = self._nearby_marker_max_distance
+            marker_len = self._nearby_marker_len_px
+            for item_name, pts in candidates.items():
+
+                for pt in pts:
+
+                    h = self._point_hash(pt, item_name)
+
+                    if h in self._marked.get(map_id, set()):
+                        continue
+
+                    dx = pt.get('x', 0) - px
+                    dz = pt.get('z', 0) - pz
+
+                    dist = math.hypot(dx, dz)
+
+                    if dist > max_distance:
+                        continue
+
+                    screen_x = center_x + dx * self._arrow_scale
+                    screen_y = center_y - dz * self._arrow_scale
+
+                    self.draw_window_arrow(
+                        start_x_norm=screen_x / width,
+                        start_y_norm=(screen_y - marker_len) / height,
+                        end_x_norm=screen_x / width,
+                        end_y_norm=screen_y / height,
+                        shaft_width_norm=self._arrow_shaft_width_norm * 0.5,
+                        color=(255, 255, 0),
+                        alpha=180,
+                        arrow_type=f'nearby_{h}',
+                    )
+
+        except Exception as e:
+            self.log_error(f'[附近目标] 绘制失败: {e}')
     def open_userscript_help(self, *_):
         """打开浏览器油猴脚本使用帮助，并打开脚本目录。"""
         script_rel = Path('assets') / 'scripts' / 'endfield-ws-position-relay.user.js'
@@ -234,7 +292,7 @@ class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
             center_x = width * self._arrow_center_rel[0]
             center_y = height * self._arrow_center_rel[1]
             max_length = min(width, height) * self._arrow_max_len_ratio
-            draw_length = max(self._arrow_min_len_px, math.hypot(dx, dz) * self._arrow_scale)
+            draw_length = math.hypot(dx, dz) * self._arrow_scale
             # 纵向方向按当前导航坐标系翻转，避免上下显示反向。
             angle_deg = math.degrees(math.atan2(dx, dz))
 
@@ -267,11 +325,7 @@ class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
 
             max_abs_dy = max(1e-6, float(self._height_arrow_max_abs_dy))
             t = min(abs_dy / max_abs_dy, 1.0)
-            draw_len_norm = self._height_arrow_min_len_norm + (
-                    (self._height_arrow_max_len_norm - self._height_arrow_min_len_norm) * t
-            )
-            draw_len_norm = max(self._height_arrow_min_len_norm, min(draw_len_norm, self._height_arrow_max_len_norm))
-
+            draw_len_norm = self._height_arrow_max_len_norm * t
             start_x_norm, start_y_norm = self._height_arrow_start_rel
             end_x_norm = start_x_norm
             end_y_norm = start_y_norm - draw_len_norm if dy_height > 0 else start_y_norm + draw_len_norm
@@ -368,7 +422,14 @@ class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
                 return
 
             # y 是高度，方位与水平距离都在 xz 平面
-            dy_height = best.get('y', 0) - py
+            target_y = best.get('y', 0)
+
+            for cfg in SPECIAL_ITEM_Y_OFFSET.values():
+                if cfg["pattern"].match(best_meta or ""):
+                    target_y += cfg["value"]
+                    break
+
+            dy_height = target_y - py
             near_xz = best_dxz <= float(self._near_xz_threshold)
 
             # direction angle in degrees for XZ vector (player->target) relative to +X
@@ -385,6 +446,12 @@ class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
             self.info_set('导航', status)
 
             # overlay: 默认方向箭头 + 高差箭头
+            self._draw_nearby_markers(
+                px=px,
+                pz=pz,
+                candidates=candidates,
+                map_id=map_id,
+            )
             self._draw_nav_arrow(dx, dz, tooltip=f"{best_meta} | XZ:{best_dxz:.1f} | Y:{dy_height:.1f}")
             self._draw_height_arrow(dy_height, tooltip=f"{best_meta} | Y:{dy_height:.1f}")
 
