@@ -341,11 +341,11 @@ class RuntimeMixin:
         self._yolo_model_key = key
         return self._detector
 
-    def isolate_by_hsv_ranges(self, frame, ranges, invert=True, kernel_size=2):
-        return isolate_by_hsv_ranges(frame, ranges, invert, kernel_size)
-
     def make_hsv_isolator(self, ranges):
-        return partial(self.isolate_by_hsv_ranges, ranges=ranges)
+        """返回一个可直接调用的 HSV 过滤函数"""
+        return lambda frame, invert=True, kernel_size=2: isolate_by_hsv_ranges(
+            frame, ranges, invert=invert, kernel_size=kernel_size
+        )
 
     def _is_debug_overlay_enabled(self) -> bool:
         config_holders = (

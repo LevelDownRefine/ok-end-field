@@ -821,12 +821,6 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         ok_bool_clue = True
         ok_up_room = True
         ok_culture_room = True
-        if not self.collect_clue(exchange_help_box):
-            self.mark_task_failure("收集线索任务失败")
-            ok_bool_clue = False
-        if not self.safe_back(match=self.lang.daily_routine_mixin.k_e39054a0, box=self.box.top_left):
-            self.log_info("无法返回到运转界面")
-            return False
         if not self.up_make_room_num(exchange_help_box):
             self.mark_task_failure("制造舱任务失败")
             ok_up_room = False
@@ -839,62 +833,177 @@ class DailyRoutineMixin(LiaisonMixin, Common):
             self.log_info("无法返回到运转界面")
             return False
         self.use_help()
+        if not self.safe_back(match=self.lang.daily_routine_mixin.k_e39054a0, box=self.box.top_left):
+            self.log_info("无法返回到运转界面")
+            return False
+        if not self.collect_clue(exchange_help_box):
+            self.mark_task_failure("收集线索任务失败")
+            ok_bool_clue = False
         if ok_bool_clue and ok_up_room and ok_culture_room:
             return True
         return False
 
     def collect_clue(self, exchange_help_box):
-        if "收集线索" not in self.config.get("帝江号收菜操作", []):
-            self.logger.info("收集线索任务未启用，跳过")
-            return True
-        if self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_f546849b, time_out=6, box=exchange_help_box):
-            self.logger.info("进入会客室,准备处理收集线索")
-            self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_b56d9ac6, time_out=15, box=self.box.bottom)
-            if self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_3297422a, time_out=4, box=self.box.right, after_sleep=1):
-                self.logger.info("点击收集线索")
-                self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_39d12e73, time_out=4, box=self.box.bottom_right, after_sleep=1)
-                self.back(after_sleep=1)
-            else:
-                self.logger.info("未找到收集线索按钮")
 
-            if self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_de7b4c9e, time_out=4, box=self.box.right, after_sleep=1):
-                self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_a63bb002, time_out=4, box=self.box.right, after_sleep=1)
+        if "收集线索" not in self.config.get("帝江号收菜操作", []):
+            self.log_info("收集线索任务未启用，跳过")
+            return True
+        results = self.wait_ocr(match=self.lang.daily_routine_mixin.k_04afbdcd, time_out=4, box=exchange_help_box)
+        if not results:
+            self.mark_task_failure("未找到制造舱，任务失败")
+            return False
+        self.scroll_relative(results[0].x / self.width, results[0].y / self.height, count=8)
+        self.wait_ui_stable(refresh_interval=0.5)
+        if self.wait_click_ocr(
+            match=self.lang.daily_routine_mixin.k_f546849b,
+            time_out=6,
+            box=exchange_help_box,
+        ):
+
+            self.log_info("进入会客室,准备处理收集线索")
+
+            self.wait_click_feature(
+                feature=fL.to_max_produce_num,
+                box=self.box_of_screen(0.550, 0.885, 0.573, 0.920),
+                time_out=5,
+                raise_if_not_found=False
+            )
+
+            if self.clue_safe_wait_click_ocr(
+                match=self.lang.daily_routine_mixin.k_3297422a,
+                time_out=4,
+                box=self.box.right,
+                after_sleep=1,
+            ):
+                self.log_info("点击收集线索")
+
+                self.clue_safe_wait_click_ocr(
+                    match=self.lang.daily_routine_mixin.k_39d12e73,
+                    time_out=4,
+                    box=self.box.bottom_right,
+                    after_sleep=1,
+                )
+
                 self.back(after_sleep=1)
+
             else:
-                self.logger.info("未找到接收按钮")
+                self.log_info("未找到收集线索按钮")
+
+            if self.clue_safe_wait_click_ocr(
+                match=self.lang.daily_routine_mixin.k_de7b4c9e,
+                time_out=4,
+                box=self.box.right,
+                after_sleep=1,
+            ):
+
+                self.clue_safe_wait_click_ocr(
+                    match=self.lang.daily_routine_mixin.k_a63bb002,
+                    time_out=4,
+                    box=self.box.right,
+                    after_sleep=1,
+                )
+
+                self.back(after_sleep=1)
+
+            else:
+                self.log_info("未找到接收按钮")
+
             results = []
 
             search_box = self.box_of_screen(
-                x=1390 / 3840, y=450 / 2160, to_x=3360 / 3840, to_y=1330 / 2160
+                x=1390 / 3840,
+                y=450 / 2160,
+                to_x=3360 / 3840,
+                to_y=1330 / 2160,
             )
 
             for i in range(1, 8):
+
                 self.next_frame()
+
+                self.clue_guard()
+
                 result = self.find_one(
                     feature_name=f"clue_{i}_icon",
                     box=search_box,
                 )
+
                 if result:
                     results.append(result)
                     self.sleep(0.5)
 
             for result in results:
-                self.logger.info("点击线索框")
+
+                self.clue_guard()
+
+                self.log_info("点击线索框")
+
                 self.click(result)
-                self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_401d58fa, time_out=4, box=self.box.top_right, after_sleep=1)
-                if not self.wait_ocr(match=[self.lang.daily_routine_mixin.k_3deed650, self.lang.daily_routine_mixin.k_5c42c048], box=self.box.left, time_out=1):
+
+                self.clue_safe_wait_click_ocr(
+                    match=self.lang.daily_routine_mixin.k_401d58fa,
+                    time_out=4,
+                    box=self.box.top_right,
+                    after_sleep=1,
+                )
+
+                self.clue_guard()
+
+                if not self.wait_ocr(
+                    match=[
+                        self.lang.daily_routine_mixin.k_3deed650,
+                        self.lang.daily_routine_mixin.k_5c42c048,
+                    ],
+                    box=self.box.left,
+                    time_out=1,
+                ):
                     self.back(after_sleep=1)
-            if self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_0503d6d6, time_out=4, box=self.box.bottom, after_sleep=1):
+
+            self.clue_guard()
+
+            if self.clue_safe_wait_click_ocr(
+                match=self.lang.daily_routine_mixin.k_0503d6d6,
+                time_out=4,
+                box=self.box.bottom,
+                after_sleep=1,
+            ):
                 self.wait_pop_up()
+
             self.log_info("收集线索任务完成")
             return True
-        else:
-            self.logger.info("未找到会客室，无法收集线索")
-            return False
 
+        else:
+            self.log_info("未找到会客室，无法收集线索")
+            return False
+        
+    def clue_guard(self):
+        """
+        会客室线索任务专用弹窗处理
+        """
+
+        if self.wait_click_feature(
+            feature=fL.to_max_produce_num,
+            box=self.box_of_screen(0.550, 0.885, 0.573, 0.920),
+            time_out=1,
+            raise_if_not_found=False
+        ):
+            self.log_info("检测到线索弹窗并已处理")
+            return True
+
+        return False
+
+
+    def clue_safe_wait_click_ocr(self, *args, **kwargs):
+        self.clue_guard()
+
+        result = self.wait_click_ocr(*args, **kwargs)
+
+        self.clue_guard()
+
+        return result
     def up_make_room_num(self, exchange_help_box):
         if "制造舱" not in self.config.get("帝江号收菜操作", []):
-            self.logger.info("制造舱助力任务未启用，跳过")
+            self.log_info("制造舱助力任务未启用，跳过")
             return True
         results = self.wait_ocr(match=self.lang.daily_routine_mixin.k_04afbdcd, time_out=4, box=exchange_help_box)
         if not results:
@@ -903,7 +1012,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         for result in results:
             self.sleep(0.5)
             self.click(result, after_sleep=2)
-            self.logger.info("点击制造室")
+            self.log_info("点击制造室")
             for i in range(2):
                 if i == 1:
                     if not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_1cdef26c, time_out=3, box=self.box.top_right,
@@ -929,7 +1038,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
 
     def culture_room(self, exchange_help_box):
         if "培养舱" not in self.config.get("帝江号收菜操作", []):
-            self.logger.info("培养舱任务未启用，跳过")
+            self.log_info("培养舱任务未启用，跳过")
             return True
         results = self.wait_ocr(match=self.lang.daily_routine_mixin.k_04afbdcd, time_out=4, box=exchange_help_box)
         if not results:

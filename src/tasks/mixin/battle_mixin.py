@@ -166,7 +166,7 @@ class BattleMixin(BaseEfTask):
 
         return False
 
-    def in_combat(self, required_yellow=0):
+    def in_combat(self, required_yellow=0, frame=None):
         """
         判断当前是否处于战斗中。
 
@@ -178,19 +178,20 @@ class BattleMixin(BaseEfTask):
         Returns:
             bool
         """
-
+        frame = frame or self.next_frame()
         return (
-                self.get_skill_bar_count() >= required_yellow
-                and self.in_team()
-                and not self.ocr_lv()
+                self.get_skill_bar_count(frame=frame) >= required_yellow
+                and self.in_team(frame=frame)
+                and not self.ocr_lv(frame=frame)
         )
 
-    def in_team(self):
+    def in_team(self, frame=None):
         """
         判断当前是否处于队伍状态。
         """
+        frame = frame if frame is not None else self.next_frame()
 
-        return sum(self.find_one(f"skill_{i}") is not None for i in range(1, 5)) >= 3
+        return sum(self.find_one(f"skill_{i}", frame=frame) is not None for i in range(1, 5)) >= 3
 
     def is_combat_ended(self):
         """
@@ -257,7 +258,7 @@ class BattleMixin(BaseEfTask):
             self.log_error(f"OCR检测数字失败: {e}")
             return False
 
-    def ocr_lv(self):
+    def ocr_lv(self, frame = None):
         """
         检测是否出现 LV 或等级 UI。
         """
@@ -265,7 +266,8 @@ class BattleMixin(BaseEfTask):
         lv = self.ocr(
             0.02, 0.89, 0.23, 0.93,
             match=self.lv_regex,
-            name='lv_text'
+            name='lv_text',
+            frame=frame,
         )
 
         if len(lv) > 0:
@@ -275,7 +277,8 @@ class BattleMixin(BaseEfTask):
             0.02, 0.89, 0.23, 0.93,
             frame_processor=isolate_white_text_to_black,
             match=self.lv_regex,
-            name='lv_text'
+            name='lv_text',
+            frame=frame,
         )
 
         return len(lv) > 0
@@ -310,7 +313,7 @@ class BattleMixin(BaseEfTask):
         self.dodge_forward(pre_hold=0.05, dodge_down_time=0.03, after_sleep=0.02)
         self.last_no_number_action_time = time.time()
 
-    def get_skill_bar_count(self):
+    def get_skill_bar_count(self, frame=None):
         """
         获取当前技能条数量。
 
@@ -325,7 +328,9 @@ class BattleMixin(BaseEfTask):
             2266, 1983
         )
 
-        skill_area = skill_area_box.crop_frame(self.frame)
+        skill_area = skill_area_box.crop_frame(
+            frame if frame is not None else self.next_frame()
+        )
 
         if not has_rectangles(skill_area):
             return -1
@@ -364,7 +369,7 @@ class BattleMixin(BaseEfTask):
 
     def check_is_pure_color_in_4k(self, x1, y1, x2, y2, color_range=None, threshold=0.9):
         skill_area_box = self.box_of_screen_scaled(3840, 2160, x1, y1, x2, y2)
-        bar = skill_area_box.crop_frame(self.frame)
+        bar = skill_area_box.crop_frame(self.next_frame())
         if bar.size == 0:
             return False
 
