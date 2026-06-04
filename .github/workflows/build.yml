@@ -64,7 +64,7 @@ jobs:
         with:
           repos: |
             https://cnb:${{ secrets.CNB_TOKEN }}@cnb.cool/ok-oldking/ok-ef-update.git
-            https://ok-oldking:${{ secrets.OK_GH }}@github.com/ok-oldking/ok-ef-update.git
+            https://AliceJump:${{ secrets.OK_GH }}@github.com/AliceJump/ok-ef-update.git
           sync_list: 'deploy.txt'
           tag: ${{ github.ref_name }}
           gitignore_file: '.update_repo_gitignore'
