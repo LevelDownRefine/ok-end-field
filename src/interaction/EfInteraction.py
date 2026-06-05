@@ -1,12 +1,14 @@
 import ctypes
 import time
 
+import pynput
 import win32api
 import win32con
 import win32gui
 from ok.device.intercation import PostMessageInteraction
 from ok.util.logger import Logger
 from win32api import GetCursorPos, GetSystemMetrics, SetCursorPos
+from pynput.keyboard import Controller, Key
 
 logger = Logger.get_logger(__name__)
 
@@ -24,6 +26,7 @@ class EfInteraction(PostMessageInteraction):
         super().__init__(*args, **kwargs)
         self.cursor_position = None
         self.activated = False
+        self.keyboard = Controller()
 
     def click(self, x=-1, y=-1, move_back=False, name=None, down_time=0.001, move=True, key="left"):
         self.try_activate()
@@ -95,3 +98,58 @@ class EfInteraction(PostMessageInteraction):
             pass
         finally:
             self.cursor_position = None
+    def send_key_down(self, key, activate=True):
+        if key == "esc":
+            return super().send_key_down(key)
+        if activate:
+            self.try_activate()
+
+        self.keyboard.press(self._convert_key(key))
+
+    def send_key_up(self, key):
+        if key == "esc":
+            return super().send_key_up(key)
+
+        self.keyboard.release(self._convert_key(key))
+
+    def _convert_key(self, key: str):
+        aliases = {
+            # Shift
+            "shift": Key.shift,
+            "lshift": Key.shift_l,
+            "rshift": Key.shift_r,
+
+            # Ctrl
+            "ctrl": Key.ctrl,
+            "lctrl": Key.ctrl_l,
+            "rctrl": Key.ctrl_r,
+
+            # Alt
+            "alt": Key.alt,
+            "lalt": Key.alt_l,
+            "ralt": Key.alt_r,
+
+            # 常用
+            "enter": Key.enter,
+            "tab": Key.tab,
+            "space": Key.space,
+            "backspace": Key.backspace,
+            "delete": Key.delete,
+
+            "up": Key.up,
+            "down": Key.down,
+            "left": Key.left,
+            "right": Key.right,
+
+            "home": Key.home,
+            "end": Key.end,
+            "pageup": Key.page_up,
+            "pagedown": Key.page_down,
+        }
+
+        key = key.lower()
+
+        if key in aliases:
+            return aliases[key]
+
+        return getattr(Key, key, key)

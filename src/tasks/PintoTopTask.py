@@ -1,3 +1,4 @@
+from src.interaction.Mouse import active_and_send_mouse_delta
 from src.tasks.BaseEfTask import BaseEfTask
 
 
@@ -9,5 +10,5 @@ class PintoTopTask(BaseEfTask):
         self.enable_after_start = True
         self.visible = False
     def run(self):
-        self.active_and_send_mouse_delta(only_activate=True)
+        active_and_send_mouse_delta(self.hwnd.hwnd, only_activate=True)
     
