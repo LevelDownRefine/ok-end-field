@@ -139,35 +139,6 @@
                     return true;
                 }
             }
-
-            // ---------------------
-            // 兼容旧版国服
-            // ---------------------
-
-            const spans = [
-                ...document.querySelectorAll('span')
-            ];
-
-            const openSpan = spans.find(
-                el => el.textContent.trim() === '开'
-            );
-
-            if (openSpan) {
-
-                const btn = openSpan.closest('div');
-
-                if (btn) {
-
-                    btn.click();
-
-                    console.log(
-                        '[坐标转发] 已点击位置同步(旧版组件)'
-                    );
-
-                    return true;
-                }
-            }
-
             return false;
 
         } catch (e) {
