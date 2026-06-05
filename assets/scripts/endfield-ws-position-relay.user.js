@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name         终末地坐标转发工具
+// @name         终末地坐标转发工具(国服+国际服)
 // @namespace    http://tampermonkey.net/
-// @version      2026-05-21
+// @version      2026-06-05
 // @description  转发游戏原始WebSocket JSON包到本地WS服务器，并自动恢复位置同步
 // @author       LinTx (modified by Grok + ChatGPT)
 // @match        https://game.skland.com/map/endfield*
+// @match        https://game.skport.com/map/endfield*
 // @grant        none
 // ==/UserScript==
 
@@ -16,7 +17,7 @@
 
     const RECONNECT_INTERVAL = 3000;
 
-    // 最后收到“非心跳”消息时间
+    // 最后收到非心跳消息时间
     let lastMessageTime = Date.now();
 
     // =========================
@@ -25,7 +26,10 @@
 
     function connectToLocalServer() {
 
-        if (ws && ws.readyState === WebSocket.OPEN) {
+        if (ws && (
+            ws.readyState === WebSocket.OPEN ||
+            ws.readyState === WebSocket.CONNECTING
+        )) {
             return;
         }
 
@@ -34,21 +38,34 @@
             ws = new WebSocket('ws://localhost:3001');
 
             ws.onopen = () => {
-                console.log('[坐标转发] 已连接到本地服务器 ws://localhost:3001');
+                console.log(
+                    '[坐标转发] 已连接到本地服务器 ws://localhost:3001'
+                );
             };
 
             ws.onclose = () => {
-                console.log('[坐标转发] 本地WS断开，准备重连...');
+
+                console.log(
+                    '[坐标转发] 本地WS断开，准备重连...'
+                );
+
                 scheduleReconnect();
             };
 
             ws.onerror = (err) => {
-                console.log('[坐标转发] 本地WS错误', err);
+
+                console.log(
+                    '[坐标转发] 本地WS错误',
+                    err
+                );
             };
 
         } catch (e) {
 
-            console.error('[坐标转发] 创建本地WS失败', e);
+            console.error(
+                '[坐标转发] 创建本地WS失败',
+                e
+            );
 
             scheduleReconnect();
         }
@@ -60,9 +77,10 @@
             clearTimeout(reconnectTimer);
         }
 
-        reconnectTimer = setTimeout(() => {
-            connectToLocalServer();
-        }, RECONNECT_INTERVAL);
+        reconnectTimer = setTimeout(
+            connectToLocalServer,
+            RECONNECT_INTERVAL
+        );
     }
 
     // =========================
@@ -81,44 +99,83 @@
 
         } catch (e) {
 
-            console.error('[坐标转发] 转发失败', e);
+            console.error(
+                '[坐标转发] 转发失败',
+                e
+            );
         }
     }
 
     // =========================
-    // 点击“开”
+    // 自动开启位置同步
     // =========================
 
     function clickLocationSyncOpen() {
 
         try {
 
-            const spans = [...document.querySelectorAll('span')];
+            // ---------------------
+            // 新版组件（国服/国际服）
+            // ---------------------
 
-            const openSpan = spans.find(el =>
-                el.textContent.trim() === '开'
+            const row = document.querySelector(
+                '[class*="PointSwitch__SwitchRow"]'
             );
 
-            if (!openSpan) {
-                console.log('[坐标转发] 未找到 开 按钮');
-                return false;
+            if (row) {
+
+                const btn = row.querySelector(
+                    '[class*="PointSwitch__ToggleBtn"]'
+                );
+
+                if (btn) {
+
+                    btn.click();
+
+                    console.log(
+                        '[坐标转发] 已点击位置同步(新版组件)'
+                    );
+
+                    return true;
+                }
             }
 
-            const btn = openSpan.closest('div');
+            // ---------------------
+            // 兼容旧版国服
+            // ---------------------
 
-            if (!btn) {
-                return false;
+            const spans = [
+                ...document.querySelectorAll('span')
+            ];
+
+            const openSpan = spans.find(
+                el => el.textContent.trim() === '开'
+            );
+
+            if (openSpan) {
+
+                const btn = openSpan.closest('div');
+
+                if (btn) {
+
+                    btn.click();
+
+                    console.log(
+                        '[坐标转发] 已点击位置同步(旧版组件)'
+                    );
+
+                    return true;
+                }
             }
 
-            console.log('[坐标转发] 自动点击位置同步 开');
-
-            btn.click();
-
-            return true;
+            return false;
 
         } catch (e) {
 
-            console.error('[坐标转发] 点击位置同步失败', e);
+            console.error(
+                '[坐标转发] 点击位置同步失败',
+                e
+            );
 
             return false;
         }
@@ -140,13 +197,14 @@
         }, 1000);
 
         setTimeout(() => {
+
             clearInterval(timer);
+
         }, 30000);
     }
 
     // =========================
-    // 监控WS消息超时
-    // 5秒无有效消息 -> 点击一次“开”
+    // 超时恢复
     // =========================
 
     function startHeartbeatMonitor() {
@@ -155,15 +213,17 @@
 
             const now = Date.now();
 
-            const diff = now - lastMessageTime;
+            if (
+                now - lastMessageTime >= 5000
+            ) {
 
-            if (diff >= 5000) {
-
-                console.log('[坐标转发] 超过5秒未收到有效消息，尝试恢复位置同步');
+                console.log(
+                    '[坐标转发] 超过5秒未收到有效消息，尝试恢复位置同步'
+                );
 
                 clickLocationSyncOpen();
 
-                // 防止疯狂点击
+                // 防止连续狂点
                 lastMessageTime = now;
             }
 
@@ -171,18 +231,34 @@
     }
 
     // =========================
-    // 拦截游戏WS
+    // 判断是否为地图WS
     // =========================
 
-    const originalAddEventListener = WebSocket.prototype.addEventListener;
+    function isEndfieldMapSocket(url) {
 
-    WebSocket.prototype.addEventListener = function (type, listener, options) {
+        if (!url) {
+            return false;
+        }
 
-        // 只拦截终末地地图WS
+        return /\/ws\/v1\/game\/endfield\/map/.test(url);
+    }
+
+    // =========================
+    // 拦截 WebSocket
+    // =========================
+
+    const originalAddEventListener =
+        WebSocket.prototype.addEventListener;
+
+    WebSocket.prototype.addEventListener = function (
+        type,
+        listener,
+        options
+    ) {
+
         if (
             type === 'message' &&
-            this.url &&
-            this.url.includes('ws.skland.com/ws/v1/game/endfield/map')
+            isEndfieldMapSocket(this.url)
         ) {
 
             return Reflect.apply(
@@ -194,32 +270,26 @@
 
                         try {
 
-                            const data = JSON.parse(ev.data);
+                            const data =
+                                JSON.parse(ev.data);
 
-                            // 排除心跳包
-                            // {
-                            //   "type": 4,
-                            //   "data": {},
-                            //   "msgId": "xxxx"
-                            // }
-
+                            // 忽略心跳包
                             if (data.type !== 4) {
 
-                                // 更新最后有效消息时间
-                                lastMessageTime = Date.now();
+                                lastMessageTime =
+                                    Date.now();
 
-                                // 仅转发非心跳包
                                 sendRawPacket(ev.data);
                             }
 
-                            // 坐标调试输出
                             if (
                                 data.type === 1012 &&
                                 data.data &&
                                 data.data.pos
                             ) {
 
-                                const pos = data.data.pos;
+                                const pos =
+                                    data.data.pos;
 
                                 console.log(
                                     `[坐标转发] 玩家位置: ` +
@@ -229,21 +299,29 @@
                                 );
                             }
 
-                        } catch (err) {
+                        } catch (_) {
                             // 忽略解析错误
                         }
 
-                        // 调用原始监听器
-                        if (typeof listener === 'function') {
+                        if (
+                            typeof listener ===
+                            'function'
+                        ) {
 
-                            listener.call(this, ev);
+                            listener.call(
+                                this,
+                                ev
+                            );
 
                         } else if (
                             listener &&
-                            typeof listener.handleEvent === 'function'
+                            typeof listener.handleEvent ===
+                            'function'
                         ) {
 
-                            listener.handleEvent(ev);
+                            listener.handleEvent(
+                                ev
+                            );
                         }
                     },
                     options
@@ -271,18 +349,19 @@
 
         connectToLocalServer();
 
-        // 页面启动自动点一次“开”
         ensureLocationSyncEnabled();
 
-        // 启动超时监控
         startHeartbeatMonitor();
 
-        window.addEventListener('beforeunload', () => {
+        window.addEventListener(
+            'beforeunload',
+            () => {
 
-            if (ws) {
-                ws.close();
+                if (ws) {
+                    ws.close();
+                }
             }
-        });
+        );
     }
 
     init();
