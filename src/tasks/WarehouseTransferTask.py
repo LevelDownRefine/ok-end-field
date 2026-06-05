@@ -63,7 +63,7 @@ class WarehouseTransferTask(BaseEfTask):
         if not result:
             self.log_info(f"物品 {item_name} 无法找到分类图标,可能已经进入该分类页")
         if result:
-            self.click(result[0], move_back=True, after_sleep=2)
+            self.click(result[0],   after_sleep=2)
 
     def _detect_current_location(self) -> str | None:
         boxes = self.ocr(box=self.box_of_screen(0.15, 0.18, 0.26, 0.22, name="current_location_area"))
@@ -81,7 +81,7 @@ class WarehouseTransferTask(BaseEfTask):
             match=self.lang.WarehouseTransferTask.k_b56d9ac6,
         )
         if hits:
-            self.click(hits[0], move_back=True, after_sleep=0.3)
+            self.click(hits[0],   after_sleep=0.3)
             return True
         return False
 
@@ -96,7 +96,7 @@ class WarehouseTransferTask(BaseEfTask):
         )
         if not btn:
             raise RuntimeError("未找到“仓库切换”按钮")
-        self.click(btn[0], move_back=True, after_sleep=0.5)
+        self.click(btn[0],   after_sleep=0.5)
 
         target_text = _LOCATIONS[target_key]
         option = self.wait_ocr(
@@ -106,7 +106,7 @@ class WarehouseTransferTask(BaseEfTask):
         )
         if not option:
             raise RuntimeError(f"未找到仓库选项：{target_text}")
-        self.click(option[0], move_back=True, after_sleep=0.2)
+        self.click(option[0],   after_sleep=0.2)
 
         self._maybe_click_confirm()
         for _ in range(50):
@@ -129,7 +129,7 @@ class WarehouseTransferTask(BaseEfTask):
         )  # 确认使用send_key：ctrl为系统修饰键，用于ctrl+点击多选，非游戏可配置热键
         try:
             self.sleep(0.03)
-            self.click(box, move_back=True, down_time=0.03, after_sleep=0, key="left")
+            self.click(box,   down_time=0.03, after_sleep=0, key="left")
             self.sleep(0.03)
         finally:
             win32api.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
@@ -200,7 +200,7 @@ class WarehouseTransferTask(BaseEfTask):
             )
             if not store_btn:
                 raise RuntimeError("未找到“一键存放”按钮")
-            self.click(store_btn[0], move_back=True, after_sleep=0.5)
+            self.click(store_btn[0],   after_sleep=0.5)
             self._maybe_click_confirm()
             max_times -= 1
             if max_times <= 0:

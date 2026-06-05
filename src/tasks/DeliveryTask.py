@@ -424,7 +424,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         self.to_model_area(self.config.get(self.CFG_DELIVERY_AREA), self.lang.DeliveryTask.k_a72a252f_1)
         delivery_box = self.wait_ocr(match=self.lang.DeliveryTask.k_ae8fb114, time_out=5)
         if delivery_box:
-            self.click(delivery_box[0], move_back=True, after_sleep=0.5)
+            self.click(delivery_box[0], after_sleep=0.5)
             self.switch_to_area_delivery_list(self.delivery_area)
         else:
             self.log_info("未找到‘运送委托列表’，退出")
@@ -478,7 +478,6 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                                     row.elems[-1],
                                     after_sleep=2,
                                     down_time=0.1,
-                                    move_back=True,
                                 )
                                 self.log_info("疑似已经接取委托")
                                 self.try_time += 1
@@ -505,7 +504,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                     wait = max(0.0, 5.4 - (now - last))
                     if wait > 0:
                         self.sleep(wait)
-                    self.click(last_refresh_box, move_back=True)
+                    self.click(last_refresh_box)
                     self._last_refresh_ts = time.time()
                     self.wait_ui_stable(refresh_interval=1)  # 刷新后界面稳定的时间可能会比平常长一些，尤其是网络较慢的时候
                     break

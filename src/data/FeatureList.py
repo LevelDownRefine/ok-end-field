@@ -16,6 +16,7 @@ class FeatureList(str, Enum):
     boat_entrance_icon = 'boat_entrance_icon'
     can_exchange_info_icon = 'can_exchange_info_icon'
     can_help_icon = 'can_help_icon'
+    change_area = 'change_area'
     chat_icon = 'chat_icon'
     chat_icon_2 = 'chat_icon_2'
     chat_icon_dark = 'chat_icon_dark'

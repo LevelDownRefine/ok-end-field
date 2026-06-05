@@ -163,5 +163,5 @@ class DailyLiaisonMixin(LiaisonMixin):
         if not store_btn:
             self.log_info("未找到“存放”按钮")
             return False
-        self.click(store_btn[0], move_back=True, after_sleep=0.5)
+        self.click(store_btn[0], after_sleep=0.5)
         return True

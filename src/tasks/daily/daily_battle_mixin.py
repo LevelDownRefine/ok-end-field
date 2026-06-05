@@ -199,7 +199,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             self.log_info(f"未识别到换队伍文本: {expected_text}")
             return
 
-        self.click(results[0], move_back=True, after_sleep=1.5)
+        self.click(results[0], after_sleep=1.5)
         self.log_info(f"已识别并点击换队伍文本: {expected_text}")
 
     def _switch_team_before_activate_for_gather(self):
@@ -228,7 +228,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         if self.lang.daily_battle_mixin.k_62b5b688.search(deploy_text):
             self.log_info("当前为『已出战』状态，跳过点击出战")
         else:
-            self.click(deploy_results[0], move_back=True, after_sleep=0.8)
+            self.click(deploy_results[0], after_sleep=0.8)
             self.log_info("已点击『出战』按钮")
 
         self.ensure_main()

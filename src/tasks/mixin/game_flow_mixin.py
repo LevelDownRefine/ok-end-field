@@ -514,8 +514,8 @@ class GameFlowMixin:
                 need_change = False
                 break
         if need_change:
-            if not self.wait_click_ocr(
-                    match=self.lang.game_flow_mixin.k_b1a3fede, box=self.box.left, time_out=2, log=True
+            if not self.wait_click_feature(
+                    feature=fL.change_area, time_out=2, raise_if_not_found=False
             ):
                 return False
             if not self.wait_click_ocr(
@@ -532,11 +532,11 @@ class GameFlowMixin:
                     time_out=2,
             ):
                 return False
-        box = self.wait_ocr(
-            match=re.compile(f"{model}"), box=self.box.right, time_out=5
-        )
-        if box:
-            self.click(box[0], move_back=True)
+        
+        if box := self.wait_ocr(
+            match=re.compile(f"{model}"), box=self.box.right, time_out=5, settle_time=1
+        ):
+            self.click(box[0],  )
             self.wait_ocr(match=re.compile(f"{model[:2]}"), box=self.box.top_left)
             self.sleep(0.5)
             return True
@@ -560,7 +560,7 @@ class GameFlowMixin:
             if expected_target_text in result[0].name or target_area in result[0].name:
                 return True
             else:
-                self.click(result[0], move_back=True)
+                self.click(result[0],  )
                 self.wait_click_ocr(match=get_world_map_matcher(self.lang, target_area),
                                     box=self.box_of_screen(0, (960 - 60 * len(areas_list)) / 1080, 260 / 1920, 1),
                                     time_out=5)

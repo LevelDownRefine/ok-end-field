@@ -123,7 +123,7 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
         self.press_key('y', down_time=0.05, after_sleep=0.5)
         storage_box = self.wait_ocr(match=self.lang.TakeDeliveryTask.k_a72a252f, time_out=5)
         if storage_box:
-            self.click(storage_box[0], move_back=True, after_sleep=0.5)
+            self.click(storage_box[0], after_sleep=0.5)
         else:
             self.log_error("未找到‘仓储节点’按钮，任务中止。")
             return
@@ -132,7 +132,7 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
         enable_wuling = self.config.get("接取武陵券", True)
         delivery_box = self.wait_ocr(match=self.lang.TakeDeliveryTask.k_ae8fb114, time_out=5)
         if delivery_box:
-            self.click(delivery_box[0], move_back=True, after_sleep=0.5)
+            self.click(delivery_box[0], after_sleep=0.5)
             # 点击后滚动到底部（多次大幅度向下滚动）
             if enable_wuling:
                 self.switch_to_area_delivery_list("武陵")
@@ -309,7 +309,7 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
 
                         # CD已好（或睡醒），执行点击
                         self.log_info(f"执行刷新 (坐标: {int(last_refresh_box.x)}, {int(last_refresh_box.y)})")
-                        self.click(last_refresh_box, move_back=True)
+                        self.click(last_refresh_box,  )
                         self.last_refresh_time = time.time()
 
                         # 刷新成功后，滚动状态反转

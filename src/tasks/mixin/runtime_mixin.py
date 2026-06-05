@@ -24,6 +24,7 @@ from src.interaction.Mouse import (
 )
 from src.yolo.loader import YoloModelLoader
 from src.image.rotated_template import rotated_template_match
+from src.tasks import BaseEfTask
 
 feature_values = [f.value for f in fL]
 
@@ -773,11 +774,7 @@ class RuntimeMixin:
         Returns:
             None
         """
-        if need_back:
-            prev = win32gui.GetForegroundWindow()
-        send_move_keys(self.hwnd.hwnd, keys, duration)
-        if need_back:
-            _back_window(prev)
+        send_move_keys(self, keys, duration)
 
     def _dodge_with_direction(self, direction_key: str, pre_hold: float = 0.004,
                               dodge_down_time: float = 0.003, after_sleep: float = 0.005):

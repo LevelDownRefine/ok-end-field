@@ -573,27 +573,19 @@ class AccountConfigTab(CustomTab):
             self._set_status("请先选择账号与任务")
             return
 
-        diff = {}
+        full_config = {}
+
         for key in self.current_editable_keys:
-            current_value = self.current_virtual_config.get(key)
-            base_value = self.current_base_values.get(key)
-            if current_value != base_value:
-                diff[key] = current_value
+            full_config[key] = self.current_virtual_config.get(key)
 
         accounts = self.overrides_data.setdefault("accounts", {})
         account_map = accounts.setdefault(self.current_account_key, {})
 
         task_class = self.current_task.__class__.__name__
-        if diff:
-            account_map[task_class] = diff
-            self._set_status(
-                f"已保存：{self.current_account_name or self.current_account_key} / {self.current_task.name}（覆盖 {len(diff)} 项）"
-            )
+        if full_config:
+            account_map[task_class] = full_config
         else:
             account_map.pop(task_class, None)
-            self._set_status(
-                f"无差异，已清除：{self.current_account_name or self.current_account_key} / {self.current_task.name} 覆盖"
-            )
 
         if not account_map:
             accounts.pop(self.current_account_key, None)
