@@ -14,6 +14,7 @@ class FeatureList(str, Enum):
     baker_icon = 'baker_icon'
     baker_page_icon = 'baker_page_icon'
     battle_cost_x1 = 'battle_cost_x1'
+    battle_page_icon = 'battle_page_icon'
     battle_space_left = 'battle_space_left'
     bluesteel_ore = 'bluesteel_ore'
     boat_entrance_icon = 'boat_entrance_icon'

@@ -407,7 +407,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 parsed_boxes.append((sort_key, box, validity_num, validity_unit))
             if not parsed_boxes:
                 self.log_warning("所有应急理智加强剂时效解析失败，无法消耗")
-                self.safe_back(feature=fL.resident_icon, time_out=10, once_time_out=2)
+                self.safe_back(feature=fL.battle_page_icon, time_out=10, once_time_out=2)
                 return True
             parsed_boxes.sort(key=lambda x: x[0])
             for _, box, validity_num, validity_unit in parsed_boxes:
@@ -439,7 +439,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 # 只消耗一种类型后退出（如需全部消耗可去掉break）
                 break
         # 统一出口，保证异常时也能返回主界面
-        if not self.safe_back(feature=fL.resident_icon, time_out=10, once_time_out=2):
+        if not self.safe_back(feature=fL.battle_page_icon, time_out=10, once_time_out=2):
             return False
         return True
 
