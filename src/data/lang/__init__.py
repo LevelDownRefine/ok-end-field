@@ -145,10 +145,12 @@ class LangAccessor:
 
     def _load_module(self, module_name: str) -> dict:
         lang_root = self._repo_root / "assets" / "lang"
-        locales_to_try = [self.locale]
-        for supported_locale in SUPPORTED_LOCALES:
-            if supported_locale not in locales_to_try:
-                locales_to_try.append(supported_locale)
+
+        locales_to_try = (
+            ["zh_TW", "zh_CN"]
+            if self.locale == "zh_TW"
+            else ["zh_CN"]
+        )
 
         for loc in locales_to_try:
             p = lang_root / module_name / f"{loc}.json"
@@ -157,6 +159,7 @@ class LangAccessor:
                     return json.load(p.open(encoding="utf-8"))
                 except Exception:
                     pass
+
         return {}
 
 
