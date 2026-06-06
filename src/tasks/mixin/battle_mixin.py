@@ -149,9 +149,9 @@ class BattleMixin(BaseEfTask):
             if self.find_one("ult_" + ult):
                 self.send_key_down(ult)  # 确认使用send_key：终极技键位为游戏固定不可配置键，不经过KeyConfigManager管理
                 # 等待技能释放导致战斗状态变化
-                self.wait_until(lambda: not self.in_combat(), time_out=3)
+                self.wait_until(lambda: not self.in_combat(), time_out=1)
                 self.send_key_up(ult)  # 确认使用send_key：终极技键位为游戏固定不可配置键，释放按键
-                self.wait_until(lambda: self.in_team(), time_out=5)
+                self.wait_until(lambda: self.in_team(), time_out=3)
                 return True
 
         return False
@@ -160,7 +160,7 @@ class BattleMixin(BaseEfTask):
         """
         使用连携技能。
         """
-        if self.find_one("default_link_skill", threshold=0.7):
+        if self.find_one("default_link_skill", threshold=0.7, vertical_variance=0.005, horizontal_variance=0.005):
             self.press_combat_key("e")
             return True
 

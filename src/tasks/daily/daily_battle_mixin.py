@@ -588,7 +588,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
 
     def battle_space(self):
         self.battle_ctx.enter_text = "进入"
-        self.wait_click_feature(feature=fL.to_max_produce_num, settle_time=1, time_out=5, after_sleep=2)
+        self.wait_click_feature(feature=fL.to_max_produce_num, box=self.box_of_screen(0.942, 0.896, 0.967, 0.938), settle_time=1, time_out=5, after_sleep=2)
         # 插入点：在首次『进入』之后、下一次『进入』之前执行换队。
         # 若上面已经点击到『取消』，则直接结束，不会触发该逻辑。
         self._switch_team_before_reenter()
@@ -734,7 +734,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             if location:
                 enter_bool = self.wait_click_feature(
                     feature=to_text,
-                    box=self.box_of_screen(0.808, location[0].y / self.height, 0.834, 0.815),
+                    box=self.box_of_screen(0.808, location[0].y / self.height, 0.834, location[0].y / self.height + 0.15),
                     after_sleep=2,
                     time_out=6,
                     raise_if_not_found=False,
