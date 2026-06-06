@@ -89,7 +89,8 @@ class LiaisonMixin(NavigationMixin):
             feature=fL.boat_entrance_icon,
             time_out=2,
             raise_if_not_found=False,
-            after_sleep=2
+            after_sleep=2,
+            settle_time=1
         )
         if should_check_out_boat:
             if not target_area:

@@ -109,7 +109,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         if not self.transfer_to_home_point(should_check_out_boat=True):
             self.log_info("未能传送到帝江号")
         self.press_key("b")
-        if not self.wait_click_feature(feature=fL.make_simply_entrance, time_out=5, raise_if_not_found=False):
+        if not self.wait_click_feature(feature=fL.make_simply_entrance, settle_time=1, time_out=5, raise_if_not_found=False):
             self.mark_task_failure("未能找到简易制作入口")
             return False
         if not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_cdb1d49b, box=self.box.left, time_out=5, log=True):
