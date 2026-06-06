@@ -125,7 +125,7 @@ class RuntimeMixin:
     def find_feature(self, feature_name=None, horizontal_variance=0, vertical_variance=0, threshold=0,
                      use_gray_scale=False, x=-1, y=-1, to_x=-1, to_y=-1, width=-1, height=-1, box=None, canny_lower=0,
                      canny_higher=0, frame_processor=None, template=None, match_method=cv2.TM_CCOEFF_NORMED,
-                     screenshot=False, mask_function=None, frame=None, limit=0, target_height=0):
+                     screenshot=False, mask_function=None, frame=None, limit=0, target_height=0, feature=None):
         """
         按当前分辨率映射后执行特征识别。
 
@@ -156,6 +156,8 @@ class RuntimeMixin:
         Returns:
             list: 特征识别结果列表。
         """
+        if feature is not None and feature_name is None:
+            feature_name = feature
         if isinstance(feature_name, (list, tuple)):
             feature_name = [self.get_feature_by_resolution(name) for name in feature_name]
         else:
@@ -233,8 +235,8 @@ class RuntimeMixin:
 
         raise AttributeError(f"未找到任何可用资源: {base_name}")
 
-    def safe_back(self, match=None, feature=None, 
-                box=None, time_out: float = 30, once_time_out: float = 2):
+    def safe_back(self, match=None, feature=None,
+                  box=None, time_out: float = 30, once_time_out: float = 2):
         """
         安全返回：持续点击返回直到找到指定目标（OCR文本或特征）。
 
@@ -267,7 +269,7 @@ class RuntimeMixin:
 
             # 检查 Feature
             if feature is not None:
-                if self.wait_feature(feature=feature, time_out=once_time_out, box=box, raise_if_not_found=False):
+                if self.wait_feature(feature=feature, vertical_variance=0.05, horizontal_variance=0.05, time_out=once_time_out, box=box, raise_if_not_found=False):
                     return True
 
             # 都没找到 → 点击返回
@@ -972,3 +974,43 @@ class RuntimeMixin:
             tuple[int, int]: 屏幕中心点坐标。
         """
         return int(self.width / 2), int(self.height / 2)
+
+    def find_one(self, feature_name=None, horizontal_variance=0, vertical_variance=0, threshold=0,
+             use_gray_scale=False, box=None, canny_lower=0, canny_higher=0,
+             frame_processor=None, template=None, mask_function=None, frame=None,
+             match_method=cv2.TM_CCOEFF_NORMED, screenshot=False, limit=1,
+             target_height=0, feature=None):
+        """
+        按当前分辨率执行单个特征识别。
+
+        本方法为父类 ``find_one()`` 的兼容封装，支持使用 ``feature`` 作为
+        ``feature_name`` 的别名。特征名称映射逻辑由底层 ``find_feature()`` 统一处理。
+
+        Args:
+            feature_name: 特征名称。
+            horizontal_variance: 水平容差。
+            vertical_variance: 垂直容差。
+            threshold: 匹配阈值。
+            use_gray_scale: 是否使用灰度图匹配。
+            box: 识别区域。
+            canny_lower: Canny 边缘检测下限阈值。
+            canny_higher: Canny 边缘检测上限阈值。
+            frame_processor: 额外图像处理函数。
+            template: 自定义模板图像。
+            mask_function: 掩码处理函数。
+            frame: 输入图像，为 None 时自动截图。
+            match_method: OpenCV 模板匹配方法。
+            screenshot: 是否强制重新截图。
+            limit: 最大返回结果数量。
+            target_height: 匹配前缩放到指定高度，0 表示不缩放。
+            feature: ``feature_name`` 的兼容别名。
+
+        Returns:
+            Box: 匹配到的第一个结果；未匹配到时返回空 Box 或 None（取决于父类实现）。
+        """
+        if feature_name is None and feature is not None:
+            feature_name = feature
+        return super().find_one(feature_name, horizontal_variance, vertical_variance, threshold,
+                                use_gray_scale, box, canny_lower, canny_higher, frame_processor,
+                                template, mask_function, frame, match_method, screenshot,
+                                limit, target_height)

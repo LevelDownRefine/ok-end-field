@@ -59,7 +59,7 @@ class WarehouseTransferTask(BaseEfTask):
         category_en_name = ITEM_WAREHOUSE_CATEGORY_EN_BY_ZH.get(item_to_warehouse_dict.get(item_name, ""), "")
         if not category_en_name:
             raise ValueError(f"物品 {item_name} 无法找到分类，无法定位图标")
-        result = self.find_feature(feature_name=f"{category_en_name}_icon")
+        result = self.find_feature(feature=f"{category_en_name}_icon")
         if not result:
             self.log_info(f"物品 {item_name} 无法找到分类图标,可能已经进入该分类页")
         if result:
@@ -168,7 +168,7 @@ class WarehouseTransferTask(BaseEfTask):
             if not item_key_en:
                 self.log_info(f"找不到的图标名 {item_key}")
             for round_idx in range(ROUND + 1):
-                icon = self.find_one(feature_name=item_key_en, box=search_box, threshold=0.8)
+                icon = self.find_one(feature=item_key_en, box=search_box, threshold=0.8)
                 if icon:
                     break
                 if round_idx == ROUND:
@@ -181,7 +181,7 @@ class WarehouseTransferTask(BaseEfTask):
                 raise RuntimeError(f"未找到物品图标（滚动{ROUND}轮后仍失败）：{item_key}")
             self._ctrl_click(icon)
             self.sleep(0.35)
-            icon_after = self.find_feature(feature_name=item_key_en, box=search_box, threshold=0.8)
+            icon_after = self.find_feature(feature=item_key_en, box=search_box, threshold=0.8)
             if not icon_after:
                 self.log_info(f"物品图标已消失（可能已倒完）：{item_key}")
                 # count_after = self._read_count_near_icon(icon_after)

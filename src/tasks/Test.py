@@ -19,5 +19,10 @@ class Test(NavigationMixin):
         self.interval = 0.3  # 读取间隔（秒）
 
     def run(self):
-        self.wait_ocr(match=re.compile(r"陈"),box=self.box.bottom_right, alt=True)
-        self.active_and_send_mouse_delta(only_activate=True)
+        self.wait_click_feature(
+                feature=fL.battle_cost_x1,
+                time_out=2,
+                after_sleep=1,
+                horizontal_variance=0.15,
+                raise_if_not_found=False,
+        )

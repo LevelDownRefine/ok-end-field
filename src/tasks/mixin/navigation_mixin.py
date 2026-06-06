@@ -14,7 +14,7 @@ class NavigationMixin(BaseEfTask):
     def start_tracking_and_align_target(self, target_feature_in_map, target_feature_out_map):
         """在地图中开启追踪并在地图外完成朝向对齐。"""
         result = self.find_one(
-            feature_name=target_feature_in_map,
+            feature=target_feature_in_map,
             box=self.box_of_screen(0, 0, 1, 1),
             threshold=0.7,
         )
@@ -31,7 +31,7 @@ class NavigationMixin(BaseEfTask):
         self.log_info("关闭地图界面 (按下 M)")
         start_time = time.time()
         while not self.find_feature(
-            feature_name=target_feature_out_map, box=self.box_of_screen(0, 0, 1, 1),
+            feature=target_feature_out_map, box=self.box_of_screen(0, 0, 1, 1),
             threshold=0.7
         ):
             if time.time() - start_time > 5:
@@ -47,22 +47,56 @@ class NavigationMixin(BaseEfTask):
         return True
 
     def navigate_until_target(
-            self,
-            target_ocr_pattern,
-            nav_feature_name,
-            time_out: int = 60,
-            pre_loop_callback=None,
-            found_special_callback=None
+        self,
+        target,
+        nav,
+        target_is_ocr: bool = True,
+        nav_is_ocr: bool = False,
+        time_out: int = 60,
+        pre_loop_callback=None,
+        found_special_callback=None,
     ):
-        """通用导航循环：识别目标前持续前进并动态对齐。"""
+        """
+        持续沿导航标识移动，直到检测到目标。
+
+        Args:
+            target: 目标OCR文本或特征名称
+            nav: 导航OCR文本或特征名称
+            target_is_ocr: True使用OCR检测目标，False使用特征匹配
+            nav_is_ocr: True使用OCR检测导航，False使用特征匹配
+            time_out: 导航超时时间(秒)
+            pre_loop_callback: 每轮循环执行的回调函数
+            found_special_callback: 特殊状态检测回调，返回非None时立即结束并返回该值
+
+        Returns:
+            bool | Any:
+                到达目标返回True；
+                超时返回False；
+                found_special_callback返回非None时返回其返回值
+        """
+
         start_time = time.time()
         short_distance_flag = False
         fail_count = 0
-        while not self.wait_ocr(
-                match=target_ocr_pattern,
-                box=self.box.bottom_right,
-                time_out=0.5,
-        ):
+
+        while True:
+
+            # 判断是否到达目标
+            if target_is_ocr:
+                reached = self.wait_ocr(
+                    match=target,
+                    box=self.box.bottom_right,
+                    time_out=0.5,
+                )
+            else:
+                reached = self.find_feature(
+                    target,
+                    threshold=0.7,
+                )
+
+            if reached:
+                return True
+
             if time.time() - start_time > time_out:
                 self.log_info("导航超时")
                 return False
@@ -76,29 +110,45 @@ class NavigationMixin(BaseEfTask):
                 pre_loop_callback()
 
             if not short_distance_flag:
-                nav = self.find_feature(
-                    nav_feature_name,
-                    box=self.box_of_screen(
-                        (1920 - 1550) / 1920,
-                        150 / 1080,
-                        1550 / 1920,
-                        (1080 - 150) / 1080,
-                    ),
-                    threshold=0.7,
-                )
 
-                if nav:
+                nav_result = None
+
+                if nav_is_ocr:
+                    nav_result = self.wait_ocr(
+                        match=nav,
+                        box=self.box_of_screen(
+                            (1920 - 1550) / 1920,
+                            150 / 1080,
+                            1550 / 1920,
+                            (1080 - 150) / 1080,
+                        ),
+                        time_out=1,
+                    )
+                else:
+                    nav_result = self.find_feature(
+                        nav,
+                        box=self.box_of_screen(
+                            (1920 - 1550) / 1920,
+                            150 / 1080,
+                            1550 / 1920,
+                            (1080 - 150) / 1080,
+                        ),
+                        threshold=0.7,
+                    )
+
+                if nav_result:
                     fail_count = 0
                     self.log_info("找到导航路径，继续对齐并前进")
 
                     self.align_ocr_or_find_target_to_center(
-                        ocr_match_or_feature_name_list=nav_feature_name,
+                        ocr_match_or_feature_name_list=nav,
                         only_x=True,
                         threshold=0.7,
-                        ocr=False        
+                        ocr=nav_is_ocr,
                     )
 
                     self.move_keys("w", duration=0.75)
+
                 else:
                     fail_count += 1
                     self.log_info(f"未找到导航路径，连续失败次数: {fail_count}")
@@ -108,9 +158,9 @@ class NavigationMixin(BaseEfTask):
                         short_distance_flag = True
 
                     self.move_keys("w", duration=0.25)
+
             else:
                 self.move_keys("w", duration=0.25)
-        return True
 
     def align_ocr_or_find_target_to_center(
             self,
@@ -227,7 +277,7 @@ class NavigationMixin(BaseEfTask):
                                 break
 
                             result = self.find_feature(
-                                feature_name=feature_name,
+                                feature=feature_name,
                                 threshold=threshold,
                                 box=feature_box,
                             )

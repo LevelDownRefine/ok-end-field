@@ -126,7 +126,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
             if time.time() - start_time > 20:
                 self.log_info("加载好友列表超时")
                 return False
-            if self.find_feature(feature_name=end_icon_name):
+            if self.find_feature(feature=end_icon_name):
                 return True
 
     def collect_credit(self):
@@ -181,7 +181,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                     return False
                 if left_exchange_time > 0:
                     result = self.find_feature(
-                        feature_name="can_exchange_info_icon", box=span_box
+                        feature="can_exchange_info_icon", box=span_box
                     )
                     if scroll_count >= 7:
                         self.back()
@@ -193,7 +193,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                         continue
                 elif left_help_time > 0:
                     result = self.find_feature(
-                        feature_name="can_help_icon", box=span_box
+                        feature="can_help_icon", box=span_box
                     )
                 if not result:
                     scroll_count += 1
@@ -218,13 +218,13 @@ class DailyRoutineMixin(LiaisonMixin, Common):
             self.press_key("y")
             self.wait_ui_stable(refresh_interval=1)
             if left_exchange_time > 0:
-                if not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_449497e5, box=exchange_help_box, time_out=5):
+                if not self.wait_click_feature(feature=fL.info_exchange, box=exchange_help_box, time_out=5,click_after_delay=0.5, raise_if_not_found=False, after_sleep=0.5):
                     left_exchange_time = 0
                 else:
                     left_exchange_time -= 1
                     exchange_time += 1
             if left_help_time > 0:
-                result = self.wait_ocr(match=self.lang.daily_routine_mixin.k_3e790a94, box=exchange_help_box, time_out=5)
+                result = self.find_feature(feature=fL.assist_friend, box=exchange_help_box)
                 if not result and temp_exchange_time <= 0:
                     self.log_info("未找到可助力的对象")
                     left_help_time = 0
@@ -239,18 +239,15 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                         if res == result[-1]:
                             self.scroll_relative(res.x / self.width, res.y / self.height, count=-8)
                             self.wait_ui_stable(refresh_interval=0.5)
-                            if result := self.wait_ocr(match=self.lang.daily_routine_mixin.k_3e790a94, box=exchange_help_box, time_out=5):
+                            if result := self.find_feature(feature=fL.assist_friend, box=exchange_help_box):
                                 self.log_info("继续进行助力操作")
                                 self.click(result[-1])
                                 self.wait_pop_up(time_out=3)
                                 left_help_time -= 1
                                 help_time += 1
-            select_visit_deadline = time.time() + 30
-            while not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_a730d877, box=self.box.top_left, time_out=1):
-                if time.time() > select_visit_deadline:
-                    self.log_info("等待 '选择拜访' 超时，结束本轮好友流程")
-                    return False
-                self.back()
+            if not self.safe_back(feature=fL.friend_page, time_out=5):
+                self.log_info("未能安全返回好友列表")
+                return False
             is_first_time = False
             count += 1
 
@@ -361,36 +358,30 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                 self.click(results[0], after_sleep=2)
                 start_index = 0 if not (self.lang.daily_routine_mixin.k_view_quote in results[0].name) else 2
                 steps = [
-                    (self.lang.daily_routine_mixin.k_next_step, self.box.bottom_right),
-                    (self.lang.daily_routine_mixin.k_fill_to_max, self.box.top_right),
-                    (self.lang.daily_routine_mixin.k_next_step, self.box.bottom_right),
-                    (self.lang.daily_routine_mixin.k_start_shipping, self.box_of_screen(1548 / 1920, 951 / 1080, 1, 1)),
-                    (self.lang.daily_routine_mixin.k_get_dispatch_ticket, self.box.bottom_right)
+                    (fL.give_gift, self.box_of_screen(0.945, 0.904, 0.965, 0.937), 0),
+                    (fL.fill_max, None, 0),
+                    (fL.give_gift, self.box_of_screen(0.945, 0.904, 0.965, 0.937), 1),
+                    (fL.give_gift, self.box_of_screen(0.945, 0.904, 0.965, 0.937), 0),
+                    (fL.get_exchange_ticket, None, 0)
                 ]
 
                 for i in range(start_index, len(steps)):
                     step = steps[i]
-                    match = step[0]
+                    feature = step[0]
                     box = step[1]
-                    timeout = 12 if i > 2 else 5
-                    res = None
-                    for time_index in range(2):
-                        self.next_frame()
-                        if time_index == 0:
-                            res = self.wait_ocr(match=re.compile(match), box=box, time_out=timeout, log=True)
-                        else:
-                            res = self.ocr(match=re.compile(match), box=box,
-                                           frame_processor=self.make_hsv_isolator(hR.DARK_GRAY_TEXT), log=True)
-                            if not res:
-                                res = self.ocr(match=re.compile(match), box=box,
-                                               frame_processor=self.make_hsv_isolator(hR.WHITE), log=True)
-                        if res:
-                            self.log_info(f"找到步骤 {match}，继续下一步")
-                            self.click(res[0], after_sleep=1)
-                            break
+                    after_sleep = step[2]
+                    time_out = 12 if i > 2 else 5
+                    res = self.wait_click_feature(feature=feature, click_after_delay=0.5, box=box, time_out=time_out, raise_if_not_found=False, after_sleep=after_sleep)  
 
-                    if not res and i != 2:
-                        self.log_info(f"步骤 {match} 未找到，跳过本次活动")
+                    optional_steps = {2} # 特殊可选步骤序号
+
+                    if not res:
+                        if i in optional_steps:
+                            continue
+
+                        self.log_info(
+                            f"步骤 {feature} 未找到，跳过本次活动"
+                        )
                         break
                 self.ensure_main()
                 self.press_key("v", after_sleep=1)
@@ -406,11 +397,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                     )
                     self.ensure_main()
                     break
-                if not self.wait_click_ocr(
-                        match=self.lang.daily_routine_mixin.k_b56d9ac6,
-                        box=self.box.bottom_right,
-                        time_out=5
-                ):
+                if not self.click_confirm():
                     self.log_info("未找到 '确认' 按钮，跳过本次活动")
                     self.ensure_main()
                     break
@@ -750,7 +737,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         )
 
         if result := self.find_one(
-                feature_name="claim_gift", box=self.box.left, threshold=0.8
+                feature="claim_gift", box=self.box.left, threshold=0.8
         ):
             self.log_info("发现可领取的额外奖励，点击领取")
             self.click(result, after_sleep=2)
@@ -827,13 +814,11 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         if not self.culture_room(exchange_help_box):
             self.mark_task_failure("培养舱任务失败")
             ok_culture_room = False
-        self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_1cdef26c, time_out=3, box=self.box.top_right,after_sleep=1)
-        self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_0e2d3a3c, time_out=3, box=self.box.bottom_right,after_sleep=1)
-        if not self.safe_back(match=self.lang.daily_routine_mixin.k_e39054a0, box=self.box.top_left):
+        if not self.safe_back(feature=fL.operation_report_icon):
             self.log_info("无法返回到运转界面")
             return False
         self.use_help()
-        if not self.safe_back(match=self.lang.daily_routine_mixin.k_e39054a0, box=self.box.top_left):
+        if not self.safe_back(feature=fL.operation_report_icon):
             self.log_info("无法返回到运转界面")
             return False
         if not self.collect_clue(exchange_help_box):
@@ -848,134 +833,162 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         if "收集线索" not in self.config.get("帝江号收菜操作", []):
             self.log_info("收集线索任务未启用，跳过")
             return True
-        results = self.wait_ocr(match=self.lang.daily_routine_mixin.k_04afbdcd, time_out=4, box=exchange_help_box)
-        if not results:
-            self.mark_task_failure("未找到制造舱，任务失败")
+
+        if not self._enter_exchange_room(exchange_help_box):
             return False
-        self.scroll_relative(results[0].x / self.width, results[0].y / self.height, count=8)
+
+        self._collect_clue()
+        self._receive_clue()
+        self._give_clue()
+
+        self.log_info("收集线索任务完成")
+        return True
+
+
+    def _enter_exchange_room(self, exchange_help_box):
+        result = self.wait_feature(
+            feature=fL.make_room,
+            time_out=4,
+            box=exchange_help_box,
+            raise_if_not_found=False,
+        )
+
+        if not result:
+            self.mark_task_failure("未找到会客室，任务失败")
+            return False
+
+        self.scroll_relative(
+            result.x / self.width,
+            result.y / self.height,
+            count=8,
+        )
+
         self.wait_ui_stable(refresh_interval=0.5)
-        if self.wait_click_ocr(
-            match=self.lang.daily_routine_mixin.k_f546849b,
+
+        if not self.wait_click_feature(
+            feature=fL.exchange_room,
             time_out=6,
             box=exchange_help_box,
+            raise_if_not_found=False,
         ):
-
-            self.log_info("进入会客室,准备处理收集线索")
-
-            self.wait_click_feature(
-                feature=fL.to_max_produce_num,
-                box=self.box_of_screen(0.550, 0.885, 0.573, 0.920),
-                time_out=5,
-                raise_if_not_found=False
-            )
-
-            if self.clue_safe_wait_click_ocr(
-                match=self.lang.daily_routine_mixin.k_3297422a,
-                time_out=4,
-                box=self.box.right,
-                after_sleep=1,
-            ):
-                self.log_info("点击收集线索")
-
-                self.clue_safe_wait_click_ocr(
-                    match=self.lang.daily_routine_mixin.k_39d12e73,
-                    time_out=4,
-                    box=self.box.bottom_right,
-                    after_sleep=1,
-                )
-
-                self.back(after_sleep=1)
-
-            else:
-                self.log_info("未找到收集线索按钮")
-
-            if self.clue_safe_wait_click_ocr(
-                match=self.lang.daily_routine_mixin.k_de7b4c9e,
-                time_out=4,
-                box=self.box.right,
-                after_sleep=1,
-            ):
-
-                self.clue_safe_wait_click_ocr(
-                    match=self.lang.daily_routine_mixin.k_a63bb002,
-                    time_out=4,
-                    box=self.box.right,
-                    after_sleep=1,
-                )
-
-                self.back(after_sleep=1)
-
-            else:
-                self.log_info("未找到接收按钮")
-
-            results = []
-
-            search_box = self.box_of_screen(
-                x=1390 / 3840,
-                y=450 / 2160,
-                to_x=3360 / 3840,
-                to_y=1330 / 2160,
-            )
-
-            for i in range(1, 8):
-
-                self.next_frame()
-
-                self.clue_guard()
-
-                result = self.find_one(
-                    feature_name=f"clue_{i}_icon",
-                    box=search_box,
-                )
-
-                if result:
-                    results.append(result)
-                    self.sleep(0.5)
-
-            for result in results:
-
-                self.clue_guard()
-
-                self.log_info("点击线索框")
-
-                self.click(result)
-
-                self.clue_safe_wait_click_ocr(
-                    match=self.lang.daily_routine_mixin.k_401d58fa,
-                    time_out=4,
-                    box=self.box.top_right,
-                    after_sleep=1,
-                )
-
-                self.clue_guard()
-
-                if not self.wait_ocr(
-                    match=[
-                        self.lang.daily_routine_mixin.k_3deed650,
-                        self.lang.daily_routine_mixin.k_5c42c048,
-                    ],
-                    box=self.box.left,
-                    time_out=1,
-                ):
-                    self.back(after_sleep=1)
-
-            self.clue_guard()
-
-            if self.clue_safe_wait_click_ocr(
-                match=self.lang.daily_routine_mixin.k_0503d6d6,
-                time_out=4,
-                box=self.box.bottom,
-                after_sleep=1,
-            ):
-                self.wait_pop_up()
-
-            self.log_info("收集线索任务完成")
-            return True
-
-        else:
             self.log_info("未找到会客室，无法收集线索")
             return False
-        
+
+        self.log_info("进入会客室,准备处理收集线索")
+        return True
+
+
+    def _collect_clue(self):
+        self.wait_click_feature(
+            feature=fL.to_max_produce_num,
+            box=self.box_of_screen(0.550, 0.885, 0.573, 0.920),
+            time_out=5,
+            raise_if_not_found=False,
+        )
+
+        if not self.clue_safe(
+            self.wait_click_feature,
+            feature=fL.collect_clue_enter,
+            time_out=4,
+            after_sleep=1,
+            raise_if_not_found=False,
+        ):
+            self.log_info("未找到收集线索按钮")
+            return
+
+        self.log_info("点击收集线索")
+
+        self.clue_safe(
+            self.wait_click_feature,
+            feature=fL.give_gift,
+            time_out=4,
+            box=self.box_of_screen(0.938, 0.641, 0.957, 0.669),
+            after_sleep=1,
+            raise_if_not_found=False,
+        )
+
+        self.back(after_sleep=1)
+
+
+    def _receive_clue(self):
+        if not self.clue_safe(
+            self.wait_click_feature,
+            feature=fL.receive_clue_enter,
+            time_out=4,
+            box=self.box.right,
+            after_sleep=1,
+            raise_if_not_found=False,
+        ):
+            self.log_info("未找到接收按钮")
+            return
+
+        self.clue_safe(
+            self.wait_click_feature,
+            feature=fL.all_receive,
+            time_out=4,
+            after_sleep=1,
+            raise_if_not_found=False,
+        )
+
+        self.back(after_sleep=1)
+
+
+    def _give_clue(self):
+        results = self._find_clue_icons()
+
+        for result in results:
+            self.clue_guard()
+
+            self.log_info("点击线索框")
+
+            self.click(result)
+
+            self.clue_safe(
+                self.wait_click_ocr,
+                match=self.lang.daily_routine_mixin.k_401d58fa,
+                time_out=4,
+                box=self.box.top_right,
+                after_sleep=1,
+            )
+            self.back(after_sleep=1)
+
+        self.clue_guard()
+
+        if self.clue_safe(
+            self.wait_click_ocr,
+            match=self.lang.daily_routine_mixin.k_0503d6d6,
+            time_out=4,
+            box=self.box.bottom,
+            after_sleep=1,
+        ):
+            self.wait_pop_up()
+
+
+    def _find_clue_icons(self):
+        search_box = self.box_of_screen(
+            x=1390 / 3840,
+            y=450 / 2160,
+            to_x=3360 / 3840,
+            to_y=1330 / 2160,
+        )
+
+        results = []
+
+        for i in range(1, 8):
+            self.next_frame()
+            self.clue_guard()
+
+            result = self.find_one(
+                feature=f"clue_{i}_icon",
+                box=search_box,
+            )
+
+            if result:
+                results.append(result)
+
+        return results
+
+
     def clue_guard(self):
         """
         会客室线索任务专用弹窗处理
@@ -985,7 +998,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
             feature=fL.to_max_produce_num,
             box=self.box_of_screen(0.550, 0.885, 0.573, 0.920),
             time_out=1,
-            raise_if_not_found=False
+            raise_if_not_found=False,
         ):
             self.log_info("检测到线索弹窗并已处理")
             return True
@@ -993,19 +1006,21 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         return False
 
 
-    def clue_safe_wait_click_ocr(self, *args, **kwargs):
+    def clue_safe(self, func, *args, **kwargs):
         self.clue_guard()
 
-        result = self.wait_click_ocr(*args, **kwargs)
+        result = func(*args, **kwargs)
 
         self.clue_guard()
 
         return result
+    
     def up_make_room_num(self, exchange_help_box):
         if "制造舱" not in self.config.get("帝江号收菜操作", []):
             self.log_info("制造舱助力任务未启用，跳过")
             return True
-        results = self.wait_ocr(match=self.lang.daily_routine_mixin.k_04afbdcd, time_out=4, box=exchange_help_box)
+        self.wait_ui_stable()
+        results = self.find_feature(feature=fL.make_room, box=exchange_help_box)
         if not results:
             self.mark_task_failure("未找到制造舱，任务失败")
             return False
@@ -1021,7 +1036,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                     if not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_0e2d3a3c, time_out=3, box=self.box.bottom_right,
                                                after_sleep=1):
                         continue
-                if icon := self.find_one(feature_name=fL.max_icon, horizontal_variance=0.1, vertical_variance=0.1):
+                if icon := self.find_one(feature=fL.max_icon, horizontal_variance=0.1, vertical_variance=0.1):
                     self.click(icon)
                     self.wait_click_feature(feature=fL.to_max_produce_num, time_out=2, box=self.box.bottom_right, raise_if_not_found=False)
                 if i == 0:
@@ -1030,7 +1045,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                     ):
                         continue
                     self.wait_pop_up(after_sleep=1)
-            if not self.safe_back(match=self.lang.daily_routine_mixin.k_e39054a0, box=self.box.top_left):
+            if not self.safe_back(feature=fL.operation_report_icon):
                 self.log_info("无法返回到运转界面")
                 return False
         self.log_info("制造舱助力任务完成")
@@ -1040,24 +1055,24 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         if "培养舱" not in self.config.get("帝江号收菜操作", []):
             self.log_info("培养舱任务未启用，跳过")
             return True
-        results = self.wait_ocr(match=self.lang.daily_routine_mixin.k_04afbdcd, time_out=4, box=exchange_help_box)
-        if not results:
-            self.mark_task_failure("未找到培养舱，任务失败")
+        result = self.wait_feature(feature=fL.make_room, time_out=4, box=exchange_help_box, raise_if_not_found=False)
+        if not result:
+            self.mark_task_failure("未找到制造舱，任务失败")
             return False
-        self.scroll_relative(results[0].x / self.width, results[0].y / self.height, count=-8)
+        self.scroll_relative(result.x / self.width, result.y / self.height, count=-8)
         self.wait_ui_stable(refresh_interval=0.5)
-        results = self.wait_ocr(match=self.lang.daily_routine_mixin.k_31cceca8, time_out=4, box=exchange_help_box)
-        if not results:
+        result = self.wait_feature(feature=fL.cultivation_room, time_out=4, box=exchange_help_box, raise_if_not_found=False)
+        if not result:
             self.mark_task_failure("未找到培养舱，任务失败")
             return False
-        self.click(results[0])
+        self.click(result)
         self.log_info("点击培育室")
         results = self.wait_click_ocr(match=[self.lang.daily_routine_mixin.k_ffb5655a, self.lang.daily_routine_mixin.k_31cceca8], time_out=3, box=exchange_help_box,
                                       recheck_time=1)
         if not results:
             self.mark_task_failure("未找到全部收取或培养中字样，任务失败")
             return False
-        if not ("收取" in results[0].name):
+        if not (self.lang.daily_routine_mixin.k_ffb5655a.search(results[0].name)):
             self.log_info("正在培养，任务结束")
             return True
         self.log_info("找到收取按钮")
@@ -1067,15 +1082,19 @@ class DailyRoutineMixin(LiaisonMixin, Common):
             return False
         self.click_confirm(time_out=3)
         self.log_info("再次培养成功")
+        if self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_1cdef26c, time_out=1, box=self.box.top_right,after_sleep=1):   
+            self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_0e2d3a3c, time_out=3, box=self.box.bottom_right,after_sleep=1)
         return True
 
     def use_help(self):
-        self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_1cdef26c, time_out=2, box=self.box.top_right, after_sleep=1)
-        self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_0e2d3a3c, time_out=2, box=self.box.bottom_right, after_sleep=1)
+        if not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_1cdef26c, time_out=2, box=self.box.top_right, after_sleep=1):
+            return False
+        if not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_0e2d3a3c, time_out=2, box=self.box.bottom_right, after_sleep=1):
+            return True
         char_list = list(get_contact_list_with_feature_list().values())
         count = 0
         for char in char_list:
-            if result := self.find_one(feature_name=char, box=self.box_of_screen(0.3, 0, 1, 1)):
+            if result := self.find_one(feature=char, box=self.box_of_screen(0.3, 0, 1, 1)):
                 self.click(result)
                 count += 1
             if count >= 2:

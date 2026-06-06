@@ -348,7 +348,7 @@ class EssenceScanTask(BaseEfTask):
         self.next_frame()
 
         # 1 查找弃置按钮
-        throw_btn = self.find_one(feature_name=fL.essence_throw_away)
+        throw_btn = self.find_one(feature=fL.essence_throw_away)
 
         # 没找到弃置按钮 → 说明已经弃置
         if not throw_btn:
@@ -359,7 +359,7 @@ class EssenceScanTask(BaseEfTask):
         self.next_frame()
 
         # 3 检查是否出现弃置确认按钮
-        confirm_btn = self.find_one(feature_name=fL.essence_throw_confirm)
+        confirm_btn = self.find_one(feature=fL.essence_throw_confirm)
 
         if confirm_btn:
             return True, True

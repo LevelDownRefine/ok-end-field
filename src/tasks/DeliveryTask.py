@@ -467,7 +467,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                             result = None
                             for feature_name in feature_list:
                                 result = self.find_feature(
-                                    feature_name=feature_name,
+                                    feature=feature_name,
                                     box=box,
                                     threshold=0.98,
                                 )
@@ -498,7 +498,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                                     self.log_info("接取失败，可能委托被抢了，继续寻找")
             self.log_info("未找到符合条件(金额+类型)的委托，准备刷新重试")
             for i in range(2):
-                if last_refresh_box := self.wait_ocr(match=self.lang.DeliveryTask.k_38108eaa, box=self.box.bottom_right):
+                if last_refresh_box := self.wait_feature(feature=fL.refresh_order_list):
                     now = time.time()
                     last = getattr(self, "_last_refresh_ts", 0.0)
                     wait = max(0.0, 5.4 - (now - last))

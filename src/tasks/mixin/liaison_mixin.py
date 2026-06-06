@@ -100,7 +100,7 @@ class LiaisonMixin(NavigationMixin):
 
         # 查找传送点
         tp_icon = self.find_feature(
-            feature_name="transfer_point",
+            feature="transfer_point",
             box=box,
             threshold=0.7
         )
@@ -202,8 +202,8 @@ class LiaisonMixin(NavigationMixin):
             return None
 
         return self.navigate_until_target(
-            target_ocr_pattern=self.lang.liaison_mixin.k_4f35d7ac,
-            nav_feature_name="operator_liaison_station_out_map",
+            target=self.lang.liaison_mixin.k_4f35d7ac,
+            nav="operator_liaison_station_out_map",
             time_out=60,
             found_special_callback=special_chat_detect,
         )
@@ -278,7 +278,7 @@ class LiaisonMixin(NavigationMixin):
                 self.next_frame()
 
                 found = self.find_one(
-                    feature_name=target_feature_name,
+                    feature=target_feature_name,
                     box=search_char_box,
                     threshold=0.7
                 )
@@ -308,7 +308,7 @@ class LiaisonMixin(NavigationMixin):
                     self.next_frame()
 
                     found = self.find_one(
-                        feature_name=other_feature,
+                        feature=other_feature,
                         box=search_char_box,
                         threshold=0.7
                     )
@@ -353,7 +353,7 @@ class LiaisonMixin(NavigationMixin):
 
             wait_disappear_count = 0
 
-            while self.ocr(match=self.lang.liaison_mixin.k_47eaf0c5, box=self.box.top_left):
+            while self.find_one(fL.contact_page_icon):
 
                 wait_disappear_count += 1
 
@@ -452,7 +452,7 @@ class LiaisonMixin(NavigationMixin):
         return True
 
     def _gift_action_box(self):
-        return self.box_of_screen(1434 / 1920, 0.5, 1, 872 / 1080)
+        return self.box_of_screen(0.770, 0.481, 0.799, 0.859)
 
     def _finish_collect_gift_after_clicked(self):
         """在已点击『收下』后，完成收礼弹窗流程。"""
@@ -464,7 +464,7 @@ class LiaisonMixin(NavigationMixin):
 
     def _finish_give_gift_after_clicked(self):
         """在已点击『赠送』后，完成选礼与确认赠送流程。"""
-        self.wait_ocr(match=self.lang.liaison_mixin.k_c8d09cf9, box=self.box.bottom_left, time_out=5)
+        self.wait_feature(feature=fL.map_filter_icon, box=self.box_of_screen(0.282, 0.907, 0.303, 0.937), time_out=5)
         self.click(144 / 1920, 855 / 1080)
         self.log_info("点击赠送礼物位置")
         if self.wait_click_feature(
@@ -481,13 +481,13 @@ class LiaisonMixin(NavigationMixin):
         self.log_info("赠送礼物失败")
         return False
 
-    def collect_gifts(self, timeout=30):
+    def collect_gifts(self, time_out=30):
         """仅执行收礼流程。"""
         self.log_info("开始仅收礼流程")
-        result = self._loop_wait_click_ocr(
-            match=[self.lang.liaison_mixin.k_ae0c20b5],
+        result = self._loop_wait_click_feature(
+            feature=fL.collect_gift,
             box=self._gift_action_box(),
-            timeout=timeout,
+            time_out=time_out,
             log_msg="等待 收下 超时",
         )
         if not result:
@@ -495,14 +495,14 @@ class LiaisonMixin(NavigationMixin):
             return False
         return self._finish_collect_gift_after_clicked()
 
-    def give_gifts(self, timeout=30, gift_entry_clicked=False):
+    def give_gifts(self, time_out=30, gift_entry_clicked=False):
         """仅执行送礼流程。"""
         self.log_info("开始仅送礼流程")
         if not gift_entry_clicked:
-            result = self._loop_wait_click_ocr(
-                match=[self.lang.liaison_mixin.k_662dc863],
+            result = self._loop_wait_click_feature(
+                feature=fL.to_give_gift,
                 box=self._gift_action_box(),
-                timeout=timeout,
+                time_out=time_out,
                 log_msg="等待 赠送 超时",
             )
             if not result:
@@ -519,37 +519,37 @@ class LiaisonMixin(NavigationMixin):
         """
         self.log_info("开始收取或赠送礼物")
         self.start_time = time.time()
-        while self.find_one(feature_name=fL.esc, vertical_variance=0.01, horizontal_variance=0.02):
+        while self.find_one(feature=fL.esc, vertical_variance=0.01, horizontal_variance=0.02):
             if time.time() - self.start_time > 5:
                 self.log_info("没能进入交流界面")
                 return False
             self.sleep(0.5)
-        result = self._loop_wait_click_ocr(
-            match=[self.lang.liaison_mixin.k_ae0c20b5, self.lang.liaison_mixin.k_662dc863],
+        result = self._loop_wait_click_feature(
+            feature=[fL.collect_gift, fL.to_give_gift],
             box=self._gift_action_box(),
-            timeout=30,
+            time_out=30,
             log_msg="等待 收下/赠送 超时",
         )
 
         if not result:
             return False
 
-        self.log_info(f"找到按钮: {result[0].name}")
+        self.log_info(f"找到按钮: {result.name}")
 
-        if result and len(result) > 0 and "收下" in result[0].name:
+        if result and fL.collect_gift == result.name:
             if not self._finish_collect_gift_after_clicked():
                 return False
             self.log_info("收下完成，准备赠送礼物")
-            return self.give_gifts(timeout=30)
+            return self.give_gifts(time_out=30)
 
         # 命中『赠送』时，入口已被点击，直接执行送礼后续。
-        return self.give_gifts(timeout=30, gift_entry_clicked=True)
+        return self.give_gifts(time_out=30, gift_entry_clicked=True)
 
-    def _loop_wait_click_ocr(self, match, box, timeout, log_msg=None):
+    def _loop_wait_click_ocr(self, match, box, time_out, log_msg=None):
         start_time = time.time()
 
         while True:
-            if time.time() - start_time > timeout:
+            if time.time() - start_time > time_out:
                 if log_msg:
                     self.log_info(log_msg)
                 return None
@@ -559,4 +559,25 @@ class LiaisonMixin(NavigationMixin):
             result = self.wait_click_ocr(match=match, box=box, time_out=1, after_sleep=0.5)
 
             if result:
+                return result
+    def _loop_wait_click_feature(self, feature, box, time_out, log_msg=None):
+        start_time = time.time()
+
+        while True:
+            if time.time() - start_time > time_out:
+                if log_msg:
+                    self.log_info(log_msg)
+                return None
+
+            self.click(0.5, 0.5, after_sleep=0.5)
+
+            result = self.wait_feature(
+                feature=feature,
+                box=box,
+                time_out=1,
+                raise_if_not_found=False,
+            )
+
+            if result:
+                self.click(result, after_sleep=0.5)
                 return result

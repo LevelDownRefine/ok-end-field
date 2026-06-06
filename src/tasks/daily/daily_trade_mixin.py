@@ -289,8 +289,8 @@ class DailyTradeMixin(NavigationMixin, Common):
         ):
             return False
         result = self.navigate_until_target(
-            target_ocr_pattern=self.lang.daily_trade_mixin.k_fa04e4df,
-            nav_feature_name=fL.market_dispatch_terminal_out,
+            target=self.lang.daily_trade_mixin.k_fa04e4df,
+            nav=fL.market_dispatch_terminal_out,
             time_out=200,
         )
 

@@ -956,7 +956,7 @@ def login_ocr(
 ```python
 def login_find_feature(
     self,
-    feature_name=None,
+    feature=None,
     horizontal_variance=0,
     vertical_variance=0,
     threshold=0,

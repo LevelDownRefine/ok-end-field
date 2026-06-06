@@ -41,7 +41,7 @@ class YingTuoTask(BattleMixin):
         while self.find_normal_challenge():
             self.log_info("找到普通关卡，进入挑战页面")
             self.wait_ocr(match=self.target, time_out=3, box=self.box.top_left, log=True)
-            results = self.find_feature(feature_name=fL.yingtuo_not_cleared_icon, box=self.box_of_screen(0.033, 0.133, 0.058, 0.778))
+            results = self.find_feature(feature=fL.yingtuo_not_cleared_icon, box=self.box_of_screen(0.033, 0.133, 0.058, 0.778))
             for result in results:
                 self.click(result, after_sleep=0.5)
                 self.log_info("进入挑战页面，开始挑战")
@@ -92,7 +92,7 @@ class YingTuoTask(BattleMixin):
         return None
     def battle_and_exit(self):
         end_time = time.time()
-        while not self.wait_ocr(match=self.lang.daily_battle_mixin.k_6afbae72, time_out=1, box=self.box.top_left, log=True):
+        while not self.wait_feature(feature=fL.battle_space_left, time_out=1, raise_if_not_found=False):
             if time.time() - end_time > 300:
                 self.log_info("等待超时，进入协议空间超时")
                 return False

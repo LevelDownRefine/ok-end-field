@@ -53,7 +53,7 @@ class LoginMixin(BaseEfTask):
                 self.log_error("未找到主界面退出按钮，可能未成功返回登录界面")
         start_time = time.time()
         while time.time() - start_time < 120:
-            result = self.find_feature(feature_name=fL.logout)
+            result = self.find_feature(feature=fL.logout)
             self.sleep(1)
             if result:
                 break
@@ -92,7 +92,7 @@ class LoginMixin(BaseEfTask):
         """
         start_time = time.time()
         while time.time() - start_time < time_out:
-            result = self.find_feature(feature_name=fL.logout)
+            result = self.find_feature(feature=fL.logout)
             if result:
                 self.log_info("登录成功")
                 return True
