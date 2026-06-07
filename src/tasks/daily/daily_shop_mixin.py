@@ -39,7 +39,7 @@ class DailyShopMixin(Common):
             shop_retry = 0
             while not self.wait_click_feature(
                     feature=fL.credit_shop_refresh, time_out=1,
-                    raise_if_not_found=False
+                    raise_if_not_found=False, vertical_variance=0.005, horizontal_variance=0.01
                 ):
                 if not self.back_shop():
                     self.log_info("信用商店刷新中断：未能返回采购页面")
@@ -47,7 +47,8 @@ class DailyShopMixin(Common):
                 else:
                     shop_retry += 1
                     if shop_retry >= 3:
-                        return True, sum_credit
+                        self.log_info("信用商店刷新失败：连续3次未找到刷新按钮")
+                        return False, sum_credit
             if not self.click_confirm():
                 self.mark_task_failure("信用商店刷新失败：未找到确认按钮")
                 return False, sum_credit
