@@ -41,10 +41,6 @@ class ZipLineMixin(NavigationMixin):
             need_v: 是否需要按V键追踪
 
         """
-        on_zip_line_stop = [
-            self.lang.zip_line_mixin.k_2f4f4a2f,
-            self.lang.zip_line_mixin.k_0b1e4f35,
-        ]
         for zip_line in zip_line_list:
             self.align_ocr_or_find_target_to_center(
                 re.compile(str(zip_line)),
@@ -57,15 +53,18 @@ class ZipLineMixin(NavigationMixin):
                 max_time=100,
             )
             self.log_info(f"成功将滑索调整到{zip_line}的中心")
-            self.click(after_sleep=0.5)
+            self.ensure_click_on_zip_line()
             start = time.time()
             while True:
                 self.next_frame()
                 self.send_key("e")  # 游戏内无法修改此按键，故使用底层按键函数
                 self.sleep(0.1)
                 result = self.ocr(
-                    match=on_zip_line_stop,
-                    box="bottom",
+                    match=[
+                        self.lang.zip_line_mixin.k_2f4f4a2f,
+                        self.lang.zip_line_mixin.k_0b1e4f35,
+                    ],
+                    box=self.box_of_screen(0.351, 0.943, 0.657, 0.981),
                     log=True,
                 )
                 if result:
@@ -108,7 +107,20 @@ class ZipLineMixin(NavigationMixin):
                     break
                 else:
                     self.move_keys(keys[i], 0.1)
-        if self.wait_ocr(match=on_zip_line_stop, box="bottom", log=True, time_out=2):
+        if self.wait_ocr(match=[
+                self.lang.zip_line_mixin.k_2f4f4a2f,
+                self.lang.zip_line_mixin.k_0b1e4f35,
+            ], box=self.box_of_screen(0.351, 0.943, 0.657, 0.981), log=True, time_out=2):
             self.click(key="right", after_sleep=2)
         self.log_info("滑索结束")
         self.ensure_main()
+
+    def ensure_click_on_zip_line(self, max_attempts=5):
+        for _ in range(max_attempts):
+            self.click(after_sleep=0.1)
+            self.send_key("e")
+            if not self.ocr(match=[
+                    self.lang.zip_line_mixin.k_2f4f4a2f,
+                    self.lang.zip_line_mixin.k_0b1e4f35,
+                ], frame=self.next_frame(), box=self.box_of_screen(0.351, 0.943, 0.657, 0.981)):
+                return True
