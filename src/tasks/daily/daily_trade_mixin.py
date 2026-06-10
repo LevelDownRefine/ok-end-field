@@ -292,6 +292,7 @@ class DailyTradeMixin(NavigationMixin, Common):
             target=self.lang.daily_trade_mixin.k_fa04e4df,
             nav=fL.market_dispatch_terminal_out,
             time_out=200,
+            box=self.box_of_screen(0.631, 0.565, 0.771, 0.837)
         )
 
         if result:
