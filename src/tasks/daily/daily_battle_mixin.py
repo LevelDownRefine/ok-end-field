@@ -566,7 +566,14 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         # 滑索移动
         self._navigate_via_zip_line()
         #
-        self.navigate_until_target(target=self.lang.daily_battle_mixin.k_bfe73e18, nav=fL.gather_icon_out_map,
+        self.align_ocr_or_find_target_to_center(
+                [fL.gather_icon_out_map, fL.gather_icon_out_map2],
+                ocr=False,
+                only_x=True,
+                threshold=0.7,
+                tolerance=100,
+            )
+        self.navigate_until_target(target=self.lang.daily_battle_mixin.k_bfe73e18, box=self.box_of_screen(0.676, 0.589, 0.735, 0.776), nav=[fL.gather_icon_out_map],
                                    time_out=60)
         #
         if self.wait_ocr(match=self.lang.daily_battle_mixin.k_b8a81b7a, box=self.box.bottom_right, time_out=1):
@@ -612,8 +619,17 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         self._click_track_and_transfer()
         # 滑索移动
         self._navigate_via_zip_line()
-        self.navigate_until_target(target=self.lang.daily_battle_mixin.k_39d12e73_1, nav=fL.gather_icon_out_map,
-                                   time_out=60)
+        self.align_ocr_or_find_target_to_center(
+                [fL.gather_icon_out_map, fL.gather_icon_out_map2],
+                ocr=False,
+                only_x=True,
+                threshold=0.7,
+                tolerance=100,
+            )
+        self.navigate_until_target(
+            target=self.lang.daily_battle_mixin.k_39d12e73_1, nav=[fL.gather_icon_out_map, fL.gather_icon_out_map2],
+            box=self.box_of_screen(0.676, 0.589, 0.735, 0.776),time_out=60
+        )
         click_key = self.lang.daily_battle_mixin.k_b8a81b7a if self.battle_ctx.is_extra_mode else self.lang.daily_battle_mixin.k_39d12e73_1
         result = self.wait_ocr(match=re.compile(click_key), box=self.box.bottom_right, time_out=5)
         if not result:
@@ -642,7 +658,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             if not result:
                 self.log_info("未找到『激发』按钮，无法继续进行额外刷取")
                 return False
-            self.click_with_alt(result[0], after_sleep=2)
+            self.click_with_alt(result, after_sleep=2)
             self.wait_click_feature(feature=fL.to_max_produce_num, time_out=10, box=self.box_of_screen(0.946, 0.902, 0.966, 0.937),
                                 settle_time=1)
             self.click_confirm()
@@ -816,81 +832,175 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         return self.auto_battle(no_battle=self.battle_ctx.no_battle)
 
     def to_end(self):
-        if is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
-            end_feature_name = [fL.gather_icon_out_map2, fL.gather_icon_out_map]
-            use_yolo = False
-            search_box = None
-            need_follow = True
-            for i in range(9):
-                for end_feature in end_feature_name:
+        click_key = (
+            self.lang.daily_battle_mixin.k_b8a81b7a
+            if self.battle_ctx.is_extra_mode
+            else self.lang.daily_battle_mixin.k_39d12e73_1
+        )
+
+        is_gather = is_world_map_text(
+            self.lang,
+            self.battle_ctx.category_name,
+            STAGE_CATEGORY_ENERGY_POOLING,
+        )
+
+        def try_click_reward():
+            if result := self.wait_ocr(
+                match=re.compile(click_key),
+                time_out=1,
+                box=self.box.bottom_right,
+            ):
+                self.sleep(0.5)
+                self.click_with_alt(result[0])
+
+                if self.battle_ctx.is_extra_mode:
+                    self.click_confirm()
+                    self.log_info("已放弃未领取的奖励")
+
+                return True
+
+            return False
+
+        def search_gather_reward():
+            feature_box = self.box_of_screen(
+                (1920 - 1550) / 1920,
+                150 / 1080,
+                1550 / 1920,
+                (1080 - 150) / 1080,
+            )
+
+            end_features = [
+                fL.gather_icon_out_map2,
+                fL.gather_icon_out_map,
+            ]
+
+            for _ in range(9):
+                for feature in end_features:
                     if self.find_feature(
-                            feature=end_feature,
-                            box=self.box_of_screen((1920 - 1550) / 1920, 150 / 1080, 1550 / 1920, (1080 - 150) / 1080),
+                        feature=feature,
+                        box=feature_box,
                     ):
-                        need_follow = False
-                        break
-                if not need_follow:
-                    break
+                        return True
+
                 self.click(key="middle")
                 self.move_keys("aw", duration=0.1)
-            # F8 索引
-            if need_follow:
-                self._open_index()
-                # 进入副本详情页
-                if not self.to_stage():
-                    self.mark_task_failure("二次寻路失败：无法进入『能量淤积点』详情页")
-                    return False
-                if result := self.wait_feature(feature=fL.start_follow, box=self.box.bottom_right, time_out=5, raise_if_not_found=False):
-                    self.click(result, after_sleep=1)
-                    self.ensure_main()
-                else:
-                    raise Exception("未找到追踪按钮")
-            self.click(key="middle", after_sleep=2)
-        else:
-            end_feature_name = "battle_end"
-            use_yolo = True
-            search_box = self.box_of_screen((1920 - 1550) / 1920, 0, 1550 / 1920, (1080 - 150) / 1080)
+
+            return False
+
+        def search_normal_reward(end_feature_name, search_box):
             for _ in range(9):
                 if self.yolo_detect(end_feature_name, box=search_box):
-                    break
+                    return True
+
                 self.click(key="middle", after_sleep=2)
                 self.move_keys("aw", duration=0.1)
                 self.sleep(1)
-        start_time = time.time()
+
+            return False
+
         try:
-            while self.align_ocr_or_find_target_to_center(end_feature_name, ocr=False, use_yolo=use_yolo,
-                                                          box=search_box,
-                                                          only_x=True, threshold=0.5, tolerance=100):
-                if time.time() - start_time > 60:
-                    if is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
-                        raise TimeoutError("等待奖励发放点超时")
-                    else:
+            # 已经到领奖点
+            if try_click_reward():
+                return True
+
+            if is_gather:
+                end_feature_name = [
+                    fL.gather_icon_out_map2,
+                    fL.gather_icon_out_map,
+                ]
+                use_yolo = False
+                search_box = None
+
+                need_follow = not search_gather_reward()
+
+                # F8 二次追踪
+                if need_follow:
+                    self._open_index()
+
+                    if not self.to_stage():
+                        self.mark_task_failure(
+                            "二次寻路失败：无法进入『能量淤积点』详情页"
+                        )
                         return False
 
-                click_key = self.lang.daily_battle_mixin.k_b8a81b7a if self.battle_ctx.is_extra_mode else self.lang.daily_battle_mixin.k_39d12e73_1
-                if result := self.wait_ocr(match=re.compile(click_key), time_out=1, box=self.box.bottom_right):
-                    self.sleep(0.5)
-                    self.click_with_alt(result[0])
-                    # 如果是放弃领奖，那么点击后还需要点击确认
-                    if self.battle_ctx.is_extra_mode:
-                        self.click_confirm()
-                        self.log_info("已放弃未领取的奖励")
-                    break
-                else:
-                    self.move_keys('w', duration=0.25)
+                    if result := self.wait_feature(
+                        feature=fL.start_follow,
+                        box=self.box.bottom_right,
+                        time_out=5,
+                        raise_if_not_found=False,
+                    ):
+                        self.click(result, after_sleep=1)
+                        self.ensure_main()
+                    else:
+                        raise Exception("未找到追踪按钮")
+
+                self.click(key="middle", after_sleep=2)
+
+            else:
+                end_feature_name = "battle_end"
+                use_yolo = True
+                search_box = self.box_of_screen(
+                    (1920 - 1550) / 1920,
+                    0,
+                    1550 / 1920,
+                    (1080 - 150) / 1080,
+                )
+
+                search_normal_reward(
+                    end_feature_name,
+                    search_box,
+                )
+
+            # 搜索过程中可能已经到达
+            if try_click_reward():
+                return True
+
+            # 对准领奖点
+
+            if self.align_ocr_or_find_target_to_center(
+                end_feature_name,
+                ocr=False,
+                use_yolo=use_yolo,
+                box=search_box,
+                only_x=True,
+                threshold=0.7,
+                tolerance=100,
+            ):
+                if not self.navigate_until_target(
+                    target=click_key,
+                    nav=end_feature_name,
+                    nav_is_yolo=use_yolo,
+                    target_is_ocr=True,
+                    time_out=60,
+                    box=self.box_of_screen(
+                        0.676,
+                        0.589,
+                        0.735,
+                        0.776,
+                    ),
+                ):
+                    raise Exception("导航奖励点失败")
+
+            return try_click_reward() or True
+
         except Exception as e:
             if isinstance(e, TaskDisabledException):
                 raise
-            if is_world_map_text(self.lang, self.battle_ctx.category_name, STAGE_CATEGORY_ENERGY_POOLING):
-                self.log_info(f"未找到奖励发放点，尝试二次寻路: {e}")
+
+            if is_gather:
+                self.log_info(
+                    f"未找到奖励发放点，尝试二次寻路: {e}"
+                )
+
                 if self._gather_retry_navigate():
                     return True
-                else:
-                    self.mark_task_failure("二次寻路失败，无法找到奖励发放点")
-                    return False
-            else:
-                raise e
-        return True
+
+                self.mark_task_failure(
+                    "二次寻路失败，无法找到奖励发放点"
+                )
+                return False
+
+            raise
 
     def get_claim(self):
         """

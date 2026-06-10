@@ -989,6 +989,16 @@
             "id": 195,
             "name": "battle_page_icon",
             "supercategory": ""
+        },
+        {
+            "id": 196,
+            "name": "gather_icon2",
+            "supercategory": ""
+        },
+        {
+            "id": 197,
+            "name": "space_get_claim",
+            "supercategory": ""
         }
     ],
     "images": [
@@ -1871,6 +1881,18 @@
         {
             "id": 190,
             "file_name": "images/7.png",
+            "width": 1920,
+            "height": 1080
+        },
+        {
+            "id": 192,
+            "file_name": "images/4.png",
+            "width": 1920,
+            "height": 1080
+        },
+        {
+            "id": 193,
+            "file_name": "images/8.png",
             "width": 1920,
             "height": 1080
         }
@@ -4028,6 +4050,19 @@
             "segmentation": []
         },
         {
+            "id": 157,
+            "image_id": 192,
+            "category_id": 196,
+            "bbox": [
+                1272,
+                763,
+                22,
+                23
+            ],
+            "area": 506,
+            "iscrowd": 0
+        },
+        {
             "id": 158,
             "image_id": 92,
             "category_id": 53,
@@ -4041,6 +4076,19 @@
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
+        },
+        {
+            "id": 159,
+            "image_id": 193,
+            "category_id": 197,
+            "bbox": [
+                1267,
+                710,
+                32,
+                30
+            ],
+            "area": 960,
+            "iscrowd": 0
         },
         {
             "id": 164,

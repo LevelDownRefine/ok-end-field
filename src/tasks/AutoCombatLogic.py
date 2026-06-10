@@ -16,6 +16,8 @@ class AutoCombatLogic:
         self.normal_skill_sequence: list = []
         self.normal_start_trigger: int = 2
         self.normal_skill_index: int = 0
+        self._last_search_time = 0
+        self._search_interval = 1.0
 
     def _sync_normal_attack_hold(self):
         if self._normal_attack_hold_enabled:
@@ -59,6 +61,15 @@ class AutoCombatLogic:
         task.send_key(skill_key)
         task.log_info(f"Used skill {skill_key}")
         self.normal_skill_index += 1
+    def _periodic_search(self):
+        now = time.time()
+
+        if now - self._last_search_time < 1:
+            return
+
+        self._last_search_time = now
+
+        self.task.click(key="middle")
 
     def run(self, start_sleep: float = None, no_battle: bool = False):
         self._last_exit_check_time = 0
@@ -110,6 +121,7 @@ class AutoCombatLogic:
 
         try:
             while True:
+                self._periodic_search()
                 self._sync_normal_attack_hold()
 
                 now = time.time()
@@ -159,6 +171,7 @@ class AutoCombatLogic:
                         self.normal_skill_index = 0
                         normal_end_time = time.time() + normal_duration
                         while time.time() < normal_end_time:
+                            self._periodic_search()
                             self._sync_normal_attack_hold()
                             now_check = time.time()
                             if now_check - self._last_exit_check_time >= self._exit_check_interval:

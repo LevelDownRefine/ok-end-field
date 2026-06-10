@@ -121,6 +121,7 @@ class DailyTaskRunner:
         self.final_summary["current_task"] = key
         self.task.log_info(f"开始任务: {key}")
         self.task.ensure_main()
+        self.task.send_key("shift")
         result = func()
 
         if result is False:

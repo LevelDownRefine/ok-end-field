@@ -9,56 +9,47 @@ user32 = ctypes.windll.user32
 MOUSEEVENTF_MOVE = 0x0001
 
 
-# ===== math layer =====
 import math
 
 
-def calc_direction_step(from_pos, to_pos, max_step=100, min_step=20, slow_radius=200, deadzone=4):
+def calc_direction_step(
+        from_pos,
+        to_pos,
+        max_step=100,
+        min_step=5,
+        slow_radius=200,
+        deadzone=8,
+):
     """
-    计算从当前位置移动到目标位置的鼠标移动步长。
+    平滑版移动计算
 
-    该函数会根据目标距离动态调整移动步长：
-    - 距离较远：使用 max_step（快速移动）
-    - 距离较近：逐渐减速
-    - 非常接近：进入 deadzone 停止移动
-
-    Args:
-        from_pos (tuple[int,int]): 当前坐标 (x, y)
-        to_pos (tuple[int,int]): 目标坐标 (x, y)
-        max_step (int): 最大移动步长
-        min_step (int): 最小移动步长
-        slow_radius (int): 减速半径，进入该范围后开始减速
-        deadzone (int): 死区半径，小于该距离直接停止
-
-    Returns:
-        tuple[int,int]:
-            (dx, dy) 鼠标需要移动的相对距离
+    特点：
+    - 指数减速
+    - 不容易过冲
+    - 中心区域更稳定
     """
 
-    # 计算目标与当前点的向量
     dx_raw = to_pos[0] - from_pos[0]
     dy_raw = to_pos[1] - from_pos[1]
 
-    # 欧几里得距离
     dist = math.hypot(dx_raw, dy_raw)
 
-    # 如果已经非常接近目标，则停止移动
-    if dist < deadzone:
+    if dist <= deadzone:
         return 0, 0
 
-    # 根据距离决定移动速度
-    if dist > slow_radius:
-        step = max_step
-    else:
-        # 距离越近速度越慢
-        step = max(min_step, int(max_step * (dist / slow_radius)))
+    # 指数减速
+    step = min_step + (
+        max_step - min_step
+    ) * (
+        1 - math.exp(-dist / slow_radius)
+    )
 
-    # 归一化方向向量并乘以步长
+    step = min(step, max_step)
+
     dx = round(dx_raw / dist * step)
     dy = round(dy_raw / dist * step)
 
     return dx, dy
-
 
 def click_down(hwnd, x, y, key="left"):
     """
@@ -92,7 +83,15 @@ def click_up(hwnd, key="left"):
         user32.mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0)
 
 # ===== device control =====
-def active_and_send_mouse_delta(hwnd, dx=1, dy=1, activate=True, only_activate=False, delay=0.02, steps=3):
+def active_and_send_mouse_delta(
+        hwnd,
+        dx=1,
+        dy=1,
+        activate=True,
+        only_activate=False,
+        delay=0.005,
+        steps=5,
+):
     """
     激活指定窗口并发送相对鼠标移动。
 
@@ -179,16 +178,43 @@ def active_and_send_mouse_delta(hwnd, dx=1, dy=1, activate=True, only_activate=F
     # 只激活窗口不发送鼠标移动
     if not only_activate:
 
-        # 将移动拆分为多个小步执行
-        for _ in range(steps):
+        abs_steps = max(1, steps)
 
-            step_dx = round(dx / steps)
-            step_dy = round(dy / steps)
+        base_dx = dx // abs_steps
+        remain_dx = dx % abs_steps
 
-            # 发送鼠标相对移动
-            user32.mouse_event(MOUSEEVENTF_MOVE, step_dx, step_dy, 0, 0)
+        base_dy = dy // abs_steps
+        remain_dy = dy % abs_steps
 
-            time.sleep(delay)
+        for i in range(abs_steps):
+
+            move_dx = base_dx
+            move_dy = base_dy
+
+            if remain_dx > 0:
+                move_dx += 1
+                remain_dx -= 1
+            elif remain_dx < 0:
+                move_dx -= 1
+                remain_dx += 1
+
+            if remain_dy > 0:
+                move_dy += 1
+                remain_dy -= 1
+            elif remain_dy < 0:
+                move_dy -= 1
+                remain_dy += 1
+
+            user32.mouse_event(
+                MOUSEEVENTF_MOVE,
+                move_dx,
+                move_dy,
+                0,
+                0,
+            )
+
+            if delay > 0:
+                time.sleep(delay)
 
 
 # ===== control =====

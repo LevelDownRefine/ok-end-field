@@ -55,112 +55,191 @@ class NavigationMixin(BaseEfTask):
         time_out: int = 60,
         pre_loop_callback=None,
         found_special_callback=None,
+        target_is_yolo: bool = False,
+        nav_is_yolo: bool = False,
+        box = None
     ):
         """
         持续沿导航标识移动，直到检测到目标。
 
-        Args:
-            target: 目标OCR文本或特征名称
-            nav: 导航OCR文本或特征名称
-            target_is_ocr: True使用OCR检测目标，False使用特征匹配
-            nav_is_ocr: True使用OCR检测导航，False使用特征匹配
-            time_out: 导航超时时间(秒)
-            pre_loop_callback: 每轮循环执行的回调函数
-            found_special_callback: 特殊状态检测回调，返回非None时立即结束并返回该值
-
         Returns:
-            bool | Any:
-                到达目标返回True；
-                超时返回False；
-                found_special_callback返回非None时返回其返回值
+            True: 到达目标
+            False: 超时
+            Any: found_special_callback 返回非 None
         """
-
-        start_time = time.time()
-        short_distance_flag = False
-        fail_count = 0
-
-        while True:
-
-            # 判断是否到达目标
+        def check_target():
             if target_is_ocr:
-                reached = self.wait_ocr(
+                return self.ocr(
                     match=target,
-                    box=self.box.bottom_right,
-                    time_out=0.5,
+                    box=self.box_of_screen(0.635, 0.563, 0.724, 0.843)
+                    if not box else box
+                )
+            elif target_is_yolo:
+                return self.yolo_detect(
+                    match=target,
+                    box=self.box_of_screen(0.635, 0.563, 0.724, 0.843)
+                    if not box else box
                 )
             else:
-                reached = self.find_feature(
+                return self.find_feature(
                     target,
                     threshold=0.7,
                 )
+        run_bool = True
 
-            if reached:
-                return True
+        start_time = time.time()
 
-            if time.time() - start_time > time_out:
-                self.log_info("导航超时")
-                return False
+        short_distance_flag = False
+        fail_count = 0
 
-            if found_special_callback:
-                special_result = found_special_callback()
-                if special_result is not None:
-                    return special_result
+        nav_box = self.box_of_screen(
+            (1920 - 1550) / 1920,
+            150 / 1080,
+            1550 / 1920,
+            (1080 - 150) / 1080,
+        )
 
-            if pre_loop_callback:
-                pre_loop_callback()
+        self.send_key_down("w")
 
-            if not short_distance_flag:
+        try:
 
-                nav_result = None
+            while True:
 
+                # 到达目标
+                reached = check_target()
+
+                if reached:
+                    self.send_key_up("w")
+                    if run_bool:
+                        self.log_info(f"找到目标，确认稳定中...")
+                        run_bool = False
+                        self.press_key("ctrl")
+
+                    self.log_info("发现目标，开始稳定确认")
+
+                    stable = True
+                    confirm_start = time.time()
+
+                    while time.time() - confirm_start < 1:
+
+                        if not check_target():
+                            stable = False
+                            break
+
+                        self.sleep(0.1)
+
+                    if stable:
+                        return True
+
+                    self.log_info("确认期间目标丢失，开始后退搜索")
+
+
+                    self.send_key_down("s")
+
+                    search_start = time.time()
+
+                    while time.time() - search_start < 10:
+
+                        if check_target():
+                            self.log_info("后退过程中重新找到目标")
+
+                            self.send_key_up("s")
+
+                            # 再次确认稳定
+                            break
+
+                        self.sleep(0.05)
+
+                    self.send_key_up("s")
+
+                # 超时
+                if time.time() - start_time > time_out:
+                    self.log_info("导航超时")
+                    return False
+
+                # 特殊状态
+                if found_special_callback:
+                    special_result = found_special_callback()
+                    if special_result is not None:
+                        self.send_key_up("w")
+                        return special_result
+
+                if pre_loop_callback:
+                    pre_loop_callback()
+
+                # 导航识别
                 if nav_is_ocr:
-                    nav_result = self.wait_ocr(
+                    nav_result = self.ocr(
                         match=nav,
-                        box=self.box_of_screen(
-                            (1920 - 1550) / 1920,
-                            150 / 1080,
-                            1550 / 1920,
-                            (1080 - 150) / 1080,
-                        ),
-                        time_out=1,
+                        box=nav_box
+                    )
+                elif nav_is_yolo:
+                    nav_result = self.yolo_detect(
+                        name=nav,
+                        box=nav_box
                     )
                 else:
                     nav_result = self.find_feature(
                         nav,
-                        box=self.box_of_screen(
-                            (1920 - 1550) / 1920,
-                            150 / 1080,
-                            1550 / 1920,
-                            (1080 - 150) / 1080,
-                        ),
+                        box=nav_box,
                         threshold=0.7,
                     )
 
+                # 找到导航
                 if nav_result:
+                    if not run_bool:
+                        self.log_info("重新找到导航，恢复正常导航模式")
+                        run_bool = True
+                        self.press_key("ctrl")
+                    if short_distance_flag:
+                        self.log_info("重新找到导航，恢复正常导航模式")
+
+                    short_distance_flag = False
                     fail_count = 0
-                    self.log_info("找到导航路径，继续对齐并前进")
 
                     self.align_ocr_or_find_target_to_center(
                         ocr_match_or_feature_name_list=nav,
                         only_x=True,
                         threshold=0.7,
                         ocr=nav_is_ocr,
+                        use_yolo=nav_is_yolo,
+                        max_time=1,
+                        raise_if_fail=False,
+                        allow_random_move=False
                     )
 
-                    self.move_keys("w", duration=0.75)
-
+                # 导航丢失
                 else:
+
                     fail_count += 1
-                    self.log_info(f"未找到导航路径，连续失败次数: {fail_count}")
+                    if run_bool:
+                        self.log_info(f"未找到导航标识，连续失败次数: {fail_count}")
+                        run_bool = False
+                        self.press_key("ctrl")
+
+                    if fail_count % 5 == 0:
+                        self.log_info(
+                            f"未找到导航路径，连续失败次数: {fail_count}"
+                        )
 
                     if fail_count >= 3:
-                        self.log_info("切换短距离移动")
                         short_distance_flag = True
 
-                    self.move_keys("w", duration=0.25)
+                    if short_distance_flag:
+                        # 小幅左右摆头寻找导航
+                        offset = 30 if fail_count % 2 == 0 else -30
 
-            else:
-                self.move_keys("w", duration=0.25)
+                        self.active_and_send_mouse_delta(
+                            dx=offset,
+                            dy=0,
+                        )
+
+                self.sleep(0.05)
+
+        finally:
+            if not run_bool:
+                self.press_key("ctrl")
+            self.send_key_up("w")
 
     def align_ocr_or_find_target_to_center(
             self,
@@ -176,13 +255,14 @@ class NavigationMixin(BaseEfTask):
             raise_if_fail=True,
             is_num=False,
             need_scroll=False,
-            max_step=100,
+            max_step=120,
             min_step=20,
-            slow_radius=200,
-            deadzone=4,
-            once_time=0.5,
+            slow_radius=350,
+            deadzone=8,
+            once_time=0.05,
             tolerance=TOLERANCE,
-            ocr_frame_processor_list=None
+            ocr_frame_processor_list=None,
+            allow_random_move=True,
     ):
         """将OCR识别或图像特征检测的目标对准屏幕中心（自动移动视角/鼠标）
 
@@ -232,13 +312,13 @@ class NavigationMixin(BaseEfTask):
         sum_dx = 0
         sum_dy = 0
         move_bool = False
-        for i in range(max_time):
+        for i in range(max_time*2):
             start_action_time = time.time()
             if ocr:
                 # 使用OCR模式识别目标，设置超时时间为2秒，并启用日志记录
                 start_time = time.time()
                 result = None
-                while time.time() - start_time < 1:
+                while time.time() - start_time < 0.15:
                     frame = self.next_frame()
                     if not isinstance(ocr_frame_processor_list, list):
                         ocr_frame_processor_list = [ocr_frame_processor_list]
@@ -327,6 +407,8 @@ class NavigationMixin(BaseEfTask):
                     sum_dy += dy
 
             else:
+                if not allow_random_move:
+                    continue
                 # 每次 OCR 失败，直接随机移动
                 max_offset = self.scale_distance(60)  # 最大随机偏移
                 if last_target:
@@ -369,7 +451,8 @@ class NavigationMixin(BaseEfTask):
                         dx,
                         dy,
                         activate=True,
-                        delay=0.1,
+                        steps=5,
+                        delay=0.003,
                     )
                     sum_dx += dx
                     sum_dy += dy
