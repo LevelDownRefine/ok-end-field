@@ -758,6 +758,8 @@ def wait_login(self)
 
 ### 1.9 日志与状态
 
+> 以下日志方法继承自 `ok-script` 框架的 `BaseTask`，`BaseEfTask` 未在本仓库重新定义。
+
 #### `log_info`
 
 ```python

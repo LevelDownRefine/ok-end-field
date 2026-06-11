@@ -187,12 +187,14 @@ ok-end-field/
 │   ├── 运送委托接取.md
 │   ├── 仓库物品转移.md
 │   ├── 毕业基质识别.md
+│   ├── 物品导航与实时检测.md
 │   ├── 账号配置用户指南.md
 │   ├── 账号唯一ID与多账户覆盖默认逻辑.md
 │   └── dev/                   # 面向开发者的技术文档
 │       ├── QUICKSTART.md
 │       ├── DEVELOPMENT.md
 │       ├── API.md
+│       ├── i18n_OCR配置流程.md
 │       ├── 文字识别示例.md
 │       ├── 图像模板匹配示例.md
 │       ├── 滑索与送货逻辑.md
@@ -214,8 +216,6 @@ ok-end-field/
 │
 ├── icons/                     # 程序图标
 │
-├── readme/                    # README 配图（1.jpg ~ 5.jpg）
-│
 ├── tests/                     # 单元测试
 │   ├── TestAutoCombat.py          # 战斗状态识别测试
 │   ├── TestEssenceGoldGrid.py     # 基质金色格子识别测试
@@ -223,8 +223,7 @@ ok-end-field/
 │   ├── TestEssenceRecognizer.py   # 基质 OCR 解析逻辑测试
 │   ├── TestSequenceParser.py      # 排轴序列解析测试（覆盖技能/等待等动作解析）
 │   ├── TestTakeDeliveryFunctions.py # 运送委托接取逻辑测试
-│   ├── TestWarehouseSwitchOCR.py  # 仓库切换 OCR 测试
-│   └── images/                    # 测试用截图样本
+│   └── TestWarehouseSwitchOCR.py  # 仓库切换 OCR 测试
 │
 ├── .github/
 │   ├── workflows/
@@ -412,7 +411,7 @@ python -m unittest tests/TestAutoCombat.py
 
 | 文件 | 测试内容 |
 |------|----------|
-| `TestAutoCombat.py` | 战斗/非战斗状态图像识别（使用 `tests/images/` 截图样本） |
+| `TestAutoCombat.py` | 战斗/非战斗状态图像识别 |
 | `TestEssenceRecognizer.py` | 基质 OCR 解析逻辑（`parse_essence_panel`、`_attach_levels`） |
 | `TestEssenceGoldGrid.py` | 基质金色格子图像识别 |
 | `TestEssenceImageFeatures.py` | 基质图像 Feature 匹配 |
@@ -421,8 +420,8 @@ python -m unittest tests/TestAutoCombat.py
 
 ### 测试注意事项
 
-- 测试全部为**离线单元测试**（使用本地截图样本），不需要运行游戏。
-- 新功能开发时，将相关截图放入 `tests/images/`，编写对应 unittest。
+- 测试全部为**离线单元测试**，不需要运行游戏。
+- 新功能开发时，如需截图样本，请在对应测试旁新增明确命名的样本目录并在测试中引用。
 - CI 会在每次打 tag 前自动运行所有测试，测试失败则中止发布。
 
 ---
@@ -440,12 +439,21 @@ python -m unittest tests/TestAutoCombat.py
 2. checkout（含 LFS）
 3. 安装 Python 3.12 + requirements.txt
 4. 内联 ok-script 源码（inline_ok_requirements）—— 减小用户更新包体积
-5. 运行 tests/ 全部单元测试
-6. 同步部分文件到更新库（cnb.cool + GitHub）—— 供已安装用户增量更新
+5. 运行 `./run_tests.ps1` 中的全部单元测试
+6. 按 `deploy.txt` 同步部分文件到更新库（cnb.cool + GitHub）—— 供已安装用户增量更新；其中 `ok` 目录由上一步内联 ok-script 源码生成
 7. PyAppify 打包 exe（China / Global 两个 Profile）
 8. 发布 GitHub Release（附带更新日志 + 安装包）
 9. 触发 Mirror 酱上传 & 发布说明 workflow
 ```
+
+### 下载统计 workflow
+
+`.github/workflows/download_stats.yml` 每天或手动触发 `scripts/download_stats.py`，生成并提交 `assets/downloads.svg`。
+
+环境变量：
+
+- `GITHUB_TOKEN`：由 GitHub Actions 注入，用于访问 release 下载数据并提交生成后的 SVG。
+- `GITHUB_REPOSITORY`：由 GitHub Actions 注入；本地运行脚本时可省略，默认使用 `AliceJump/ok-end-field`。
 
 ### 手动打版本
 
@@ -476,6 +484,8 @@ python auto_release.py
 - [x] **自动跳过剧情**：识别跳过按钮并自动确认
 - [x] **自动拾取**：大世界白名单/黑名单过滤自动采集
 - [x] **自动登录**：自动完成登录流程并领取月卡奖励
+- [x] **物品导航**：通过本地 WebSocket 位置数据指向已选物品最近点，支持按键标记已获取
+- [x] **实时检测**：循环执行 YOLO 检测，用于在线观察模型和目标识别结果
 
 ### 一次性任务
 

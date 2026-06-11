@@ -14,7 +14,7 @@
 <h1 align="center">ok-ef</h1>
 
 <p>
-An image-recognition-based automation tool for End Field, some actions support background mode, developed with <a href="https://github.com/alicejump/ok-script">ok-script</a>.
+An image-recognition-based automation tool for End Field, some actions support background mode, developed with <a href="https://github.com/ok-oldking/ok-script">ok-script</a>.
 <br />
 Automates parts of End Field via screen recognition and simulated user inputs.
 </p>
@@ -104,6 +104,7 @@ all potential risks.**
 - Auto Pickup: whitelist pickup + blacklist filtering
 - Auto Login: automatic relogin handling
 - Auto Skip Dialog: recognize and process skip/confirm flow
+- [Item Navigation & Realtime Detection](docs/物品导航与实时检测.md): local WebSocket item navigation and realtime YOLO detection debugging
 
 ### Scheduled tasks (Windows Task Scheduler management)
 
@@ -155,6 +156,7 @@ If you encounter issues, check the following in order:
 | [Quick Start Guide (QUICKSTART.md)](docs/dev/QUICKSTART.md) | Minimal workflow to run from source, launch the software, and create trigger/one-time tasks |
 | [Development Guide (DEVELOPMENT.md)](docs/dev/DEVELOPMENT.md) | Architecture overview, directory structure, development workflow, testing, CI/CD, and roadmap |
 | [API Reference (API.md)](docs/dev/API.md) | Detailed API docs for BaseEfTask, Mixin, ScreenPosition, KeyConfigManager, and more |
+| [i18n & OCR Configuration](docs/dev/i18n_OCR配置流程.md) | Runtime locale, language JSON, OCR matching, and text-fix workflow |
 | [Keyboard System (键盘操作体系.md)](docs/dev/键盘操作体系.md) | Hotkey mapping, key binding conventions, and send_key exception list |
 
 ### Run from source (Python)
@@ -178,6 +180,8 @@ python main_debug.py
 ### Command-line arguments
 
 You can auto-start tasks via CLI:
+
+CLI arguments are parsed by the underlying `ok-script` launcher. The project entry point `main.py` passes task configuration from `src/config.py`.
 
 ```powershell
 # Start after automatically executing the 1st task 'Daily Task' and exit upon completion

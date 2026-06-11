@@ -9,4 +9,3 @@ README.md
 i18n
 assets
 pyappify.yml
-readme

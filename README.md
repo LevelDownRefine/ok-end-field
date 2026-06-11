@@ -10,9 +10,9 @@
 <h1 align="center">ok-ef</h1>
 
 <p>
-一个基于图像识别的终末地自动化程序，部分功能支持后台运行，基于 <a href="https://github.com/alicejump/ok-script">ok-script</a> 开发。
+一个基于图像识别的终末地自动化程序，部分功能支持后台运行，基于 <a href="https://github.com/ok-oldking/ok-script">ok-script</a> 开发。
 <br />
-An image-recognition-based automation tool for End Field, with background mode support, developed with <a href="https://github.com/alicejump/ok-script">ok-script</a>.
+An image-recognition-based automation tool for End Field, with background mode support, developed with <a href="https://github.com/ok-oldking/ok-script">ok-script</a>.
 </p>
 
 <p><i>通过模拟 Windows 用户接口进行操作，无内存读取、无文件修改</i></p>
@@ -99,6 +99,7 @@ An image-recognition-based automation tool for End Field, with background mode s
 - 自动拾取：白名单拾取 + 黑名单过滤
 - 自动登录：自动处理掉线/登出流程
 - 自动跳过剧情：识别并执行跳过/确认流程
+- [物品导航与实时检测](docs/物品导航与实时检测.md)：本地 WebSocket 物品导航与 YOLO 实时检测调试
 
 ### 定时任务
 - 支持将一次性任务加入 Windows 任务计划，按设定时间自动启动执行
@@ -148,6 +149,7 @@ An image-recognition-based automation tool for End Field, with background mode s
 | [快速开始（QUICKSTART.md）](docs/dev/QUICKSTART.md) | 从源码运行项目、启动软件、新建触发式/一次性任务的最简流程 |
 | [开发指南（DEVELOPMENT.md）](docs/dev/DEVELOPMENT.md) | 架构总览、目录结构、开发流程、测试、CI/CD、路线图 |
 | [API 参考（API.md）](docs/dev/API.md) | BaseEfTask、Mixin、ScreenPosition、KeyConfigManager 等详细 API |
+| [i18n 与 OCR 配置流程](docs/dev/i18n_OCR配置流程.md) | runtime locale、语言 JSON、OCR 匹配与纠错配置流程 |
 | [键盘操作体系（键盘操作体系.md）](docs/dev/键盘操作体系.md) | 热键映射、按键封装规范、send_key 例外清单 |
 
 ### 从源码运行 (Python)
@@ -171,6 +173,8 @@ python main_debug.py
 ### 命令行参数
 
 您可以通过命令行参数实现自动化启动。
+
+命令行参数由底层 `ok-script` 启动器解析，项目入口 `main.py` 负责传入 `src/config.py` 中的任务配置。
 
 ``` pwsh
 # 启动后自动执行第1个任务『日常任务』，并在任务完成后退出程序
