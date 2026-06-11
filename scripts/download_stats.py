@@ -5,8 +5,14 @@ from pathlib import Path
 import os
 import requests
 
-OWNER = os.getenv("GITHUB_OWNER", "AliceJump")
-REPO = os.getenv("GITHUB_REPO", "ok-end-field")
+repo_full = os.getenv("GITHUB_REPOSITORY", "AliceJump/ok-end-field")
+
+if "/" in repo_full:
+    OWNER, REPO = repo_full.split("/", 1)
+else:
+    OWNER = "AliceJump"
+    REPO = "ok-end-field"
+    
 TOKEN = os.getenv("GITHUB_TOKEN", "").strip()
 
 ASSETS_DIR = Path("assets")
