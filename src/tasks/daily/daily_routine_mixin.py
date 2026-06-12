@@ -373,7 +373,7 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                     time_out = 12 if i > 2 else 5
                     res = self.wait_click_feature(feature=feature, click_after_delay=0.5, box=box, time_out=time_out, raise_if_not_found=False, after_sleep=after_sleep)  
 
-                    optional_steps = {2} # 特殊可选步骤序号
+                    optional_steps = {3} # 特殊可选步骤序号
 
                     if not res:
                         if i in optional_steps:
