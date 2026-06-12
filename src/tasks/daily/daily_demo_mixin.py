@@ -1,7 +1,7 @@
 from src.data.FeatureList import FeatureList as fL
-from src.tasks.BaseEfTask import BaseEfTask
+from src.tasks.mixin.battle_mixin import BattleMixin
 
-class DailyDemoMixin(BaseEfTask):    
+class DailyDemoMixin(BattleMixin):    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.default_config.update({
@@ -19,21 +19,27 @@ class DailyDemoMixin(BaseEfTask):
         if not self.enter_page():
             return False
         max_time = 3
+        once_double_reward = False
         for i in range(max_time):
             level = self.read_level()
             if level < 0:
                 return False
             refresh_times = 0
+            this_time_double_reward = False
             while level <= 5:
                 self.wait_click_feature(feature=fL.demo_random_button, time_out=10, raise_if_not_found=False, click_after_delay=0.5)
-                self.click_confirm(time_out=2, after_sleep=1)
                 refresh_times += 1
+                if refresh_times == 3:
+                    self.click_confirm(time_out=2, after_sleep=1)
                 level = self.read_level()
                 if level < 0:
                     return False
-                if refresh_times == 2 and level >=8:
+                if (refresh_times == 2 and level >=8) or once_double_reward:
                     self.log_info("已刷新2次，当前关卡较高，开启双倍奖励")
                     self.wait_click_ocr(match=self.lang.daily_demo_mixin.double_reward, box=self.box_of_screen(0.647, 0.861, 0.738, 0.931), time_out=10, raise_if_not_found=False)
+                    this_time_double_reward = True
+            if not this_time_double_reward:
+                once_double_reward = True
             self.wait_click_feature(feature=fL.start_demo, time_out=10, raise_if_not_found=False, click_after_delay=0.5)
             if not self.wait_click_feature(feature=fL.give_gift, time_out=10, raise_if_not_found=False, click_after_delay=0.5, box=self.box_of_screen(0.944, 0.900, 0.969, 0.941), after_sleep=2):
                 self.log_warning("未找到进入战斗按钮")
