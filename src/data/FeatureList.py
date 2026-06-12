@@ -102,6 +102,7 @@ class FeatureList(str, Enum):
     left_button = 'left_button'
     level_tip = 'level_tip'
     liaison_confirm = 'liaison_confirm'
+    liaison_stage = 'liaison_stage'
     lifeng_contact = 'lifeng_contact'
     log_out_confirm = 'log_out_confirm'
     logout = 'logout'

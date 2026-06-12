@@ -204,9 +204,10 @@ class LiaisonMixin(NavigationMixin):
             return None
 
         return self.navigate_until_target(
-            target=self.lang.liaison_mixin.k_4f35d7ac,
-            nav="operator_liaison_station_out_map",
-            box=self.box_of_screen(0.654, 0.565, 0.807, 0.806),
+            target=fL.liaison_stage,
+            nav=fL.operator_liaison_station_out_map,
+            box=self.box_of_screen(0.653, 0.596, 0.681, 0.809),
+            target_is_ocr=False,
             time_out=60,
             found_special_callback=special_chat_detect,
         )
