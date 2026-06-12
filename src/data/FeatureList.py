@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class FeatureList(str, Enum):
+    DemoGraphicEnter = 'DemoGraphicEnter'
     akekuri_contact = 'akekuri_contact'
     alesh_contact = 'alesh_contact'
     all_receive = 'all_receive'
@@ -51,10 +52,13 @@ class FeatureList(str, Enum):
     danger_4_2k = 'danger_4_2k'
     danger_5_2k = 'danger_5_2k'
     default_link_skill = 'default_link_skill'
+    demo_random_button = 'demo_random_button'
+    demographic_follow = 'demographic_follow'
     dense_source_ore_powder_4k = 'dense_source_ore_powder_4k'
     double_ticket = 'double_ticket'
     e = 'e'
     ember_contact = 'ember_contact'
+    enter_demo = 'enter_demo'
     esc = 'esc'
     esc_2k = 'esc_2k'
     esc_4k = 'esc_4k'
@@ -96,6 +100,7 @@ class FeatureList(str, Enum):
     last_rite_contact = 'last_rite_contact'
     left_battle = 'left_battle'
     left_button = 'left_button'
+    level_tip = 'level_tip'
     liaison_confirm = 'liaison_confirm'
     lifeng_contact = 'lifeng_contact'
     log_out_confirm = 'log_out_confirm'
@@ -156,6 +161,7 @@ class FeatureList(str, Enum):
     source_ore = 'source_ore'
     space_get_claim = 'space_get_claim'
     stamina_plus_icon = 'stamina_plus_icon'
+    start_demo = 'start_demo'
     start_follow = 'start_follow'
     switch_q = 'switch_q'
     tangtang_contact = 'tangtang_contact'

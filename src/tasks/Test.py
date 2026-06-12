@@ -20,10 +20,19 @@ class Test(NavigationMixin):
         self.interval = 0.3  # 读取间隔（秒）
 
     def run(self):
-        self.wait_click_feature(
-                feature=fL.battle_cost_x1,
-                time_out=2,
-                after_sleep=1,
-                horizontal_variance=0.15,
-                raise_if_not_found=False,
-        )
+        while True:
+            level = self.read_level()
+            time.sleep(self.interval)
+    def read_level(self):
+            start_x = 0.125
+            end_x = 0.802
+            level_all = 11
+            result= self.wait_feature(feature=fL.level_tip, time_out=10, raise_if_not_found=False, box=self.box_of_screen(0.120, 0.724, 0.803, 0.750))
+            if not result:
+                self.log_error("未找到等级信息标志")
+                return None
+            leve_x = result.x
+            one_level_width = (end_x - start_x) / level_all
+            level = int((leve_x - self.screen_width * start_x) / (self.screen_width * one_level_width))
+            self.log_info(f"当前等级: {level}")
+            return level

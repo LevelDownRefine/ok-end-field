@@ -7,6 +7,7 @@ from src.tasks.daily.daily_liaison_mixin import DailyLiaisonMixin
 from src.tasks.daily.daily_routine_mixin import DailyRoutineMixin
 from src.tasks.daily.daily_shop_mixin import DailyShopMixin
 from src.tasks.daily.daily_trade_mixin import DailyTradeMixin
+from src.tasks.daily.daily_demo_mixin import DailyDemoMixin
 from src.interaction.Mouse import active_and_send_mouse_delta
 from src.tasks.daily.finally_file import (
     create_daily_summary_report,
@@ -26,6 +27,7 @@ class DailyTask(
     DailyShopMixin,  # 买信用商店
     DailyRoutineMixin,  # 其它
     DailyLiaisonMixin,  # 送礼
+    DailyDemoMixin,  # 演算
     EndCommandMixin,
     AccountMixin
 ):
@@ -90,6 +92,7 @@ class DailyTask(
             ("⭐买物资", self.buy_staple_goods),
             ("⭐活动奖励", self.claim_activity_rewards),
             ("⭐日常奖励", self.claim_daily_rewards),
+            ("⭐演算", self.battle_demo),
             ("⭐传送到帝江号右侧传送点", lambda: self.transfer_to_home_point(box=self.box.right)),
             ("⭐执行结尾外部命令", self.launch_end_command_non_blocking),
         ]
