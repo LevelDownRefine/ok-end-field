@@ -34,7 +34,7 @@ class DailyDemoMixin(BattleMixin):
                 level = self.read_level()
                 if level < 0:
                     return False
-                if (refresh_times == 2 and level >=8) or once_double_reward:
+                if ((refresh_times == 2 and level >=8) or once_double_reward) and not this_time_double_reward:
                     self.log_info("已刷新2次，当前关卡较高，开启双倍奖励")
                     self.wait_click_ocr(match=self.lang.daily_demo_mixin.double_reward, box=self.box_of_screen(0.647, 0.861, 0.738, 0.931), time_out=10, raise_if_not_found=False)
                     this_time_double_reward = True
