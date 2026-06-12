@@ -166,7 +166,7 @@ class Common(BaseEfTask):
 
     def plus_max(self):
         for plus_button in [fL.plus_button, fL.market_plus_button]:
-            plus_button = self.find_one(feature=plus_button, box=self.box.bottom_right, threshold=0.8)
+            plus_button = self.wait_feature(feature=plus_button, box=self.box.bottom_right, threshold=0.8, raise_if_not_found=False, time_out=1)
             if plus_button:
                 break
 
