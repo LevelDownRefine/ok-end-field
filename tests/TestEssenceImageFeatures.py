@@ -11,7 +11,7 @@ from ok.feature.FeatureSet import FeatureSet
 class TestEssenceImageFeatures(unittest.TestCase):
     def test_essence_features_can_be_found_in_assets_images(self):
         repo_root = Path(__file__).resolve().parents[1]
-        coco_path = repo_root / "assets" / "coco_detection.json"
+        coco_path = repo_root / "assets" / "coco_annotations.json"
         self.assertTrue(coco_path.exists(), f"Missing {coco_path}")
 
         coco = json.loads(coco_path.read_text(encoding="utf-8"))
@@ -23,10 +23,10 @@ class TestEssenceImageFeatures(unittest.TestCase):
 
         required = {"essence_ui_marker", "essence_locked", "essence_unlocked"}
         for name in required:
-            self.assertIn(name, id_by_name, f"Missing category {name} in assets/coco_detection.json")
+            self.assertIn(name, id_by_name, f"Missing category {name} in assets/coco_annotations.json")
 
         gold_names = sorted(n for n in id_by_name if n.startswith("essence_quality_gold"))
-        self.assertGreaterEqual(len(gold_names), 1, "Missing any essence_quality_gold* category in assets/coco_detection.json")
+        self.assertGreaterEqual(len(gold_names), 1, "Missing any essence_quality_gold* category in assets/coco_annotations.json")
 
         # compress_copy_coco() requires exactly 1 box per category (global unique)
         for name in sorted(required) + gold_names:

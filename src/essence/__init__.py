@@ -1,1 +1,1 @@
-"""Essence (基质) related features (OCR / parsing)."""
+"""Reusable equipment-affix OCR parsing and matching helpers."""

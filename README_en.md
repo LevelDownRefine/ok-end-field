@@ -95,7 +95,6 @@ all potential risks.**
 - [Delivery Commission Pickup](docs/运送委托接取.md): filter by ticket type + reward range and auto pickup
 - [Auto Delivery](docs/自动送货.md): Wuling delivery automation with configurable route sequences (7.31w/7.98w)
 - [Warehouse Transfer](docs/仓库物品转移.md): cross-warehouse batch transfer for selected items
-- [Graduation Essence Scanner](docs/毕业基质识别.md): scan essence list and process lock/handling by `assets/weapon_data.csv`
 - Periodic Screenshot: interval-based auto capture for data collection / training samples
 
 ### Trigger tasks (background loop detection)
@@ -157,6 +156,7 @@ If you encounter issues, check the following in order:
 | [Development Guide (DEVELOPMENT.md)](docs/dev/DEVELOPMENT.md) | Architecture overview, directory structure, development workflow, testing, CI/CD, and roadmap |
 | [API Reference (API.md)](docs/dev/API.md) | Detailed API docs for BaseEfTask, Mixin, ScreenPosition, KeyConfigManager, and more |
 | [i18n & OCR Configuration](docs/dev/i18n_OCR配置流程.md) | Runtime locale, language JSON, OCR matching, and text-fix workflow |
+| [Equipment Affix Recognition Toolkit](docs/dev/装备词条识别轮子.md) | Reusable OCR parser, CSV matcher, and template assets after task removal |
 | [Keyboard System (键盘操作体系.md)](docs/dev/键盘操作体系.md) | Hotkey mapping, key binding conventions, and send_key exception list |
 
 ### Run from source (Python)

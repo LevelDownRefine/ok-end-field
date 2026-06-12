@@ -297,10 +297,12 @@ class GameFlowMixin:
 
     def read_essence_info(self) -> EssenceInfo | None:
         """
-        读取当前屏幕中的精华信息（用于装备识别）。
+        读取当前屏幕中的装备词条面板信息。
+
+        该方法仅保留为 OCR 解析轮子的便捷入口，不再对应独立任务。
 
         Returns:
-            EssenceInfo | None: 识别到则返回精华信息，否则返回 None。
+            EssenceInfo | None: 识别到则返回词条信息，否则返回 None。
         """
         return read_essence_info(self)
 

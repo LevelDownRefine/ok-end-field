@@ -997,16 +997,6 @@ def screen_center(self) -> tuple[int, int]
 
 ---
 
-#### `read_essence_info`
-
-```python
-def read_essence_info(self) -> EssenceInfo | None
-```
-
-对当前屏幕截图进行基质信息识别，返回 `EssenceInfo` 对象或 `None`。
-
----
-
 #### `kill_game`
 
 ```python
@@ -1505,12 +1495,13 @@ def login_flow(
 
 ---
 
-## 10. EssenceRecognizer（纯算法层）
+## 10. 装备词条识别轮子（纯算法层）
 
-基质词条识别模块，不依赖截图，可单独测试。
+装备词条识别模块保留为可复用轮子。当前不再提供旧的一次性任务入口；自动遍历、上锁、弃置等 UI 自动化逻辑已移除。
 
 ```python
 from src.essence.essence_recognizer import parse_essence_panel, read_essence_info, EssenceInfo, EssenceEntry
+from src.essence.weapon_data import load_weapon_data, match_weapon_requirements
 ```
 
 ### 数据类
@@ -1521,8 +1512,7 @@ from src.essence.essence_recognizer import parse_essence_panel, read_essence_inf
 @dataclass
 class EssenceEntry:
     name: str       # 词条名称
-    value: str      # 词条数值文本
-    level: int      # 词条强化等级（0 表示未识别）
+    level: int | None = None      # 词条强化等级
 ```
 
 #### `EssenceInfo`
@@ -1531,13 +1521,13 @@ class EssenceEntry:
 @dataclass
 class EssenceInfo:
     name: str                  # 基质名称
-    entries: list[EssenceEntry]# 词条列表
-    source: str                # 来源标注（如装备类型）
+    source: str | None          # 来源标注（如装备类型）
+    entries: tuple[EssenceEntry, ...] # 词条列表
+    is_gold: bool               # 是否为金色/高阶词条面板
 
     @property
     def entry_names(self) -> tuple[str, ...]: ...   # 所有词条名元组
-    @property
-    def key(self) -> str: ...                       # 用于匹配毕业规则的唯一键
+    def key(self) -> str: ...                       # 用于匹配规则的唯一键
 ```
 
 ### 函数
@@ -1545,14 +1535,18 @@ class EssenceInfo:
 #### `parse_essence_panel`
 
 ```python
-def parse_essence_panel(
-    texts: Sequence[Box],
-    *,
-    max_entries: int = 3,
-) -> EssenceInfo | None
+def parse_essence_panel(texts: Sequence[Box]) -> EssenceInfo | None
 ```
 
-从 OCR 结果列表（`task.ocr()` 返回值）中解析基质面板，返回 `EssenceInfo` 或 `None`。纯算法，无截图依赖。
+从 OCR 结果列表（`task.ocr()` 返回值）中解析装备词条面板，返回 `EssenceInfo` 或 `None`。纯算法，无截图依赖。
+
+#### `attach_essence_levels`
+
+```python
+def attach_essence_levels(info: EssenceInfo, level_boxes: Sequence[Box]) -> tuple[EssenceEntry, ...]
+```
+
+将单独 OCR 到的等级 Box 按垂直顺序附加到已解析词条，适合等级数字与词条名称分开识别的场景。
 
 #### `read_essence_info`
 
@@ -1560,7 +1554,7 @@ def parse_essence_panel(
 def read_essence_info(task) -> EssenceInfo | None
 ```
 
-高层封装：截图 → OCR → `parse_essence_panel`，直接返回当前屏幕的基质信息。
+高层封装：截图 → OCR → `parse_essence_panel`，直接返回当前屏幕的装备词条信息。该函数只作为后续任务复用入口，不再对应独立任务。
 
 #### `ocr_essence_panel`
 
@@ -1568,15 +1562,16 @@ def read_essence_info(task) -> EssenceInfo | None
 def ocr_essence_panel(task) -> list[Box]
 ```
 
-对当前屏幕进行基质面板 OCR，返回原始 OCR Box 列表。
+对当前屏幕进行装备词条面板 OCR，返回原始 OCR Box 列表。
 
-#### `ocr_essence_levels`
+#### `load_weapon_data` / `match_weapon_requirements`
 
 ```python
-def ocr_essence_levels(task) -> list[Box]
+requirements = load_weapon_data("assets/weapon_data.csv")
+matches = match_weapon_requirements(requirements, info.entry_names)
 ```
 
-OCR 识别基质词条强化等级数字，返回 Box 列表。
+CSV 读取与词条集合匹配能力保留，供后续任务或离线分析复用。
 
 ---
 

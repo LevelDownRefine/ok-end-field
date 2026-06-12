@@ -75,6 +75,7 @@ def _normalize_text(text: str) -> str:
 
     text = re.sub(r"[\r\n\t]+", " ", text)
     text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"(?<=[\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff])", "", text)
 
     return text.strip()
 
@@ -139,6 +140,7 @@ def _extract_entry_name(text: str) -> str:
     """
     保留中文，不保留 +3
     """
+    text = _normalize_text(text)
     return "".join(_CN_TEXT_RE.findall(text))
 
 
@@ -327,6 +329,22 @@ def parse_essence_panel(texts: Sequence[Box]) -> EssenceInfo | None:
         entries=tuple(entries[:3]),
         is_gold=_is_gold(name),
     )
+
+
+def attach_essence_levels(info: EssenceInfo, level_boxes: Sequence[Box]) -> tuple[EssenceEntry, ...]:
+    """Attach separately OCRed level boxes to parsed entries by vertical order."""
+    levels = [_extract_level(getattr(box, "name", "") or "") for box in sorted(level_boxes, key=lambda box: box.y)]
+    entries: list[EssenceEntry] = []
+
+    for index, entry in enumerate(info.entries):
+        level = levels[index] if index < len(levels) else entry.level
+        entries.append(EssenceEntry(name=entry.name, level=level))
+
+    return tuple(entries)
+
+
+def _attach_levels(info: EssenceInfo, level_boxes: Sequence[Box]) -> tuple[EssenceEntry, ...]:
+    return attach_essence_levels(info, level_boxes)
 
 
 # =========================

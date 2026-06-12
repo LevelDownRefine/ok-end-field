@@ -91,7 +91,6 @@ An image-recognition-based automation tool for End Field, with background mode s
 - [运送委托接取](docs/运送委托接取.md)：按券种与金额筛选并自动抢单
 - [自动送货](docs/自动送货.md)：武陵委托自动接取与送货路径执行（7.31w/7.98w）
 - [仓库物品转移](docs/仓库物品转移.md)：跨仓库批量转移指定物品
-- [毕业基质识别](docs/毕业基质识别.md)：识别毕业基质并自动上锁/处理
 - 定时截图：按间隔自动截图，便于数据采集/样本收集
 
 ### 触发式任务（后台循环检测）
@@ -150,6 +149,7 @@ An image-recognition-based automation tool for End Field, with background mode s
 | [开发指南（DEVELOPMENT.md）](docs/dev/DEVELOPMENT.md) | 架构总览、目录结构、开发流程、测试、CI/CD、路线图 |
 | [API 参考（API.md）](docs/dev/API.md) | BaseEfTask、Mixin、ScreenPosition、KeyConfigManager 等详细 API |
 | [i18n 与 OCR 配置流程](docs/dev/i18n_OCR配置流程.md) | runtime locale、语言 JSON、OCR 匹配与纠错配置流程 |
+| [装备词条识别轮子](docs/dev/装备词条识别轮子.md) | 已移除任务后的 OCR parser、CSV matcher 与模板资产复用说明 |
 | [键盘操作体系（键盘操作体系.md）](docs/dev/键盘操作体系.md) | 热键映射、按键封装规范、send_key 例外清单 |
 
 ### 从源码运行 (Python)

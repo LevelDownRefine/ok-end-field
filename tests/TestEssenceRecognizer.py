@@ -30,7 +30,7 @@ class TestEssenceRecognizer(unittest.TestCase):
         assert panel is not None
 
         self.assertEqual(panel.entry_names, ("智识提升", "攻击提升", "流转"))
-        self.assertEqual(len(panel.entry_boxes), 3)
+        self.assertEqual(len(panel.entries), 3)
 
     def test_attach_levels_keep_order(self):
         boxes = [
@@ -72,7 +72,7 @@ class TestEssenceRecognizer(unittest.TestCase):
         self.assertEqual(panel.name, "无瑕基质：流转")
         self.assertEqual(panel.source, "四号谷底")
         self.assertEqual(panel.entry_names, ("意志提升", "攻击提升", "流转"))
-        self.assertEqual(len(panel.entry_boxes), 3)
+        self.assertEqual(len(panel.entries), 3)
 
     def test_parse_panel_traditional_chinese(self):
         boxes = [
