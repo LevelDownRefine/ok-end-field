@@ -23,12 +23,17 @@ class DailyDemoMixin(BaseEfTask):
             level = self.read_level()
             if level < 0:
                 return False
+            refresh_times = 0
             while level <= 5:
                 self.wait_click_feature(feature=fL.demo_random_button, time_out=10, raise_if_not_found=False, click_after_delay=0.5)
                 self.click_confirm(time_out=2, after_sleep=1)
+                refresh_times += 1
                 level = self.read_level()
                 if level < 0:
                     return False
+                if refresh_times == 2 and level >=8:
+                    self.log_info("已刷新2次，当前关卡较高，开启双倍奖励")
+                    self.wait_click_ocr(match=self.lang.daily_demo_mixin.double_reward, box=self.box_of_screen(0.647, 0.861, 0.738, 0.931), time_out=10, raise_if_not_found=False)
             self.wait_click_feature(feature=fL.start_demo, time_out=10, raise_if_not_found=False, click_after_delay=0.5)
             if not self.wait_click_feature(feature=fL.give_gift, time_out=10, raise_if_not_found=False, click_after_delay=0.5, box=self.box_of_screen(0.944, 0.900, 0.969, 0.941), after_sleep=2):
                 self.log_warning("未找到进入战斗按钮")
