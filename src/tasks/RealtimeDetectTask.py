@@ -9,6 +9,7 @@ class RealtimeYoloScanTask(BaseEfTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "YOLO实测扫描"
+        self.group_name = "工具与调试"
         self.description = "用于实测 YOLO 模型：可选模型、可选目标、可设置信度并循环扫描。"
         self.icon = FluentIcon.SEARCH
 
@@ -62,17 +63,22 @@ class RealtimeYoloScanTask(BaseEfTask):
         scan_count = 0
         found_count = 0
         max_conf = 0.0
+        last_result_state = None
         try:
             while True:
                 scan_count += 1
                 results = self.yolo_detect(name=target_name, conf=conf, model_key=model_key)
-                if results:
+                has_result = bool(results)
+                if has_result:
                     found_count += 1
                     top_conf = float(results[0].confidence or 0.0)
                     max_conf = max(max_conf, top_conf)
-                    self.log_info(f"[{scan_count}] 检测到 {len(results)} 个目标, top_conf={top_conf:.3f}")
+                    if last_result_state is not True or scan_count % 20 == 0:
+                        self.log_info(f"[{scan_count}] 检测到 {len(results)} 个目标, top_conf={top_conf:.3f}")
                 else:
-                    self.log_info(f"[{scan_count}] 未检测到目标")
+                    if last_result_state is not False or scan_count % 20 == 0:
+                        self.log_info(f"[{scan_count}] 未检测到目标")
+                last_result_state = has_result
                 self.sleep(interval)
         finally:
             self.log_info(
@@ -85,4 +91,5 @@ class RealtimeDetectTask(RealtimeYoloScanTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "实时检测"
+        self.group_name = "工具与调试"
         self.description = "实时循环执行 YOLO 检测，用于在线观察目标识别结果。"

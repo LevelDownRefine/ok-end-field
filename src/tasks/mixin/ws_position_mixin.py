@@ -109,7 +109,7 @@ class WsPositionMixin:
                     # 仅在有效位置数据时记录（避免过多日志）
                     pos, map_id, px, py, pz = self._extract_position_payload(payload)
                     if pos is not None and map_id is not None and callable(log_info):
-                        log_info(f"[WS] 收到位置: mapId={map_id} pos=({px:.1f},{py:.1f},{pz:.1f})")
+                        log_info(f"[WS] 收到位置: mapId={map_id} pos=({px:.3f},{py:.3f},{pz:.3f})")
                 except Exception as e:
                     if callable(log_error):
                         log_error(f"[WS] 处理消息异常: {e}")

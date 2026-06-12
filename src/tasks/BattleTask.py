@@ -8,6 +8,8 @@ class BattleTask(DailyBattleMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "刷体力"
+        self.group_name = "战斗"
+        self.group_icon = Icons.BATTLE
         self.description = "使用说明参见选项，更多用法参见 ./docs/体力本.md"
         self.icon = Icons.BATTLE
         self.default_config_group.pop("⭐刷体力", None)

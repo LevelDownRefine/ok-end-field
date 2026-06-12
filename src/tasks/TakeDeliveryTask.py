@@ -1,7 +1,7 @@
 import re
 import time
 from qfluentwidgets import FluentIcon
-
+from src.icons import Icons
 from ok import TriggerTask, Logger
 from src.tasks.BaseEfTask import BaseEfTask
 
@@ -23,6 +23,8 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "运送委托接取"
+        self.group_name = "运输委托"
+        self.group_icon = Icons.DELIVERY
         self.description = "自动抢单"
         self.icon = FluentIcon.ACCEPT
         self.default_config = {
@@ -239,7 +241,7 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
                             self.log_info(f"匹配成功: {matched_msg}")
                             break
                         else:
-                            self.log_info(f"类型匹配({ticket_result.name})但金额({val}万)不符合范围")
+                            self.log_debug(f"类型匹配({ticket_result.name})但金额({val}万)不符合范围")
                     else:
                         self.log_debug(f"金额符合({val}万)但未找到券种图标")
 
@@ -250,7 +252,7 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
 
                     success = False
                     for attempt in range(1, 4):  # 尝试3次
-                        self.log_info(f"接取运送委托 (尝试 {attempt}/3)")
+                        self.log_debug(f"接取运送委托 (尝试 {attempt}/3)")
                         self.click(target_btn, after_sleep=0)  # 点击后不等待
                         self.sleep(1.0)  # 等待1秒
 
@@ -270,7 +272,7 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
                         # 继续循环，不返回，让后面的刷新逻辑处理
 
                 else:
-                    self.log_info("未找到符合条件(金额+类型)的委托")
+                    self.log_debug("未找到符合条件(金额+类型)的委托")
 
                     # 1. 更新刷新按钮位置记忆
                     if refresh_btn:
@@ -283,7 +285,7 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
                     if scroll_step < 1:
                         scroll_step += 1
                         direction_str = "向下" if scroll_direction == -1 else "向上"
-                        self.log_info(f"执行第 {scroll_step}/1 次{direction_str}滚动查漏...")
+                        self.log_debug(f"执行第 {scroll_step}/1 次{direction_str}滚动查漏...")
 
                         # 滚动操作：在屏幕列表中间位置滚动
                         cx = int(self.width * 0.5)
@@ -293,7 +295,7 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
                         continue  # 滚动后重新OCR
 
                     # 3. 滚动次数已满，准备刷新
-                    self.log_info("已完成当前列表扫描，准备检测刷新")
+                    self.log_debug("已完成当前列表扫描，准备检测刷新")
 
                     refresh_not_found_count = 0  # 重置计数
 
@@ -304,7 +306,7 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
 
                         if elapsed < 5.6:
                             # CD未好
-                            self.log_debug(f"刷新CD中 ({elapsed:.1f}/5.6s)，等待...")
+                            self.log_debug(f"刷新CD中 ({elapsed:.3f}/5.600s)，等待...")
                             self.sleep(5.6 - elapsed)
 
                         # CD已好（或睡醒），执行点击
@@ -325,7 +327,7 @@ class TakeDeliveryTask(BaseEfTask, TriggerTask):
                             self.log_info("连续 10 次未找到刷新位置，判定为已在任务流程外或已接取，任务终止。")
                             return
 
-                        self.log_info("等待1秒后重试...")
+                        self.log_debug("等待1秒后重试...")
                         self.sleep(1.0)
                         continue
             except Exception as e:

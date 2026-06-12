@@ -14,6 +14,7 @@ class Test(NavigationMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "按键测试"
+        self.group_name = "工具与调试"
         self.description = "测试按键功能"
 
         self.interval = 0.3  # 读取间隔（秒）

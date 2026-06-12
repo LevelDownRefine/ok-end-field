@@ -84,6 +84,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         super().__init__(*args, **kwargs)
         self.default_config.update({"_enabled": True})
         self.name = "自动送货"
+        self.group_name = "运输委托"
         self.description = "根据地区配置自动送货,教程视频 BV1LLc7zFEF9"
         self.icon = Icons.DELIVERY
         self._configure_delivery_area(DEFAULT_DELIVERY_AREA)
@@ -207,10 +208,10 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         area = screen_scale_areas.get(ratio)
         if area is None:
             supported = "、".join(
-                f"{k:.4f} -> {v}" for k, v in screen_scale_desc.items()
+                f"{k:.3f} -> {v}" for k, v in screen_scale_desc.items()
             )
             raise ValueError(
-                f"不支持的屏幕比例: {ratio:.6f}（当前分辨率: {self.width}x{self.height}）。"
+                f"不支持的屏幕比例: {ratio:.3f}（当前分辨率: {self.width}x{self.height}）。"
                 f"支持的比例有：{supported}。"
                 "请调整游戏窗口比例"
             )

@@ -13,6 +13,8 @@ class AutoLoginTask(BaseEfTask, TriggerTask):
         self.default_config = {'_enabled': True}
         self.trigger_interval = 5
         self.name = "自动登录"
+        self.group_name = "登录与交互"
+        self.group_icon = FluentIcon.ACCEPT
         self.description = "自动登录领月卡"
         self.icon = FluentIcon.ACCEPT
 

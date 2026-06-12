@@ -16,6 +16,7 @@ class AutoCombatTask(BattleMixin, TriggerTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "自动战斗"
+        self.group_name = "战斗"
         self.description = "自动检测战斗开始和结束，使用说明参见选项"
         self.icon = FluentIcon.ACCEPT
         # 下列代码在 daily_battle_mixin.py 中有部分重复。如有更新，请两边一起修改。

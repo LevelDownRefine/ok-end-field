@@ -43,6 +43,7 @@ class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
 
         # 设置导航模块的基本信息
         self.name = "物品导航"  # 模块名称
+        self.group_name = "大世界与探索"
         self.description = "监听本地 WebSocket 位置数据，指向已选物品的最近点并支持按键标记"  # 模块描述
         self.icon = Icons.ItemNavigator  # 模块图标
         # 只把面向用户的选项放在 default_config
@@ -437,10 +438,10 @@ class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
             dz = best.get('z', 0) - pz
             angle = math.degrees(math.atan2(dz, dx))
 
-            status = f"目标={best_meta} 距离XZ={best_dxz:.1f} 角度={angle:.0f}°"
+            status = f"目标={best_meta} 距离XZ={best_dxz:.3f} 角度={angle:.3f}°"
             if near_xz:
                 updown = '上方' if dy_height > 0 else '下方' if dy_height < 0 else '同高'
-                status += f" 接近: 高差Y={dy_height:.2f} ({updown})"
+                status += f" 接近: 高差Y={dy_height:.3f} ({updown})"
 
             # publish minimal UI info (任务显示栏)
             self.info_set('导航', status)
@@ -452,8 +453,8 @@ class ItemNavigatorTask(WsPositionMixin, BaseEfTask, TriggerTask):
                 candidates=candidates,
                 map_id=map_id,
             )
-            self._draw_nav_arrow(dx, dz, tooltip=f"{best_meta} | XZ:{best_dxz:.1f} | Y:{dy_height:.1f}")
-            self._draw_height_arrow(dy_height, tooltip=f"{best_meta} | Y:{dy_height:.1f}")
+            self._draw_nav_arrow(dx, dz, tooltip=f"{best_meta} | XZ:{best_dxz:.3f} | Y:{dy_height:.3f}")
+            self._draw_height_arrow(dy_height, tooltip=f"{best_meta} | Y:{dy_height:.3f}")
 
             # 标记逻辑：锁定目标并要求连续按住指定时长（_mark_lock_required）才能标记
             mark_key = str(self.config.get('标记按键') or '').strip() or 'f'

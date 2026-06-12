@@ -131,12 +131,13 @@ class AutoCombatLogic:
                     if task._check_single_exit_condition():
                         if task.debug:
                             task.screenshot("out_of_combat")
-                        task.log_info("自动战斗结束!", notify=task.config.get("后台结束战斗通知") and task.in_bg())
-                        task.log_info("退出战斗主循环")
-                        self._end = True
-                        self._normal_attack_hold_enabled = False
-                        self._sync_normal_attack_hold()
-                        break
+                        if task.is_combat_ended():
+                            task.log_info("自动战斗结束!", notify=task.config.get("后台结束战斗通知") and task.in_bg())
+                            task.log_info("退出战斗主循环")
+                            self._end = True
+                            self._normal_attack_hold_enabled = False
+                            self._sync_normal_attack_hold()
+                            break
                 if no_battle:
                     self._normal_attack_hold_enabled = False
                     self._sync_normal_attack_hold()
@@ -160,14 +161,14 @@ class AutoCombatLogic:
                             continue
                     elif now_skill.startswith("sleep_"):
                         sleep_time = float(now_skill[6:])
-                        task.log_info(f"排轴等待 {sleep_time} 秒")
+                        task.log_info(f"排轴等待 {sleep_time:.3f} 秒")
                         time.sleep(sleep_time)
                         self.skill_index = (self.skill_index + 1) % len(self.skill_sequence)
                         self.last_rotation_ok_time = time.time()
                         continue
                     elif now_skill.startswith("normal_"):
                         normal_duration = float(now_skill[7:])
-                        task.log_info(f"排轴临时切换普通战斗 {normal_duration} 秒")
+                        task.log_info(f"排轴临时切换普通战斗 {normal_duration:.3f} 秒")
                         self.normal_skill_index = 0
                         normal_end_time = time.time() + normal_duration
                         while time.time() < normal_end_time:

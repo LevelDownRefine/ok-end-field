@@ -168,7 +168,7 @@ class DailyTradeMixin(NavigationMixin, Common):
 
             self.log_info(
                 f"货物名称: {good.name}, "
-                f"存货数量: {stock_quantity}, "
+                f"存货数量: {stock_quantity:.3f}, "
                 f"价格: {[i.name for i in good_piece]}, "
                 f"价格来源人和价格: {[i.name for i in friend_name_piece]}"
             )

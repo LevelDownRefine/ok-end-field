@@ -10,6 +10,7 @@ class YingTuoTask(BattleMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "影拓丰碑"
+        self.group_name = "战斗"
         self.description = "自动完成当前所有普通影拓丰碑关卡"
         self.icon = Icons.BATTLE
         self.default_config.update({

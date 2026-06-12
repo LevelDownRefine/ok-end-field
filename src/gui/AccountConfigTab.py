@@ -64,7 +64,7 @@ class AccountConfigTab(CustomTab):
 
     @property
     def position(self):
-        return NavigationItemPosition.TOP
+        return NavigationItemPosition.BOTTOM
 
     @property
     def add_after_default_tabs(self):

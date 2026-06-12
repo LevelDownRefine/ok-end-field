@@ -35,7 +35,7 @@ class DailyShopMixin(Common):
             if not self.back_shop():
                 self.log_info("信用商店刷新中断：未能返回采购页面")
                 return False, sum_credit
-            self.log_info(f"信用商店尝试刷新第{self.refresh_count + 1}次，预计消耗信用: {cost}，当前信用: {sum_credit}")
+            self.log_info(f"信用商店尝试刷新第{self.refresh_count + 1}次，预计消耗信用: {cost:.3f}，当前信用: {sum_credit:.3f}")
             shop_retry = 0
             while not self.wait_click_feature(
                     feature=fL.credit_shop_refresh, time_out=1,
@@ -58,7 +58,7 @@ class DailyShopMixin(Common):
             temp_sum_credit = self.detect_ticket_number()
             if temp_sum_credit:
                 sum_credit = temp_sum_credit
-            self.log_info(f"信用商店刷新成功，消耗信用: {cost}，剩余信用: {sum_credit}")
+            self.log_info(f"信用商店刷新成功，消耗信用: {cost:.3f}，剩余信用: {sum_credit:.3f}")
             return True, sum_credit
         return False, sum_credit
 
@@ -88,7 +88,7 @@ class DailyShopMixin(Common):
         self.wait_ui_stable(refresh_interval=0.5)
         normal_results = []
         reserve_credit = self.config.get('信用商店保留信用', 300)
-        self.log_info(f"开始信用商店优先购买，当前信用: {sum_credit}，保留信用: {reserve_credit}")
+        self.log_info(f"开始信用商店优先购买，当前信用: {sum_credit:.3f}，保留信用: {reserve_credit:.3f}")
         if not self.back_shop():
             return False, sum_credit, False
 
@@ -113,7 +113,7 @@ class DailyShopMixin(Common):
         candidates.extend((item, True) for item in (discount_results or []))
         for idx, (item, is_discount_item) in enumerate(candidates, start=1):
             item_name = getattr(item, "name", None) or f"未知商品#{idx}"
-            self.log_info(f"尝试购买优先商品: {item_name}，当前信用: {sum_credit}")
+            self.log_info(f"尝试购买优先商品: {item_name}，当前信用: {sum_credit:.3f}")
             if not self.back_shop():
                 self.info_set("信用商店警告", "购买优先商品前未能返回采购页面")
                 return False, sum_credit, False
@@ -122,13 +122,13 @@ class DailyShopMixin(Common):
             cost = self.get_cost()
             if cost <= 0:
                 if is_discount_item:
-                    self.log_info(f"商品: {item_name}，未识别到有效价格，折扣商品设置价格为10")
+                    self.log_info(f"商品: {item_name}，未识别到有效价格，折扣商品设置价格为10.000")
                     cost = 10
                 else:
                     self.info_set("信用商店警告", "购买优先商品前未能获取价格信息")
                     self.mark_task_failure(f"购买失败: {item_name}，原因: 未识别到有效价格且非折扣商品")
                     return False, sum_credit, False
-            self.log_info(f"商品价格识别成功: {item_name}，价格: {cost}")
+            self.log_info(f"商品价格识别成功: {item_name}，价格: {cost:.3f}")
             result = self.wait_click_feature(
                 feature=fL.skip_dialog_confirm, box=self.box_of_screen(0.826, 0.798, 0.845, 0.831), time_out=4, raise_if_not_found=False
             )
@@ -138,15 +138,15 @@ class DailyShopMixin(Common):
                     return False, sum_credit, False
                 if cost != 10:
                     self.info_set("信用商店警告", "购买优先商品时信用不足")
-                    self.mark_task_failure(f"购买失败: {item_name}，原因: 信用不足，当前信用: {sum_credit}，价格: {cost}")
+                    self.mark_task_failure(f"购买失败: {item_name}，原因: 信用不足，当前信用: {sum_credit:.3f}，价格: {cost:.3f}")
                     self.back_shop()
                     return False, sum_credit, False
                 return True, sum_credit, True
             self.wait_pop_up(after_sleep=1)
             sum_credit -= cost
-            self.log_info(f"购买成功: {item_name}，消耗信用: {cost}，剩余信用: {sum_credit}")
+            self.log_info(f"购买成功: {item_name}，消耗信用: {cost:.3f}，剩余信用: {sum_credit:.3f}")
         if sum_credit <= reserve_credit:
-            self.log_info(f"信用降至保留阈值，停止优先购买，剩余信用: {sum_credit}，阈值: {reserve_credit}")
+            self.log_info(f"信用降至保留阈值，停止优先购买，剩余信用: {sum_credit:.3f}，阈值: {reserve_credit:.3f}")
             return True, sum_credit, True
         return False, sum_credit, True
 
@@ -173,13 +173,13 @@ class DailyShopMixin(Common):
 
     def buy_left(self, sum_credit):
         reserve_credit = self.config.get('信用商店保留信用', 300)
-        self.log_info(f"开始购买剩余可购商品，当前信用: {sum_credit}，保留信用: {reserve_credit}")
+        self.log_info(f"开始购买剩余可购商品，当前信用: {sum_credit:.3f}，保留信用: {reserve_credit:.3f}")
         if not self.back_shop():
             return False
         results = self.find_feature(feature=fL.credit_can_buy, box=self.credit_good_search_box) or []
         for idx, item in enumerate(results, start=1):
             item_name = getattr(item, "name", None) or f"未知商品#{idx}"
-            self.log_info(f"尝试购买剩余商品: {item_name}，当前信用: {sum_credit}")
+            self.log_info(f"尝试购买剩余商品: {item_name}，当前信用: {sum_credit:.3f}")
             if not self.back_shop():
                 self.info_set("信用商店警告", "购买剩余商品前未能返回采购页面")
                 return False
@@ -189,7 +189,7 @@ class DailyShopMixin(Common):
             if cost <= 0:
                 self.log_info(f"跳过商品: {item_name}，未识别到有效价格")
                 continue
-            self.log_info(f"商品价格识别成功: {item_name}，价格: {cost}")
+            self.log_info(f"商品价格识别成功: {item_name}，价格: {cost:.3f}")
             result = self.wait_click_feature(
                 feature=fL.skip_dialog_confirm, box=self.box_of_screen(0.826, 0.798, 0.845, 0.831), time_out=4, raise_if_not_found=False
             )
@@ -199,8 +199,8 @@ class DailyShopMixin(Common):
                 return False
             self.wait_pop_up(after_sleep=1)
             sum_credit -= cost
-            self.log_info(f"购买成功: {item_name}，消耗信用: {cost}，剩余信用: {sum_credit}")
+            self.log_info(f"购买成功: {item_name}，消耗信用: {cost:.3f}，剩余信用: {sum_credit:.3f}")
             if sum_credit <= reserve_credit:
-                self.log_info(f"信用降至保留阈值，停止购买剩余商品，剩余信用: {sum_credit}，阈值: {reserve_credit}")
+                self.log_info(f"信用降至保留阈值，停止购买剩余商品，剩余信用: {sum_credit:.3f}，阈值: {reserve_credit:.3f}")
                 return True
         return True

@@ -471,7 +471,7 @@ class NavigationMixin(BaseEfTask):
                     self.do_scroll(8, 400)
 
                 # 时间节点控制
-                scroll_plan = {max_time * 1 // 4: -400, max_time * 2 // 4: -400, max_time * 3 // 4: -400}
+                scroll_plan = {int(max_time * 0.250): -400, int(max_time * 0.500): -400, int(max_time * 0.750): -400}
 
                 if i in scroll_plan:
                     self.do_scroll(2, scroll_plan[i])

@@ -25,6 +25,8 @@ class WarehouseTransferTask(BaseEfTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "仓库物品转移"
+        self.group_name = "仓库与物资"
+        self.group_icon = FluentIcon.SYNC
         self.description = "从发货仓库取出指定物品，切到收货仓库后一键存放 （目前只支持中文版）"
         self.icon = FluentIcon.SYNC
         self.default_config.update(

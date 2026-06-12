@@ -58,6 +58,13 @@ def _extract_locale_from_object(obj: Any) -> str | None:
     return str(locale_obj)
 
 
+def _round_ratio(value):
+    try:
+        return round(float(value), 3)
+    except Exception:
+        return value
+
+
 class BaseEfTask(
     WindowArrowDrawingMixin,
     AccountOverrideMixin,
@@ -101,6 +108,68 @@ class BaseEfTask(
         self._ws_server_thread = None
         self._ws_loop = None
         self._ws_stop_event = None
+
+    def box_of_screen(
+            self,
+            x=0,
+            y=0,
+            to_x=1.0,
+            to_y=1.0,
+            width=0.0,
+            height=0.0,
+            name=None,
+            hcenter=False,
+            vcenter=False,
+            confidence=1.0,
+    ):
+        return super().box_of_screen(
+            _round_ratio(x),
+            _round_ratio(y),
+            _round_ratio(to_x),
+            _round_ratio(to_y),
+            width=width,
+            height=height,
+            name=name,
+            hcenter=hcenter,
+            vcenter=vcenter,
+            confidence=confidence,
+        )
+
+    def box_of_screen_scaled(
+            self,
+            original_screen_width,
+            original_screen_height,
+            x_original,
+            y_original,
+            to_x=0,
+            to_y=0,
+            width_original=0,
+            height_original=0,
+            name=None,
+            hcenter=False,
+            vcenter=False,
+            confidence=1.0,
+    ):
+        return super().box_of_screen_scaled(
+            original_screen_width,
+            original_screen_height,
+            _round_ratio(x_original),
+            _round_ratio(y_original),
+            _round_ratio(to_x),
+            _round_ratio(to_y),
+            width_original=width_original,
+            height_original=height_original,
+            name=name,
+            hcenter=hcenter,
+            vcenter=vcenter,
+            confidence=confidence,
+        )
+
+    def click_relative(self, x, y, *args, **kwargs):
+        return super().click_relative(_round_ratio(x), _round_ratio(y), *args, **kwargs)
+
+    def middle_click_relative(self, x, y, *args, **kwargs):
+        return super().middle_click_relative(_round_ratio(x), _round_ratio(y), *args, **kwargs)
 
     @property
     def runtime_locale(self) -> str | None:

@@ -17,6 +17,8 @@ class PeriodicScreenshotTask(BaseEfTask):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "定时截图"
+        self.group_name = "工具与调试"
+        self.group_icon = FluentIcon.CAMERA
         self.description = "每隔指定秒数截图保存，用于数据采集 / YOLO 样本收集"
         self.icon = FluentIcon.CAMERA
         self.default_config = {
@@ -44,6 +46,9 @@ class PeriodicScreenshotTask(BaseEfTask):
                 filename = save_dir / f"cap_{ts}_{count:04d}.png"
                 cv2.imwrite(str(filename), frame)
                 count += 1
-                self.log_info(f"[{count}] 截图已保存: {filename}")
+                if count == 1 or count % 10 == 0:
+                    self.log_info(f"[{count}] 截图已保存: {filename}")
+                else:
+                    self.log_debug(f"[{count}] 截图已保存: {filename}")
 
             self.sleep(interval)

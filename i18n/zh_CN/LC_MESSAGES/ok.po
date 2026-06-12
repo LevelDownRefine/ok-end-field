@@ -21,77 +21,11 @@ msgstr "武陵"
 msgid "一键日常"
 msgstr "一鍵日常"
 
-msgid "从要推的图的最左边开始"
-msgstr "從要推的圖的最左邊開始"
-
-msgid "体力本"
-msgstr "體力本"
-
-msgid "公共区"
-msgstr "公共區"
-
-msgid "兵棋推演"
-msgstr "兵棋推演"
-
-msgid "军备解析"
-msgstr "軍備解析"
-
-msgid "冲锋"
-msgstr "衝鋒"
-
-msgid "决策构象"
-msgstr "決策構象"
-
-msgid "刷钱本"
-msgstr "刷錢本"
-
-msgid "大月卡"
-msgstr "大月卡"
-
-msgid "尘烟"
-msgstr "塵煙"
-
-msgid "手枪"
-msgstr "手槍"
-
-msgid "推图"
-msgstr "推圖"
-
-msgid "收菜"
-msgstr "收菜"
-
-msgid "活动情报补给"
-msgstr "活動情報補給"
-
-msgid "活动自律"
-msgstr "活動自律"
-
-msgid "深度搜索"
-msgstr "深度搜索"
-
-msgid "狙击"
-msgstr "狙擊"
-
-msgid "班组"
-msgstr "班組"
-
-msgid "突击"
-msgstr "突擊"
-
-msgid "竞技场"
-msgstr "競技場"
-
-msgid "自动刷体力"
-msgstr "自動刷體力"
-
-msgid "购买免费礼包"
-msgstr "購買免費禮包"
-
 msgid "邮件"
-msgstr "郵件"
+msgstr "邮件"
 
 msgid "领任务"
-msgstr "領任務"
+msgstr "领任務"
 
 msgid "item_bottled_food_1"
 msgstr "柑实罐头"
