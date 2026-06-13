@@ -396,12 +396,21 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             for box in box_list:
                 unit_day = self.lang.daily_battle_mixin.k_unit_day
                 unit_hour = self.lang.daily_battle_mixin.k_unit_hour
-                match = re.match(rf"(\d+)({unit_day}|{unit_hour})", box.name)
-                if not match:
-                    self.log_warning(f"应急理智加强剂时效格式无法识别: {box.name}")
+                if unit_day in box.name:
+                    validity_unit = unit_day
+                elif unit_hour in box.name:
+                    validity_unit = unit_hour
+                else:
+                    self.log_warning(f"无法识别时效单位: {box.name}")
                     continue
-                validity_num = int(match.group(1))
-                validity_unit = match.group(2)
+
+                num_match = re.search(r"\d+", box.name)
+
+                if num_match:
+                    validity_num = int(num_match.group())
+                else:
+                    self.log_info(f"时效数字解析失败，默认按1处理: {box.name}")
+                    validity_num = 1
                 # 小时优先，小时药排序在前
                 sort_key = (0 if validity_unit == unit_hour else 1, validity_num)
                 parsed_boxes.append((sort_key, box, validity_num, validity_unit))

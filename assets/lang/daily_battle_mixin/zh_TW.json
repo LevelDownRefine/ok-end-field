@@ -66,7 +66,7 @@
     "pattern": "領取"
   },
   "k_4e1f3d8b": {
-    "pattern": "(\\d+)(天|小時)"
+    "pattern": "(天|小時)"
   },
   "k_62b5b688": {
     "pattern": "已出戰"
