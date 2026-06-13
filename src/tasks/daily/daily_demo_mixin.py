@@ -57,10 +57,10 @@ class DailyDemoMixin(MapMixin, NavigationMixin, BattleMixin):
         self.ensure_main()
         self.press_key("f7", after_sleep=2)
         if not self.wait_click_feature(feature=fL.DemoGraphicEnter, time_out=10, raise_if_not_found=False, vertical_variance=0.5):
-            self.log_warning("未找到『生息演算』入口，可能没有打开活动入口页")
+            self.log_warning("未找到『演算』入口，可能没有打开活动入口页")
             return False
         if not self.wait_click_feature(feature=fL.to_max_produce_num, time_out=10, raise_if_not_found=False, box=self.box_of_screen(0.934, 0.881, 0.977, 0.965)):
-            self.log_warning("未找到『进入』或最大产出按钮，可能还没进入生息演算列表")
+            self.log_warning("未找到活动入口，你不会没开活动吧 ^_^")
             return False
         return True
     

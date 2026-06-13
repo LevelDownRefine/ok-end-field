@@ -17,6 +17,9 @@ from src.tasks.mixin.common import Common
 from src.tasks.mixin.map_mixin import MapMixin
 from src.tasks.mixin.zip_line_mixin import ZipLineMixin
 
+MAX_STORAGE_TICKET = 1000
+ONE_MEDICINE_RESTORE_ENERGY = 40
+
 gather_list = stages_dict[STAGE_CATEGORY_ENERGY_POOLING]
 
 
@@ -361,7 +364,8 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         """
         if not self.config.get("消耗限时体力药", False):
             return True
-
+        now_ticket = self.detect_ticket_number()
+        max_eat = (MAX_STORAGE_TICKET - now_ticket) // ONE_MEDICINE_RESTORE_ENERGY
         self.wait_click_feature(
             feature=fL.stamina_plus_icon, vertical_variance=0.01, horizontal_variance=0.01,
             time_out=5,
@@ -420,7 +424,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     consume = count
                     self.log_info(f"找到 {count} 个限时 {validity_num} 小时的 应急理智加强剂，本次全部用掉")
                 else:
-                    consume = min(max(1, math.ceil(2 * count / validity_num)), count)
+                    consume = min(min(max(1, math.ceil(2 * count / validity_num)), count), max_eat)
                     self.log_info(f"找到 {count} 个限时 {validity_num} 天的 应急理智加强剂，本次预计使用 {consume} 个")
                 for _ in range(consume):
                     self.click(box, after_sleep=0.1)
