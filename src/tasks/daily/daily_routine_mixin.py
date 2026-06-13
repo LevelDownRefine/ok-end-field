@@ -4,19 +4,17 @@ import time
 from src.data.world_map import areas_list, outpost_dict, goods_dict
 from src.data.world_map_utils import get_area_by_outpost_name, get_goods_by_outpost_name, get_world_map_text
 from src.image.hsv_config import HSVRange as hR
-from src.tasks.mixin.liaison_mixin import LiaisonMixin
-from src.tasks.mixin.common import Common
 from src.data.FeatureList import FeatureList as fL
 from src.data.characters_utils import get_contact_list_with_feature_list
 
 
-class DailyRoutineMixin(LiaisonMixin, Common):
+class DailyRoutineFeature:
     BOAT_STAGES = ['收集线索', '制造舱', '培养舱']
     ACTIVITY_REWARDS = ['周常奖励', '理智补给']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.default_config.update({
+    def __init__(self, task):
+        self._task = task
+        task.default_config.update({
             "⭐收邮件": True,
             "⭐据点兑换": True,
             "交易货品优先序列": [],
@@ -32,11 +30,11 @@ class DailyRoutineMixin(LiaisonMixin, Common):
             "活动奖励": self.ACTIVITY_REWARDS,
             "⭐日常奖励": True,
         })
-        self.config_type["帝江号收菜操作"] = {
+        task.config_type["帝江号收菜操作"] = {
             "type": "multi_selection",
             "options": self.BOAT_STAGES,
         }
-        self.config_type["活动奖励"] = {
+        task.config_type["活动奖励"] = {
             "type": "multi_selection",
             "options": self.ACTIVITY_REWARDS,
         }
@@ -44,11 +42,11 @@ class DailyRoutineMixin(LiaisonMixin, Common):
         all_goods = []
         for goods_list in goods_dict.values():
             all_goods.extend(goods_list)
-        self.config_type["交易货品优先序列"] = {
+        task.config_type["交易货品优先序列"] = {
             "options_available": all_goods,
             "allow_duplication": False,
         }
-        self.config_description.update({
+        task.config_description.update({
             "⭐收邮件": "是否前往「邮箱」领取邮件。",
             "⭐据点兑换": (
                 "是否在「地区建设/据点管理」中通过交易获得调度券。"
@@ -97,12 +95,15 @@ class DailyRoutineMixin(LiaisonMixin, Common):
                 "是否领取「行动手册/日常」和「通行证」中的奖励。"
             ),
         })
-        self.default_config_group.update({
+        task.default_config_group.update({
             "⭐据点兑换": ["交易货品优先序列"],
             "⭐收信用": ["尝试仅收培育室"],
             "⭐帝江号收菜": ["帝江号收菜操作"],
             "⭐活动奖励": ["活动奖励"],
         })
+
+    def __getattr__(self, name):
+        return getattr(self._task, name)
 
     def make_simply(self):
         self.info_set("current_task", "make_simply")

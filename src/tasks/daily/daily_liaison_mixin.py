@@ -3,38 +3,36 @@ import time
 import threading
 
 from PySide6.QtCore import QTimer
-from PySide6.QtWidgets import QApplication
 from qfluentwidgets import FluentIcon
 
 from src.data.characters_utils import get_contact_list_with_feature_list
 from src.data.characters import all_list
 from src.tasks.mixin.common import LiaisonResult, build_name_patterns
-from src.tasks.mixin.liaison_mixin import LiaisonMixin
 
 
-class DailyLiaisonMixin(LiaisonMixin):
+class DailyLiaisonFeature:
     HELP_LINK = "https://cnb.cool/ok-oldking/ok-ef-update/-/blob/main/docs/日常任务.md"
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, task):
+        self._task = task
 
-        self.can_contact_dict = get_contact_list_with_feature_list(self.lang)
+        self.can_contact_dict = get_contact_list_with_feature_list(self._task.lang)
         self.contact_name_patterns = {name: build_name_patterns(name) for name in self.can_contact_dict.keys()}
         #
-        self.config_type["优先送礼对象"] = {"type": "drop_down", "options": all_list}
-        self.config_type["帮助"] = {
+        self._task.config_type["优先送礼对象"] = {"type": "drop_down", "options": all_list}
+        self._task.config_type["帮助"] = {
             "type": "button",
             "text": "打开帮助",
             "icon": FluentIcon.LINK,
             "callback": self.open_help_link,
         }
-        self.default_config.update({
+        self._task.default_config.update({
             "⭐送礼": True,
             "⭐帝江号一键存放": False,
             "送礼任务最多尝试次数": 2,
             "优先送礼对象": all_list[0],
         })
-        self.config_description.update({
+        self._task.config_description.update({
             "⭐送礼": (
                 "是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。\n"
                 "如果途中偶遇干员，则直接交互完成送礼。\n"
@@ -46,9 +44,12 @@ class DailyLiaisonMixin(LiaisonMixin):
             ),
             "帮助": "打开日常任务使用说明网页。",
         })
-        self.default_config_group.update({
+        self._task.default_config_group.update({
             "⭐送礼": ["送礼任务最多尝试次数", "优先送礼对象"],
         })
+
+    def __getattr__(self, name):
+        return getattr(self._task, name)
 
     def open_help_link(self, *_):
         """打开帮助链接，使用独立的内嵌 WebView 对话框。"""

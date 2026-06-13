@@ -1,17 +1,16 @@
 import re
 
 from src.data.FeatureList import FeatureList as fL
-from src.tasks.mixin.common import Common
 
 
-class DailyShopMixin(Common):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.default_config.update({
+class DailyShopFeature:
+    def __init__(self, task):
+        self._task = task
+        task.default_config.update({
             "⭐买信用商店": True,
             "信用商店保留信用": 300,
         })
-        self.config_description.update({
+        task.config_description.update({
             "⭐买信用商店": (
                 "是否在「采购中心/信用交易所」采购。\n"
                 "自动刷新 且 仅购买「武库配额」「嵌晶玉」。"
@@ -23,9 +22,12 @@ class DailyShopMixin(Common):
         self.refresh_count = 0
         self.refresh_cost_list = [80, 120, 160, 201]
         self.credit_good_search_box = None
-        self.default_config_group.update({
+        task.default_config_group.update({
             "⭐买信用商店": ["信用商店保留信用"],
         })
+
+    def __getattr__(self, name):
+        return getattr(self._task, name)
 
     def refresh(self, sum_credit):
         if self.refresh_count >= len(self.refresh_cost_list):

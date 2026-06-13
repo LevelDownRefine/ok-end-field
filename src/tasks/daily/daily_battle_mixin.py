@@ -12,11 +12,6 @@ from src.data.world_map import stages_cost, higher_order_feature_dict, STAGE_CAT
 from src.data.world_map import stages_dict, stages_list
 from src.data.world_map_utils import get_stage_category, get_world_map_matcher, is_world_map_text
 from src.tasks.sequence_parser import parse_int_sequence, parse_sequence
-from src.tasks.mixin.battle_mixin import BattleMixin
-from src.tasks.mixin.common import Common
-from src.tasks.mixin.map_mixin import MapMixin
-from src.tasks.mixin.zip_line_mixin import ZipLineMixin
-
 MAX_STORAGE_TICKET = 1000
 ONE_MEDICINE_RESTORE_ENERGY = 40
 
@@ -45,10 +40,9 @@ class BattleContext:
     today_reward_tier: str = ""  # 今日奖励等级
 
 
-class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
+class DailyBattleFeature:
     """
-    日常战斗混合类，用于处理日常战斗任务，包括刷取体力副本、处理奖励档位切换等功能。
-    继承自多个Mixin类，提供地图导航、滑索使用和战斗相关的功能。
+    日常战斗功能类，用于处理日常战斗任务，包括刷取体力副本、处理奖励档位切换等功能。
     """
     # 配置项常量定义
     CFG_SCROLL_ENABLE = "是否启用滚动放大视角"  # 是否启用滚动放大视角的配置项名称
@@ -61,13 +55,13 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
     PRE_ENTER_TEAM_SWITCH_NONE = "不换队伍"
     PRE_ENTER_TEAM_SWITCH_TEAM_OPTIONS = ["1", "2", "3", "4", "5"]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, task):
+        self._task = task
         self.gather_near_transfer_point_dict = dict()
         self.stages_list = stages_list
         self._reset_battle_state()
         today_str = datetime.now().strftime("%Y-%m-%d")
-        self.default_config.update({
+        self._task.default_config.update({
             "⭐刷体力": True,
             "消耗限时体力药": False,
             "体力本": "干员经验",
@@ -80,7 +74,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             **{key: "" for key in gather_list},
             self.CFG_PRE_ENTER_TEAM_SWITCH: self.PRE_ENTER_TEAM_SWITCH_NONE,
         })
-        self.default_config_group.update(
+        self._task.default_config_group.update(
             {
                 "⭐刷体力": [
                     "消耗限时体力药",
@@ -99,7 +93,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             }
         )
 
-        self.config_description.update({
+        self._task.config_description.update({
             "⭐刷体力": (
                 "是否消耗所有「理智」刷取培养材料。"
             ),
@@ -151,16 +145,19 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             if stage in self.REWARD_TIER_STAGE_SET:
                 stage_options_with_tiers.append(f"{stage}{self.REWARD_TIER_LOW}")
                 stage_options_with_tiers.append(f"{stage}{self.REWARD_TIER_HIGH}")
-        self.config_type["刷本序列"] = {"options_available": stage_options_with_tiers, "allow_duplication": True}
-        self.config_type["体力本"] = {"type": "drop_down", "options": self.stages_list}
-        self.config_type[self.CFG_STAGE_REWARD_TIER] = {
+        self._task.config_type["刷本序列"] = {"options_available": stage_options_with_tiers, "allow_duplication": True}
+        self._task.config_type["体力本"] = {"type": "drop_down", "options": self.stages_list}
+        self._task.config_type[self.CFG_STAGE_REWARD_TIER] = {
             "type": "drop_down",
             "options": [self.REWARD_TIER_KEEP, self.REWARD_TIER_LOW, self.REWARD_TIER_HIGH]
         }
-        self.config_type[self.CFG_PRE_ENTER_TEAM_SWITCH] = {
+        self._task.config_type[self.CFG_PRE_ENTER_TEAM_SWITCH] = {
             "type": "drop_down",
             "options": [self.PRE_ENTER_TEAM_SWITCH_NONE] + self.PRE_ENTER_TEAM_SWITCH_TEAM_OPTIONS,
         }
+
+    def __getattr__(self, name):
+        return getattr(self._task, name)
 
     def _switch_team_before_reenter(self):
         mode = str(self.config.get(self.CFG_PRE_ENTER_TEAM_SWITCH, self.PRE_ENTER_TEAM_SWITCH_NONE) or "").strip()

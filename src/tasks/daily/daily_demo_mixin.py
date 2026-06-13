@@ -1,17 +1,17 @@
 from src.data.FeatureList import FeatureList as fL
-from src.tasks.mixin.battle_mixin import BattleMixin
-from src.tasks.mixin.map_mixin import MapMixin
-from src.tasks.mixin.navigation_mixin import NavigationMixin
 
-class DailyDemoMixin(MapMixin, NavigationMixin, BattleMixin):    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.default_config.update({
+class DailyDemoFeature:    
+    def __init__(self, task):
+        self._task = task
+        task.default_config.update({
             "⭐演算": True,
         })
-        self.config_description.update({
+        task.config_description.update({
             "⭐演算": "是否执行演武集算任务"
         })
+
+    def __getattr__(self, name):
+        return getattr(self._task, name)
 
     def battle_demo(self):
         if not self.go_to_DemoGraphic():

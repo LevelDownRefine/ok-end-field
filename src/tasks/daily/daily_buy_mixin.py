@@ -2,18 +2,18 @@ import re
 
 from src.data.world_map import areas_list
 from src.tasks.sequence_parser import parse_sequence
-from src.tasks.mixin.common import Common
 from src.data.FeatureList import FeatureList as fL
 
-class DailyBuyMixin(Common):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.default_config.update({
+
+class DailyBuyFeature:
+    def __init__(self, task):
+        self._task = task
+        task.default_config.update({
             "⭐买物资": False,
             "购物白名单": [],
             "是否买礼物": True,
         })
-        self.config_description.update({
+        task.config_description.update({
             "⭐买物资": (
                 "是否在「地区建设/物资调度/稳定物资需求」中通过调度券购买物资。\n"
                 "依次购买「日用消耗」「工业货品」「人文物产」首行某个物品。"
@@ -26,10 +26,12 @@ class DailyBuyMixin(Common):
                 "是否购买「人文物产」（同样应用购物白名单序列）。"
             ),
         })
-        self.default_config_group.update({
+        task.default_config_group.update({
             "⭐买物资": ["购物白名单", "是否买礼物"],
         })
 
+    def __getattr__(self, name):
+        return getattr(self._task, name)
     def buy_staple_goods(self):
         self.info_set("current_task", "buy_staple_goods")
         self.log_info("开始买物资任务")

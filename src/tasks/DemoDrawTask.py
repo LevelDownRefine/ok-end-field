@@ -1,15 +1,17 @@
 from src.data.FeatureList import FeatureList as fL
 from src.icons import Icons
-from src.tasks.daily.daily_demo_mixin import DailyDemoMixin
+from src.tasks.daily.daily_demo_mixin import DailyDemoFeature
+from src.tasks.mixin.common import Common
 
 
-class DemoDrawTask(DailyDemoMixin):
+class DemoDrawTask(Common):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "演算抽牌"
         self.group_name = "战斗"
         self.description = "在演武台面前自动进入演算抽牌页，循环抽取直到满足等级变化条件"
         self.icon = Icons.BATTLE
+        self.daily_demo = DailyDemoFeature(self)
         self.default_config.update({
             "最多重开次数": 30,
         })
@@ -36,7 +38,7 @@ class DemoDrawTask(DailyDemoMixin):
         self.ensure_main()
         self.press_key("f", after_sleep=1)
         self.wait_ui_stable(refresh_interval=1)
-        if self.read_level() < 0:
+        if self.daily_demo.read_level() < 0:
             self.log_warning("按 F 后未进入演算抽牌页面")
             return False
         return True
@@ -44,7 +46,7 @@ class DemoDrawTask(DailyDemoMixin):
     def draw_until_target(self):
         down_count = 0
         diff_penalty_sum = 0
-        previous_level = self.read_level()
+        previous_level = self.daily_demo.read_level()
         if previous_level < 0:
             return False
 
@@ -58,7 +60,7 @@ class DemoDrawTask(DailyDemoMixin):
             ):
                 self.log_warning("未找到演算抽牌按钮")
                 return False
-            current_level = self.read_level()
+            current_level = self.daily_demo.read_level()
             if current_level < 0:
                 return False
             level_diff = current_level - previous_level

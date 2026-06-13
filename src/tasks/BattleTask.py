@@ -1,10 +1,14 @@
 from qfluentwidgets import FluentIcon
 
 from src.icons import Icons
-from src.tasks.daily.daily_battle_mixin import DailyBattleMixin
+from src.tasks.daily.daily_battle_mixin import DailyBattleFeature
+from src.tasks.mixin.common import Common
+from src.tasks.mixin.map_mixin import MapMixin
+from src.tasks.mixin.zip_line_mixin import ZipLineMixin
+from src.tasks.mixin.battle_mixin import BattleMixin
 
 
-class BattleTask(DailyBattleMixin):
+class BattleTask(Common, MapMixin, ZipLineMixin, BattleMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = "刷体力"
@@ -12,6 +16,7 @@ class BattleTask(DailyBattleMixin):
         self.group_icon = Icons.BATTLE
         self.description = "使用说明参见选项，更多用法参见 ./docs/体力本.md"
         self.icon = Icons.BATTLE
+        self.daily_battle = DailyBattleFeature(self)
         self.default_config_group.pop("⭐刷体力", None)
         self.default_config.pop("⭐刷体力", None)
         task_group = {"隐藏": []}
@@ -28,7 +33,7 @@ class BattleTask(DailyBattleMixin):
     def run(self):
         self.ensure_main(time_out=420)
         try:
-            ok = self.battle()
+            ok = self.daily_battle.battle()
             if ok:
                 self.log_info("刷体力结束!", notify=self.get_battle_config("后台结束战斗通知") and self.in_bg())
             else:

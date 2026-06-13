@@ -7,16 +7,14 @@ from src.data.world_map import areas_list
 from src.data.world_map_utils import get_world_map_matcher
 from src.image.hsv_config import HSVRange as hR
 from src.tasks.mixin.common import GoodsInfo
-from src.tasks.mixin.navigation_mixin import NavigationMixin
-from src.tasks.mixin.common import Common
 
 
-class DailyTradeMixin(NavigationMixin, Common):
+class DailyTradeFeature:
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, task):
+        self._task = task
         #
-        self.default_config.update({
+        task.default_config.update({
             "⭐买卖货": True,
             "只买不卖": False,
         })
@@ -30,8 +28,8 @@ class DailyTradeMixin(NavigationMixin, Common):
             buy_sell_desc_dict[f"{area}买入价"] = f"{area}物资买入价格上限，超出则拒绝买入。若必买，则设大数。"
             buy_sell_desc_dict[f"{area}卖出价"] = f"{area}物资卖出价格下限，不足则拒绝卖出。若必卖，则设1。"
             buy_sell_desc_dict[area] = f"是否启用「地区建设/{area}物资调度/弹性需求物资」交易。"
-        self.default_config.update(buy_sell_dict)
-        self.config_description.update({
+        task.default_config.update(buy_sell_dict)
+        task.config_description.update({
             "⭐买卖货": (
                 "是否在「弹性需求物资」与好友交易赚取调度券。\n"
                 "自动选择利润最高的方案，然后用价格上下限判定是否交易。\n"
@@ -55,9 +53,12 @@ class DailyTradeMixin(NavigationMixin, Common):
                 f"{area}买入价",
                 f"{area}卖出价",
             ]
-        self.default_config_group.update({
+        task.default_config_group.update({
             "⭐买卖货": grouped_children + area_grouped_children,
         })
+
+    def __getattr__(self, name):
+        return getattr(self._task, name)
 
     def collect_market_goods_info(self):
         def ocr_stock_quantity() -> int:
