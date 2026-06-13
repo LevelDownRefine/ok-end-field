@@ -63,8 +63,6 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
         self.gather_near_transfer_point_dict = dict()
         self.stages_list = stages_list
         self._reset_battle_state()
-        # 下列代码在 AutoCombatTask.py 中有部分重复。如有更新，请两边一起修改。
-        # 不要试图归并，否则会影响『日常任务』中的选项顺序。
         today_str = datetime.now().strftime("%Y-%m-%d")
         self.default_config.update({
             "⭐刷体力": True,
@@ -77,14 +75,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             "体力刷完后继续刷取次数": 0,
             self.CFG_SCROLL_ENABLE: False,
             **{key: "" for key in gather_list},
-            "技能释放": ["1", "2", "3"],
-            "启动技能点数": 2,
-            "后台结束战斗通知": True,
-            "无数字操作间隔": 6,
-            "进入战斗后的初始等待时间": 3,
             self.CFG_PRE_ENTER_TEAM_SWITCH: self.PRE_ENTER_TEAM_SWITCH_NONE,
-            "启用排轴": False,
-            "排轴序列": "ult_2,1,e,ult_3,sleep_8",
         })
         self.default_config_group.update(
             {
@@ -100,14 +91,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 "淤积点相关选项": ["仅站桩", "体力刷完后继续刷取次数", self.CFG_SCROLL_ENABLE]
                                   + [key for key in gather_list],
                 "战斗相关选项": [
-                    "技能释放",
-                    "启动技能点数",
-                    "后台结束战斗通知",
-                    "无数字操作间隔",
-                    "进入战斗后的初始等待时间",
                     self.CFG_PRE_ENTER_TEAM_SWITCH,
-                    "启用排轴",
-                    "排轴序列",
                 ],
             }
         )

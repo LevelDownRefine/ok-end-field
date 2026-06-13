@@ -85,15 +85,15 @@ class AutoCombatLogic:
             return False
 
         # 初始化普通战斗配置属性（排轴与普通模式共用）
-        self.normal_skill_sequence = task.config.get("技能释放", ["1", "2", "3"])
-        self.normal_start_trigger = task.config.get("启动技能点数", 2)
+        self.normal_skill_sequence = task.get_battle_config("技能释放", ["1", "2", "3"])
+        self.normal_start_trigger = task.get_battle_config("启动技能点数", 2)
         self.normal_skill_index = 0
 
         self.rotation_enabled = False
         self.rotation_active = True
-        self.rotation_enabled = self.task.config.get("启用排轴", False)
+        self.rotation_enabled = self.task.get_battle_config("启用排轴", False)
         if self.rotation_enabled:
-            skill_sequence_config = self.task.config.get("排轴序列", "")
+            skill_sequence_config = self.task.get_battle_config("排轴序列", "")
             self.task.log_info(f"排轴已启用，排轴序列配置: '{skill_sequence_config}'")
             self.skill_sequence = self.task._parse_skill_sequence(skill_sequence_config)
             self.skill_index = 0
@@ -116,7 +116,7 @@ class AutoCombatLogic:
             if start_sleep is not None:
                 time.sleep(start_sleep)
             else:
-                wait_time = task.config.get("进入战斗后的初始等待时间", 3)
+                wait_time = task.get_battle_config("进入战斗后的初始等待时间", 3)
                 time.sleep(wait_time)
 
         try:
@@ -132,7 +132,7 @@ class AutoCombatLogic:
                         if task.debug:
                             task.screenshot("out_of_combat")
                         if task.is_combat_ended():
-                            task.log_info("自动战斗结束!", notify=task.config.get("后台结束战斗通知") and task.in_bg())
+                            task.log_info("自动战斗结束!", notify=task.get_battle_config("后台结束战斗通知") and task.in_bg())
                             task.log_info("退出战斗主循环")
                             self._end = True
                             self._normal_attack_hold_enabled = False

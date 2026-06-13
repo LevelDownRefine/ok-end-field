@@ -29,6 +29,8 @@ from src.data.world_map_utils import is_world_map_text
 from src.tasks.sequence_parser import parse_sequence
 from src.tasks.AutoCombatLogic import AutoCombatLogic
 from src.tasks.BaseEfTask import BaseEfTask
+from src.tasks.BattleConfig import BATTLE_CONFIG_NAME, BattleConfigManager, DEFAULT_BATTLE_CONFIG
+from src.tasks.global_config_store import get_global_config
 
 
 class BattleMixin(BaseEfTask):
@@ -52,43 +54,12 @@ class BattleMixin(BaseEfTask):
 
         self.last_no_number_action_time = 0
         self.exit_check_count = 0
-        self.config_type["技能释放"] = {
-            "type": "multi_selection",
-            "options": ["1", "2", "3", "4"],
-        }
-        self.config_description.update({
-            "技能释放": (
-                "勾选要自动循环释放「战技」的角色编号。\n"
-                "按编号从小到大的顺序依次释放，至少勾选一个。"
-            ),
-            "启动技能点数": (
-                "当「技力条」达到该数值时，\n"
-                "开始执行技能序列。取值范围1-3。"
-            ),
-            "无数字操作间隔": (
-                "战斗中周期触发锁敌+向前闪避的最小间隔秒数。\n"
-                "取值不小于1。"
-            ),
-            "启用排轴": (
-                "是否启用排轴功能。\n"
-                "启用后会根据「排轴序列」配置的顺序优先释放对应角色的技能，\n"
-                "当排轴失败时回退到非排轴状态"
-            ),
-            "排轴序列": (
-                "仅接受'1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'这些值的逗号分隔字符串，\n"
-                "代表技能释放优先级顺序\n"
-                "例如'ult_2,1,e,ult_1'表示优先尝试干员2的终结技，再干员1的战技，\n"
-                "再尝试连携，再干员1的终极技\n"
-                "normal_[n] 表示临时切换为普通战斗模式 n 秒，期间按「技能释放」顺序自动出技，\n"
-                "n 秒结束后自动恢复排轴模式（从下一个排轴技能继续）\n"
-                "启用排轴功能后，系统会按照该配置的顺序尝试释放技能，\n"
-                "一旦成功释放一个技能，就会等待下一个技能，而不是继续尝试后续技能\n"
-                "这可以用于更精细地控制技能释放顺序，\n"
-                "例如优先释放某个干员的技能来配合特定的战术需求。"
-            ),
-        })
+        self.battle_config_manager = BattleConfigManager(get_global_config(BATTLE_CONFIG_NAME))
         # 用于识别 LV 或等级文字
         self.lv_regex = re.compile(r"(?i)lv|\d{2}")
+
+    def get_battle_config(self, key: str, default=None):
+        return self.battle_config_manager.get(key, DEFAULT_BATTLE_CONFIG.get(key, default))
 
     def _parse_skill_sequence(self, raw_config) -> list[str]:
         """
@@ -301,7 +272,7 @@ class BattleMixin(BaseEfTask):
 
     def approach_enemy(self):
         """战斗中周期触发操作（无伤害数字）"""
-        interval = self.config.get("无数字操作间隔", 6)
+        interval = self.get_battle_config("无数字操作间隔", 6)
         interval = max(1.0, min(float(interval), 30.0))
         if time.time() - getattr(self, 'last_no_number_action_time', 0) < interval:
             return
@@ -406,10 +377,10 @@ class BattleMixin(BaseEfTask):
             if is_world_map_text(self.lang, getattr(self.battle_ctx, 'category_name', None), STAGE_CATEGORY_ENERGY_POOLING):
                 sleep_time = 0.1
             else:
-                sleep_time = self.config.get("进入战斗后的初始等待时间", 3)
+                sleep_time = self.get_battle_config("进入战斗后的初始等待时间", 3)
         except Exception as e:
             self.log_error(f"判断是否为能量淤积点时发生错误: {e}")
-            sleep_time = self.config.get("进入战斗后的初始等待时间", 3)
+            sleep_time = self.get_battle_config("进入战斗后的初始等待时间", 3)
 
         while True:
 

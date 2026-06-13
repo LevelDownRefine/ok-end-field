@@ -13,6 +13,7 @@ from src.tasks.mixin.game_flow_mixin import GameFlowMixin
 from src.tasks.mixin.process_manager import ProcessManager
 from src.tasks.mixin.runtime_mixin import RuntimeMixin
 from src.tasks.mixin.window_arrow_drawing_mixin import WindowArrowDrawingMixin
+from src.tasks.global_config_store import ENSURE_MAIN_ONCE_ACTION_SLEEP_NAME, KEY_CONFIG_NAME, get_global_config
 
 
 def back_window(prev):
@@ -83,8 +84,8 @@ class BaseEfTask(
         self.support_multi_account = False  # 明确标识该任务是否支持多账号执行逻辑
         self.default_config_group = {}  # 配置项分组信息，格式为 { "分组名称": ["配置项1", "配置项2"] }
         self.box = ScreenPosition(self)  # 屏幕位置辅助对象，提供top/bottom/left/right等边界
-        self.key_config = self.get_global_config("Game Hotkey Config")  # 获取全局热键配置
-        self.once_sleep_time = self.get_global_config("Ensure Main Once Action Sleep").get(
+        self.key_config = get_global_config(KEY_CONFIG_NAME)  # 获取全局热键配置
+        self.once_sleep_time = get_global_config(ENSURE_MAIN_ONCE_ACTION_SLEEP_NAME).get(
             "SingleActionWithDelay", 1.5
         )  # 获取全局配置的单次动作睡眠时间
         self.key_manager = KeyConfigManager(self.key_config)  # 初始化热键管理器

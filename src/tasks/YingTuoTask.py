@@ -13,25 +13,6 @@ class YingTuoTask(BattleMixin):
         self.group_name = "战斗"
         self.description = "自动完成当前所有普通影拓丰碑关卡"
         self.icon = Icons.BATTLE
-        self.default_config.update({
-            "技能释放": ["1", "2", "3"],
-            "启动技能点数": 2,
-            "后台结束战斗通知": True,
-            "无数字操作间隔": 6,
-            "进入战斗后的初始等待时间": 3,
-            "启用排轴": False,
-            "排轴序列": "ult_2,1,e,ult_3,sleep_8",
-        })
-        self.config_description.update({
-            "启动技能点数": (
-                "当「技力条」达到该数值时，\n"
-                "开始执行技能序列。取值范围1-3。"
-            ),
-            "无数字操作间隔": (
-                "战斗中周期触发锁敌+向前闪避的最小间隔秒数。\n"
-                "取值不小于1。"
-            ),
-        })
         self.index = 0
         self.yingtuo_list = permanent_dict[YINGTUO_MONUMENT]
         self.support_schedule_task = True
