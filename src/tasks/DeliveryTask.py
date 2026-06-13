@@ -546,12 +546,21 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                 ocr=False,
                 raise_if_fail=False,
             )
-            self.navigate_until_target(
+            if not self.navigate_until_target(
                 target=fL.receive_good,
                 target_is_ocr=False,
                 nav=secondary_objective_direction_dot,
                 target_vertical_variance=0.06,
-            )
+            ):
+                self.log_info("未能到达送货点，取货失败")
+                return False
+            result = self.wait_feature(feature=fL.receive_good, time_out=10, raise_if_not_found=False)
+            if not result:
+                self.log_info("未能识别到取货界面，取货失败")
+                return False
+            self.click_with_alt(result)
+            while not self.wait_ocr(match=self.lang.DeliveryTask.k_b0e3a2da, box=self.box.bottom_right, time_out=2, log=True):
+                self.move_keys("s", 1)
             return True
         return False
 
