@@ -141,6 +141,7 @@ config = {
         ["src.tasks.WarehouseTransferTask", "WarehouseTransferTask"],
         ["src.tasks.DeliveryTask", "DeliveryTask"],
         ["src.tasks.BattleTask", "BattleTask"],
+        ["src.tasks.DemoDrawTask", "DemoDrawTask"],
         ["src.tasks.Test", "Test"],
         ["src.tasks.YingTuoTask", "YingTuoTask"],
         ["src.tasks.TestStartGame", "TestStartGame"],
