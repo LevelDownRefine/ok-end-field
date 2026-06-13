@@ -64,14 +64,14 @@ class DemoDrawTask(DailyDemoMixin):
             if -level_diff > 0:
                 down_count += 1
             if level_diff < 0:
-                level_diff += 10
+                level_diff += 11
             diff_penalty_sum += 5 - level_diff
             self.log_info(
                 f"第 {draw_index + 1} 次抽牌后等级: {current_level}, "
                 f"差值: {level_diff}, 差值统计: {diff_penalty_sum}, 等级下降计数: {down_count}"
             )
-            if diff_penalty_sum > 5:
-                self.log_info("差值统计超过5，放弃本轮")
+            if diff_penalty_sum > 4:
+                self.log_info("差值统计超过4，放弃本轮")
                 return False
             previous_level = current_level
 
