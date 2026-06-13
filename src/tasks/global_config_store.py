@@ -78,27 +78,27 @@ def _iter_legacy_config_data(option: ConfigOption):
     else:
         task_config_names = []
 
-    config_paths = [
-        Path(get_relative_path("configs", f"{task_config_name}.json"))
-        for task_config_name in task_config_names
-    ]
-    config_paths.sort(key=lambda path: path.stat().st_mtime if path.is_file() else -1, reverse=True)
-
-    for config_path in config_paths:
+    for task_config_name in task_config_names:
+        config_path = Path(get_relative_path("configs", f"{task_config_name}.json"))
         data = read_json_file(str(config_path))
         if isinstance(data, dict):
-            yield data
+            mtime = config_path.stat().st_mtime if config_path.is_file() else -1
+            yield data, mtime
 
 
 def _collect_legacy_values(option: ConfigOption) -> dict[str, Any]:
-    legacy_values = {}
-    for data in _iter_legacy_config_data(option) or []:
+    candidates_by_key: dict[str, list[tuple[float, Any]]] = {}
+    for data, mtime in _iter_legacy_config_data(option) or []:
         for key, default_value in option.default_config.items():
-            if key in legacy_values or key not in data:
+            if key not in data:
                 continue
             value = _coerce_legacy_value(key, data.get(key), default_value)
             if _same_type(value, default_value) and value != default_value:
-                legacy_values[key] = value
+                candidates_by_key.setdefault(key, []).append((mtime, value))
+
+    legacy_values = {}
+    for key, candidates in candidates_by_key.items():
+        legacy_values[key] = max(candidates, key=lambda item: item[0])[1]
     return legacy_values
 
 
