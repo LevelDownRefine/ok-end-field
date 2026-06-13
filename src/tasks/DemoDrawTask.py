@@ -13,6 +13,7 @@ class DemoDrawTask(DailyDemoMixin):
         self.default_config.update({
             "最多重开次数": 30,
         })
+        self.default_config.pop("⭐演算", None)
         self.config_description.update({
             "最多重开次数": "每轮最多抽牌5次；未满足条件时点击左下角『放弃』并重新开始。",
         })
