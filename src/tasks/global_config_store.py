@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import threading
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -49,6 +50,7 @@ _CONFIGS: dict[str, Config] = {}
 _OPTIONS = {option.name: option for option in GLOBAL_CONFIG_OPTIONS}
 _MIGRATION_MARKER = "global_config_store_v2_task_scoped"
 _MIGRATION_STATE_PATH = get_relative_path("configs", "_global_config_migrations.json")
+_MIGRATION_BACKUP_DIR = get_relative_path("configs", "global_config_migration_backup")
 _BATTLE_LEGACY_TASK_CONFIGS = ["DailyTask", "AutoCombatTask", "BattleTask"]
 
 
@@ -70,6 +72,22 @@ def _read_migration_state() -> dict[str, Any]:
 
 def _write_migration_state(state: dict[str, Any]) -> None:
     write_json_file(_MIGRATION_STATE_PATH, state)
+
+
+def _backup_legacy_task_configs(state: dict[str, Any]) -> None:
+    backup_marker = f"{_MIGRATION_MARKER}_backup"
+    if state.get(backup_marker):
+        return
+
+    backup_dir = Path(_MIGRATION_BACKUP_DIR)
+    backup_dir.mkdir(parents=True, exist_ok=True)
+    for task_config_name in _BATTLE_LEGACY_TASK_CONFIGS:
+        source_path = Path(get_relative_path("configs", f"{task_config_name}.json"))
+        if source_path.is_file():
+            shutil.copy2(source_path, backup_dir / source_path.name)
+
+    state[backup_marker] = True
+    _write_migration_state(state)
 
 
 def _iter_legacy_config_data(option: ConfigOption):
@@ -104,6 +122,9 @@ def _collect_legacy_values(option: ConfigOption) -> dict[str, Any]:
 
 def _migrate_legacy_task_config(config: Config, option: ConfigOption) -> None:
     state = _read_migration_state()
+    if option.name == BATTLE_CONFIG_NAME:
+        _backup_legacy_task_configs(state)
+
     migrated_options = state.setdefault(_MIGRATION_MARKER, [])
     if not isinstance(migrated_options, list):
         migrated_options = []
