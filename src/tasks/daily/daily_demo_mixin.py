@@ -1,7 +1,9 @@
 from src.data.FeatureList import FeatureList as fL
 from src.tasks.mixin.battle_mixin import BattleMixin
+from src.tasks.mixin.map_mixin import MapMixin
+from src.tasks.mixin.navigation_mixin import NavigationMixin
 
-class DailyDemoMixin(BattleMixin):    
+class DailyDemoMixin(MapMixin, NavigationMixin, BattleMixin):    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.default_config.update({
@@ -72,7 +74,7 @@ class DailyDemoMixin(BattleMixin):
         self.to_near_transfer_point(self.box.bottom_left)
         self.ensure_main()
         self.align_ocr_or_find_target_to_center(ocr_match_or_feature_name_list=fL.demographic_follow, ocr=False)
-        if not self.navigate_until_target(target=fL.enter_demo, nav=fL.demographic_follow, target_is_ocr=False, box=self.box_of_screen(0.653, 0.574, 0.679, 0.817)):
+        if not self.navigate_until_target(target=fL.enter_demo, nav=fL.demographic_follow, target_is_ocr=False, target_vertical_variance=0.05):
             self.log_warning("未能进入『进入演算』目标，可能尚未找到正确路线")
             return False
         return True

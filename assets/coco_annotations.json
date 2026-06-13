@@ -1034,6 +1034,11 @@
             "id": 204,
             "name": "liaison_stage",
             "supercategory": ""
+        },
+        {
+            "id": 205,
+            "name": "receive_good",
+            "supercategory": ""
         }
     ],
     "images": [
@@ -1958,6 +1963,12 @@
         {
             "id": 199,
             "file_name": "images/9.png",
+            "width": 1920,
+            "height": 1080
+        },
+        {
+            "id": 200,
+            "file_name": "images/5.png",
             "width": 1920,
             "height": 1080
         }
@@ -4275,6 +4286,19 @@
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
+        },
+        {
+            "id": 169,
+            "image_id": 200,
+            "category_id": 205,
+            "bbox": [
+                1268,
+                664,
+                28,
+                33
+            ],
+            "area": 924,
+            "iscrowd": 0
         },
         {
             "id": 170,

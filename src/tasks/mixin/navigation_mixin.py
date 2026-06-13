@@ -57,7 +57,8 @@ class NavigationMixin(BaseEfTask):
         found_special_callback=None,
         target_is_yolo: bool = False,
         nav_is_yolo: bool = False,
-        box = None
+        box = None,
+        target_vertical_variance: float = 0.0,
     ):
         """
         持续沿导航标识移动，直到检测到目标。
@@ -84,6 +85,7 @@ class NavigationMixin(BaseEfTask):
                 return self.find_feature(
                     target,
                     threshold=0.7,
+                    vertical_variance=target_vertical_variance
                 )
         run_bool = True
 

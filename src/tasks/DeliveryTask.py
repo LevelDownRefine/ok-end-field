@@ -539,32 +539,19 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                                   need_v=True)  # 需要在配置里指定出发点的滑索距离,这里默认是36m的滑索
             if only_zip_line:
                 return True
-            for i in range(40):
-                self.sleep(2)
-                self.press_key("v")
-                self.align_ocr_or_find_target_to_center(
-                    ocr_match_or_feature_name_list=secondary_objective_direction_dot,
-                    threshold=0.7,
-                    only_x=True,
-                    ocr=False,
-                )
-                self.move_keys(
-                    "w",
-                    1,
-                )
-                if self.wait_ocr(match=self.lang.DeliveryTask.k_a72a252f, box=self.box.bottom_right, settle_time=1, time_out=2, log=True):
-                    self.wait_click_ocr(
-                        match=self.lang.DeliveryTask.k_f736eb3d,
-                        box=self.box.bottom_right,
-                        time_out=2,
-                        log=True,
-                        after_sleep=2,
-                        alt=True,
-                        recheck_time=1
-                    )
-                    break
-            while not self.wait_ocr(match=self.lang.DeliveryTask.k_b0e3a2da, box=self.box.bottom_right, time_out=2, log=True):
-                self.move_keys("s", 1)
+            self.align_ocr_or_find_target_to_center(
+                ocr_match_or_feature_name_list=secondary_objective_direction_dot,
+                threshold=0.8,
+                only_x=True,
+                ocr=False,
+                raise_if_fail=False,
+            )
+            self.navigate_until_target(
+                target=fL.receive_good,
+                target_is_ocr=False,
+                nav=secondary_objective_direction_dot,
+                target_vertical_variance=0.06,
+            )
             return True
         return False
 
@@ -574,35 +561,33 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         Args:
             end_pattern: 目标点的正则匹配模式
         """
-        for i in range(40):
-            self.sleep(2)
-            self.press_key("v", after_sleep=1)
-            self.align_ocr_or_find_target_to_center(
-                ocr_match_or_feature_name_list=secondary_objective_direction_dot,
-                threshold=0.8,
-                only_x=True,
-                ocr=False
-            )
-            self.move_keys(
-                "w",
-                0.5,
-            )
-            self.sleep(1)
-            if end_pattern == self.lang.DeliveryTask.k_6536f6f1:
-                end_pattern = self.lang.DeliveryTask.k_0c1ef9f5
-            if self.wait_click_ocr(
-                    match=end_pattern,
-                    box=self.box.bottom_right,
-                    settle_time=1,
-                    time_out=2,
-                    log=True,
-                    after_sleep=2,
-                    alt=True,
-            ):
-                if not self.find_reward_ok():
-                    self.skip_dialog()
-                self.wait_pop_up(after_sleep=2)
-                break
+        if end_pattern == self.lang.DeliveryTask.k_6536f6f1:
+            end_pattern = self.lang.DeliveryTask.k_0c1ef9f5
+        self.align_ocr_or_find_target_to_center(
+            ocr_match_or_feature_name_list=secondary_objective_direction_dot,
+            threshold=0.8,
+            only_x=True,
+            ocr=False,
+            raise_if_fail=False,
+        )
+        self.navigate_until_target(
+            target=end_pattern,
+            target_is_ocr=True,
+            nav=secondary_objective_direction_dot,
+            box=self.box_of_screen(0.676, 0.576, 0.752, 0.746),
+        )
+        if self.wait_click_ocr(
+            match=end_pattern,
+            box=self.box.bottom_right,
+            settle_time=1,
+            time_out=2,
+            log=True,
+            after_sleep=2,
+            alt=True,
+        ):
+            if not self.find_reward_ok():
+                self.skip_dialog()
+            self.wait_pop_up()
 
     def _resolve_transfer_point_search_box(self):
         """根据当前委托区域选择传送点搜索区域。"""

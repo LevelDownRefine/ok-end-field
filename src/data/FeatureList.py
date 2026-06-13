@@ -140,6 +140,7 @@ class FeatureList(str, Enum):
     q = 'q'
     rationality_supplement_page = 'rationality_supplement_page'
     receive_clue_enter = 'receive_clue_enter'
+    receive_good = 'receive_good'
     refresh_order_list = 'refresh_order_list'
     resident_icon = 'resident_icon'
     restart_battle = 'restart_battle'
