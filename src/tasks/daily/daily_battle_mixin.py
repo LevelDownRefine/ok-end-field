@@ -566,7 +566,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                 threshold=0.7,
                 tolerance=100,
             )
-        self.navigate_until_target(target=self.lang.daily_battle_mixin.k_bfe73e18, box=self.box_of_screen(0.676, 0.589, 0.735, 0.776), nav=[fL.gather_icon_out_map],
+        self.navigate_until_target(target=self.lang.daily_battle_mixin.k_bfe73e18, box=self.box_of_screen(0.679, 0.620, 0.714, 0.769), nav=[fL.gather_icon_out_map],
                                    time_out=60)
         #
         if self.wait_ocr(match=self.lang.daily_battle_mixin.k_b8a81b7a, box=self.box.bottom_right, time_out=1):
@@ -621,7 +621,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
             )
         self.navigate_until_target(
             target=self.lang.daily_battle_mixin.k_39d12e73_1, nav=[fL.gather_icon_out_map, fL.gather_icon_out_map2],
-            box=self.box_of_screen(0.676, 0.589, 0.735, 0.776),time_out=60
+            box=self.box_of_screen(0.679, 0.620, 0.714, 0.769),time_out=60
         )
         click_key = self.lang.daily_battle_mixin.k_b8a81b7a if self.battle_ctx.is_extra_mode else self.lang.daily_battle_mixin.k_39d12e73_1
         result = self.wait_ocr(match=re.compile(click_key), box=self.box.bottom_right, time_out=5)
@@ -965,12 +965,7 @@ class DailyBattleMixin(MapMixin, ZipLineMixin, BattleMixin, Common):
                     nav_is_yolo=use_yolo,
                     target_is_ocr=True,
                     time_out=60,
-                    box=self.box_of_screen(
-                        0.676,
-                        0.589,
-                        0.735,
-                        0.776,
-                    ),
+                    box=self.box_of_screen(0.679, 0.620, 0.714, 0.769),
                 ):
                     raise Exception("导航奖励点失败")
 

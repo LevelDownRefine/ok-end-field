@@ -121,8 +121,8 @@ class NavigationMixin(BaseEfTask):
 
                     stable = True
                     confirm_start = time.time()
-
-                    while time.time() - confirm_start < 1:
+                    settle_time = 2 if target_is_ocr else 1
+                    while time.time() - confirm_start < settle_time:
 
                         if not check_target():
                             stable = False
@@ -190,14 +190,9 @@ class NavigationMixin(BaseEfTask):
                 # 找到导航
                 if nav_result:
                     if not run_bool:
-                        self.log_info("重新找到导航，恢复正常导航模式")
+                        self.log_info("重新找到导航，恢复正常奔跑导航模式")
                         run_bool = True
                         self.press_key("ctrl")
-                    if short_distance_flag:
-                        self.log_info("重新找到导航，恢复正常导航模式")
-
-                    short_distance_flag = False
-                    fail_count = 0
 
                     self.align_ocr_or_find_target_to_center(
                         ocr_match_or_feature_name_list=nav,
@@ -212,31 +207,13 @@ class NavigationMixin(BaseEfTask):
 
                 # 导航丢失
                 else:
-
-                    fail_count += 1
                     if run_bool:
-                        self.log_info(f"未找到导航标识，连续失败次数: {fail_count}")
+                        self.log_info(f"未找到导航标识，进入短距离搜索模式")
                         run_bool = False
                         self.press_key("ctrl")
 
-                    if fail_count % 5 == 0:
-                        self.log_info(
-                            f"未找到导航路径，连续失败次数: {fail_count}"
-                        )
 
-                    if fail_count >= 3:
-                        short_distance_flag = True
-
-                    if short_distance_flag:
-                        # 小幅左右摆头寻找导航
-                        offset = 30 if fail_count % 2 == 0 else -30
-
-                        self.active_and_send_mouse_delta(
-                            dx=offset,
-                            dy=0,
-                        )
-
-                self.sleep(0.05)
+                self.sleep(0.01)
 
         finally:
             if not run_bool:
