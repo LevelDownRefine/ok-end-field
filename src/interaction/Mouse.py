@@ -9,6 +9,13 @@ user32 = ctypes.windll.user32
 MOUSEEVENTF_MOVE = 0x0001
 
 
+def _safe_print(message):
+    try:
+        print(message)
+    except OSError:
+        pass
+
+
 import math
 
 
@@ -127,7 +134,7 @@ def active_and_send_mouse_delta(
 
                 # 检查窗口句柄是否有效
                 if not win32gui.IsWindow(hwnd):
-                    print(f"窗口激活失败: 无效的窗口句柄 {hwnd}")
+                    _safe_print(f"窗口激活失败: 无效的窗口句柄 {hwnd}")
                     return
 
                 # 如果窗口最小化，先恢复
@@ -165,15 +172,15 @@ def active_and_send_mouse_delta(
                 # 检查窗口是否真的在前台
                 final_hwnd = win32gui.GetForegroundWindow()
                 if final_hwnd != hwnd:
-                    print(f"窗口激活警告: 窗口未完全置于前台 " f"(目标:{hwnd}, 当前:{final_hwnd})")
+                    _safe_print(f"窗口激活警告: 窗口未完全置于前台 " f"(目标:{hwnd}, 当前:{final_hwnd})")
 
         except win32gui.error as e:
             # 错误码 0 通常不是严重错误
             if e.winerror != 0:
-                print(f"窗口激活失败 (Win32错误 {e.winerror}): {e}")
+                _safe_print(f"窗口激活失败 (Win32错误 {e.winerror}): {e}")
 
         except Exception as e:
-            print(f"窗口激活失败 (未知错误): {type(e).__name__}: {e}")
+            _safe_print(f"窗口激活失败 (未知错误): {type(e).__name__}: {e}")
 
     # 只激活窗口不发送鼠标移动
     if not only_activate:
