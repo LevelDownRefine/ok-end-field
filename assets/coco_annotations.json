@@ -1044,6 +1044,11 @@
             "id": 206,
             "name": "demo_double_open",
             "supercategory": ""
+        },
+        {
+            "id": 207,
+            "name": "demo_page_icon",
+            "supercategory": ""
         }
     ],
     "images": [
@@ -1938,6 +1943,12 @@
         {
             "id": 193,
             "file_name": "images/8.png",
+            "width": 1920,
+            "height": 1080
+        },
+        {
+            "id": 194,
+            "file_name": "images/4.png",
             "width": 1920,
             "height": 1080
         },
@@ -4347,6 +4358,19 @@
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
+        },
+        {
+            "id": 173,
+            "image_id": 194,
+            "category_id": 207,
+            "bbox": [
+                433,
+                894,
+                43,
+                47
+            ],
+            "area": 2021,
+            "iscrowd": 0
         },
         {
             "id": 174,

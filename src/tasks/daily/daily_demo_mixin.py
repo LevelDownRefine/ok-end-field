@@ -56,9 +56,10 @@ class DailyDemoFeature:
     def go_to_DemoGraphic(self):
         self.ensure_main()
         self.press_key("f7", after_sleep=2)
-        if not self.wait_click_feature(feature=fL.DemoGraphicEnter, time_out=10, raise_if_not_found=False, vertical_variance=0.5):
-            self.mark_task_failure("未找到『演算』入口，可能没有打开活动入口页")
-            return False
+        if not self.wait_feature(fL.demo_page_icon, time_out=4, raise_if_not_found=False):
+            if not self.wait_click_feature(feature=fL.DemoGraphicEnter, time_out=10, raise_if_not_found=False, vertical_variance=0.5):
+                self.mark_task_failure("未找到『演算』入口，可能没有打开活动入口页")
+                return False
         if not self.wait_click_feature(feature=fL.to_max_produce_num, time_out=10, raise_if_not_found=False, box=self.box_of_screen(0.934, 0.881, 0.977, 0.965)):
             self.mark_task_failure("未找到活动入口，你不会没开活动吧 ^_^ ")
             return False
