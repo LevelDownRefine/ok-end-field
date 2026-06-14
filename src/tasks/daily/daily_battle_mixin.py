@@ -199,7 +199,7 @@ class DailyBattleFeature:
 
         self.wait_click_feature(
             feature=fL.give_gift,
-            box=self.box_of_screen(0.947, 0.906, 0.964, 0.937),
+            box=self.box_of_screen(0.940, 0.891, 0.983, 0.956),
             time_out=3,
             raise_if_not_found=False,
             settle_time=1,
