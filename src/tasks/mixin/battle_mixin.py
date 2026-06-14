@@ -372,15 +372,7 @@ class BattleMixin(BaseEfTask):
 
         start_time = time.time()
         last_battle_time = None
-        # 能量淤积点特殊处理：初始sleep_time为0.1
-        try:
-            if is_world_map_text(self.lang, getattr(self.battle_ctx, 'category_name', None), STAGE_CATEGORY_ENERGY_POOLING):
-                sleep_time = 0.1
-            else:
-                sleep_time = self.get_battle_config("进入战斗后的初始等待时间", 3)
-        except Exception as e:
-            self.log_error(f"判断是否为能量淤积点时发生错误: {e}")
-            sleep_time = self.get_battle_config("进入战斗后的初始等待时间", 3)
+        sleep_time = self.get_battle_config("进入战斗后的初始等待时间", 3)
 
         while True:
 

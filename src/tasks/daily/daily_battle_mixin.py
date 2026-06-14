@@ -852,7 +852,7 @@ class DailyBattleFeature:
                     self.log_info("已放弃未领取的奖励")
 
                 return True
-
+            self.click(key="middle", after_sleep=2)
             return False
 
         def search_gather_reward():
@@ -959,6 +959,7 @@ class DailyBattleFeature:
                 only_x=True,
                 threshold=0.7,
                 tolerance=100,
+                raise_if_fail=False,
             ):
                 if not self.navigate_until_target(
                     target=click_key,

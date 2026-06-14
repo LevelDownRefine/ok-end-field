@@ -91,9 +91,6 @@ class NavigationMixin(BaseEfTask):
 
         start_time = time.time()
 
-        short_distance_flag = False
-        fail_count = 0
-
         nav_box = self.box_of_screen(
             (1920 - 1550) / 1920,
             150 / 1080,
