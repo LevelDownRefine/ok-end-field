@@ -1039,6 +1039,11 @@
             "id": 205,
             "name": "receive_good",
             "supercategory": ""
+        },
+        {
+            "id": 206,
+            "name": "demo_double_open",
+            "supercategory": ""
         }
     ],
     "images": [
@@ -1950,7 +1955,7 @@
         },
         {
             "id": 197,
-            "file_name": "images/5.png",
+            "file_name": "images/6.png",
             "width": 1920,
             "height": 1080
         },
@@ -4314,6 +4319,19 @@
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
+        },
+        {
+            "id": 171,
+            "image_id": 197,
+            "category_id": 206,
+            "bbox": [
+                1317,
+                941,
+                21,
+                32
+            ],
+            "area": 672,
+            "iscrowd": 0
         },
         {
             "id": 172,

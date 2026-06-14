@@ -52,6 +52,7 @@ class FeatureList(str, Enum):
     danger_4_2k = 'danger_4_2k'
     danger_5_2k = 'danger_5_2k'
     default_link_skill = 'default_link_skill'
+    demo_double_open = 'demo_double_open'
     demo_random_button = 'demo_random_button'
     demographic_follow = 'demographic_follow'
     dense_source_ore_powder_4k = 'dense_source_ore_powder_4k'
