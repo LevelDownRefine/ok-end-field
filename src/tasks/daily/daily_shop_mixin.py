@@ -132,7 +132,7 @@ class DailyShopFeature:
                     return False, sum_credit, False
             self.log_info(f"商品价格识别成功: {item_name}，价格: {cost:.3f}")
             result = self.wait_click_feature(
-                feature=fL.skip_dialog_confirm, box=self.box_of_screen(0.826, 0.798, 0.845, 0.831), time_out=4, raise_if_not_found=False
+                feature=fL.skip_dialog_confirm, box=self.box_of_screen(0.816, 0.788, 0.855, 0.841), time_out=4, raise_if_not_found=False
             )
             if not result:
                 self.log_info(f"购买流程中断: {item_name}，未找到确认/不足弹窗，尝试返回采购页")
@@ -193,7 +193,7 @@ class DailyShopFeature:
                 continue
             self.log_info(f"商品价格识别成功: {item_name}，价格: {cost:.3f}")
             result = self.wait_click_feature(
-                feature=fL.skip_dialog_confirm, box=self.box_of_screen(0.826, 0.798, 0.845, 0.831), time_out=4, raise_if_not_found=False
+                feature=fL.skip_dialog_confirm, box=self.box_of_screen(0.816, 0.788, 0.855, 0.841), time_out=4, raise_if_not_found=False
             )
             if not result:
                 self.log_info(f"购买流程中断: {item_name}，未找到确认/不足弹窗，尝试返回采购页")
