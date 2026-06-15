@@ -511,7 +511,7 @@ class DailyBattleFeature:
                             raise
                         self.log_info(f"battle_gather_extra 异常: {e}\n{traceback.format_exc()}")
                         self.screenshot(
-                            f'{datetime.now().strftime("%Y%m%d")}_DailyBattleMixin_battleGather_Extra_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
+                            f'{self.screenshot_timestamp_prefix()}_DailyBattleMixin_battleGather_Extra_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
                         return False
 
             # 进入副本详情页
@@ -526,7 +526,7 @@ class DailyBattleFeature:
                         raise
                     self.log_info(f"battle_gather 异常: {e}\n{traceback.format_exc()}")
                     self.screenshot(
-                        f'{datetime.now().strftime("%Y%m%d")}_DailyBattleMixin_battleGather_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
+                        f'{self.screenshot_timestamp_prefix()}_DailyBattleMixin_battleGather_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
                     return False
             else:  # 协议空间 or 危境预演
                 try:
@@ -536,7 +536,7 @@ class DailyBattleFeature:
                         raise
                     self.log_info(f"battle_space 异常: {e}\n{traceback.format_exc()}")
                     self.screenshot(
-                        f'{datetime.now().strftime("%Y%m%d")}_DailyBattleMixin_battleSpace_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
+                        f'{self.screenshot_timestamp_prefix()}_DailyBattleMixin_battleSpace_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
                     return False
         finally:
             self.release_yolo_detector()
@@ -649,7 +649,7 @@ class DailyBattleFeature:
         """
         if self.battle_ctx.is_extra_mode:
             # 放弃领取奖励后需要重新点击激发按钮
-            result = self.wait_feature(feature=fL.trigger_gather_button, vertical_variance=0.2, horizontal_variance=0.05, time_out=5, raise_if_not_found=False)
+            result = self.wait_feature(feature=fL.trigger_gather_button, vertical_variance=0.2, horizontal_variance=0.05, time_out=5, raise_if_not_found=False, settle_time=1)
             if not result:
                 self.log_info("未找到『激发』按钮，无法继续进行额外刷取")
                 return False

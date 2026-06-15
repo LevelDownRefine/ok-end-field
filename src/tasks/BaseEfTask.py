@@ -66,6 +66,10 @@ def _round_ratio(value):
         return value
 
 
+def screenshot_timestamp_prefix():
+    return datetime.now().strftime("%Y%m%d_%H%M%S")
+
+
 class BaseEfTask(
     WindowArrowDrawingMixin,
     AccountOverrideMixin,
@@ -176,6 +180,9 @@ class BaseEfTask(
     def runtime_locale(self) -> str | None:
         return _extract_locale_from_object(self)
 
+    def screenshot_timestamp_prefix(self):
+        return screenshot_timestamp_prefix()
+
     def set_current_account(self, username, account_id):
         """设置当前账号信息，供账号覆盖功能使用。
 
@@ -254,7 +261,7 @@ class BaseEfTask(
         - 对于 `TaskDisabledException` 总是重新抛出以便上层处理
         """
         try:
-            self.screenshot(f'{datetime.now().strftime("%Y%m%d")}_{prefix}')
+            self.screenshot(f'{screenshot_timestamp_prefix()}_{prefix}')
         except Exception:
             pass
 
@@ -274,11 +281,8 @@ class BaseEfTask(
         在日常任务编排器可用时写入 runner.failure_details；
         否则退化为普通日志，避免在独立任务中报错。
         """
-        # 生成截图文件名：失败时间+任务名
-        from datetime import datetime
-        now_str = datetime.now().strftime("%Y%m%d_%H%M%S")
         name = task_name or getattr(self, "current_task", None) or "UnknownTask"
-        screenshot_name = f"fail_{now_str}_{name}"
+        screenshot_name = f"{screenshot_timestamp_prefix()}_fail_{name}"
         try:
             self.screenshot(screenshot_name)
         except Exception:

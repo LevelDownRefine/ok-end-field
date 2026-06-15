@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from datetime import datetime
 from typing import Callable, Iterable
 
 from ok import TaskDisabledException
+
+from src.tasks.BaseEfTask import screenshot_timestamp_prefix
 
 TaskItem = tuple[str, Callable[[], object]]
 
@@ -127,7 +128,7 @@ class DailyTaskRunner:
         if result is False:
             self.task_status["failed"].append(key)
             self.set_task_failure("任务返回 False", task_name=key)
-            self.task.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask_FailTask_{key}')
+            self.task.screenshot(f'{screenshot_timestamp_prefix()}_DailyTask_FailTask_{key}')
             self.task.log_info(f"任务 {key} 执行失败", notify=True)
             return False
 
@@ -209,7 +210,7 @@ class DailyTaskRunner:
                 self.task.info_set("当前失败的任务", self.current_task_key)
 
         try:
-            self.task.screenshot(f'{datetime.now().strftime("%Y%m%d")}_DailyTask_Exception')
+            self.task.screenshot(f'{screenshot_timestamp_prefix()}_DailyTask_Exception')
         except Exception:
             pass
 

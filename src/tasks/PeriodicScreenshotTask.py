@@ -1,11 +1,10 @@
 """每隔 N 秒自动截图并保存到 screenshots 目录。"""
-import time
 from pathlib import Path
 
 import cv2
 from qfluentwidgets import FluentIcon
 from ok import Logger
-from src.tasks.BaseEfTask import BaseEfTask
+from src.tasks.BaseEfTask import BaseEfTask, screenshot_timestamp_prefix
 from src.config import make_bottom_left_black
 
 logger = Logger.get_logger(__name__)
@@ -42,8 +41,7 @@ class PeriodicScreenshotTask(BaseEfTask):
             frame = self.next_frame()
             if frame is not None:
                 frame = make_bottom_left_black(frame)
-                ts = time.strftime('%Y%m%d_%H%M%S')
-                filename = save_dir / f"cap_{ts}_{count:04d}.png"
+                filename = save_dir / f"{screenshot_timestamp_prefix()}_cap_{count:04d}.png"
                 cv2.imwrite(str(filename), frame)
                 count += 1
                 if count == 1 or count % 10 == 0:
