@@ -257,6 +257,8 @@ class DailyBattleFeature:
                 need_scroll=self.config.get(self.CFG_SCROLL_ENABLE),
                 target=([fL.gather_icon_out_map, fL.gather_icon_out_map2], "feature")
             )
+            return True
+        return False
 
     # ------------------------------------------------------------------ #
     #  battle() 及其子步骤
@@ -557,19 +559,18 @@ class DailyBattleFeature:
         self._init_gather_transfer_points()
         # 点击追踪按钮，进入地图并传送
         self._click_track_and_transfer()
-        # 滑索移动
-        self._navigate_via_zip_line()
-        #
-        self.align_ocr_or_find_target_to_center(
-                [fL.gather_icon_out_map, fL.gather_icon_out_map2],
-                ocr=False,
-                only_x=True,
-                threshold=0.7,
-                tolerance=100,
-            )
-        self.navigate_until_target(target=self.lang.daily_battle_mixin.k_bfe73e18, box=self.box_of_screen(0.679, 0.620, 0.714, 0.769), nav=[fL.gather_icon_out_map],
-                                   time_out=60)
-        #
+        
+        if (not self._navigate_via_zip_line()) or (not self.wait_ocr(match=self.lang.daily_battle_mixin.k_bfe73e18, box=self.box_of_screen(0.679, 0.620, 0.714, 0.769), time_out=3, raise_if_not_found=False)):
+            self.align_ocr_or_find_target_to_center(
+                    [fL.gather_icon_out_map, fL.gather_icon_out_map2],
+                    ocr=False,
+                    only_x=True,
+                    threshold=0.7,
+                    tolerance=100,
+                )
+            self.navigate_until_target(target=self.lang.daily_battle_mixin.k_bfe73e18, box=self.box_of_screen(0.679, 0.620, 0.714, 0.769), nav=[fL.gather_icon_out_map],
+                                    time_out=60)
+        
         if self.wait_ocr(match=self.lang.daily_battle_mixin.k_b8a81b7a, box=self.box.bottom_right, time_out=1):
             self.log_info("放弃未领取的奖励")
             self.wait_click_ocr(match=self.lang.daily_battle_mixin.k_b8a81b7a, box=self.box.bottom_right, time_out=5, recheck_time=1,
@@ -611,19 +612,19 @@ class DailyBattleFeature:
             return False
         # 点击追踪按钮，进入地图并传送
         self._click_track_and_transfer()
-        # 滑索移动
-        self._navigate_via_zip_line()
-        self.align_ocr_or_find_target_to_center(
-                [fL.gather_icon_out_map, fL.gather_icon_out_map2],
-                ocr=False,
-                only_x=True,
-                threshold=0.7,
-                tolerance=100,
+        
+        if (not self._navigate_via_zip_line()) or (not self.wait_ocr(match=self.lang.daily_battle_mixin.k_bfe73e18, box=self.box_of_screen(0.679, 0.620, 0.714, 0.769), time_out=3, raise_if_not_found=False)):
+            self.align_ocr_or_find_target_to_center(
+                    [fL.gather_icon_out_map, fL.gather_icon_out_map2],
+                    ocr=False,
+                    only_x=True,
+                    threshold=0.7,
+                    tolerance=100,
+                )
+            self.navigate_until_target(
+                target=self.lang.daily_battle_mixin.k_39d12e73_1, nav=[fL.gather_icon_out_map, fL.gather_icon_out_map2],
+                box=self.box_of_screen(0.679, 0.620, 0.714, 0.769),time_out=60
             )
-        self.navigate_until_target(
-            target=self.lang.daily_battle_mixin.k_39d12e73_1, nav=[fL.gather_icon_out_map, fL.gather_icon_out_map2],
-            box=self.box_of_screen(0.679, 0.620, 0.714, 0.769),time_out=60
-        )
         click_key = self.lang.daily_battle_mixin.k_b8a81b7a if self.battle_ctx.is_extra_mode else self.lang.daily_battle_mixin.k_39d12e73_1
         result = self.wait_ocr(match=re.compile(click_key), box=self.box.bottom_right, time_out=5)
         if not result:
