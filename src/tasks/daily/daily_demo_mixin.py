@@ -57,7 +57,7 @@ class DailyDemoFeature:
         self.ensure_main()
         self.press_key("f7", after_sleep=2)
         if not self.wait_feature(fL.demo_page_icon, time_out=4, raise_if_not_found=False):
-            if not self.wait_click_feature(feature=fL.DemoGraphicEnter, time_out=10, raise_if_not_found=False, vertical_variance=0.5):
+            if not self.wait_click_feature(feature=fL.DemoGraphicEnter, time_out=10, raise_if_not_found=False, box=self.box_of_screen(0.101, 0.119, 0.166, 0.872)):
                 self.mark_task_failure("未找到『演算』入口，可能没有打开活动入口页")
                 return False
         if not self.wait_click_feature(feature=fL.to_max_produce_num, time_out=10, raise_if_not_found=False, box=self.box_of_screen(0.934, 0.881, 0.977, 0.965)):
