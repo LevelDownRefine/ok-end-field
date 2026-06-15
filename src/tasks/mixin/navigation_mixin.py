@@ -59,6 +59,7 @@ class NavigationMixin(BaseEfTask):
         nav_is_yolo: bool = False,
         box = None,
         target_vertical_variance: float = 0.0,
+        need_v : bool = False,
     ):
         """
         持续沿导航标识移动，直到检测到目标。
@@ -68,6 +69,7 @@ class NavigationMixin(BaseEfTask):
             False: 超时
             Any: found_special_callback 返回非 None
         """
+        last_click_v_time = 0
         def check_target():
             if target_is_ocr:
                 return self.ocr(
@@ -204,6 +206,10 @@ class NavigationMixin(BaseEfTask):
 
                 # 导航丢失
                 else:
+                    if need_v and time.time() - last_click_v_time > 5:
+                        self.log_info(f"未找到导航标识，点击 V 进行尝试")
+                        self.press_key("v")
+                        last_click_v_time = time.time()
                     if run_bool:
                         self.log_info(f"未找到导航标识，进入短距离搜索模式")
                         run_bool = False

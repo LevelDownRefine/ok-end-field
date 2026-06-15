@@ -30,9 +30,12 @@ from src.tasks.sequence_parser import parse_int_sequence
 from src.tasks.mixin.map_mixin import MapMixin
 from src.tasks.mixin.zip_line_mixin import ZipLineMixin
 
-secondary_objective_direction_dot = [fL.secondary_objective_direction_dot, fL.secondary_objective_direction_dot_light,
-                                     fL.secondary_objective_direction_dot_light_two,
-                                     fL.secondary_objective_direction_dot_light_three]
+secondary_objective_direction_dot = [
+    fL.secondary_objective_direction_dot,
+    fL.secondary_objective_direction_dot_light,
+    fL.secondary_objective_direction_dot_light_two,
+    fL.secondary_objective_direction_dot_light_three
+]
 
 
 @dataclass
@@ -546,11 +549,13 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                 ocr=False,
                 raise_if_fail=False,
             )
+            self.send_key("v", after_sleep=0.5)
             if not self.navigate_until_target(
                 target=fL.receive_good,
                 target_is_ocr=False,
                 nav=secondary_objective_direction_dot,
                 target_vertical_variance=0.06,
+                need_v=True,
             ):
                 self.log_info("未能到达送货点，取货失败")
                 return False
@@ -579,11 +584,13 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
             ocr=False,
             raise_if_fail=False,
         )
+        self.send_key("v", after_sleep=0.5)
         self.navigate_until_target(
             target=end_pattern,
             target_is_ocr=True,
             nav=secondary_objective_direction_dot,
             box=self.box_of_screen(0.676, 0.576, 0.752, 0.746),
+            need_v=True,
         )
         if self.wait_click_ocr(
             match=end_pattern,
