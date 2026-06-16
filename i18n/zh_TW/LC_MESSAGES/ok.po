@@ -2435,3 +2435,51 @@ msgid ""
 msgstr ""
 "僅接受'1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'這些值的逗號分隔字符串，\n"
 "normal_[n] 表示臨時切換為普通戰鬥模式 n 秒，期間按「技能釋放」順序自動出技。"
+
+msgid "请先选择账号"
+msgstr "請先選擇帳號"
+
+msgid "请先选择任务"
+msgstr "請先選擇任務"
+
+msgid "当前账号在该任务下没有差异项"
+msgstr "當前帳號在該任務下沒有差異項"
+
+msgid "该任务暂无可编辑配置项"
+msgstr "該任務暫無可編輯配置項"
+
+msgid "仅差异项"
+msgstr "僅差異項"
+
+msgid "全部配置"
+msgstr "全部配置"
+
+msgid "当前视图：{view_mode} | 展示 {count} / {total} 项"
+msgstr "當前視圖：{view_mode} | 顯示 {count} / {total} 項"
+
+msgid "未找到 support_multi_account=True 的任务"
+msgstr "未找到 support_multi_account=True 的任務"
+
+msgid "已刷新账号与任务配置（账号页账号列表与任务账号列表独立）"
+msgstr "已刷新帳號與任務配置（帳號頁帳號列表與任務帳號列表獨立）"
+
+msgid "账号列表已保存"
+msgstr "帳號列表已保存"
+
+msgid "（复用ID {reused}，新建ID {created}）"
+msgstr "（複用ID {reused}，新建ID {created}）"
+
+msgid "；账号名（手机号）是唯一ID，密码变化不影响ID，账号名变化会新建ID"
+msgstr "；帳號名（手機號）是唯一ID，密碼變化不影響ID，帳號名變化會新建ID"
+
+msgid "；账号页无需填写密码，保存时会移除任何密码信息（仅保留用户名）"
+msgstr "；帳號頁無需填寫密碼，保存時會移除任何密碼資訊（僅保留用戶名）"
+
+msgid "；忽略无效行 {count} 条"
+msgstr "；忽略無效行 {count} 條"
+
+msgid "已清空：{account} / {task} 覆盖"
+msgstr "已清空：{account} / {task} 覆蓋"
+
+msgid "已清空账号全部覆盖：{account}"
+msgstr "已清空帳號全部覆蓋：{account}"

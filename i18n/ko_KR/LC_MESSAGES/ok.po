@@ -2431,3 +2431,51 @@ msgid ""
 msgstr ""
 "쉼표로 구분된 값: '1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'.\n"
 "normal_[n] = 일반 전투로 n초간 전환, 스킬 해제 순서 따름."
+
+msgid "请先选择账号"
+msgstr "계정을 먼저 선택하세요"
+
+msgid "请先选择任务"
+msgstr "작업을 먼저 선택하세요"
+
+msgid "当前账号在该任务下没有差异项"
+msgstr "이 계정에 이 작업의 차이점이 없습니다"
+
+msgid "该任务暂无可编辑配置项"
+msgstr "이 작업에 편집 가능한 설정 항목이 없습니다"
+
+msgid "仅差异项"
+msgstr "차이점만"
+
+msgid "全部配置"
+msgstr "전체 설정"
+
+msgid "当前视图：{view_mode} | 展示 {count} / {total} 项"
+msgstr "현재 보기: {view_mode} | {count} / {total}개 항목 표시"
+
+msgid "未找到 support_multi_account=True 的任务"
+msgstr "support_multi_account=True인 작업을 찾을 수 없습니다"
+
+msgid "已刷新账号与任务配置（账号页账号列表与任务账号列表独立）"
+msgstr "계정 및 작업 설정 새로고침 (계정 페이지 목록은 작업 계정 목록과 독립적)"
+
+msgid "账号列表已保存"
+msgstr "계정 목록이 저장되었습니다"
+
+msgid "（复用ID {reused}，新建ID {created}）"
+msgstr "(ID {reused}개 재사용, ID {created}개 신규 생성)"
+
+msgid "；账号名（手机号）是唯一ID，密码变化不影响ID，账号名变化会新建ID"
+msgstr "; 계정명(전화번호)이 고유 ID입니다. 비밀번호 변경은 ID에 영향 없음, 이름 변경은 새 ID 생성"
+
+msgid "；账号页无需填写密码，保存时会移除任何密码信息（仅保留用户名）"
+msgstr "; 비밀번호 불필요. 저장 시 비밀번호 정보가 제거됩니다(사용자명만 유지)"
+
+msgid "；忽略无效行 {count} 条"
+msgstr "; 잘못된 줄 {count}개 무시됨"
+
+msgid "已清空：{account} / {task} 覆盖"
+msgstr "삭제됨: {account} / {task} 재정의"
+
+msgid "已清空账号全部覆盖：{account}"
+msgstr "계정의 모든 재정의 삭제됨: {account}"

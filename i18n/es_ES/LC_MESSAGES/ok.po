@@ -2448,3 +2448,57 @@ msgid ""
 msgstr ""
 "Valores separados por coma: '1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'.\n"
 "normal_[n] = combate normal temporal durante n segundos."
+
+msgid "请先选择账号"
+msgstr "Seleccione una cuenta primero"
+
+msgid "请先选择任务"
+msgstr "Seleccione una tarea primero"
+
+msgid "当前账号在该任务下没有差异项"
+msgstr "Sin diferencias para esta cuenta en esta tarea"
+
+msgid "该任务暂无可编辑配置项"
+msgstr "No hay elementos de configuración editables para esta tarea"
+
+msgid "仅差异项"
+msgstr "Solo diferencias"
+
+msgid "全部配置"
+msgstr "Toda la configuración"
+
+msgid "当前视图：{view_mode} | 展示 {count} / {total} 项"
+msgstr "Vista actual: {view_mode} | Mostrando {count} / {total} elementos"
+
+msgid "未找到 support_multi_account=True 的任务"
+msgstr "No se encontraron tareas con support_multi_account=True"
+
+msgid "已刷新账号与任务配置（账号页账号列表与任务账号列表独立）"
+msgstr ""
+"Config. de cuenta y tarea actualizada (lista de cuentas independiente de "
+"lista de tareas)"
+
+msgid "账号列表已保存"
+msgstr "Lista de cuentas guardada"
+
+msgid "（复用ID {reused}，新建ID {created}）"
+msgstr "({reused} IDs reutilizados, {created} IDs nuevos)"
+
+msgid "；账号名（手机号）是唯一ID，密码变化不影响ID，账号名变化会新建ID"
+msgstr ""
+"; El nombre de cuenta (teléfono) es el ID único. Cambiar contraseña no "
+"afecta ID, cambiar nombre crea nuevo ID"
+
+msgid "；账号页无需填写密码，保存时会移除任何密码信息（仅保留用户名）"
+msgstr ""
+"; No se necesita contraseña. La información de contraseña se elimina al "
+"guardar (solo nombre de usuario)"
+
+msgid "；忽略无效行 {count} 条"
+msgstr "; {count} líneas inválidas ignoradas"
+
+msgid "已清空：{account} / {task} 覆盖"
+msgstr "Borrado: anulación de {account} / {task}"
+
+msgid "已清空账号全部覆盖：{account}"
+msgstr "Borradas todas las anulaciones para la cuenta: {account}"

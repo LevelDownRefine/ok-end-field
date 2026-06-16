@@ -328,9 +328,9 @@ class AccountConfigTab(CustomTab):
             self.render_task_editor()
 
             if not tasks:
-                self._set_status("未找到 support_multi_account=True 的任务")
+                self._set_status(og.app.tr("未找到 support_multi_account=True 的任务"))
             else:
-                self._set_status("已刷新账号与任务配置（账号页账号列表与任务账号列表独立）")
+                self._set_status(og.app.tr("已刷新账号与任务配置（账号页账号列表与任务账号列表独立）"))
         finally:
             self._building = False
 
@@ -345,16 +345,18 @@ class AccountConfigTab(CustomTab):
 
         self.rebuild_account_selector()
         status = (
-            "账号列表已保存"
-            f"（复用ID {summary.get('reused_count', 0)}，"
-            f"新建ID {summary.get('created_count', 0)}）"
+            og.app.tr("账号列表已保存")
+            + og.app.tr("（复用ID {reused}，新建ID {created}）").format(
+                reused=summary.get('reused_count', 0),
+                created=summary.get('created_count', 0),
+            )
         )
-        status += "；账号名（手机号）是唯一ID，密码变化不影响ID，账号名变化会新建ID"
-        status += "；账号页无需填写密码，保存时会移除任何密码信息（仅保留用户名）"
+        status += og.app.tr("；账号名（手机号）是唯一ID，密码变化不影响ID，账号名变化会新建ID")
+        status += og.app.tr("；账号页无需填写密码，保存时会移除任何密码信息（仅保留用户名）")
 
         invalid_count = int(summary.get("invalid_count", 0) or 0)
         if invalid_count > 0:
-            status += f"；忽略无效行 {invalid_count} 条"
+            status += og.app.tr("；忽略无效行 {count} 条").format(count=invalid_count)
 
         self._set_status(status)
 
@@ -428,7 +430,7 @@ class AccountConfigTab(CustomTab):
         self.task_map = {}
         displays = []
         for task in self._collect_tasks():
-            display = f"{task.name} ({task.__class__.__name__})"
+            display = f"{og.app.tr(task.name)} ({task.__class__.__name__})"
             self.task_map[display] = task
             displays.append(display)
 
@@ -521,12 +523,12 @@ class AccountConfigTab(CustomTab):
         account_key = self._current_account_key()
         account_name = self._current_account_name()
         if not account_key:
-            self.editor_layout.addWidget(BodyLabel("请先选择账号"))
+            self.editor_layout.addWidget(BodyLabel(og.app.tr("请先选择账号")))
             return
 
         task = self._current_task()
         if task is None:
-            self.editor_layout.addWidget(BodyLabel("请先选择任务"))
+            self.editor_layout.addWidget(BodyLabel(og.app.tr("请先选择任务")))
             return
 
         only_diff = bool(self.only_diff_switch.isChecked())
@@ -538,22 +540,23 @@ class AccountConfigTab(CustomTab):
         )
         if not editable_keys:
             if only_diff:
-                self.editor_layout.addWidget(BodyLabel("当前账号在该任务下没有差异项"))
+                self.editor_layout.addWidget(BodyLabel(og.app.tr("当前账号在该任务下没有差异项")))
             else:
-                self.editor_layout.addWidget(BodyLabel("该任务暂无可编辑配置项"))
+                self.editor_layout.addWidget(BodyLabel(og.app.tr("该任务暂无可编辑配置项")))
             return
 
+        view_mode = og.app.tr("仅差异项") if only_diff else og.app.tr("全部配置")
         summary_text = (
-            f"当前视图：{'仅差异项' if only_diff else '全部配置'} | "
-            f"展示 {len(editable_keys)} / {total_supported_keys} 项"
+            og.app.tr("当前视图：{view_mode} | 展示 {count} / {total} 项")
+            .format(view_mode=view_mode, count=len(editable_keys), total=total_supported_keys)
         )
         self.editor_layout.addWidget(BodyLabel(summary_text))
 
         card = ConfigCard(
             None,
-            f"{task.name} - {account_name or account_key}",
+            f"{og.app.tr(task.name)} - {account_name or account_key}",
             virtual_config,
-            "按当前账号覆盖该任务配置。未覆盖的项将使用任务原配置。",
+            og.app.tr("按当前账号覆盖该任务配置。未覆盖的项将使用任务原配置。"),
             {},
             task.config_description,
             task.config_type,
@@ -570,13 +573,25 @@ class AccountConfigTab(CustomTab):
 
     def save_current_task_override(self):
         if not self.current_virtual_config or self.current_task is None or not self.current_account_key:
-            self._set_status("请先选择账号与任务")
+            self._set_status(og.app.tr("请先选择账号与任务"))
             return
 
         full_config = {}
 
-        for key in self.current_editable_keys:
-            full_config[key] = self.current_virtual_config.get(key)
+        for key, default_value in self.current_task.default_config.items():
+            if str(key).startswith("_"):
+                continue
+            if key in {"多账户模式", "多账户独立配置", "账号列表"}:
+                continue
+            type_meta = self.current_task.config_type.get(key) if self.current_task.config_type else None
+            if type_meta and type_meta.get("type") in {"global", "button"}:
+                continue
+            if not self._is_supported_value(default_value):
+                continue
+            if key in self.current_virtual_config:
+                full_config[key] = self.current_virtual_config[key]
+            else:
+                full_config[key] = dict.get(self.current_task.config, key, default_value)
 
         accounts = self.overrides_data.setdefault("accounts", {})
         account_map = accounts.setdefault(self.current_account_key, {})
@@ -598,7 +613,7 @@ class AccountConfigTab(CustomTab):
         account_name = self._current_account_name()
         task = self._current_task()
         if not account_key or task is None:
-            self._set_status("请先选择账号与任务")
+            self._set_status(og.app.tr("请先选择账号与任务"))
             return
 
         accounts = self.overrides_data.get("accounts", {})
@@ -618,13 +633,15 @@ class AccountConfigTab(CustomTab):
         self.overrides_data = save_overrides(self.overrides_data)
         self.render_task_editor()
         self.rebuild_account_selector()
-        self._set_status(f"已清空：{account_name or account_key} / {task.name} 覆盖")
+        self._set_status(og.app.tr("已清空：{account} / {task} 覆盖").format(
+            account=account_name or account_key, task=task.name
+        ))
 
     def clear_current_account_overrides(self):
         account_key = self._current_account_key()
         account_name = self._current_account_name()
         if not account_key:
-            self._set_status("请先选择账号")
+            self._set_status(og.app.tr("请先选择账号"))
             return
 
         accounts = self.overrides_data.get("accounts", {})
@@ -637,4 +654,6 @@ class AccountConfigTab(CustomTab):
 
         self.rebuild_account_selector()
         self.render_task_editor()
-        self._set_status(f"已清空账号全部覆盖：{account_name or account_key}")
+        self._set_status(og.app.tr("已清空账号全部覆盖：{account}").format(
+            account=account_name or account_key
+        ))

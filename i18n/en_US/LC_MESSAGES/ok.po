@@ -2266,3 +2266,56 @@ msgid ""
 msgstr ""
 "Comma-separated values: '1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'.\n"
 "normal_[n] = temporary normal combat for n seconds, using skill release order."
+
+msgid "请先选择账号"
+msgstr "Please select an account first"
+
+msgid "请先选择任务"
+msgstr "Please select a task first"
+
+msgid "当前账号在该任务下没有差异项"
+msgstr "No differences for this account under this task"
+
+msgid "该任务暂无可编辑配置项"
+msgstr "No editable config items for this task"
+
+msgid "仅差异项"
+msgstr "Diff Only"
+
+msgid "全部配置"
+msgstr "All Config"
+
+msgid "当前视图：{view_mode} | 展示 {count} / {total} 项"
+msgstr "Current View: {view_mode} | Showing {count} / {total} items"
+
+msgid "未找到 support_multi_account=True 的任务"
+msgstr "No tasks found with support_multi_account=True"
+
+msgid "已刷新账号与任务配置（账号页账号列表与任务账号列表独立）"
+msgstr ""
+"Account & task config refreshed (account page list is independent from task "
+"account list)"
+
+msgid "账号列表已保存"
+msgstr "Account list saved"
+
+msgid "（复用ID {reused}，新建ID {created}）"
+msgstr "({reused} reused IDs, {created} new IDs)"
+
+msgid "；账号名（手机号）是唯一ID，密码变化不影响ID，账号名变化会新建ID"
+msgstr ""
+"; Account name (phone) is the unique ID. Password change does not affect ID,"
+" name change creates new ID"
+
+msgid "；账号页无需填写密码，保存时会移除任何密码信息（仅保留用户名）"
+msgstr ""
+"; No password needed. Password info is removed on save (username only)"
+
+msgid "；忽略无效行 {count} 条"
+msgstr "; {count} invalid lines ignored"
+
+msgid "已清空：{account} / {task} 覆盖"
+msgstr "Cleared: {account} / {task} override"
+
+msgid "已清空账号全部覆盖：{account}"
+msgstr "Cleared all overrides for account: {account}"

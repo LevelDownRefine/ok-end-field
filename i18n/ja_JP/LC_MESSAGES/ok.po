@@ -2427,3 +2427,51 @@ msgid ""
 msgstr ""
 "カンマ区切り値: '1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'。\n"
 "normal_[n] = 通常戦闘に n 秒間一時切替、スキル解放順に従う。"
+
+msgid "请先选择账号"
+msgstr "アカウントを先に選択してください"
+
+msgid "请先选择任务"
+msgstr "タスクを先に選択してください"
+
+msgid "当前账号在该任务下没有差异项"
+msgstr "このアカウントにこのタスクの差分はありません"
+
+msgid "该任务暂无可编辑配置项"
+msgstr "このタスクに編集可能な設定項目はありません"
+
+msgid "仅差异项"
+msgstr "差分のみ"
+
+msgid "全部配置"
+msgstr "全設定"
+
+msgid "当前视图：{view_mode} | 展示 {count} / {total} 项"
+msgstr "現在の表示：{view_mode} | {count} / {total} 項目を表示"
+
+msgid "未找到 support_multi_account=True 的任务"
+msgstr "support_multi_account=True のタスクが見つかりません"
+
+msgid "已刷新账号与任务配置（账号页账号列表与任务账号列表独立）"
+msgstr "アカウント・タスク設定を更新（アカウントページ一覧はタスクアカウント一覧と独立）"
+
+msgid "账号列表已保存"
+msgstr "アカウントリストを保存しました"
+
+msgid "（复用ID {reused}，新建ID {created}）"
+msgstr "（ID {reused} 個再利用、{created} 個新規作成）"
+
+msgid "；账号名（手机号）是唯一ID，密码变化不影响ID，账号名变化会新建ID"
+msgstr "；アカウント名（電話番号）が一意のID。パスワード変更はIDに影響せず、名前変更は新規ID作成"
+
+msgid "；账号页无需填写密码，保存时会移除任何密码信息（仅保留用户名）"
+msgstr "；パスワード不要。保存時にパスワード情報は削除されます（ユーザー名のみ保持）"
+
+msgid "；忽略无效行 {count} 条"
+msgstr "；無効な行 {count} 件を無視"
+
+msgid "已清空：{account} / {task} 覆盖"
+msgstr "クリア: {account} / {task} の上書き設定"
+
+msgid "已清空账号全部覆盖：{account}"
+msgstr "アカウントの全上書き設定をクリア: {account}"
