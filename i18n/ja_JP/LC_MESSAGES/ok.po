@@ -2475,3 +2475,381 @@ msgstr "クリア: {account} / {task} の上書き設定"
 
 msgid "已清空账号全部覆盖：{account}"
 msgstr "アカウントの全上書き設定をクリア: {account}"
+
+msgid "Delta型机器人"
+msgstr "デルタ型ロボット"
+
+msgid "“碾骨之拳”罗丹"
+msgstr "「骨砕きの拳」ローダン"
+
+msgid "中红柱状菌"
+msgstr "中型紅柱菌"
+
+msgid "中黯石"
+msgstr "中型暗色石"
+
+msgid "仓储节点"
+msgstr "倉庫ノード"
+
+msgid "仿生翅天使"
+msgstr "生体翅天使"
+
+msgid "会客室"
+msgstr "応接室"
+
+msgid "传送台"
+msgstr "転送台"
+
+msgid "供电终端"
+msgstr "給電端末"
+
+msgid "充能球刺兽"
+msgstr "充能球刺獣"
+
+msgid "净水节点"
+msgstr "浄水ノード"
+
+msgid "分层入口"
+msgstr "層状入口"
+
+msgid "刚角天使"
+msgstr "剛角天使"
+
+msgid "割云翁"
+msgstr "雲切りの翁"
+
+msgid "劫云客"
+msgstr "雲刧の客"
+
+msgid "协议传送点"
+msgstr "プロトコル転送点"
+
+msgid "协议奇点"
+msgstr "プロトコル特異点"
+
+msgid "协议核心"
+msgstr "プロトコルコア"
+
+msgid "协议采录桩"
+msgstr "プロトコル採録杭"
+
+msgid "原生钳兽"
+msgstr "原生鋏獣"
+
+msgid "受蚀玉化叶"
+msgstr "侵食されし玉化葉"
+
+msgid "大角天使"
+msgstr "大角天使"
+
+msgid "大角天使α"
+msgstr "大角天使α"
+
+msgid "展示区"
+msgstr "展示エリア"
+
+msgid "岩天使叶"
+msgstr "岩天使葉"
+
+msgid "巨山犼兽"
+msgstr "巨山吼獣"
+
+msgid "干员联络台"
+msgstr "オペレーター連絡台"
+
+msgid "开天将"
+msgstr "開天将"
+
+msgid "怒目彪兽"
+msgstr "怒目彪獣"
+
+msgid "总控中枢"
+msgstr "総制御中枢"
+
+msgid "战术训练"
+msgstr "戦術訓練"
+
+msgid "摧山将"
+msgstr "摧山将"
+
+msgid "斧甲兽"
+msgstr "斧甲獣"
+
+msgid "断云叟"
+msgstr "雲断ちの翁"
+
+msgid "星门菌"
+msgstr "星門菌"
+
+msgid "映火荞花"
+msgstr "映火蕎花"
+
+msgid "晶化多齿叶"
+msgstr "晶化多歯葉"
+
+msgid "晶锥天使"
+msgstr "晶錐天使"
+
+msgid "晶锥天使δ"
+msgstr "晶錐天使δ"
+
+msgid "柑实"
+msgstr "柑橘実"
+
+msgid "棱镜天使"
+msgstr "プリズム天使"
+
+msgid "次级核心"
+msgstr "次级核心"
+
+msgid "武陵石"
+msgstr "武陵石"
+
+msgid "残暴原生钳兽"
+msgstr "残暴原生鋏獣"
+
+msgid "水灯虫"
+msgstr "水灯虫"
+
+msgid "浊流天使"
+msgstr "濁流天使"
+
+msgid "浊流天使δ"
+msgstr "濁流天使δ"
+
+msgid "源矿矿点"
+msgstr "源鉱採掘場"
+
+msgid "演武平台"
+msgstr "演武台"
+
+msgid "潜地虬兽"
+msgstr "潜地虯獣"
+
+msgid "潮行天使"
+msgstr "潮行天使"
+
+msgid "潮行天使δ"
+msgstr "潮行天使δ"
+
+msgid "火雾源石虫"
+msgstr "火霧源石蟲"
+
+msgid "灰芦麦"
+msgstr "灰芦麦"
+
+msgid "灼壳虫"
+msgstr "灼殼蟲"
+
+msgid "焚雾源石虫"
+msgstr "焚霧源石蟲"
+
+msgid "燎石"
+msgstr "燎石"
+
+msgid "物资调度终端"
+msgstr "物資調度端末"
+
+msgid "环境监测终端"
+msgstr "環境監測端末"
+
+msgid "球刺兽"
+msgstr "球刺獣"
+
+msgid "琼叶参"
+msgstr "瓊葉参"
+
+msgid "百眼彪兽"
+msgstr "百眼彪獣"
+
+msgid "砂叶"
+msgstr "砂葉"
+
+msgid "碾骨伏击射手"
+msgstr "骨砕き伏撃射手"
+
+msgid "碾骨先锋"
+msgstr "骨砕き先锋"
+
+msgid "碾骨劫掠者"
+msgstr "骨砕き略奪者"
+
+msgid "碾骨撕裂牙兽"
+msgstr "骨砕き裂牙獣"
+
+msgid "碾骨清道夫"
+msgstr "骨砕き掃討者"
+
+msgid "碾骨渗透者"
+msgstr "骨砕き浸透者"
+
+msgid "碾骨焰术师"
+msgstr "骨砕き焔術師"
+
+msgid "碾骨行刑人"
+msgstr "骨砕き行刑人"
+
+msgid "穿林箭"
+msgstr "林穿ちの矢"
+
+msgid "精锐伏击射手"
+msgstr "精鋭伏撃射手"
+
+msgid "精锐劫掠者"
+msgstr "精鋭略奪者"
+
+msgid "精锐撕裂牙兽"
+msgstr "精鋭裂牙獣"
+
+msgid "精锐行刑人"
+msgstr "精鋭行刑人"
+
+msgid "紫晶矿矿点"
+msgstr "紫晶鉱採掘場"
+
+msgid "纯晶多齿叶"
+msgstr "純晶多歯葉"
+
+msgid "维修灵感点"
+msgstr "修理インスピレーション"
+
+msgid "肖像天使"
+msgstr "肖像天使"
+
+msgid "能量淤积点"
+msgstr "エネルギー堆積点"
+
+msgid "至晶多齿叶"
+msgstr "至晶多歯葉"
+
+msgid "芽针"
+msgstr "芽針"
+
+msgid "苦叶椒"
+msgstr "苦葉椒"
+
+msgid "荆刺芽针"
+msgstr "荊刺芽針"
+
+msgid "荞花"
+msgstr "蕎花"
+
+msgid "莫惜命"
+msgstr "命を惜しまず"
+
+msgid "莫留财"
+msgstr "財を残さず"
+
+msgid "萤壳虫"
+msgstr "蛍殻虫"
+
+msgid "蓝铁矿矿点"
+msgstr "藍鉄鉱採掘場"
+
+msgid "蓬茸锦草"
+msgstr "蓬茸錦草"
+
+msgid "蚀像寻遗"
+msgstr "蝕像遺跡"
+
+msgid "血菌"
+msgstr "血菌"
+
+msgid "行迹高塔"
+msgstr "行跡の塔"
+
+msgid "表象"
+msgstr "表層"
+
+msgid "袭击预警终端"
+msgstr "襲撃予警端末"
+
+msgid "装备模板箱"
+msgstr "装備テンプレート箱"
+
+msgid "见闻辑录"
+msgstr "見聞録"
+
+msgid "访客终端"
+msgstr "来訪者端末"
+
+msgid "资源回收站"
+msgstr "資源回収所"
+
+msgid "赤铜矿"
+msgstr "赤銅鉱"
+
+msgid "轻红柱状菌"
+msgstr "軽紅柱菌"
+
+msgid "轻黯石"
+msgstr "軽暗色石"
+
+msgid "过堂风"
+msgstr "通り風"
+
+msgid "酮化灌木"
+msgstr "酮化低木"
+
+msgid "酸液源石虫"
+msgstr "酸液源石蟲"
+
+msgid "酸液源石虫·α"
+msgstr "酸液源石蟲·α"
+
+msgid "重刺天使"
+msgstr "重刺天使"
+
+msgid "重刺天使α"
+msgstr "重刺天使α"
+
+msgid "重红柱状菌"
+msgstr "重紅柱菌"
+
+msgid "重黯石"
+msgstr "重暗色石"
+
+msgid "金石稻"
+msgstr "金石稲"
+
+msgid "钉刺天使"
+msgstr "釘刺天使"
+
+msgid "钉刺天使α"
+msgstr "釘刺天使α"
+
+msgid "锁闭储藏箱"
+msgstr "施錠収納箱"
+
+msgid "锦草"
+msgstr "錦草"
+
+msgid "雾火斧甲兽"
+msgstr "霧火斧甲獣"
+
+msgid "雾火爪牙"
+msgstr "霧火爪牙"
+
+msgid "雾火牙兽"
+msgstr "霧火牙獣"
+
+msgid "音像存档"
+msgstr "音像記録"
+
+msgid "高阶培养I"
+msgstr "高階培養I"
+
+msgid "高阶培养II"
+msgstr "高階培養II"
+
+msgid "高阶培养III"
+msgstr "高階培養III"
+
+msgid "高阶培养IV"
+msgstr "高階培養IV"
+
+msgid "高阶培养V"
+msgstr "高階培養V"
+
+msgid "黯银柑实"
+msgstr "黯銀柑橘実"

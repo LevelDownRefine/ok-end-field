@@ -2479,3 +2479,381 @@ msgstr "삭제됨: {account} / {task} 재정의"
 
 msgid "已清空账号全部覆盖：{account}"
 msgstr "계정의 모든 재정의 삭제됨: {account}"
+
+msgid "Delta型机器人"
+msgstr "델타형 로봇"
+
+msgid "“碾骨之拳”罗丹"
+msgstr "\"뼈를 부수는 주먹\" 로단"
+
+msgid "中红柱状菌"
+msgstr "중형 붉은 기둥 균"
+
+msgid "中黯石"
+msgstr "중형 암석"
+
+msgid "仓储节点"
+msgstr "창고 노드"
+
+msgid "仿生翅天使"
+msgstr "생체 날개 천사"
+
+msgid "会客室"
+msgstr "응접실"
+
+msgid "传送台"
+msgstr "전송대"
+
+msgid "供电终端"
+msgstr "전원 공급 단말"
+
+msgid "充能球刺兽"
+msgstr "충전 구체 가시수"
+
+msgid "净水节点"
+msgstr "정수 노드"
+
+msgid "分层入口"
+msgstr "층형 입구"
+
+msgid "刚角天使"
+msgstr "강각 천사"
+
+msgid "割云翁"
+msgstr "구름 베는 노인"
+
+msgid "劫云客"
+msgstr "구름 약탈자"
+
+msgid "协议传送点"
+msgstr "프로토콜 전송 지점"
+
+msgid "协议奇点"
+msgstr "프로토콜 특이점"
+
+msgid "协议核心"
+msgstr "프로토콜 코어"
+
+msgid "协议采录桩"
+msgstr "프로토콜 채록 말뚝"
+
+msgid "原生钳兽"
+msgstr "원생 집게수"
+
+msgid "受蚀玉化叶"
+msgstr "침식된 옥화 잎"
+
+msgid "大角天使"
+msgstr "대각 천사"
+
+msgid "大角天使α"
+msgstr "대각 천사 α"
+
+msgid "展示区"
+msgstr "전시 구역"
+
+msgid "岩天使叶"
+msgstr "암천사 잎"
+
+msgid "巨山犼兽"
+msgstr "거산 후수"
+
+msgid "干员联络台"
+msgstr "오퍼레이터 연락대"
+
+msgid "开天将"
+msgstr "개천장"
+
+msgid "怒目彪兽"
+msgstr "노목표수"
+
+msgid "总控中枢"
+msgstr "총괄 제어 중추"
+
+msgid "战术训练"
+msgstr "전술 훈련"
+
+msgid "摧山将"
+msgstr "최산장"
+
+msgid "斧甲兽"
+msgstr "도끼갑수"
+
+msgid "断云叟"
+msgstr "구름 끊는 노인"
+
+msgid "星门菌"
+msgstr "성문 균"
+
+msgid "映火荞花"
+msgstr "불꽃 메밀꽃"
+
+msgid "晶化多齿叶"
+msgstr "결정화 다치엽"
+
+msgid "晶锥天使"
+msgstr "수정 원뿔 천사"
+
+msgid "晶锥天使δ"
+msgstr "수정 원뿔 천사 δ"
+
+msgid "柑实"
+msgstr "감귤 열매"
+
+msgid "棱镜天使"
+msgstr "프리즘 천사"
+
+msgid "次级核心"
+msgstr "차급 코어"
+
+msgid "武陵石"
+msgstr "무릉석"
+
+msgid "残暴原生钳兽"
+msgstr "잔폭 원생 집게수"
+
+msgid "水灯虫"
+msgstr "수등충"
+
+msgid "浊流天使"
+msgstr "탁류 천사"
+
+msgid "浊流天使δ"
+msgstr "탁류 천사 δ"
+
+msgid "源矿矿点"
+msgstr "원광 채굴 지점"
+
+msgid "演武平台"
+msgstr "연무 플랫폼"
+
+msgid "潜地虬兽"
+msgstr "잠지 규수"
+
+msgid "潮行天使"
+msgstr "조행 천사"
+
+msgid "潮行天使δ"
+msgstr "조행 천사 δ"
+
+msgid "火雾源石虫"
+msgstr "화무 원석충"
+
+msgid "灰芦麦"
+msgstr "회로맥"
+
+msgid "灼壳虫"
+msgstr "작각충"
+
+msgid "焚雾源石虫"
+msgstr "분무 원석충"
+
+msgid "燎石"
+msgstr "요석"
+
+msgid "物资调度终端"
+msgstr "물자 조달 단말"
+
+msgid "环境监测终端"
+msgstr "환경 감시 단말"
+
+msgid "球刺兽"
+msgstr "구자수"
+
+msgid "琼叶参"
+msgstr "경엽삼"
+
+msgid "百眼彪兽"
+msgstr "백안표수"
+
+msgid "砂叶"
+msgstr "사엽"
+
+msgid "碾骨伏击射手"
+msgstr "골분쇄 복격 사수"
+
+msgid "碾骨先锋"
+msgstr "골분쇄 선봉"
+
+msgid "碾骨劫掠者"
+msgstr "골분쇄 약탈자"
+
+msgid "碾骨撕裂牙兽"
+msgstr "골분쇄 열아수"
+
+msgid "碾骨清道夫"
+msgstr "골분쇄 청소부"
+
+msgid "碾骨渗透者"
+msgstr "골분쇄 침투자"
+
+msgid "碾骨焰术师"
+msgstr "골분쇄 염술사"
+
+msgid "碾骨行刑人"
+msgstr "골분쇄 형집행인"
+
+msgid "穿林箭"
+msgstr "관림전"
+
+msgid "精锐伏击射手"
+msgstr "정예 복격 사수"
+
+msgid "精锐劫掠者"
+msgstr "정예 약탈자"
+
+msgid "精锐撕裂牙兽"
+msgstr "정예 열아수"
+
+msgid "精锐行刑人"
+msgstr "정예 형집행인"
+
+msgid "紫晶矿矿点"
+msgstr "자정광 채굴 지점"
+
+msgid "纯晶多齿叶"
+msgstr "순정 다치엽"
+
+msgid "维修灵感点"
+msgstr "수리 영감 포인트"
+
+msgid "肖像天使"
+msgstr "초상 천사"
+
+msgid "能量淤积点"
+msgstr "에너지 퇴적 지점"
+
+msgid "至晶多齿叶"
+msgstr "지정 다치엽"
+
+msgid "芽针"
+msgstr "아침"
+
+msgid "苦叶椒"
+msgstr "고엽초"
+
+msgid "荆刺芽针"
+msgstr "형자아침"
+
+msgid "荞花"
+msgstr "메밀꽃"
+
+msgid "莫惜命"
+msgstr "목석명"
+
+msgid "莫留财"
+msgstr "막유재"
+
+msgid "萤壳虫"
+msgstr "형각충"
+
+msgid "蓝铁矿矿点"
+msgstr "남철광 채굴 지점"
+
+msgid "蓬茸锦草"
+msgstr "방용금초"
+
+msgid "蚀像寻遗"
+msgstr "식상심유"
+
+msgid "血菌"
+msgstr "혈균"
+
+msgid "行迹高塔"
+msgstr "행적 고탑"
+
+msgid "表象"
+msgstr "표상"
+
+msgid "袭击预警终端"
+msgstr "습격 예경 단말"
+
+msgid "装备模板箱"
+msgstr "장비 템플릿 상자"
+
+msgid "见闻辑录"
+msgstr "견문 집록"
+
+msgid "访客终端"
+msgstr "방객 단말"
+
+msgid "资源回收站"
+msgstr "자원 회수소"
+
+msgid "赤铜矿"
+msgstr "적동광"
+
+msgid "轻红柱状菌"
+msgstr "경홍주상균"
+
+msgid "轻黯石"
+msgstr "경암석"
+
+msgid "过堂风"
+msgstr "과당풍"
+
+msgid "酮化灌木"
+msgstr "동화 관목"
+
+msgid "酸液源石虫"
+msgstr "산액 원석충"
+
+msgid "酸液源石虫·α"
+msgstr "산액 원석충 · α"
+
+msgid "重刺天使"
+msgstr "중자천사"
+
+msgid "重刺天使α"
+msgstr "중자천사 α"
+
+msgid "重红柱状菌"
+msgstr "중홍주상균"
+
+msgid "重黯石"
+msgstr "중암석"
+
+msgid "金石稻"
+msgstr "금석도"
+
+msgid "钉刺天使"
+msgstr "정자천사"
+
+msgid "钉刺天使α"
+msgstr "정자천사 α"
+
+msgid "锁闭储藏箱"
+msgstr "잠금 저장함"
+
+msgid "锦草"
+msgstr "금초"
+
+msgid "雾火斧甲兽"
+msgstr "무화부갑수"
+
+msgid "雾火爪牙"
+msgstr "무화조아"
+
+msgid "雾火牙兽"
+msgstr "무화아수"
+
+msgid "音像存档"
+msgstr "음상 기록"
+
+msgid "高阶培养I"
+msgstr "고급 배양 I"
+
+msgid "高阶培养II"
+msgstr "고급 배양 II"
+
+msgid "高阶培养III"
+msgstr "고급 배양 III"
+
+msgid "高阶培养IV"
+msgstr "고급 배양 IV"
+
+msgid "高阶培养V"
+msgstr "고급 배양 V"
+
+msgid "黯银柑实"
+msgstr "암은감실"

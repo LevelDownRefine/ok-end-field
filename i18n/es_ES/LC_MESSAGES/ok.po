@@ -2502,3 +2502,381 @@ msgstr "Borrado: anulación de {account} / {task}"
 
 msgid "已清空账号全部覆盖：{account}"
 msgstr "Borradas todas las anulaciones para la cuenta: {account}"
+
+msgid "Delta型机器人"
+msgstr "Robot Tipo Delta"
+
+msgid "“碾骨之拳”罗丹"
+msgstr "\"Puño Triturador\" Rodan"
+
+msgid "中红柱状菌"
+msgstr "Hongo Columna Rojo Medio"
+
+msgid "中黯石"
+msgstr "Piedra Oscura Media"
+
+msgid "仓储节点"
+msgstr "Nodo de Almacenamiento"
+
+msgid "仿生翅天使"
+msgstr "Ángel de Alas Biónicas"
+
+msgid "会客室"
+msgstr "Sala de Estar"
+
+msgid "传送台"
+msgstr "Plataforma de Teletransporte"
+
+msgid "供电终端"
+msgstr "Terminal de Energía"
+
+msgid "充能球刺兽"
+msgstr "Bestia Espina Cargada"
+
+msgid "净水节点"
+msgstr "Nodo de Purificación"
+
+msgid "分层入口"
+msgstr "Entrada de Capas"
+
+msgid "刚角天使"
+msgstr "Ángel de Cuerno Duro"
+
+msgid "割云翁"
+msgstr "Segador de Nubes"
+
+msgid "劫云客"
+msgstr "Asaltante de Nubes"
+
+msgid "协议传送点"
+msgstr "Teletransporte de Protocolo"
+
+msgid "协议奇点"
+msgstr "Singularidad de Protocolo"
+
+msgid "协议核心"
+msgstr "Núcleo de Protocolo"
+
+msgid "协议采录桩"
+msgstr "Estaca de Grabación de Protocolo"
+
+msgid "原生钳兽"
+msgstr "Bestia Pinza Nativa"
+
+msgid "受蚀玉化叶"
+msgstr "Hoja de Jade Erosionada"
+
+msgid "大角天使"
+msgstr "Ángel de Cuerno Grande"
+
+msgid "大角天使α"
+msgstr "Ángel de Cuerno Grande α"
+
+msgid "展示区"
+msgstr "Área de Exhibición"
+
+msgid "岩天使叶"
+msgstr "Hoja de Ángel de Roca"
+
+msgid "巨山犼兽"
+msgstr "Bestia Aulladora de Montaña"
+
+msgid "干员联络台"
+msgstr "Estación de Contacto de Operadores"
+
+msgid "开天将"
+msgstr "Abrecielos"
+
+msgid "怒目彪兽"
+msgstr "Bestia Mirada Feroz"
+
+msgid "总控中枢"
+msgstr "Centro de Control Central"
+
+msgid "战术训练"
+msgstr "Entrenamiento Táctico"
+
+msgid "摧山将"
+msgstr "Rompe Montañas"
+
+msgid "斧甲兽"
+msgstr "Bestia Hacha de Caparazón"
+
+msgid "断云叟"
+msgstr "Cortanubes"
+
+msgid "星门菌"
+msgstr "Hongo Puerta Estelar"
+
+msgid "映火荞花"
+msgstr "Flor de Alforfón de Fuego"
+
+msgid "晶化多齿叶"
+msgstr "Hoja Multidentada Cristalizada"
+
+msgid "晶锥天使"
+msgstr "Ángel de Cono de Cristal"
+
+msgid "晶锥天使δ"
+msgstr "Ángel de Cono de Cristal δ"
+
+msgid "柑实"
+msgstr "Fruto Cítrico"
+
+msgid "棱镜天使"
+msgstr "Ángel Prisma"
+
+msgid "次级核心"
+msgstr "Núcleo Secundario"
+
+msgid "武陵石"
+msgstr "Piedra Wuling"
+
+msgid "残暴原生钳兽"
+msgstr "Bestia Pinza Nativa Feroc"
+
+msgid "水灯虫"
+msgstr "Insecto Linterna de Agua"
+
+msgid "浊流天使"
+msgstr "Ángel de Corriente Turbia"
+
+msgid "浊流天使δ"
+msgstr "Ángel de Corriente Turbia δ"
+
+msgid "源矿矿点"
+msgstr "Depósito de Mineral de Origen"
+
+msgid "演武平台"
+msgstr "Plataforma de Entrenamiento"
+
+msgid "潜地虬兽"
+msgstr "Bestia Dragón Excavadora"
+
+msgid "潮行天使"
+msgstr "Ángel Caminante de Mareas"
+
+msgid "潮行天使δ"
+msgstr "Ángel Caminante de Mareas δ"
+
+msgid "火雾源石虫"
+msgstr "Babosa de Origen Niebla de Fuego"
+
+msgid "灰芦麦"
+msgstr "Trigo de Caña Gris"
+
+msgid "灼壳虫"
+msgstr "Insecto de Caparazón Quemado"
+
+msgid "焚雾源石虫"
+msgstr "Babosa de Origen Niebla Ardiente"
+
+msgid "燎石"
+msgstr "Piedra Ardiente"
+
+msgid "物资调度终端"
+msgstr "Terminal de Envío de Materiales"
+
+msgid "环境监测终端"
+msgstr "Terminal de Monitoreo Ambiental"
+
+msgid "球刺兽"
+msgstr "Bestia Espina Esférica"
+
+msgid "琼叶参"
+msgstr "Ginseng de Hoja de Jade"
+
+msgid "百眼彪兽"
+msgstr "Bestia de Cien Ojos"
+
+msgid "砂叶"
+msgstr "Hoja de Arena"
+
+msgid "碾骨伏击射手"
+msgstr "Francotirador Emboscador Triturador"
+
+msgid "碾骨先锋"
+msgstr "Vanguardia Trituradora"
+
+msgid "碾骨劫掠者"
+msgstr "Asaltante Triturador"
+
+msgid "碾骨撕裂牙兽"
+msgstr "Bestia Colmillo Desgarrador Trituradora"
+
+msgid "碾骨清道夫"
+msgstr "Carroñero Triturador"
+
+msgid "碾骨渗透者"
+msgstr "Infiltrador Triturador"
+
+msgid "碾骨焰术师"
+msgstr "Piromante Triturador"
+
+msgid "碾骨行刑人"
+msgstr "Verdugo Triturador"
+
+msgid "穿林箭"
+msgstr "Flecha Perforabosques"
+
+msgid "精锐伏击射手"
+msgstr "Francotirador Emboscador Élite"
+
+msgid "精锐劫掠者"
+msgstr "Asaltante Élite"
+
+msgid "精锐撕裂牙兽"
+msgstr "Bestia Colmillo Desgarrador Élite"
+
+msgid "精锐行刑人"
+msgstr "Verdugo Élite"
+
+msgid "紫晶矿矿点"
+msgstr "Depósito de Mineral Amatista"
+
+msgid "纯晶多齿叶"
+msgstr "Hoja Multidentada de Cristal Puro"
+
+msgid "维修灵感点"
+msgstr "Punto de Inspiración de Reparación"
+
+msgid "肖像天使"
+msgstr "Ángel Retrato"
+
+msgid "能量淤积点"
+msgstr "Punto de Acumulación de Energía"
+
+msgid "至晶多齿叶"
+msgstr "Hoja Multidentada de Cristal Supremo"
+
+msgid "芽针"
+msgstr "Aguja Brote"
+
+msgid "苦叶椒"
+msgstr "Pimienta de Hoja Amarga"
+
+msgid "荆刺芽针"
+msgstr "Aguja Brote Espinosa"
+
+msgid "荞花"
+msgstr "Flor de Alforfón"
+
+msgid "莫惜命"
+msgstr "Sin Reserva Vital"
+
+msgid "莫留财"
+msgstr "Sin Reserva de Riqueza"
+
+msgid "萤壳虫"
+msgstr "Insecto de Caparazón de Luciérnaga"
+
+msgid "蓝铁矿矿点"
+msgstr "Depósito de Mineral de Hierro Azul"
+
+msgid "蓬茸锦草"
+msgstr "Hierba Brocado Esponjosa"
+
+msgid "蚀像寻遗"
+msgstr "Reliquia de Imagen Erosionada"
+
+msgid "血菌"
+msgstr "Hongo de Sangre"
+
+msgid "行迹高塔"
+msgstr "Torre de Rastros"
+
+msgid "表象"
+msgstr "Apariencia"
+
+msgid "袭击预警终端"
+msgstr "Terminal de Alerta de Incursión"
+
+msgid "装备模板箱"
+msgstr "Caja de Plantilla de Equipo"
+
+msgid "见闻辑录"
+msgstr "Archivo de Conocimiento"
+
+msgid "访客终端"
+msgstr "Terminal de Visitante"
+
+msgid "资源回收站"
+msgstr "Estación de Reciclaje de Recursos"
+
+msgid "赤铜矿"
+msgstr "Mineral de Cobre Rojo"
+
+msgid "轻红柱状菌"
+msgstr "Hongo Columna Rojo Ligero"
+
+msgid "轻黯石"
+msgstr "Piedra Oscura Ligera"
+
+msgid "过堂风"
+msgstr "Viento de Paso"
+
+msgid "酮化灌木"
+msgstr "Arbusto de Cetona"
+
+msgid "酸液源石虫"
+msgstr "Babosa de Origen Ácida"
+
+msgid "酸液源石虫·α"
+msgstr "Babosa de Origen Ácida · α"
+
+msgid "重刺天使"
+msgstr "Ángel de Espina Pesada"
+
+msgid "重刺天使α"
+msgstr "Ángel de Espina Pesada α"
+
+msgid "重红柱状菌"
+msgstr "Hongo Columna Rojo Pesado"
+
+msgid "重黯石"
+msgstr "Piedra Oscura Pesada"
+
+msgid "金石稻"
+msgstr "Arroz de Piedra Dorada"
+
+msgid "钉刺天使"
+msgstr "Ángel de Púa"
+
+msgid "钉刺天使α"
+msgstr "Ángel de Púa α"
+
+msgid "锁闭储藏箱"
+msgstr "Caja de Almacenamiento Cerrada"
+
+msgid "锦草"
+msgstr "Hierba Brocado"
+
+msgid "雾火斧甲兽"
+msgstr "Bestia Hacha de Caparazón de Niebla de Fuego"
+
+msgid "雾火爪牙"
+msgstr "Esbirro de Niebla de Fuego"
+
+msgid "雾火牙兽"
+msgstr "Bestia Colmillo de Niebla de Fuego"
+
+msgid "音像存档"
+msgstr "Archivo de Audio"
+
+msgid "高阶培养I"
+msgstr "Cultivo Avanzado I"
+
+msgid "高阶培养II"
+msgstr "Cultivo Avanzado II"
+
+msgid "高阶培养III"
+msgstr "Cultivo Avanzado III"
+
+msgid "高阶培养IV"
+msgstr "Cultivo Avanzado IV"
+
+msgid "高阶培养V"
+msgstr "Cultivo Avanzado V"
+
+msgid "黯银柑实"
+msgstr "Fruto Cítrico Plata Oscura"

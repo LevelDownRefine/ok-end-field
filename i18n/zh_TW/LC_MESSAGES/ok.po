@@ -2483,3 +2483,381 @@ msgstr "已清空：{account} / {task} 覆蓋"
 
 msgid "已清空账号全部覆盖：{account}"
 msgstr "已清空帳號全部覆蓋：{account}"
+
+msgid "Delta型机器人"
+msgstr "Delta型機器人"
+
+msgid "“碾骨之拳”罗丹"
+msgstr "「碾骨之拳」羅丹"
+
+msgid "中红柱状菌"
+msgstr "中紅柱狀菌"
+
+msgid "中黯石"
+msgstr "中黯石"
+
+msgid "仓储节点"
+msgstr "倉儲節點"
+
+msgid "仿生翅天使"
+msgstr "仿生翅天使"
+
+msgid "会客室"
+msgstr "會客室"
+
+msgid "传送台"
+msgstr "傳送台"
+
+msgid "供电终端"
+msgstr "供電終端"
+
+msgid "充能球刺兽"
+msgstr "充能球刺獸"
+
+msgid "净水节点"
+msgstr "淨水節點"
+
+msgid "分层入口"
+msgstr "分層入口"
+
+msgid "刚角天使"
+msgstr "剛角天使"
+
+msgid "割云翁"
+msgstr "割雲翁"
+
+msgid "劫云客"
+msgstr "劫雲客"
+
+msgid "协议传送点"
+msgstr "協議傳送點"
+
+msgid "协议奇点"
+msgstr "協議奇點"
+
+msgid "协议核心"
+msgstr "協議核心"
+
+msgid "协议采录桩"
+msgstr "協議採錄樁"
+
+msgid "原生钳兽"
+msgstr "原生鉗獸"
+
+msgid "受蚀玉化叶"
+msgstr "受蝕玉化葉"
+
+msgid "大角天使"
+msgstr "大角天使"
+
+msgid "大角天使α"
+msgstr "大角天使α"
+
+msgid "展示区"
+msgstr "展示區"
+
+msgid "岩天使叶"
+msgstr "岩天使葉"
+
+msgid "巨山犼兽"
+msgstr "巨山犼獸"
+
+msgid "干员联络台"
+msgstr "幹員聯絡台"
+
+msgid "开天将"
+msgstr "開天將"
+
+msgid "怒目彪兽"
+msgstr "怒目彪獸"
+
+msgid "总控中枢"
+msgstr "總控中樞"
+
+msgid "战术训练"
+msgstr "戰術訓練"
+
+msgid "摧山将"
+msgstr "摧山將"
+
+msgid "斧甲兽"
+msgstr "斧甲獸"
+
+msgid "断云叟"
+msgstr "斷雲叟"
+
+msgid "星门菌"
+msgstr "星門菌"
+
+msgid "映火荞花"
+msgstr "映火蕎花"
+
+msgid "晶化多齿叶"
+msgstr "晶化多齒葉"
+
+msgid "晶锥天使"
+msgstr "晶錐天使"
+
+msgid "晶锥天使δ"
+msgstr "晶錐天使δ"
+
+msgid "柑实"
+msgstr "柑實"
+
+msgid "棱镜天使"
+msgstr "稜鏡天使"
+
+msgid "次级核心"
+msgstr "次級核心"
+
+msgid "武陵石"
+msgstr "武陵石"
+
+msgid "残暴原生钳兽"
+msgstr "殘暴原生鉗獸"
+
+msgid "水灯虫"
+msgstr "水燈蟲"
+
+msgid "浊流天使"
+msgstr "濁流天使"
+
+msgid "浊流天使δ"
+msgstr "濁流天使δ"
+
+msgid "源矿矿点"
+msgstr "源礦礦點"
+
+msgid "演武平台"
+msgstr "演武平台"
+
+msgid "潜地虬兽"
+msgstr "潛地虯獸"
+
+msgid "潮行天使"
+msgstr "潮行天使"
+
+msgid "潮行天使δ"
+msgstr "潮行天使δ"
+
+msgid "火雾源石虫"
+msgstr "火霧源石蟲"
+
+msgid "灰芦麦"
+msgstr "灰蘆麥"
+
+msgid "灼壳虫"
+msgstr "灼殼蟲"
+
+msgid "焚雾源石虫"
+msgstr "焚霧源石蟲"
+
+msgid "燎石"
+msgstr "燎石"
+
+msgid "物资调度终端"
+msgstr "物資調度終端"
+
+msgid "环境监测终端"
+msgstr "環境監測終端"
+
+msgid "球刺兽"
+msgstr "球刺獸"
+
+msgid "琼叶参"
+msgstr "瓊葉參"
+
+msgid "百眼彪兽"
+msgstr "百眼彪獸"
+
+msgid "砂叶"
+msgstr "砂葉"
+
+msgid "碾骨伏击射手"
+msgstr "碾骨伏擊射手"
+
+msgid "碾骨先锋"
+msgstr "碾骨先鋒"
+
+msgid "碾骨劫掠者"
+msgstr "碾骨劫掠者"
+
+msgid "碾骨撕裂牙兽"
+msgstr "碾骨撕裂牙獸"
+
+msgid "碾骨清道夫"
+msgstr "碾骨清道夫"
+
+msgid "碾骨渗透者"
+msgstr "碾骨滲透者"
+
+msgid "碾骨焰术师"
+msgstr "碾骨焰術師"
+
+msgid "碾骨行刑人"
+msgstr "碾骨行刑人"
+
+msgid "穿林箭"
+msgstr "穿林箭"
+
+msgid "精锐伏击射手"
+msgstr "精銳伏擊射手"
+
+msgid "精锐劫掠者"
+msgstr "精銳劫掠者"
+
+msgid "精锐撕裂牙兽"
+msgstr "精銳撕裂牙獸"
+
+msgid "精锐行刑人"
+msgstr "精銳行刑人"
+
+msgid "紫晶矿矿点"
+msgstr "紫晶礦礦點"
+
+msgid "纯晶多齿叶"
+msgstr "純晶多齒葉"
+
+msgid "维修灵感点"
+msgstr "維修靈感點"
+
+msgid "肖像天使"
+msgstr "肖像天使"
+
+msgid "能量淤积点"
+msgstr "能量淤積點"
+
+msgid "至晶多齿叶"
+msgstr "至晶多齒葉"
+
+msgid "芽针"
+msgstr "芽針"
+
+msgid "苦叶椒"
+msgstr "苦葉椒"
+
+msgid "荆刺芽针"
+msgstr "荊刺芽針"
+
+msgid "荞花"
+msgstr "蕎花"
+
+msgid "莫惜命"
+msgstr "莫惜命"
+
+msgid "莫留财"
+msgstr "莫留財"
+
+msgid "萤壳虫"
+msgstr "螢殼蟲"
+
+msgid "蓝铁矿矿点"
+msgstr "藍鐵礦礦點"
+
+msgid "蓬茸锦草"
+msgstr "蓬茸錦草"
+
+msgid "蚀像寻遗"
+msgstr "蝕像尋遺"
+
+msgid "血菌"
+msgstr "血菌"
+
+msgid "行迹高塔"
+msgstr "行跡高塔"
+
+msgid "表象"
+msgstr "表象"
+
+msgid "袭击预警终端"
+msgstr "襲擊預警終端"
+
+msgid "装备模板箱"
+msgstr "裝備模板箱"
+
+msgid "见闻辑录"
+msgstr "見聞輯錄"
+
+msgid "访客终端"
+msgstr "訪客終端"
+
+msgid "资源回收站"
+msgstr "資源回收站"
+
+msgid "赤铜矿"
+msgstr "赤銅礦"
+
+msgid "轻红柱状菌"
+msgstr "輕紅柱狀菌"
+
+msgid "轻黯石"
+msgstr "輕黯石"
+
+msgid "过堂风"
+msgstr "過堂風"
+
+msgid "酮化灌木"
+msgstr "酮化灌木"
+
+msgid "酸液源石虫"
+msgstr "酸液源石蟲"
+
+msgid "酸液源石虫·α"
+msgstr "酸液源石蟲·α"
+
+msgid "重刺天使"
+msgstr "重刺天使"
+
+msgid "重刺天使α"
+msgstr "重刺天使α"
+
+msgid "重红柱状菌"
+msgstr "重紅柱狀菌"
+
+msgid "重黯石"
+msgstr "重黯石"
+
+msgid "金石稻"
+msgstr "金石稻"
+
+msgid "钉刺天使"
+msgstr "釘刺天使"
+
+msgid "钉刺天使α"
+msgstr "釘刺天使α"
+
+msgid "锁闭储藏箱"
+msgstr "鎖閉儲藏箱"
+
+msgid "锦草"
+msgstr "錦草"
+
+msgid "雾火斧甲兽"
+msgstr "霧火斧甲獸"
+
+msgid "雾火爪牙"
+msgstr "霧火爪牙"
+
+msgid "雾火牙兽"
+msgstr "霧火牙獸"
+
+msgid "音像存档"
+msgstr "音像存檔"
+
+msgid "高阶培养I"
+msgstr "高階培養I"
+
+msgid "高阶培养II"
+msgstr "高階培養II"
+
+msgid "高阶培养III"
+msgstr "高階培養III"
+
+msgid "高阶培养IV"
+msgstr "高階培養IV"
+
+msgid "高阶培养V"
+msgstr "高階培養V"
+
+msgid "黯银柑实"
+msgstr "黯銀柑實"

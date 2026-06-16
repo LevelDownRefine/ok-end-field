@@ -2319,3 +2319,381 @@ msgstr "Cleared: {account} / {task} override"
 
 msgid "已清空账号全部覆盖：{account}"
 msgstr "Cleared all overrides for account: {account}"
+
+msgid "Delta型机器人"
+msgstr "Delta-type Robot"
+
+msgid "“碾骨之拳”罗丹"
+msgstr "\"Bone-Crushing Fist\" Rodan"
+
+msgid "中红柱状菌"
+msgstr "Medium Red Column Fungus"
+
+msgid "中黯石"
+msgstr "Medium Dimstone"
+
+msgid "仓储节点"
+msgstr "Storage Node"
+
+msgid "仿生翅天使"
+msgstr "Bionic Wing Angel"
+
+msgid "会客室"
+msgstr "Lounge"
+
+msgid "传送台"
+msgstr "Teleport Pad"
+
+msgid "供电终端"
+msgstr "Power Terminal"
+
+msgid "充能球刺兽"
+msgstr "Charged Spike Beast"
+
+msgid "净水节点"
+msgstr "Water Purification Node"
+
+msgid "分层入口"
+msgstr "Layered Entrance"
+
+msgid "刚角天使"
+msgstr "Hardhorn Angel"
+
+msgid "割云翁"
+msgstr "Cloud Reaper"
+
+msgid "劫云客"
+msgstr "Cloud Raider"
+
+msgid "协议传送点"
+msgstr "Protocol Teleport"
+
+msgid "协议奇点"
+msgstr "Protocol Singularity"
+
+msgid "协议核心"
+msgstr "Protocol Core"
+
+msgid "协议采录桩"
+msgstr "Protocol Recording Stake"
+
+msgid "原生钳兽"
+msgstr "Native Pincer Beast"
+
+msgid "受蚀玉化叶"
+msgstr "Eroded Jade Leaf"
+
+msgid "大角天使"
+msgstr "Large Horn Angel"
+
+msgid "大角天使α"
+msgstr "Large Horn Angel α"
+
+msgid "展示区"
+msgstr "Display Area"
+
+msgid "岩天使叶"
+msgstr "Rock Angel Leaf"
+
+msgid "巨山犼兽"
+msgstr "Mountain Howler Beast"
+
+msgid "干员联络台"
+msgstr "Operator Contact Station"
+
+msgid "开天将"
+msgstr "Sky Opener"
+
+msgid "怒目彪兽"
+msgstr "Glaring Beast"
+
+msgid "总控中枢"
+msgstr "Central Control Hub"
+
+msgid "战术训练"
+msgstr "Tactical Training"
+
+msgid "摧山将"
+msgstr "Mountain Crusher"
+
+msgid "斧甲兽"
+msgstr "Axe Shell Beast"
+
+msgid "断云叟"
+msgstr "Cloud Cutter"
+
+msgid "星门菌"
+msgstr "Star Gate Fungus"
+
+msgid "映火荞花"
+msgstr "Fire Buckwheat Flower"
+
+msgid "晶化多齿叶"
+msgstr "Crystallized Multi-Serrated Leaf"
+
+msgid "晶锥天使"
+msgstr "Crystal Cone Angel"
+
+msgid "晶锥天使δ"
+msgstr "Crystal Cone Angel δ"
+
+msgid "柑实"
+msgstr "Citrus Fruit"
+
+msgid "棱镜天使"
+msgstr "Prism Angel"
+
+msgid "次级核心"
+msgstr "Secondary Core"
+
+msgid "武陵石"
+msgstr "Wuling Stone"
+
+msgid "残暴原生钳兽"
+msgstr "Ferocious Native Pincer Beast"
+
+msgid "水灯虫"
+msgstr "Water Lantern Bug"
+
+msgid "浊流天使"
+msgstr "Turbid Stream Angel"
+
+msgid "浊流天使δ"
+msgstr "Turbid Stream Angel δ"
+
+msgid "源矿矿点"
+msgstr "Originium Ore Deposit"
+
+msgid "演武平台"
+msgstr "Training Platform"
+
+msgid "潜地虬兽"
+msgstr "Burrowing Dragon Beast"
+
+msgid "潮行天使"
+msgstr "Tide Walker Angel"
+
+msgid "潮行天使δ"
+msgstr "Tide Walker Angel δ"
+
+msgid "火雾源石虫"
+msgstr "Fire Mist Originium Slug"
+
+msgid "灰芦麦"
+msgstr "Grey Reed Wheat"
+
+msgid "灼壳虫"
+msgstr "Scorched Shell Bug"
+
+msgid "焚雾源石虫"
+msgstr "Burning Mist Originium Slug"
+
+msgid "燎石"
+msgstr "Blazing Stone"
+
+msgid "物资调度终端"
+msgstr "Material Dispatch Terminal"
+
+msgid "环境监测终端"
+msgstr "Environment Monitor Terminal"
+
+msgid "球刺兽"
+msgstr "Spike Ball Beast"
+
+msgid "琼叶参"
+msgstr "Jade Leaf Ginseng"
+
+msgid "百眼彪兽"
+msgstr "Hundred-Eyed Beast"
+
+msgid "砂叶"
+msgstr "Sand Leaf"
+
+msgid "碾骨伏击射手"
+msgstr "Bone-Crushing Ambusher"
+
+msgid "碾骨先锋"
+msgstr "Bone-Crushing Vanguard"
+
+msgid "碾骨劫掠者"
+msgstr "Bone-Crushing Raider"
+
+msgid "碾骨撕裂牙兽"
+msgstr "Bone-Crushing Rending Fang Beast"
+
+msgid "碾骨清道夫"
+msgstr "Bone-Crushing Scavenger"
+
+msgid "碾骨渗透者"
+msgstr "Bone-Crushing Infiltrator"
+
+msgid "碾骨焰术师"
+msgstr "Bone-Crushing Pyromancer"
+
+msgid "碾骨行刑人"
+msgstr "Bone-Crushing Executioner"
+
+msgid "穿林箭"
+msgstr "Forest Piercer"
+
+msgid "精锐伏击射手"
+msgstr "Elite Ambusher"
+
+msgid "精锐劫掠者"
+msgstr "Elite Raider"
+
+msgid "精锐撕裂牙兽"
+msgstr "Elite Rending Fang Beast"
+
+msgid "精锐行刑人"
+msgstr "Elite Executioner"
+
+msgid "紫晶矿矿点"
+msgstr "Amethyst Ore Deposit"
+
+msgid "纯晶多齿叶"
+msgstr "Pure Crystal Multi-Serrated Leaf"
+
+msgid "维修灵感点"
+msgstr "Repair Inspiration Point"
+
+msgid "肖像天使"
+msgstr "Portrait Angel"
+
+msgid "能量淤积点"
+msgstr "Energy Accumulation Point"
+
+msgid "至晶多齿叶"
+msgstr "Supreme Crystal Multi-Serrated Leaf"
+
+msgid "芽针"
+msgstr "Sprout Needle"
+
+msgid "苦叶椒"
+msgstr "Bitter Leaf Pepper"
+
+msgid "荆刺芽针"
+msgstr "Thorn Sprout Needle"
+
+msgid "荞花"
+msgstr "Buckwheat Flower"
+
+msgid "莫惜命"
+msgstr "Spare No Life"
+
+msgid "莫留财"
+msgstr "Spare No Wealth"
+
+msgid "萤壳虫"
+msgstr "Firefly Shell Bug"
+
+msgid "蓝铁矿矿点"
+msgstr "Blue Iron Ore Deposit"
+
+msgid "蓬茸锦草"
+msgstr "Fluffy Brocade Grass"
+
+msgid "蚀像寻遗"
+msgstr "Eroded Image Relic"
+
+msgid "血菌"
+msgstr "Blood Fungus"
+
+msgid "行迹高塔"
+msgstr "Trace Tower"
+
+msgid "表象"
+msgstr "Appearance"
+
+msgid "袭击预警终端"
+msgstr "Raid Warning Terminal"
+
+msgid "装备模板箱"
+msgstr "Equipment Template Box"
+
+msgid "见闻辑录"
+msgstr "Knowledge Archive"
+
+msgid "访客终端"
+msgstr "Visitor Terminal"
+
+msgid "资源回收站"
+msgstr "Resource Recycling Station"
+
+msgid "赤铜矿"
+msgstr "Red Copper Ore"
+
+msgid "轻红柱状菌"
+msgstr "Light Red Column Fungus"
+
+msgid "轻黯石"
+msgstr "Light Dimstone"
+
+msgid "过堂风"
+msgstr "Draft Wind"
+
+msgid "酮化灌木"
+msgstr "Ketone Shrub"
+
+msgid "酸液源石虫"
+msgstr "Acid Originium Slug"
+
+msgid "酸液源石虫·α"
+msgstr "Acid Originium Slug · α"
+
+msgid "重刺天使"
+msgstr "Heavy Thorn Angel"
+
+msgid "重刺天使α"
+msgstr "Heavy Thorn Angel α"
+
+msgid "重红柱状菌"
+msgstr "Heavy Red Column Fungus"
+
+msgid "重黯石"
+msgstr "Heavy Dimstone"
+
+msgid "金石稻"
+msgstr "Gold Stone Rice"
+
+msgid "钉刺天使"
+msgstr "Spike Thorn Angel"
+
+msgid "钉刺天使α"
+msgstr "Spike Thorn Angel α"
+
+msgid "锁闭储藏箱"
+msgstr "Locked Storage Box"
+
+msgid "锦草"
+msgstr "Brocade Grass"
+
+msgid "雾火斧甲兽"
+msgstr "Mistfire Axe Shell Beast"
+
+msgid "雾火爪牙"
+msgstr "Mistfire Minion"
+
+msgid "雾火牙兽"
+msgstr "Mistfire Fang Beast"
+
+msgid "音像存档"
+msgstr "Audio Archive"
+
+msgid "高阶培养I"
+msgstr "Advanced Cultivation I"
+
+msgid "高阶培养II"
+msgstr "Advanced Cultivation II"
+
+msgid "高阶培养III"
+msgstr "Advanced Cultivation III"
+
+msgid "高阶培养IV"
+msgstr "Advanced Cultivation IV"
+
+msgid "高阶培养V"
+msgstr "Advanced Cultivation V"
+
+msgid "黯银柑实"
+msgstr "Dark Silver Citrus"
