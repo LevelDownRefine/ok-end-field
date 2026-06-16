@@ -14,7 +14,7 @@ from qfluentwidgets import (
     TextEdit,
 )
 
-from ok.gui.tasks.ConfigCard import ConfigCard
+from ok.gui.tasks.ConfigCard import ConfigCard, og
 from ok.gui.tasks.LabelAndWidget import LabelAndWidget
 from ok.gui.widget.CustomTab import CustomTab
 from src.tasks.account.account_scope_store import (
@@ -60,7 +60,7 @@ class AccountConfigTab(CustomTab):
 
     @property
     def name(self):
-        return "账号配置"
+        return og.app.tr("账号配置")
 
     @property
     def position(self):
@@ -85,50 +85,50 @@ class AccountConfigTab(CustomTab):
         header_layout = QVBoxLayout(header)
         header_layout.setContentsMargins(0, 0, 0, 0)
         header_layout.setSpacing(6)
-        tip = BodyLabel(
+        tip = BodyLabel(og.app.tr(
             "按账号和任务配置独立参数。先选账号，再选任务，下面会自动出现该任务的属性控件。"
             "账号页只需要填写账号名（手机号），无需填写密码。系统兼容旧格式 `账号,密码` 但不会保存密码。"
             "登录时也可只使用手机号后四位进行匹配（若唯一）。"
-        )
+        ))
         tip.setWordWrap(True)
         header_layout.addWidget(tip)
-        self.add_card("账号配置中心", header)
+        self.add_card(og.app.tr("账号配置中心"), header)
 
         base_widget = QWidget()
         base_layout = QVBoxLayout(base_widget)
         base_layout.setContentsMargins(0, 0, 0, 0)
         base_layout.setSpacing(8)
 
-        account_list_row = LabelAndWidget("账号列表", "每行一个账号名（手机号），无需密码")
+        account_list_row = LabelAndWidget(og.app.tr("账号列表"), og.app.tr("每行一个账号名（手机号），无需密码"))
         self.account_list_edit = TextEdit()
         self.account_list_edit.setMinimumHeight(120)
-        self.account_list_edit.setPlaceholderText("手机号A\n手机号B")
+        self.account_list_edit.setPlaceholderText(og.app.tr("手机号A\n手机号B"))
         account_list_row.add_widget(self.account_list_edit, stretch=1)
         base_layout.addWidget(account_list_row)
 
-        base_action_row = LabelAndWidget("账号列表操作")
+        base_action_row = LabelAndWidget(og.app.tr("账号列表操作"))
         base_action_layout = QHBoxLayout()
-        self.save_base_button = PrimaryPushButton("保存账号列表")
-        self.refresh_button = PushButton("刷新")
+        self.save_base_button = PrimaryPushButton(og.app.tr("保存账号列表"))
+        self.refresh_button = PushButton(og.app.tr("刷新"))
         base_action_layout.addWidget(self.save_base_button)
         base_action_layout.addWidget(self.refresh_button)
         base_action_layout.addStretch(1)
         base_action_row.add_layout(base_action_layout, stretch=1)
         base_layout.addWidget(base_action_row)
 
-        self.add_card("账号基础设置", base_widget)
+        self.add_card(og.app.tr("账号基础设置"), base_widget)
 
         selector_widget = QWidget()
         selector_layout = QVBoxLayout(selector_widget)
         selector_layout.setContentsMargins(0, 0, 0, 0)
         selector_layout.setSpacing(8)
 
-        account_selector_row = LabelAndWidget("账号", "从账号列表或已有覆盖中选择")
+        account_selector_row = LabelAndWidget(og.app.tr("账号"), og.app.tr("从账号列表或已有覆盖中选择"))
         account_selector_layout = QHBoxLayout()
         self.account_selector = ComboBox()
         self.account_selector.setMinimumWidth(220)
-        self.refresh_account_selector_button = PushButton("刷新账号下拉")
-        self.clear_account_override_button = PushButton("清空当前账号全部覆盖")
+        self.refresh_account_selector_button = PushButton(og.app.tr("刷新账号下拉"))
+        self.clear_account_override_button = PushButton(og.app.tr("清空当前账号全部覆盖"))
         account_selector_layout.addWidget(self.account_selector)
         account_selector_layout.addWidget(self.refresh_account_selector_button)
         account_selector_layout.addWidget(self.clear_account_override_button)
@@ -136,51 +136,51 @@ class AccountConfigTab(CustomTab):
         account_selector_row.add_layout(account_selector_layout, stretch=1)
         selector_layout.addWidget(account_selector_row)
 
-        task_selector_row = LabelAndWidget("任务", "选择任务后自动渲染属性控件")
+        task_selector_row = LabelAndWidget(og.app.tr("任务"), og.app.tr("选择任务后自动渲染属性控件"))
         task_selector_layout = QHBoxLayout()
         self.task_selector = ComboBox()
         self.task_selector.setMinimumWidth(280)
-        self.refresh_task_selector_button = PushButton("刷新任务下拉")
+        self.refresh_task_selector_button = PushButton(og.app.tr("刷新任务下拉"))
         task_selector_layout.addWidget(self.task_selector)
         task_selector_layout.addWidget(self.refresh_task_selector_button)
         task_selector_layout.addStretch(1)
         task_selector_row.add_layout(task_selector_layout, stretch=1)
         selector_layout.addWidget(task_selector_row)
 
-        view_row = LabelAndWidget("视图", "开启后仅显示与原配置不同的项")
+        view_row = LabelAndWidget(og.app.tr("视图"), og.app.tr("开启后仅显示与原配置不同的项"))
         self.only_diff_switch = SwitchButton()
-        self.only_diff_switch.setOnText(self.tr("仅差异"))
-        self.only_diff_switch.setOffText(self.tr("全部"))
+        self.only_diff_switch.setOnText(og.app.tr("仅差异"))
+        self.only_diff_switch.setOffText(og.app.tr("全部"))
         view_row.add_widget(self.only_diff_switch, stretch=0)
         selector_layout.addWidget(view_row)
 
-        action_row = LabelAndWidget("账号任务覆盖操作")
+        action_row = LabelAndWidget(og.app.tr("账号任务覆盖操作"))
         action_layout = QHBoxLayout()
-        self.save_task_override_button = PrimaryPushButton("保存当前账号任务覆盖")
-        self.clear_task_override_button = PushButton("清空当前任务覆盖")
+        self.save_task_override_button = PrimaryPushButton(og.app.tr("保存当前账号任务覆盖"))
+        self.clear_task_override_button = PushButton(og.app.tr("清空当前任务覆盖"))
         action_layout.addWidget(self.save_task_override_button)
         action_layout.addWidget(self.clear_task_override_button)
         action_layout.addStretch(1)
         action_row.add_layout(action_layout, stretch=1)
         selector_layout.addWidget(action_row)
 
-        self.add_card("账号任务选择", selector_widget)
+        self.add_card(og.app.tr("账号任务选择"), selector_widget)
 
         editor_widget = QWidget()
         self.editor_layout = QVBoxLayout(editor_widget)
         self.editor_layout.setContentsMargins(0, 0, 0, 0)
         self.editor_layout.setSpacing(8)
-        self.editor_layout.addWidget(BodyLabel("请先选择账号与任务"))
-        self.add_card("任务属性配置", editor_widget)
+        self.editor_layout.addWidget(BodyLabel(og.app.tr("请先选择账号与任务")))
+        self.add_card(og.app.tr("任务属性配置"), editor_widget)
 
         status_widget = QWidget()
         status_layout = QVBoxLayout(status_widget)
         status_layout.setContentsMargins(0, 0, 0, 0)
         status_layout.setSpacing(4)
-        self.status_label = BodyLabel("就绪")
+        self.status_label = BodyLabel(og.app.tr("就绪"))
         self.status_label.setWordWrap(True)
         status_layout.addWidget(self.status_label)
-        self.add_card("状态", status_widget)
+        self.add_card(og.app.tr("状态"), status_widget)
 
         self.save_base_button.clicked.connect(self.save_base_settings)
         self.refresh_button.clicked.connect(self.refresh_from_source)
@@ -198,7 +198,7 @@ class AccountConfigTab(CustomTab):
 
     def _ensure_executor(self):
         if self.executor is None:
-            self._set_status("界面初始化中，请稍候")
+            self._set_status(og.app.tr("界面初始化中，请稍候"))
             return False
         return True
 

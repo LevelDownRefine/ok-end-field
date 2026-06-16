@@ -13,7 +13,6 @@ DELIVERY_TARGET_TICKET_NUM_OPTIONS = ["119000", "79800", "73100"]
 # - delivery_targets_by_location: 每个地点对应的送货目标 NPC 列表
 # - transfer_search_area: 每个地点在地图中搜索传送点时使用的区域，支持 preset 或坐标两种写法
 # - ocr_priority_locations: OCR 识别时优先匹配的地点顺序
-# - target_ocr_pattern_overrides: 送货目标名的 OCR 兼容写法
 #
 # 新地区完整样例（复制后按实际地图改名即可）：
 # DELIVERY_AREA_CONFIG = {
@@ -34,9 +33,6 @@ DELIVERY_TARGET_TICKET_NUM_OPTIONS = ["119000", "79800", "73100"]
 #             "新区外环": {"preset": "right"},
 #         },
 #         "ocr_priority_locations": ["新区外环", "新区主城"],
-#         "target_ocr_pattern_overrides": {
-#             "目标A": r"目标[阿A]",
-#         },
 #     }
 # }
 DELIVERY_AREA_CONFIG = {
@@ -57,9 +53,5 @@ DELIVERY_AREA_CONFIG = {
         },
         # OCR 识别地点名时的优先顺序，越靠前越先尝试。
         "ocr_priority_locations": ["试验园区", "武陵城"],
-        # 某些目标名存在识别偏差时，用正则兼容不同写法。
-        "target_ocr_pattern_overrides": {
-            "常沄": r"常[沄云汶运法]",
-        },
     }
 }

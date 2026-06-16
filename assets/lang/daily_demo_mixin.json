@@ -1,0 +1,25 @@
+{
+  "double_reward": {
+    "zh_CN": {
+      "pattern": "开"
+    },
+    "zh_TW": {
+      "pattern": "開"
+    }
+  },
+  "k_27d2b829": {
+    "en_US": {
+      "string": "bridge"
+    }
+  },
+  "k_933056f0": {
+    "en_US": {
+      "pattern": "trust"
+    }
+  },
+  "k_d661f6da": {
+    "en_US": {
+      "pattern": "store"
+    }
+  }
+}

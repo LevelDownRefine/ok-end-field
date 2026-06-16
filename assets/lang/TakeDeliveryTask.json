@@ -1,0 +1,62 @@
+{
+  "k_a72a252f": {
+    "zh_CN": {
+      "string": "仓储节点"
+    },
+    "zh_TW": {
+      "string": "倉儲節點"
+    },
+    "en_US": {
+      "string": "Warehousing node"
+    },
+    "ja_JP": {
+      "string": "倉庫ノード"
+    },
+    "ko_KR": {
+      "string": "창고 노드"
+    },
+    "es_ES": {
+      "string": "Nodo de almacenamiento"
+    }
+  },
+  "k_046ed3ab": {
+    "zh_CN": {
+      "string": "请尽快送达"
+    },
+    "zh_TW": {
+      "string": "請盡快送達"
+    },
+    "en_US": {
+      "string": "Please deliver as soon as possible"
+    },
+    "ja_JP": {
+      "string": "できるだけ早く配達してください"
+    },
+    "ko_KR": {
+      "string": "최대한 빨리 배송해주세요"
+    },
+    "es_ES": {
+      "string": "Por favor entregue lo antes posible"
+    }
+  },
+  "k_ae8fb114": {
+    "zh_CN": {
+      "string": "运送委托列表"
+    },
+    "zh_TW": {
+      "string": "運送委託列表"
+    },
+    "en_US": {
+      "string": "Shipping order list"
+    },
+    "ja_JP": {
+      "string": "発送注文リスト"
+    },
+    "ko_KR": {
+      "string": "배송주문 목록"
+    },
+    "es_ES": {
+      "string": "Lista de pedidos de envío"
+    }
+  }
+}

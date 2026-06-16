@@ -40,10 +40,10 @@ class TestDeliveryAreaConfig(unittest.TestCase):
             "武陵",
         )
 
-    def test_get_delivery_target_ocr_pattern_applies_override(self):
+    def test_get_delivery_target_ocr_pattern_matches_literal(self):
         pattern = delivery_area_service.get_delivery_target_ocr_pattern("武陵", "常沄")
-        self.assertIsNotNone(pattern.search("常云"))
         self.assertIsNotNone(pattern.search("常沄"))
+        # OCR 字符混淆由 src/ocr_text_fix_patch.py 运行时 patch 处理，此处不测试
 
     def test_get_accept_feature_labels_returns_mapping_by_target_ticket(self):
         self.assertEqual(

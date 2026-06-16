@@ -79,7 +79,6 @@ class AutoCombatLogic:
             now = time.time()
             last = getattr(task, '_last_no_combat_log_time', 0)
             if now - last >= 5:
-                task.log_info("未检测到战斗状态,退出自动战斗")
                 task._last_no_combat_log_time = now
             task.sleep(0.5)
             return False

@@ -47,7 +47,7 @@ def get_stage_category(stage_name):
 def _world_map_zh_key_map() -> dict[str, str]:
     """Build and cache a reverse index from world_map zh text values to lang keys."""
     repo_root = Path(__file__).resolve().parents[2]
-    path = repo_root / "assets" / "lang" / "world_map" / "zh_CN.json"
+    path = repo_root / "assets" / "lang" / "world_map.json"
     if not path.exists():
         return {}
     try:
@@ -56,10 +56,14 @@ def _world_map_zh_key_map() -> dict[str, str]:
         return {}
 
     result = {}
-    for key, node in data.items():
-        if not isinstance(node, dict):
+    for key, locale_dict in data.items():
+        if not isinstance(locale_dict, dict):
             continue
-        text = node.get("pattern") or node.get("string")
+        # 优先从 zh_CN 获取文本
+        zh_node = locale_dict.get("zh_CN")
+        if not isinstance(zh_node, dict):
+            continue
+        text = zh_node.get("pattern") or zh_node.get("string")
         if isinstance(text, str) and text and text not in result:
             result[text] = key
     return result

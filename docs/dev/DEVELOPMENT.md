@@ -99,7 +99,7 @@ ok-end-field/
 │   │   ├── FeatureList.py     # 枚举：所有模板匹配特征名（对应 assets/images/ 里的图片文件名）
 │   │   ├── characters.py      # 干员数据字典（内部英文 key → 中文名/英文名/星级）
 │   │   ├── characters_utils.py# 干员数据工具函数（生成可联络列表等）
-│   │   ├── ocr_normalize_map.py # OCR 混淆字符映射（如 "别"↔"別"），用于纠正识别误差
+│   │   ├── ocr_text_fix_patch.py # OCR 字符混淆补丁，加载 json 映射并动态转换 match pattern
 │   │   ├── world_map.py       # 地图数据：地区列表、据点字典、可交易货品、副本分类等
 │   │   ├── world_map_utils.py # 地图数据工具函数（按据点名获取地区等）
 │   │   └── zh_en.py           # 中英翻译字典（物品中文名 → 英文 feature 名、仓库分类映射）
@@ -330,7 +330,7 @@ python main_debug.py
 - 使用 `self.ocr(box=..., match=re.compile("关键字"))` 进行区域 OCR。
 - 使用 `self.wait_ocr(match=..., time_out=5)` 等待并返回结果。
 - 使用 `self.wait_click_ocr(match=..., box=..., time_out=5)` 等待并点击。
-- 若 OCR 有混淆字符问题，在 `src/data/ocr_normalize_map.py` 中添加映射。
+- 若 OCR 有混淆字符问题（如"幹"被识别为"乾"），在 `assets/ocr_fix/ocr_text_fix.json` 中添加错误→正确文本对。系统会自动提取字符级混淆映射，在运行时动态扩展 match pattern。
 
 ### 5.6 热键适配
 

@@ -1,0 +1,62 @@
+{
+  "ms": {
+    "zh_CN": {
+      "pattern": "ms"
+    },
+    "zh_TW": {
+      "pattern": "ms"
+    },
+    "en_US": {
+      "pattern": "ms"
+    },
+    "ja_JP": {
+      "pattern": "ms"
+    },
+    "ko_KR": {
+      "pattern": "ms"
+    },
+    "es_ES": {
+      "pattern": "ms"
+    }
+  },
+  "k_20275ef2": {
+    "zh_CN": {
+      "pattern": "上次"
+    },
+    "zh_TW": {
+      "pattern": "上次"
+    },
+    "en_US": {
+      "pattern": "last time"
+    },
+    "ja_JP": {
+      "pattern": "前回"
+    },
+    "ko_KR": {
+      "pattern": "지난번에"
+    },
+    "es_ES": {
+      "pattern": "último tiempo"
+    }
+  },
+  "k_8c73d90e": {
+    "zh_CN": {
+      "pattern": "最近"
+    },
+    "zh_TW": {
+      "pattern": "最近"
+    },
+    "en_US": {
+      "pattern": "recent"
+    },
+    "ja_JP": {
+      "pattern": "最近の"
+    },
+    "ko_KR": {
+      "pattern": "최근의"
+    },
+    "es_ES": {
+      "pattern": "reciente"
+    }
+  }
+}

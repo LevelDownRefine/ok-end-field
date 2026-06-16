@@ -1,0 +1,42 @@
+{
+  "k_3da67d44": {
+    "zh_CN": {
+      "string": "标记显示管理"
+    },
+    "zh_TW": {
+      "string": "標記顯示管理"
+    },
+    "en_US": {
+      "string": "Tag display management"
+    },
+    "ja_JP": {
+      "string": "タグ表示管理"
+    },
+    "ko_KR": {
+      "string": "태그 표시 관리"
+    },
+    "es_ES": {
+      "string": "Gestión de visualización de etiquetas"
+    }
+  },
+  "k_5d879e98": {
+    "zh_CN": {
+      "string": "清空选中"
+    },
+    "zh_TW": {
+      "string": "清除選取"
+    },
+    "en_US": {
+      "string": "Clear selection"
+    },
+    "ja_JP": {
+      "string": "選択をクリア"
+    },
+    "ko_KR": {
+      "string": "선택 취소"
+    },
+    "es_ES": {
+      "string": "Borrar selección"
+    }
+  }
+}

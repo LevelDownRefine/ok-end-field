@@ -5,20 +5,23 @@ from pathlib import Path
 from typing import Any
 
 
+# ============================================================
+# Locale activation config
+# 将 locale 键值设为 True 即可启用该语言，
+# 后续激活只需将对应语言改为 True。
+# ============================================================
+ACTIVE_LOCALES_CONFIG: dict[str, bool] = {
+    "zh_CN": True,
+    "zh_TW": True,
+    "en_US": False,
+    "ja_JP": False,
+    "ko_KR": False,
+    "es_ES": False,
+}
+
+
 def _discover_supported_locales() -> tuple[str, ...]:
-    repo_root = Path(__file__).resolve().parents[3]
-    i18n_root = repo_root / "i18n"
-    locales: list[str] = []
-
-    if i18n_root.exists():
-        for child in sorted(i18n_root.iterdir(), key=lambda p: p.name):
-            if child.is_dir() and (child / "LC_MESSAGES").exists():
-                locales.append(child.name)
-
-    if not locales:
-        locales = ["zh_CN", "zh_TW", "en_US", "ja_JP", "ko_KR", "es_ES"]
-
-    return tuple(locales)
+    return tuple(locale for locale, active in ACTIVE_LOCALES_CONFIG.items() if active)
 
 
 SUPPORTED_LOCALES = _discover_supported_locales()
@@ -49,8 +52,7 @@ def _normalize_locale(locale: str | Enum | None) -> str:
         for supported in SUPPORTED_LOCALES:
             if supported.lower() == candidate.lower():
                 return supported
-        return candidate
-    return locale
+    return "zh_CN"
 
 
 def _parse_lang_value(v: Any) -> Any:
@@ -145,22 +147,36 @@ class LangAccessor:
 
     def _load_module(self, module_name: str) -> dict:
         lang_root = self._repo_root / "assets" / "lang"
+        unified_path = lang_root / f"{module_name}.json"
 
-        locales_to_try = (
-            ["zh_TW", "zh_CN"]
-            if self.locale == "zh_TW"
-            else ["zh_CN"]
-        )
+        if not unified_path.exists():
+            return {}
 
-        for loc in locales_to_try:
-            p = lang_root / module_name / f"{loc}.json"
-            if p.exists():
-                try:
-                    return json.load(p.open(encoding="utf-8"))
-                except Exception:
-                    pass
+        try:
+            raw_data = json.load(unified_path.open(encoding="utf-8"))
+        except Exception:
+            return {}
 
-        return {}
+        # 确定当前 locale 及其 fallback
+        primary_locale = self.locale
+        fallback_locale = "zh_TW" if self.locale == "zh_TW" else "zh_CN"
+
+        result = {}
+        for key, locale_dict in raw_data.items():
+            if not isinstance(locale_dict, dict):
+                continue
+            # 优先使用当前 locale，其次 fallback locale，最后第一个可用 locale
+            value = locale_dict.get(primary_locale)
+            if value is None:
+                value = locale_dict.get(fallback_locale)
+            if value is None:
+                for loc, v in locale_dict.items():
+                    value = v
+                    break
+            if value is not None:
+                result[key] = value
+
+        return result
 
 
 def build_matcher(node: Any):
@@ -256,6 +272,7 @@ def get_lang_module_value(lang_accessor: Any, module_name: str, item: str, fallb
 
 
 __all__ = [
+    "ACTIVE_LOCALES_CONFIG",
     "LangAccessor",
     "LangModule",
     "LangNode",

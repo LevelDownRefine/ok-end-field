@@ -13,6 +13,9 @@ PATTERN = re.compile(
 )
 
 
+SUPPORTED_LOCALES = ["zh_CN", "zh_TW"]
+
+
 class LangTestCase(unittest.TestCase):
 
     # 缓存 lang json，避免重复读取
@@ -36,31 +39,45 @@ class LangTestCase(unittest.TestCase):
         return refs
 
     # =========================
-    # 加载一个 lang group 下所有 json
-    # assets/lang/xxx/*.json
+    # 加载统一的多语言 JSON 文件
+    # assets/lang/<module>.json
     # =========================
-    def load_all_lang_json(self, folder: Path):
+    def load_unified_lang_json(self, module_name: str):
+        """Load unified lang JSON and return {locale: {key: value}} format.
 
-        # cache
-        if folder in self.lang_cache:
-            return self.lang_cache[folder]
+        New format: assets/lang/<module>.json
+        Structure: {"k_xxx": {"zh_CN": {"pattern": "..."}, "en_US": {...}}, ...}
+        """
+        cache_key = f"__unified__{module_name}"
 
-        if not folder.exists():
-            print(f"[MISSING FOLDER] {folder}")
+        if cache_key in self.lang_cache:
+            return self.lang_cache[cache_key]
+
+        file_path = LANG_ROOT / f"{module_name}.json"
+        if not file_path.exists():
+            print(f"[MISSING FILE] {file_path}")
             return None
 
-        result = {}
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                raw = json.load(f)
+        except Exception as e:
+            print(f"[JSON ERROR] {file_path} -> {e}")
+            return None
 
-        for file in folder.glob("*.json"):
-            try:
-                with open(file, "r", encoding="utf-8") as f:
-                    result[file.stem] = json.load(f)
-            except Exception as e:
-                print(f"[JSON ERROR] {file} -> {e}")
+        # 按 locale 组织数据：{locale: {key: value, ...}, ...}
+        result: dict[str, dict] = {}
+        for key, locale_dict in raw.items():
+            if not isinstance(locale_dict, dict):
+                continue
+            for locale_code, value in locale_dict.items():
+                if locale_code not in result:
+                    result[locale_code] = {}
+                result[locale_code][key] = value
 
-        print(f"[LOAD LANG] {folder} -> {list(result.keys())}")
+        print(f"[LOAD LANG] {module_name}.json -> {list(result.keys())} locales")
 
-        self.lang_cache[folder] = result
+        self.lang_cache[cache_key] = result
 
         return result
 
@@ -113,19 +130,18 @@ class LangTestCase(unittest.TestCase):
                     seen.add(ref_id)
 
                     # =========================
-                    # load lang folder
+                    # load unified lang json
                     # =========================
-                    lang_folder = LANG_ROOT / lang_group
-                    data_map = self.load_all_lang_json(lang_folder)
+                    data_map = self.load_unified_lang_json(lang_group)
 
                     # =========================
-                    # missing folder
+                    # missing file
                     # =========================
                     if data_map is None:
 
                         msg = (
-                            f"[MISSING_FOLDER] "
-                            f"{file_path} -> {lang_group}"
+                            f"[MISSING_FILE] "
+                            f"{file_path} -> {lang_group}.json"
                         )
 
                         print("     ❌", msg)
@@ -138,16 +154,18 @@ class LangTestCase(unittest.TestCase):
                     missing_langs = []
 
                     # =========================
-                    # check all language files
+                    # check all locale entries
                     # =========================
-                    for lang_code, lang_data in data_map.items():
+                    for locale_code in SUPPORTED_LOCALES:
+
+                        lang_data = data_map.get(locale_code)
 
                         if not isinstance(lang_data, dict):
 
-                            missing_langs.append(lang_code)
+                            missing_langs.append(locale_code)
 
                             print(
-                                f"     ⚠️ INVALID JSON in {lang_code}"
+                                f"     ⚠️ MISSING locale {locale_code}"
                             )
 
                             continue
@@ -155,18 +173,18 @@ class LangTestCase(unittest.TestCase):
                         if key in lang_data:
 
                             print(
-                                f"     ✅ FOUND in {lang_code}"
+                                f"     ✅ FOUND in {locale_code}"
                             )
 
-                            found_langs.append(lang_code)
+                            found_langs.append(locale_code)
 
                         else:
 
                             print(
-                                f"     ⚠️ MISSING in {lang_code}"
+                                f"     ⚠️ MISSING key in {locale_code}"
                             )
 
-                            missing_langs.append(lang_code)
+                            missing_langs.append(locale_code)
 
                     # =========================
                     # missing in ALL languages

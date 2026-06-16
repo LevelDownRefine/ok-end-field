@@ -1,0 +1,262 @@
+{
+  "k_b84e4cb0": {
+    "zh_CN": {
+      "pattern": "出售"
+    },
+    "zh_TW": {
+      "pattern": "出售"
+    },
+    "en_US": {
+      "pattern": "sell"
+    },
+    "ja_JP": {
+      "pattern": "売る"
+    },
+    "ko_KR": {
+      "pattern": "팔다"
+    },
+    "es_ES": {
+      "pattern": "vender"
+    }
+  },
+  "k_23926d61": {
+    "zh_CN": {
+      "pattern": "前往"
+    },
+    "zh_TW": {
+      "pattern": "前往"
+    },
+    "en_US": {
+      "pattern": "Go to"
+    },
+    "ja_JP": {
+      "pattern": "に行く"
+    },
+    "ko_KR": {
+      "pattern": "이동"
+    },
+    "es_ES": {
+      "pattern": "Ir a"
+    }
+  },
+  "k_d6bdcc47": {
+    "zh_CN": {
+      "pattern": "地区建设"
+    },
+    "zh_TW": {
+      "pattern": "地區建設"
+    },
+    "en_US": {
+      "pattern": "Regional construction"
+    },
+    "ja_JP": {
+      "pattern": "地域建設"
+    },
+    "ko_KR": {
+      "pattern": "지역 건설"
+    },
+    "es_ES": {
+      "pattern": "Construcción regional"
+    }
+  },
+  "k_930f2e66": {
+    "zh_CN": {
+      "pattern": "市场"
+    },
+    "zh_TW": {
+      "pattern": "市場"
+    },
+    "en_US": {
+      "pattern": "market"
+    },
+    "ja_JP": {
+      "pattern": "市場"
+    },
+    "ko_KR": {
+      "pattern": "시장"
+    },
+    "es_ES": {
+      "pattern": "mercado"
+    }
+  },
+  "k_33fb3f9c": {
+    "zh_CN": {
+      "pattern": "弹性"
+    },
+    "zh_TW": {
+      "pattern": "彈性"
+    },
+    "en_US": {
+      "pattern": "elasticity"
+    },
+    "ja_JP": {
+      "pattern": "弾性"
+    },
+    "ko_KR": {
+      "pattern": "탄력"
+    },
+    "es_ES": {
+      "pattern": "elasticidad"
+    }
+  },
+  "k_7907d90f": {
+    "zh_CN": {
+      "pattern": "总控"
+    },
+    "zh_TW": {
+      "pattern": "總控"
+    },
+    "en_US": {
+      "pattern": "General control"
+    },
+    "ja_JP": {
+      "pattern": "全般的な制御"
+    },
+    "ko_KR": {
+      "pattern": "일반 통제"
+    },
+    "es_ES": {
+      "pattern": "controles generales"
+    }
+  },
+  "k_cd3a269a": {
+    "zh_CN": {
+      "pattern": "查看好友价格"
+    },
+    "zh_TW": {
+      "pattern": "查看好友價格"
+    },
+    "en_US": {
+      "pattern": "View friends prices"
+    },
+    "ja_JP": {
+      "pattern": "友達の価格を見る"
+    },
+    "ko_KR": {
+      "pattern": "친구 가격 보기"
+    },
+    "es_ES": {
+      "pattern": "Ver precios de amigos"
+    }
+  },
+  "k_7cf40bbd": {
+    "zh_CN": {
+      "pattern": "购买"
+    },
+    "zh_TW": {
+      "pattern": "購買"
+    },
+    "en_US": {
+      "pattern": "Buy"
+    },
+    "ja_JP": {
+      "pattern": "買う"
+    },
+    "ko_KR": {
+      "pattern": "구입하다"
+    },
+    "es_ES": {
+      "pattern": "Comprar"
+    }
+  },
+  "k_13f2c5a1": {
+    "zh_CN": {
+      "pattern": "货组"
+    },
+    "zh_TW": {
+      "pattern": "貨組"
+    },
+    "en_US": {
+      "pattern": "Cargo group"
+    },
+    "ja_JP": {
+      "pattern": "貨物グループ"
+    },
+    "ko_KR": {
+      "pattern": "화물 그룹"
+    },
+    "es_ES": {
+      "pattern": "grupo de carga"
+    }
+  },
+  "k_f48bcfb6": {
+    "zh_CN": {
+      "pattern": "即将"
+    },
+    "zh_TW": {
+      "pattern": "即將"
+    },
+    "en_US": {
+      "pattern": "Coming soon"
+    },
+    "ja_JP": {
+      "pattern": "近日公開"
+    },
+    "ko_KR": {
+      "pattern": "곧 출시 예정"
+    },
+    "es_ES": {
+      "pattern": "Muy pronto"
+    }
+  },
+  "k_6174dac7": {
+    "zh_CN": {
+      "pattern": "溢出"
+    },
+    "zh_TW": {
+      "pattern": "溢出"
+    },
+    "en_US": {
+      "pattern": "overflow"
+    },
+    "ja_JP": {
+      "pattern": "オーバーフロー"
+    },
+    "ko_KR": {
+      "pattern": "과다"
+    },
+    "es_ES": {
+      "pattern": "rebosar"
+    }
+  },
+  "k_fa04e4df": {
+    "zh_CN": {
+      "pattern": "物资调度终端"
+    },
+    "zh_TW": {
+      "pattern": "物資調度終端"
+    },
+    "en_US": {
+      "pattern": "Material dispatch terminal"
+    },
+    "ja_JP": {
+      "pattern": "資材発送端末"
+    },
+    "ko_KR": {
+      "pattern": "자재발송터미널"
+    },
+    "es_ES": {
+      "pattern": "Terminal de despacho de materiales"
+    }
+  },
+  "k_02894ea7": {
+    "zh_CN": {
+      "string": "物资调度"
+    },
+    "zh_TW": {
+      "string": "物資調度"
+    },
+    "en_US": {
+      "string": "Material dispatch"
+    },
+    "ja_JP": {
+      "string": "資材の発送"
+    },
+    "ko_KR": {
+      "string": "자재 파견"
+    },
+    "es_ES": {
+      "string": "Despacho de materiales"
+    }
+  }
+}

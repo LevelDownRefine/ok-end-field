@@ -1,0 +1,1202 @@
+{
+  "k_dfe79994": {
+    "zh_CN": {
+      "string": "交易"
+    },
+    "zh_TW": {
+      "string": "交易"
+    },
+    "en_US": {
+      "string": "trade"
+    },
+    "ja_JP": {
+      "string": "貿易"
+    },
+    "ko_KR": {
+      "string": "거래"
+    },
+    "es_ES": {
+      "string": "comercio"
+    }
+  },
+  "k_7d394484": {
+    "zh_CN": {
+      "string": "制作"
+    },
+    "zh_TW": {
+      "string": "製作"
+    },
+    "en_US": {
+      "string": "make"
+    },
+    "ja_JP": {
+      "string": "作る"
+    },
+    "ko_KR": {
+      "string": "만들다"
+    },
+    "es_ES": {
+      "string": "hacer"
+    }
+  },
+  "k_105cdd5a": {
+    "zh_CN": {
+      "pattern": "任务$"
+    },
+    "zh_TW": {
+      "pattern": "任務$"
+    },
+    "en_US": {
+      "pattern": "Task$"
+    },
+    "ja_JP": {
+      "pattern": "タスク$"
+    },
+    "ko_KR": {
+      "pattern": "일$"
+    },
+    "es_ES": {
+      "pattern": "Tarea$"
+    }
+  },
+  "k_39d12e73": {
+    "zh_CN": {
+      "string": "领取"
+    },
+    "zh_TW": {
+      "string": "領取"
+    },
+    "en_US": {
+      "string": "receive"
+    },
+    "ja_JP": {
+      "string": "受け取る"
+    },
+    "ko_KR": {
+      "string": "받다"
+    },
+    "es_ES": {
+      "string": "recibir"
+    }
+  },
+  "k_bf856c96": {
+    "zh_CN": {
+      "pattern": "一键领取"
+    },
+    "zh_TW": {
+      "pattern": "一鍵領取"
+    },
+    "en_US": {
+      "pattern": "Get it with one click"
+    },
+    "ja_JP": {
+      "pattern": "ワンクリックで入手"
+    },
+    "ko_KR": {
+      "pattern": "클릭 한 번으로 받아보세요"
+    },
+    "es_ES": {
+      "pattern": "Consíguelo con un clic"
+    }
+  },
+  "k_f546849b": {
+    "zh_CN": {
+      "pattern": "会客室"
+    },
+    "zh_TW": {
+      "pattern": "會客室"
+    },
+    "en_US": {
+      "pattern": "reception room"
+    },
+    "ja_JP": {
+      "pattern": "応接室"
+    },
+    "ko_KR": {
+      "pattern": "응접실"
+    },
+    "es_ES": {
+      "pattern": "sala de recepción"
+    }
+  },
+  "k_0e2d3a3c": {
+    "zh_CN": {
+      "pattern": "使用"
+    },
+    "zh_TW": {
+      "pattern": "使用"
+    },
+    "en_US": {
+      "pattern": "use"
+    },
+    "ja_JP": {
+      "pattern": "使用"
+    },
+    "ko_KR": {
+      "pattern": "사용"
+    },
+    "es_ES": {
+      "pattern": "usar"
+    }
+  },
+  "k_7be4248b": {
+    "zh_CN": {
+      "pattern": "信用交易所"
+    },
+    "zh_TW": {
+      "pattern": "信用交易所"
+    },
+    "en_US": {
+      "pattern": "credit exchange"
+    },
+    "ja_JP": {
+      "pattern": "信用取引"
+    },
+    "ko_KR": {
+      "pattern": "신용 교환"
+    },
+    "es_ES": {
+      "pattern": "intercambio de credito"
+    }
+  },
+  "k_a63bb002": {
+    "zh_CN": {
+      "pattern": "全部接收"
+    },
+    "zh_TW": {
+      "pattern": "全部接收"
+    },
+    "en_US": {
+      "pattern": "Receive all"
+    },
+    "ja_JP": {
+      "pattern": "すべて受信する"
+    },
+    "ko_KR": {
+      "pattern": "모두 수신"
+    },
+    "es_ES": {
+      "pattern": "Recibe todo"
+    }
+  },
+  "k_3fef35d6": {
+    "zh_CN": {
+      "pattern": "全部领取"
+    },
+    "zh_TW": {
+      "pattern": "全部領取"
+    },
+    "en_US": {
+      "pattern": "Collect them all"
+    },
+    "ja_JP": {
+      "pattern": "全部集めてね"
+    },
+    "ko_KR": {
+      "pattern": "모두 모아보세요"
+    },
+    "es_ES": {
+      "pattern": "Colecciónalos todos"
+    }
+  },
+  "k_a4cd21cc": {
+    "zh_CN": {
+      "pattern": "再次"
+    },
+    "zh_TW": {
+      "pattern": "再次"
+    },
+    "en_US": {
+      "pattern": "again"
+    },
+    "ja_JP": {
+      "pattern": "また"
+    },
+    "ko_KR": {
+      "pattern": "다시"
+    },
+    "es_ES": {
+      "pattern": "de nuevo"
+    }
+  },
+  "k_7d394484_1": {
+    "zh_CN": {
+      "pattern": "制作"
+    },
+    "zh_TW": {
+      "pattern": "製作"
+    },
+    "en_US": {
+      "pattern": "make"
+    },
+    "ja_JP": {
+      "pattern": "作る"
+    },
+    "ko_KR": {
+      "pattern": "만들다"
+    },
+    "es_ES": {
+      "pattern": "hacer"
+    }
+  },
+  "k_e1c08f6a": {
+    "zh_CN": {
+      "pattern": "简易"
+    },
+    "zh_TW": {
+      "pattern": "簡易"
+    },
+    "en_US": {
+      "pattern": "simple"
+    },
+    "ja_JP": {
+      "pattern": "単純"
+    },
+    "ko_KR": {
+      "pattern": "단순한"
+    },
+    "es_ES": {
+      "pattern": "simple"
+    }
+  },
+  "k_b693e51a": {
+    "zh_CN": {
+      "pattern": "收取信用"
+    },
+    "zh_TW": {
+      "pattern": "收取信用"
+    },
+    "en_US": {
+      "pattern": "collect credit"
+    },
+    "ja_JP": {
+      "pattern": "クレジットを集める"
+    },
+    "ko_KR": {
+      "pattern": "신용을 모으다"
+    },
+    "es_ES": {
+      "pattern": "cobrar crédito"
+    }
+  },
+  "k_f646bcd5": {
+    "zh_CN": {
+      "pattern": "无待领取信用"
+    },
+    "zh_TW": {
+      "pattern": "無待領取信用"
+    },
+    "en_US": {
+      "pattern": "No credit to be claimed"
+    },
+    "ja_JP": {
+      "pattern": "クレジットを請求する必要はありません"
+    },
+    "ko_KR": {
+      "pattern": "청구할 크레딧 없음"
+    },
+    "es_ES": {
+      "pattern": "No hay crédito para reclamar"
+    }
+  },
+  "k_573c7c18": {
+    "zh_CN": {
+      "pattern": "货物装箱"
+    },
+    "zh_TW": {
+      "pattern": "貨物裝箱"
+    },
+    "en_US": {
+      "pattern": "Cargo packing"
+    },
+    "ja_JP": {
+      "pattern": "貨物の梱包"
+    },
+    "ko_KR": {
+      "pattern": "화물 포장"
+    },
+    "es_ES": {
+      "pattern": "Embalaje de carga"
+    }
+  },
+  "k_8f2058a8": {
+    "zh_CN": {
+      "pattern": "查看报价"
+    },
+    "zh_TW": {
+      "pattern": "查看報價"
+    },
+    "en_US": {
+      "pattern": "View quote"
+    },
+    "ja_JP": {
+      "pattern": "見積書を見る"
+    },
+    "ko_KR": {
+      "pattern": "견적 보기"
+    },
+    "es_ES": {
+      "pattern": "Ver cotización"
+    }
+  },
+  "k_04afbdcd": {
+    "zh_CN": {
+      "pattern": "制造"
+    },
+    "zh_TW": {
+      "pattern": "製造"
+    },
+    "en_US": {
+      "pattern": "manufacture"
+    },
+    "ja_JP": {
+      "pattern": "製造"
+    },
+    "ko_KR": {
+      "pattern": "제조"
+    },
+    "es_ES": {
+      "pattern": "fabricar"
+    }
+  },
+  "k_23926d61": {
+    "zh_CN": {
+      "pattern": "前往"
+    },
+    "zh_TW": {
+      "pattern": "前往"
+    },
+    "en_US": {
+      "pattern": "Go to"
+    },
+    "ja_JP": {
+      "pattern": "に行く"
+    },
+    "ko_KR": {
+      "pattern": "이동"
+    },
+    "es_ES": {
+      "pattern": "Ir a"
+    }
+  },
+  "k_1cdef26c": {
+    "zh_CN": {
+      "pattern": "助力"
+    },
+    "zh_TW": {
+      "pattern": "助力"
+    },
+    "en_US": {
+      "pattern": "Help"
+    },
+    "ja_JP": {
+      "pattern": "ヘルプ"
+    },
+    "ko_KR": {
+      "pattern": "돕다"
+    },
+    "es_ES": {
+      "pattern": "Ayuda"
+    }
+  },
+  "k_4d0b4688": {
+    "zh_CN": {
+      "pattern": "取消"
+    },
+    "zh_TW": {
+      "pattern": "取消"
+    },
+    "en_US": {
+      "pattern": "Cancel"
+    },
+    "ja_JP": {
+      "pattern": "キャンセル"
+    },
+    "ko_KR": {
+      "pattern": "취소"
+    },
+    "es_ES": {
+      "pattern": "Cancelar"
+    }
+  },
+  "k_cdb1d49b": {
+    "zh_CN": {
+      "pattern": "可"
+    },
+    "zh_TW": {
+      "pattern": "可"
+    },
+    "en_US": {
+      "pattern": "Can"
+    },
+    "ja_JP": {
+      "pattern": "できる"
+    },
+    "ko_KR": {
+      "pattern": "할 수 있다"
+    },
+    "es_ES": {
+      "pattern": "Poder"
+    }
+  },
+  "k_31cceca8": {
+    "zh_CN": {
+      "pattern": "培养"
+    },
+    "zh_TW": {
+      "pattern": "培養"
+    },
+    "en_US": {
+      "pattern": "nourish"
+    },
+    "ja_JP": {
+      "pattern": "栄養を与える"
+    },
+    "ko_KR": {
+      "pattern": "키우다"
+    },
+    "es_ES": {
+      "pattern": "nutrir"
+    }
+  },
+  "k_e84c3ae9": {
+    "zh_CN": {
+      "pattern": "好友"
+    },
+    "zh_TW": {
+      "pattern": "好友"
+    },
+    "en_US": {
+      "pattern": "friends"
+    },
+    "ja_JP": {
+      "pattern": "友達"
+    },
+    "ko_KR": {
+      "pattern": "친구"
+    },
+    "es_ES": {
+      "pattern": "amigos"
+    }
+  },
+  "k_0503d6d6": {
+    "zh_CN": {
+      "pattern": "开展交流"
+    },
+    "zh_TW": {
+      "pattern": "開展交流"
+    },
+    "en_US": {
+      "pattern": "Communicate"
+    },
+    "ja_JP": {
+      "pattern": "通信する"
+    },
+    "ko_KR": {
+      "pattern": "의사소통하다"
+    },
+    "es_ES": {
+      "pattern": "Comunicar"
+    }
+  },
+  "k_449497e5": {
+    "zh_CN": {
+      "pattern": "情报交流"
+    },
+    "zh_TW": {
+      "pattern": "情報交流"
+    },
+    "en_US": {
+      "pattern": "information exchange"
+    },
+    "ja_JP": {
+      "pattern": "情報交換"
+    },
+    "ko_KR": {
+      "pattern": "정보 교환"
+    },
+    "es_ES": {
+      "pattern": "intercambio de información"
+    }
+  },
+  "k_41a9fd98": {
+    "zh_CN": {
+      "pattern": "我转交的委托"
+    },
+    "zh_TW": {
+      "pattern": "我轉交的委託"
+    },
+    "en_US": {
+      "pattern": "The commission I forwarded"
+    },
+    "ja_JP": {
+      "pattern": "私が転送したコミッション"
+    },
+    "ko_KR": {
+      "pattern": "내가 전달한 커미션"
+    },
+    "es_ES": {
+      "pattern": "La comisión que envié"
+    }
+  },
+  "k_de7b4c9e": {
+    "zh_CN": {
+      "pattern": "接收"
+    },
+    "zh_TW": {
+      "pattern": "接收"
+    },
+    "en_US": {
+      "pattern": "take over"
+    },
+    "ja_JP": {
+      "pattern": "引き継ぐ"
+    },
+    "ko_KR": {
+      "pattern": "인수하다"
+    },
+    "es_ES": {
+      "pattern": "tomar el control"
+    }
+  },
+  "k_ffb5655a": {
+    "zh_CN": {
+      "pattern": "收取"
+    },
+    "zh_TW": {
+      "pattern": "收取"
+    },
+    "en_US": {
+      "pattern": "charge"
+    },
+    "ja_JP": {
+      "pattern": "充電"
+    },
+    "ko_KR": {
+      "pattern": "요금"
+    },
+    "es_ES": {
+      "pattern": "cargar"
+    }
+  },
+  "k_3297422a": {
+    "zh_CN": {
+      "pattern": "收集"
+    },
+    "zh_TW": {
+      "pattern": "收集"
+    },
+    "en_US": {
+      "pattern": "collect"
+    },
+    "ja_JP": {
+      "pattern": "集める"
+    },
+    "ko_KR": {
+      "pattern": "모으다"
+    },
+    "es_ES": {
+      "pattern": "recolectar"
+    }
+  },
+  "k_8d0e83fc": {
+    "zh_CN": {
+      "pattern": "日常"
+    },
+    "zh_TW": {
+      "pattern": "日常"
+    },
+    "en_US": {
+      "pattern": "daily"
+    },
+    "ja_JP": {
+      "pattern": "毎日"
+    },
+    "ko_KR": {
+      "pattern": "일일"
+    },
+    "es_ES": {
+      "pattern": "a diario"
+    }
+  },
+  "k_1c5ad36e": {
+    "zh_CN": {
+      "pattern": "是否取消"
+    },
+    "zh_TW": {
+      "pattern": "是否取消"
+    },
+    "en_US": {
+      "pattern": "Cancel or not"
+    },
+    "ja_JP": {
+      "pattern": "キャンセルするかしないか"
+    },
+    "ko_KR": {
+      "pattern": "취소 여부"
+    },
+    "es_ES": {
+      "pattern": "Cancelar o no"
+    }
+  },
+  "k_4a2ece6a": {
+    "zh_CN": {
+      "pattern": "暂存区"
+    },
+    "zh_TW": {
+      "pattern": "暫存區"
+    },
+    "en_US": {
+      "pattern": "Staging area"
+    },
+    "ja_JP": {
+      "pattern": "ステージングエリア"
+    },
+    "ko_KR": {
+      "pattern": "대기 장소"
+    },
+    "es_ES": {
+      "pattern": "Área de preparación"
+    }
+  },
+  "k_298d3284": {
+    "zh_CN": {
+      "pattern": "本地仓储节点"
+    },
+    "zh_TW": {
+      "pattern": "本地區倉儲節點"
+    },
+    "en_US": {
+      "pattern": "Local storage node"
+    },
+    "ja_JP": {
+      "pattern": "ローカルストレージノード"
+    },
+    "ko_KR": {
+      "pattern": "로컬 스토리지 노드"
+    },
+    "es_ES": {
+      "pattern": "Nodo de almacenamiento local"
+    }
+  },
+  "k_25d2b666": {
+    "zh_CN": {
+      "pattern": "武器补给"
+    },
+    "zh_TW": {
+      "pattern": "武器補給"
+    },
+    "en_US": {
+      "pattern": "weapons supplies"
+    },
+    "ja_JP": {
+      "pattern": "武器供給"
+    },
+    "ko_KR": {
+      "pattern": "무기 용품"
+    },
+    "es_ES": {
+      "pattern": "suministros de armas"
+    }
+  },
+  "k_13eea5dd": {
+    "zh_CN": {
+      "pattern": "每周事务"
+    },
+    "zh_TW": {
+      "pattern": "每週事務"
+    },
+    "en_US": {
+      "pattern": "weekly affairs"
+    },
+    "ja_JP": {
+      "pattern": "毎週の事"
+    },
+    "ko_KR": {
+      "pattern": "주간 업무"
+    },
+    "es_ES": {
+      "pattern": "asuntos semanales"
+    }
+  },
+  "k_557911d7": {
+    "zh_CN": {
+      "pattern": "独立"
+    },
+    "zh_TW": {
+      "pattern": "獨立"
+    },
+    "en_US": {
+      "pattern": "independent"
+    },
+    "ja_JP": {
+      "pattern": "独立した"
+    },
+    "ko_KR": {
+      "pattern": "독립적인"
+    },
+    "es_ES": {
+      "pattern": "independiente"
+    }
+  },
+  "k_059a808c": {
+    "zh_CN": {
+      "pattern": "危机筹备"
+    },
+    "zh_TW": {
+      "pattern": "危機籌備"
+    },
+    "en_US": {
+      "pattern": "sanity supply"
+    },
+    "ja_JP": {
+      "pattern": "正気の供給"
+    },
+    "ko_KR": {
+      "pattern": "정신 공급"
+    },
+    "es_ES": {
+      "pattern": "suministro de cordura"
+    }
+  },
+  "k_3e790a94": {
+    "zh_CN": {
+      "pattern": "生产助力"
+    },
+    "zh_TW": {
+      "pattern": "生產助力"
+    },
+    "en_US": {
+      "pattern": "Production assistance"
+    },
+    "ja_JP": {
+      "pattern": "制作協力"
+    },
+    "ko_KR": {
+      "pattern": "생산 지원"
+    },
+    "es_ES": {
+      "pattern": "Asistencia de producción"
+    }
+  },
+  "k_401d58fa": {
+    "zh_CN": {
+      "pattern": "的线索"
+    },
+    "zh_TW": {
+      "pattern": "的線索"
+    },
+    "en_US": {
+      "pattern": "clues"
+    },
+    "ja_JP": {
+      "pattern": "手がかり"
+    },
+    "ko_KR": {
+      "pattern": "단서"
+    },
+    "es_ES": {
+      "pattern": "pistas"
+    }
+  },
+  "k_3deed650": {
+    "zh_CN": {
+      "pattern": "设施"
+    },
+    "zh_TW": {
+      "pattern": "設施"
+    },
+    "en_US": {
+      "pattern": "facility"
+    },
+    "ja_JP": {
+      "pattern": "施設"
+    },
+    "ko_KR": {
+      "pattern": "시설"
+    },
+    "es_ES": {
+      "pattern": "instalación"
+    }
+  },
+  "k_5c42c048": {
+    "zh_CN": {
+      "pattern": "等级"
+    },
+    "zh_TW": {
+      "pattern": "等級"
+    },
+    "en_US": {
+      "pattern": "grade"
+    },
+    "ja_JP": {
+      "pattern": "学年"
+    },
+    "ko_KR": {
+      "pattern": "등급"
+    },
+    "es_ES": {
+      "pattern": "calificación"
+    }
+  },
+  "k_b56d9ac6": {
+    "zh_CN": {
+      "pattern": "确认"
+    },
+    "zh_TW": {
+      "pattern": "確定"
+    },
+    "en_US": {
+      "pattern": "confirm"
+    },
+    "ja_JP": {
+      "pattern": "確認する"
+    },
+    "ko_KR": {
+      "pattern": "확인하다"
+    },
+    "es_ES": {
+      "pattern": "confirmar"
+    }
+  },
+  "k_1faf3321": {
+    "zh_CN": {
+      "pattern": "装备"
+    },
+    "zh_TW": {
+      "pattern": "裝備"
+    },
+    "en_US": {
+      "pattern": "equipment"
+    },
+    "ja_JP": {
+      "pattern": "装置"
+    },
+    "ko_KR": {
+      "pattern": "장비"
+    },
+    "es_ES": {
+      "pattern": "equipo"
+    }
+  },
+  "k_bb6c696b": {
+    "zh_CN": {
+      "pattern": "货品"
+    },
+    "zh_TW": {
+      "pattern": "貨品"
+    },
+    "en_US": {
+      "pattern": "goods"
+    },
+    "ja_JP": {
+      "pattern": "品"
+    },
+    "ko_KR": {
+      "pattern": "상품"
+    },
+    "es_ES": {
+      "pattern": "bienes"
+    }
+  },
+  "k_1dd73947": {
+    "zh_CN": {
+      "pattern": "转交运送委托"
+    },
+    "zh_TW": {
+      "pattern": "轉交運送委託"
+    },
+    "en_US": {
+      "pattern": "Transfer shipping order"
+    },
+    "ja_JP": {
+      "pattern": "配送注文を転送する"
+    },
+    "ko_KR": {
+      "pattern": "배송주문 이전"
+    },
+    "es_ES": {
+      "pattern": "Transferir orden de envío"
+    }
+  },
+  "k_e39054a0": {
+    "zh_CN": {
+      "pattern": "运转"
+    },
+    "zh_TW": {
+      "pattern": "運轉"
+    },
+    "en_US": {
+      "pattern": "run"
+    },
+    "ja_JP": {
+      "pattern": "走る"
+    },
+    "ko_KR": {
+      "pattern": "달리다"
+    },
+    "es_ES": {
+      "pattern": "correr"
+    }
+  },
+  "k_70b20820": {
+    "zh_CN": {
+      "pattern": "选择"
+    },
+    "zh_TW": {
+      "pattern": "選擇"
+    },
+    "en_US": {
+      "pattern": "choose"
+    },
+    "ja_JP": {
+      "pattern": "選ぶ"
+    },
+    "ko_KR": {
+      "pattern": "선택하다"
+    },
+    "es_ES": {
+      "pattern": "elegir"
+    }
+  },
+  "k_a730d877": {
+    "zh_CN": {
+      "pattern": "选择拜访"
+    },
+    "zh_TW": {
+      "pattern": "選擇拜訪"
+    },
+    "en_US": {
+      "pattern": "Choose to visit"
+    },
+    "ja_JP": {
+      "pattern": "訪問を選択してください"
+    },
+    "ko_KR": {
+      "pattern": "방문을 선택하세요"
+    },
+    "es_ES": {
+      "pattern": "Elige visitar"
+    }
+  },
+  "k_d7613f0e": {
+    "zh_CN": {
+      "pattern": "通行证任务"
+    },
+    "zh_TW": {
+      "pattern": "通行證任務"
+    },
+    "en_US": {
+      "pattern": "Pass mission"
+    },
+    "ja_JP": {
+      "pattern": "パスミッション"
+    },
+    "ko_KR": {
+      "pattern": "미션 통과"
+    },
+    "es_ES": {
+      "pattern": "Pase la misión"
+    }
+  },
+  "k_727d1bec": {
+    "zh_CN": {
+      "pattern": "通行证奖励"
+    },
+    "zh_TW": {
+      "pattern": "通行證獎勵"
+    },
+    "en_US": {
+      "pattern": "Pass rewards"
+    },
+    "ja_JP": {
+      "pattern": "パス報酬"
+    },
+    "ko_KR": {
+      "pattern": "패스 보상"
+    },
+    "es_ES": {
+      "pattern": "Pase recompensas"
+    }
+  },
+  "k_3ecdd4bb": {
+    "zh_CN": {
+      "pattern": "键领取"
+    },
+    "zh_TW": {
+      "pattern": "鍵領取"
+    },
+    "en_US": {
+      "pattern": "Key to receive"
+    },
+    "ja_JP": {
+      "pattern": "受け取るキー"
+    },
+    "ko_KR": {
+      "pattern": "받을 열쇠"
+    },
+    "es_ES": {
+      "pattern": "Clave para recibir"
+    }
+  },
+  "k_39d12e73_1": {
+    "zh_CN": {
+      "pattern": "领取"
+    },
+    "zh_TW": {
+      "pattern": "領取"
+    },
+    "en_US": {
+      "pattern": "receive"
+    },
+    "ja_JP": {
+      "pattern": "受け取る"
+    },
+    "ko_KR": {
+      "pattern": "받다"
+    },
+    "es_ES": {
+      "pattern": "recibir"
+    }
+  },
+  "k_a72a252f": {
+    "zh_CN": {
+      "string": "仓储节点"
+    },
+    "zh_TW": {
+      "string": "倉儲節點"
+    },
+    "en_US": {
+      "string": "Warehousing node"
+    },
+    "ja_JP": {
+      "string": "倉庫ノード"
+    },
+    "ko_KR": {
+      "string": "창고 노드"
+    },
+    "es_ES": {
+      "string": "Nodo de almacenamiento"
+    }
+  },
+  "k_9f929560": {
+    "zh_CN": {
+      "string": "据点管理"
+    },
+    "zh_TW": {
+      "string": "據點管理"
+    },
+    "en_US": {
+      "string": "Site management"
+    },
+    "ja_JP": {
+      "string": "サイト管理"
+    },
+    "ko_KR": {
+      "string": "사이트 관리"
+    },
+    "es_ES": {
+      "string": "Gestión del sitio"
+    }
+  },
+  "k_next_step": {
+    "zh_CN": {
+      "string": "下一步"
+    },
+    "zh_TW": {
+      "string": "下一步"
+    },
+    "en_US": {
+      "string": "Next"
+    },
+    "ja_JP": {
+      "string": "次へ"
+    },
+    "ko_KR": {
+      "string": "다음"
+    },
+    "es_ES": {
+      "string": "Siguiente"
+    }
+  },
+  "k_fill_to_max": {
+    "zh_CN": {
+      "string": "填充至满"
+    },
+    "zh_TW": {
+      "string": "填充到滿"
+    },
+    "en_US": {
+      "string": "Fill to max"
+    },
+    "ja_JP": {
+      "string": "最大まで埋める"
+    },
+    "ko_KR": {
+      "string": "최대까지 채우기"
+    },
+    "es_ES": {
+      "string": "Llenar al máximo"
+    }
+  },
+  "k_start_shipping": {
+    "zh_CN": {
+      "string": "开始运送"
+    },
+    "zh_TW": {
+      "string": "開始運送"
+    },
+    "en_US": {
+      "string": "Start shipping"
+    },
+    "ja_JP": {
+      "string": "配送開始"
+    },
+    "ko_KR": {
+      "string": "배송 시작"
+    },
+    "es_ES": {
+      "string": "Iniciar envío"
+    }
+  },
+  "k_get_dispatch_ticket": {
+    "zh_CN": {
+      "string": "获得调度券"
+    },
+    "zh_TW": {
+      "string": "獲得調度券"
+    },
+    "en_US": {
+      "string": "Get dispatch ticket"
+    },
+    "ja_JP": {
+      "string": "配達券を獲得"
+    },
+    "ko_KR": {
+      "string": "배송권 획득"
+    },
+    "es_ES": {
+      "string": "Obtener cupón de despacho"
+    }
+  },
+  "k_view_quote": {
+    "zh_CN": {
+      "string": "查看报价"
+    },
+    "zh_TW": {
+      "string": "查看報價"
+    },
+    "en_US": {
+      "string": "View quote"
+    },
+    "ja_JP": {
+      "string": "見積書を見る"
+    },
+    "ko_KR": {
+      "string": "견적 보기"
+    },
+    "es_ES": {
+      "string": "Ver cotización"
+    }
+  }
+}

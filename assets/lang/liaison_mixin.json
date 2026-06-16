@@ -1,0 +1,142 @@
+{
+  "k_80b758b9": {
+    "zh_CN": {
+      "string": "中央环厅"
+    },
+    "zh_TW": {
+      "string": "中央環廳"
+    },
+    "en_US": {
+      "string": "Central Ring Hall"
+    },
+    "ja_JP": {
+      "string": "中央リングホール"
+    },
+    "ko_KR": {
+      "string": "중앙 링 홀"
+    },
+    "es_ES": {
+      "string": "Salón del Anillo Central"
+    }
+  },
+  "k_ff0a81cd": {
+    "zh_CN": {
+      "pattern": "帝江号"
+    },
+    "zh_TW": {
+      "pattern": "帝江號"
+    },
+    "en_US": {
+      "pattern": "Dijianghao"
+    },
+    "ja_JP": {
+      "pattern": "地江豪"
+    },
+    "ko_KR": {
+      "pattern": "디장하오"
+    },
+    "es_ES": {
+      "pattern": "dijianghao"
+    }
+  },
+  "k_47eaf0c5": {
+    "zh_CN": {
+      "pattern": "干员联络"
+    },
+    "zh_TW": {
+      "pattern": "幹員聯絡"
+    },
+    "en_US": {
+      "pattern": "Operator contact"
+    },
+    "ja_JP": {
+      "pattern": "オペレーター連絡先"
+    },
+    "ko_KR": {
+      "pattern": "운영자 연락처"
+    },
+    "es_ES": {
+      "pattern": "Contacto del operador"
+    }
+  },
+  "k_c8d09cf9": {
+    "zh_CN": {
+      "pattern": "默认"
+    },
+    "zh_TW": {
+      "pattern": "預設"
+    },
+    "en_US": {
+      "pattern": "default"
+    },
+    "ja_JP": {
+      "pattern": "デフォルト"
+    },
+    "ko_KR": {
+      "pattern": "기본"
+    },
+    "es_ES": {
+      "pattern": "por defecto"
+    }
+  },
+  "k_4f35d7ac": {
+    "zh_CN": {
+      "pattern": "联络"
+    },
+    "zh_TW": {
+      "pattern": "聯絡"
+    },
+    "en_US": {
+      "pattern": "contact"
+    },
+    "ja_JP": {
+      "pattern": "接触"
+    },
+    "ko_KR": {
+      "pattern": "연락하다"
+    },
+    "es_ES": {
+      "pattern": "contacto"
+    }
+  },
+  "k_ae0c20b5": {
+    "zh_CN": {
+      "pattern": "收下"
+    },
+    "zh_TW": {
+      "pattern": "收下"
+    },
+    "en_US": {
+      "pattern": "accept"
+    },
+    "ja_JP": {
+      "pattern": "受け入れる"
+    },
+    "ko_KR": {
+      "pattern": "수용하다"
+    },
+    "es_ES": {
+      "pattern": "aceptar"
+    }
+  },
+  "k_662dc863": {
+    "zh_CN": {
+      "pattern": "赠送"
+    },
+    "zh_TW": {
+      "pattern": "贈送"
+    },
+    "en_US": {
+      "pattern": "give away"
+    },
+    "ja_JP": {
+      "pattern": "譲る"
+    },
+    "ko_KR": {
+      "pattern": "포기하다"
+    },
+    "es_ES": {
+      "pattern": "donar"
+    }
+  }
+}

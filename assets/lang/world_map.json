@@ -1,0 +1,1682 @@
+{
+  "d96": {
+    "zh_CN": {
+      "pattern": "D96钢"
+    },
+    "zh_TW": {
+      "pattern": "D96鋼"
+    },
+    "en_US": {
+      "pattern": "D96 steel"
+    },
+    "ja_JP": {
+      "pattern": "D96鋼"
+    },
+    "ko_KR": {
+      "pattern": "D96 강철"
+    },
+    "es_ES": {
+      "pattern": "acero D96"
+    }
+  },
+  "k_4e0048f0": {
+    "zh_CN": {
+      "pattern": "三位一体"
+    },
+    "zh_TW": {
+      "pattern": "三位一體"
+    },
+    "en_US": {
+      "pattern": "Trinity"
+    },
+    "ja_JP": {
+      "pattern": "三位一体"
+    },
+    "ko_KR": {
+      "pattern": "삼위 일체"
+    },
+    "es_ES": {
+      "pattern": "Trinidad"
+    }
+  },
+  "k_a4f9b7a1": {
+    "zh_CN": {
+      "pattern": "三相纳米片"
+    },
+    "zh_TW": {
+      "pattern": "三相奈米片"
+    },
+    "en_US": {
+      "pattern": "Three-phase nanosheets"
+    },
+    "ja_JP": {
+      "pattern": "三相ナノシート"
+    },
+    "ko_KR": {
+      "pattern": "3상 나노시트"
+    },
+    "es_ES": {
+      "pattern": "Nanohojas trifásicas"
+    }
+  },
+  "k_2b6994c2": {
+    "zh_CN": {
+      "pattern": "中容武陵电池"
+    },
+    "zh_TW": {
+      "pattern": "中容武陵電池"
+    },
+    "en_US": {
+      "pattern": "Zhongrong Wuling battery"
+    },
+    "ja_JP": {
+      "pattern": "中栄武陵バッテリー"
+    },
+    "ko_KR": {
+      "pattern": "Zhongrong Wuling 배터리"
+    },
+    "es_ES": {
+      "pattern": "Batería Zhongrong Wuling"
+    }
+  },
+  "k_f87e5ddb": {
+    "zh_CN": {
+      "pattern": "中容谷地电池"
+    },
+    "zh_TW": {
+      "pattern": "中容量谷地電池"
+    },
+    "en_US": {
+      "pattern": "Zhongrong Valley Battery"
+    },
+    "ja_JP": {
+      "pattern": "中栄谷砲台"
+    },
+    "ko_KR": {
+      "pattern": "종롱 밸리 배터리"
+    },
+    "es_ES": {
+      "pattern": "Batería del valle de Zhongrong"
+    }
+  },
+  "k_0fc6c7ff": {
+    "zh_CN": {
+      "pattern": "产物"
+    },
+    "zh_TW": {
+      "pattern": "產物"
+    },
+    "en_US": {
+      "pattern": "product"
+    },
+    "ja_JP": {
+      "pattern": "製品"
+    },
+    "ko_KR": {
+      "pattern": "제품"
+    },
+    "es_ES": {
+      "pattern": "producto"
+    }
+  },
+  "k_1205977f": {
+    "zh_CN": {
+      "pattern": "优质柑实罐头"
+    },
+    "zh_TW": {
+      "pattern": "優質柑實罐頭"
+    },
+    "en_US": {
+      "pattern": "High quality canned citrus fruits"
+    },
+    "ja_JP": {
+      "pattern": "高品質の柑橘類の缶詰"
+    },
+    "ko_KR": {
+      "pattern": "고품질 통조림 감귤류"
+    },
+    "es_ES": {
+      "pattern": "Cítricos enlatados de alta calidad."
+    }
+  },
+  "k_fd92a736": {
+    "zh_CN": {
+      "pattern": "优质芽针针剂"
+    },
+    "zh_TW": {
+      "pattern": "優質芽針針劑"
+    },
+    "en_US": {
+      "pattern": "High quality bud injection"
+    },
+    "ja_JP": {
+      "pattern": "高品質の芽注入"
+    },
+    "ko_KR": {
+      "pattern": "고품질 새싹 주입"
+    },
+    "es_ES": {
+      "pattern": "Inyección de cogollos de alta calidad"
+    }
+  },
+  "k_85ad4a7c": {
+    "zh_CN": {
+      "pattern": "优质荞愈胶囊"
+    },
+    "zh_TW": {
+      "pattern": "優質蕎癒膠囊"
+    },
+    "en_US": {
+      "pattern": "High quality buckwheat capsules"
+    },
+    "ja_JP": {
+      "pattern": "高品質そば粉カプセル"
+    },
+    "ko_KR": {
+      "pattern": "고품질 메밀 캡슐"
+    },
+    "es_ES": {
+      "pattern": "Cápsulas de trigo sarraceno de alta calidad."
+    }
+  },
+  "k_5209de4f": {
+    "zh_CN": {
+      "pattern": "优质锦草软饮"
+    },
+    "zh_TW": {
+      "pattern": "優質錦草軟飲"
+    },
+    "en_US": {
+      "pattern": "Premium Jincao Soft Drink"
+    },
+    "ja_JP": {
+      "pattern": "プレミアム金草ソフトドリンク"
+    },
+    "ko_KR": {
+      "pattern": "프리미엄 진차오 청량음료"
+    },
+    "es_ES": {
+      "pattern": "Refresco Premium Jincao"
+    }
+  },
+  "k_3673bddf": {
+    "zh_CN": {
+      "pattern": "低容武陵电池"
+    },
+    "zh_TW": {
+      "pattern": "低容武陵電池"
+    },
+    "en_US": {
+      "pattern": "Low capacity Wuling battery"
+    },
+    "ja_JP": {
+      "pattern": "低容量五陵バッテリー"
+    },
+    "ko_KR": {
+      "pattern": "저용량 Wuling 배터리"
+    },
+    "es_ES": {
+      "pattern": "Batería Wuling de baja capacidad"
+    }
+  },
+  "k_2181d9cd": {
+    "zh_CN": {
+      "pattern": "供能高地"
+    },
+    "zh_TW": {
+      "pattern": "供能高地"
+    },
+    "en_US": {
+      "pattern": "Energy supply highland"
+    },
+    "ja_JP": {
+      "pattern": "エネルギー供給高原"
+    },
+    "ko_KR": {
+      "pattern": "에너지 공급고지"
+    },
+    "es_ES": {
+      "pattern": "Suministro de energía en las tierras altas"
+    }
+  },
+  "k_afba31e6": {
+    "zh_CN": {
+      "pattern": "冬虫夏笋货组"
+    },
+    "zh_TW": {
+      "pattern": "冬蟲夏筍貨組"
+    },
+    "en_US": {
+      "pattern": "Cordyceps and bamboo shoots group"
+    },
+    "ja_JP": {
+      "pattern": "冬虫夏草とタケノコのグループ"
+    },
+    "ko_KR": {
+      "pattern": "동충하초와 죽순군"
+    },
+    "es_ES": {
+      "pattern": "Grupo de cordyceps y brotes de bambú."
+    }
+  },
+  "k_3917d839": {
+    "zh_CN": {
+      "pattern": "危境再现"
+    },
+    "zh_TW": {
+      "pattern": "危境再現"
+    },
+    "en_US": {
+      "pattern": "Danger reappears"
+    },
+    "ja_JP": {
+      "pattern": "危険が再び現れる"
+    },
+    "ko_KR": {
+      "pattern": "다시 나타나는 위험"
+    },
+    "es_ES": {
+      "pattern": "El peligro reaparece"
+    }
+  },
+  "k_9d89b819": {
+    "zh_CN": {
+      "pattern": "危境预演"
+    },
+    "zh_TW": {
+      "pattern": "危境預演"
+    },
+    "en_US": {
+      "pattern": "crisis rehearsal"
+    },
+    "ja_JP": {
+      "pattern": "危機のリハーサル"
+    },
+    "ko_KR": {
+      "pattern": "위기 리허설"
+    },
+    "es_ES": {
+      "pattern": "ensayo de crisis"
+    }
+  },
+  "k_214efec8": {
+    "zh_CN": {
+      "pattern": "四号谷地"
+    },
+    "zh_TW": {
+      "pattern": "四號谷地"
+    },
+    "en_US": {
+      "pattern": "valley four"
+    },
+    "ja_JP": {
+      "pattern": "谷4"
+    },
+    "ko_KR": {
+      "pattern": "밸리 4"
+    },
+    "es_ES": {
+      "pattern": "valle cuatro"
+    }
+  },
+  "k_c8cc877d": {
+    "zh_CN": {
+      "pattern": "团结牌口服液货组"
+    },
+    "zh_TW": {
+      "pattern": "團結牌口服液貨組"
+    },
+    "en_US": {
+      "pattern": "Tuanjie brand oral liquid product group"
+    },
+    "ja_JP": {
+      "pattern": "Tuanjieブランドの経口液体製品グループ"
+    },
+    "ko_KR": {
+      "pattern": "Tuanjie 브랜드 경구 액제 제품 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de productos líquidos orales de la marca Tuanjie"
+    }
+  },
+  "k_b3748114": {
+    "zh_CN": {
+      "pattern": "基建前站"
+    },
+    "zh_TW": {
+      "pattern": "基建前站"
+    },
+    "en_US": {
+      "pattern": "Infrastructure front station"
+    },
+    "ja_JP": {
+      "pattern": "インフラフロント駅"
+    },
+    "ko_KR": {
+      "pattern": "인프라 프론트 스테이션"
+    },
+    "es_ES": {
+      "pattern": "Estación frontal de infraestructura"
+    }
+  },
+  "k_0b813891": {
+    "zh_CN": {
+      "pattern": "塞什卡髀石货组"
+    },
+    "zh_TW": {
+      "pattern": "塞什卡髀石貨組"
+    },
+    "en_US": {
+      "pattern": "Seshka Stone Cargo Group"
+    },
+    "ja_JP": {
+      "pattern": "セシュカ ストーン カーゴ グループ"
+    },
+    "ko_KR": {
+      "pattern": "Seshka 스톤 화물 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de carga de piedra Seshka"
+    }
+  },
+  "k_916bfc88": {
+    "zh_CN": {
+      "pattern": "天使罐头货组"
+    },
+    "zh_TW": {
+      "pattern": "天使罐頭貨組"
+    },
+    "en_US": {
+      "pattern": "Angel Canned Goods Group"
+    },
+    "ja_JP": {
+      "pattern": "エンジェル缶詰グループ"
+    },
+    "ko_KR": {
+      "pattern": "엔젤 통조림 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de productos enlatados Angel"
+    }
+  },
+  "k_be2958a8": {
+    "zh_CN": {
+      "pattern": "天师龙泡泡货组"
+    },
+    "zh_TW": {
+      "pattern": "天師龍泡泡貨組"
+    },
+    "en_US": {
+      "pattern": "Tianshilong bubble goods group"
+    },
+    "ja_JP": {
+      "pattern": "天石龍バブルグッズグループ"
+    },
+    "ko_KR": {
+      "pattern": "Tianshilong 거품 상품 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de productos burbuja Tianshilong"
+    }
+  },
+  "k_9ee92701": {
+    "zh_CN": {
+      "pattern": "天王坪援建点"
+    },
+    "zh_TW": {
+      "pattern": "天王坪援助點"
+    },
+    "en_US": {
+      "pattern": "Tianwangping aid construction site"
+    },
+    "ja_JP": {
+      "pattern": "天望坪援助建設現場"
+    },
+    "ko_KR": {
+      "pattern": "Tianwangping 구호 건설 현장"
+    },
+    "es_ES": {
+      "pattern": "Sitio de construcción de ayuda de Tianwangping"
+    }
+  },
+  "k_cb171c77": {
+    "zh_CN": {
+      "pattern": "岳研避瘴茶货组"
+    },
+    "zh_TW": {
+      "pattern": "岳研避瘴茶貨組"
+    },
+    "en_US": {
+      "pattern": "Yueyan Miasma Avoidance Tea Goods Group"
+    },
+    "ja_JP": {
+      "pattern": "岳岩瘴気回避茶道具グループ"
+    },
+    "ko_KR": {
+      "pattern": "Yueyan Miasma 회피 차 용품 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de productos de té para evitar el miasma de Yueyan"
+    }
+  },
+  "k_f146718d": {
+    "zh_CN": {
+      "pattern": "巫术矿钻货组"
+    },
+    "zh_TW": {
+      "pattern": "巫術礦鑽貨組"
+    },
+    "en_US": {
+      "pattern": "Witchcraft Mine Diamond Cargo Group"
+    },
+    "ja_JP": {
+      "pattern": "ウィッチクラフト マイン ダイヤモンド カーゴ グループ"
+    },
+    "ko_KR": {
+      "pattern": "마법 광산 다이아몬드 화물 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de carga de diamantes de la mina de brujería"
+    }
+  },
+  "k_e8648639": {
+    "zh_CN": {
+      "pattern": "干员养成"
+    },
+    "zh_TW": {
+      "pattern": "幹員養成"
+    },
+    "en_US": {
+      "pattern": "Operator development"
+    },
+    "ja_JP": {
+      "pattern": "オペレーターの開発"
+    },
+    "ko_KR": {
+      "pattern": "오퍼레이터 개발"
+    },
+    "es_ES": {
+      "pattern": "Desarrollo de operadores"
+    }
+  },
+  "k_8c63385b": {
+    "zh_CN": {
+      "pattern": "干员经验"
+    },
+    "zh_TW": {
+      "pattern": "幹員經驗"
+    },
+    "en_US": {
+      "pattern": "Operator experience"
+    },
+    "ja_JP": {
+      "pattern": "オペレーターの経験"
+    },
+    "ko_KR": {
+      "pattern": "운영자 경험"
+    },
+    "es_ES": {
+      "pattern": "Experiencia del operador"
+    }
+  },
+  "k_216c7def": {
+    "zh_CN": {
+      "pattern": "干员进阶"
+    },
+    "zh_TW": {
+      "pattern": "幹員進階"
+    },
+    "en_US": {
+      "pattern": "Operator advancement"
+    },
+    "ja_JP": {
+      "pattern": "オペレーターの昇進"
+    },
+    "ko_KR": {
+      "pattern": "운영자 발전"
+    },
+    "es_ES": {
+      "pattern": "Avance del operador"
+    }
+  },
+  "k_7dfd1882": {
+    "zh_CN": {
+      "pattern": "心脏修缮站"
+    },
+    "zh_TW": {
+      "pattern": "心臟修繕站"
+    },
+    "en_US": {
+      "pattern": "heart repair station"
+    },
+    "ja_JP": {
+      "pattern": "心臓修復ステーション"
+    },
+    "ko_KR": {
+      "pattern": "심장 수리소"
+    },
+    "es_ES": {
+      "pattern": "estación de reparación del corazón"
+    }
+  },
+  "k_c2d3c6f9": {
+    "zh_CN": {
+      "pattern": "快子遴捡晶格"
+    },
+    "zh_TW": {
+      "pattern": "快子遴撿晶格"
+    },
+    "en_US": {
+      "pattern": "Tachyon picking lattice"
+    },
+    "ja_JP": {
+      "pattern": "タキオンピッキング格子"
+    },
+    "ko_KR": {
+      "pattern": "타키온 피킹 격자"
+    },
+    "es_ES": {
+      "pattern": "Red de recolección de taquiones"
+    }
+  },
+  "k_ae13a460": {
+    "zh_CN": {
+      "pattern": "息壤净水芯货组"
+    },
+    "zh_TW": {
+      "pattern": "息壤淨水芯貨組"
+    },
+    "en_US": {
+      "pattern": "Xirang water purification core goods group"
+    },
+    "ja_JP": {
+      "pattern": "西良浄水核心財グループ"
+    },
+    "ko_KR": {
+      "pattern": "시랑정수 핵심제품군"
+    },
+    "es_ES": {
+      "pattern": "Grupo de productos básicos de purificación de agua Xirang"
+    }
+  },
+  "k_d316ae88": {
+    "zh_CN": {
+      "pattern": "息壤玉葫芦"
+    },
+    "zh_TW": {
+      "pattern": "息壤玉葫蘆"
+    },
+    "en_US": {
+      "pattern": "Xi soil jade gourd"
+    },
+    "ja_JP": {
+      "pattern": "西土玉瓢箪"
+    },
+    "ko_KR": {
+      "pattern": "사이 흙 옥 조롱박"
+    },
+    "es_ES": {
+      "pattern": "Calabaza de jade del suelo Xi"
+    }
+  },
+  "k_49b013b4": {
+    "zh_CN": {
+      "pattern": "息壤葫芦"
+    },
+    "zh_TW": {
+      "pattern": "息壤葫蘆"
+    },
+    "en_US": {
+      "pattern": "Soil gourd"
+    },
+    "ja_JP": {
+      "pattern": "土ひょうたん"
+    },
+    "ko_KR": {
+      "pattern": "토양 조롱박"
+    },
+    "es_ES": {
+      "pattern": "calabaza del suelo"
+    }
+  },
+  "k_015b12ba": {
+    "zh_CN": {
+      "pattern": "悬空鼷兽骨雕货组"
+    },
+    "zh_TW": {
+      "pattern": "懸空鼷獸骨雕貨組"
+    },
+    "en_US": {
+      "pattern": "Hanging mole beast bone carving goods group"
+    },
+    "ja_JP": {
+      "pattern": "ぶら下がりモグラ獣骨彫刻グッズグループ"
+    },
+    "ko_KR": {
+      "pattern": "매달아 두더지 짐승 뼈 조각품 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de productos para tallar huesos de bestia topo colgante"
+    }
+  },
+  "k_d4f9d913": {
+    "zh_CN": {
+      "pattern": "技能提升"
+    },
+    "zh_TW": {
+      "pattern": "技能提升"
+    },
+    "en_US": {
+      "pattern": "Skill improvement"
+    },
+    "ja_JP": {
+      "pattern": "スキル向上"
+    },
+    "ko_KR": {
+      "pattern": "스킬향상"
+    },
+    "es_ES": {
+      "pattern": "Mejora de habilidades"
+    }
+  },
+  "k_854f8a4f": {
+    "zh_CN": {
+      "pattern": "星体晶块货组"
+    },
+    "zh_TW": {
+      "pattern": "星體晶塊貨組"
+    },
+    "en_US": {
+      "pattern": "Star crystal block cargo group"
+    },
+    "ja_JP": {
+      "pattern": "スタークリスタルブロック貨物群"
+    },
+    "ko_KR": {
+      "pattern": "스타 크리스탈 블록 화물 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de carga de bloques de cristal estrella"
+    }
+  },
+  "k_c55c669c": {
+    "zh_CN": {
+      "pattern": "晶体外壳"
+    },
+    "zh_TW": {
+      "pattern": "晶體外殼"
+    },
+    "en_US": {
+      "pattern": "crystal shell"
+    },
+    "ja_JP": {
+      "pattern": "クリスタルシェル"
+    },
+    "ko_KR": {
+      "pattern": "크리스탈 쉘"
+    },
+    "es_ES": {
+      "pattern": "concha de cristal"
+    }
+  },
+  "k_90252af0": {
+    "zh_CN": {
+      "pattern": "枢纽区"
+    },
+    "zh_TW": {
+      "pattern": "樞紐區"
+    },
+    "en_US": {
+      "pattern": "hub area"
+    },
+    "ja_JP": {
+      "pattern": "ハブエリア"
+    },
+    "ko_KR": {
+      "pattern": "허브 지역"
+    },
+    "es_ES": {
+      "pattern": "área central"
+    }
+  },
+  "k_e1635e13": {
+    "zh_CN": {
+      "pattern": "柑实罐头"
+    },
+    "zh_TW": {
+      "pattern": "柑實罐頭"
+    },
+    "en_US": {
+      "pattern": "Canned citrus fruits"
+    },
+    "ja_JP": {
+      "pattern": "柑橘類の缶詰"
+    },
+    "ko_KR": {
+      "pattern": "통조림 감귤류"
+    },
+    "es_ES": {
+      "pattern": "Cítricos enlatados"
+    }
+  },
+  "k_4ce45095": {
+    "zh_CN": {
+      "pattern": "武侠电影货组"
+    },
+    "zh_TW": {
+      "pattern": "武俠電影貨組"
+    },
+    "en_US": {
+      "pattern": "Martial arts movie goods group"
+    },
+    "ja_JP": {
+      "pattern": "武侠映画グッズグループ"
+    },
+    "ko_KR": {
+      "pattern": "무술영화상품그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de productos de películas de artes marciales."
+    }
+  },
+  "k_5c6514da": {
+    "zh_CN": {
+      "pattern": "武器养成"
+    },
+    "zh_TW": {
+      "pattern": "武器養成"
+    },
+    "en_US": {
+      "pattern": "Weapon development"
+    },
+    "ja_JP": {
+      "pattern": "兵器の開発"
+    },
+    "ko_KR": {
+      "pattern": "무기 개발"
+    },
+    "es_ES": {
+      "pattern": "Desarrollo de armas"
+    }
+  },
+  "k_3e316505": {
+    "zh_CN": {
+      "pattern": "武器经验"
+    },
+    "zh_TW": {
+      "pattern": "武器經驗"
+    },
+    "en_US": {
+      "pattern": "Weapon experience"
+    },
+    "ja_JP": {
+      "pattern": "武器経験"
+    },
+    "ko_KR": {
+      "pattern": "무기 체험"
+    },
+    "es_ES": {
+      "pattern": "Experiencia con armas"
+    }
+  },
+  "k_0903c052": {
+    "zh_CN": {
+      "pattern": "武器进阶"
+    },
+    "zh_TW": {
+      "pattern": "武器進階"
+    },
+    "en_US": {
+      "pattern": "Weapon upgrade"
+    },
+    "ja_JP": {
+      "pattern": "武器のアップグレード"
+    },
+    "ko_KR": {
+      "pattern": "무기 업그레이드"
+    },
+    "es_ES": {
+      "pattern": "Mejora de arma"
+    }
+  },
+  "k_a4410e3f": {
+    "zh_CN": {
+      "pattern": "武陵"
+    },
+    "zh_TW": {
+      "pattern": "武陵"
+    },
+    "en_US": {
+      "pattern": "Wuling"
+    },
+    "ja_JP": {
+      "pattern": "武陵"
+    },
+    "ko_KR": {
+      "pattern": "우링"
+    },
+    "es_ES": {
+      "pattern": "Wuling"
+    }
+  },
+  "k_e128b089": {
+    "zh_CN": {
+      "pattern": "武陵冻梨货组"
+    },
+    "zh_TW": {
+      "pattern": "武陵凍梨貨組"
+    },
+    "en_US": {
+      "pattern": "Wuling frozen pear goods group"
+    },
+    "ja_JP": {
+      "pattern": "武陵冷凍梨商品グループ"
+    },
+    "ko_KR": {
+      "pattern": "우링 냉동 배 상품 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de productos de peras congeladas de Wuling"
+    }
+  },
+  "k_93e2bdac": {
+    "zh_CN": {
+      "pattern": "武陵城"
+    },
+    "zh_TW": {
+      "pattern": "武陵城"
+    },
+    "en_US": {
+      "pattern": "Wulingcheng"
+    },
+    "ja_JP": {
+      "pattern": "武陵城"
+    },
+    "ko_KR": {
+      "pattern": "우링청"
+    },
+    "es_ES": {
+      "pattern": "Wulingcheng"
+    }
+  },
+  "k_ece5ec1b": {
+    "zh_CN": {
+      "pattern": "清波寨"
+    },
+    "zh_TW": {
+      "pattern": "清波寨"
+    },
+    "en_US": {
+      "pattern": "Qingbo Village"
+    },
+    "ja_JP": {
+      "pattern": "青波村"
+    },
+    "ko_KR": {
+      "pattern": "칭보 마을"
+    },
+    "es_ES": {
+      "pattern": "Pueblo de Qingbo"
+    }
+  },
+  "k_0383e694": {
+    "zh_CN": {
+      "pattern": "清波筏货组"
+    },
+    "zh_TW": {
+      "pattern": "清波筏貨組"
+    },
+    "en_US": {
+      "pattern": "Qingbo Raft Cargo Group"
+    },
+    "ja_JP": {
+      "pattern": "青波筏貨物グループ"
+    },
+    "ko_KR": {
+      "pattern": "칭보 뗏목 화물 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de carga de balsas Qingbo"
+    }
+  },
+  "k_ae7b2918": {
+    "zh_CN": {
+      "pattern": "源石树幼苗货组"
+    },
+    "zh_TW": {
+      "pattern": "源石樹幼苗貨組"
+    },
+    "en_US": {
+      "pattern": "Originium tree seedlings shipment group"
+    },
+    "ja_JP": {
+      "pattern": "オリジニウム苗木出荷グループ"
+    },
+    "ko_KR": {
+      "pattern": "오리지늄 묘목 출하 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de envío de plántulas de árboles Originium"
+    }
+  },
+  "k_dff480f9": {
+    "zh_CN": {
+      "pattern": "源石研究园"
+    },
+    "zh_TW": {
+      "pattern": "源石研究園"
+    },
+    "en_US": {
+      "pattern": "Origin Stone Research Park"
+    },
+    "ja_JP": {
+      "pattern": "原石リサーチパーク"
+    },
+    "ko_KR": {
+      "pattern": "오리진스톤연구단지"
+    },
+    "es_ES": {
+      "pattern": "Parque de investigación de piedra de origen"
+    }
+  },
+  "k_37ad1f84": {
+    "zh_CN": {
+      "pattern": "源矿"
+    },
+    "zh_TW": {
+      "pattern": "源礦"
+    },
+    "en_US": {
+      "pattern": "source mine"
+    },
+    "ja_JP": {
+      "pattern": "ソース鉱山"
+    },
+    "ko_KR": {
+      "pattern": "소스 광산"
+    },
+    "es_ES": {
+      "pattern": "fuente mía"
+    }
+  },
+  "k_5af845da": {
+    "zh_CN": {
+      "pattern": "白垩界卫"
+    },
+    "zh_TW": {
+      "pattern": "白堊界衛"
+    },
+    "en_US": {
+      "pattern": "Chalk Wardens"
+    },
+    "ja_JP": {
+      "pattern": "チョーク監視員"
+    },
+    "ko_KR": {
+      "pattern": "분필 감시자"
+    },
+    "es_ES": {
+      "pattern": "Guardianes de tiza"
+    }
+  },
+  "k_d26e1bbe": {
+    "zh_CN": {
+      "pattern": "矿物"
+    },
+    "zh_TW": {
+      "pattern": "礦物"
+    },
+    "en_US": {
+      "pattern": "mineral"
+    },
+    "ja_JP": {
+      "pattern": "ミネラル"
+    },
+    "ko_KR": {
+      "pattern": "광물"
+    },
+    "es_ES": {
+      "pattern": "mineral"
+    }
+  },
+  "k_2b92fbc9": {
+    "zh_CN": {
+      "pattern": "矿脉源区"
+    },
+    "zh_TW": {
+      "pattern": "礦脈源區"
+    },
+    "en_US": {
+      "pattern": "Mine source area"
+    },
+    "ja_JP": {
+      "pattern": "鉱山源地域"
+    },
+    "ko_KR": {
+      "pattern": "광산 지역"
+    },
+    "es_ES": {
+      "pattern": "Área de origen de la mina"
+    }
+  },
+  "k_55ed0a7b": {
+    "zh_CN": {
+      "pattern": "硬脑壳头盔货组"
+    },
+    "zh_TW": {
+      "pattern": "硬腦殼安全帽貨組"
+    },
+    "en_US": {
+      "pattern": "Hard skull helmet cargo group"
+    },
+    "ja_JP": {
+      "pattern": "ハードスカルヘルメット貨物グループ"
+    },
+    "ko_KR": {
+      "pattern": "하드 스컬 헬멧 카고 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de carga de casco de calavera dura"
+    }
+  },
+  "k_3cdec45b": {
+    "zh_CN": {
+      "pattern": "精选柑实罐头"
+    },
+    "zh_TW": {
+      "pattern": "精選柑實罐頭"
+    },
+    "en_US": {
+      "pattern": "Selected canned citrus fruits"
+    },
+    "ja_JP": {
+      "pattern": "厳選された柑橘類の缶詰"
+    },
+    "ko_KR": {
+      "pattern": "엄선된 통조림 감귤류"
+    },
+    "es_ES": {
+      "pattern": "Cítricos enlatados seleccionados"
+    }
+  },
+  "k_adb42389": {
+    "zh_CN": {
+      "pattern": "精选荞愈胶囊"
+    },
+    "zh_TW": {
+      "pattern": "精選蕎癒膠囊"
+    },
+    "en_US": {
+      "pattern": "Selected Buckwheat Capsules"
+    },
+    "ja_JP": {
+      "pattern": "厳選そばカプセル"
+    },
+    "ko_KR": {
+      "pattern": "엄선된 메밀캡슐"
+    },
+    "es_ES": {
+      "pattern": "Cápsulas de Trigo Sarraceno Seleccionadas"
+    }
+  },
+  "k_0d158460": {
+    "zh_CN": {
+      "pattern": "罗丹"
+    },
+    "zh_TW": {
+      "pattern": "羅丹"
+    },
+    "en_US": {
+      "pattern": "Rodin"
+    },
+    "ja_JP": {
+      "pattern": "ロダン"
+    },
+    "ko_KR": {
+      "pattern": "로댕"
+    },
+    "es_ES": {
+      "pattern": "rodin"
+    }
+  },
+  "k_fadfef4b": {
+    "zh_CN": {
+      "pattern": "聂菲斯"
+    },
+    "zh_TW": {
+      "pattern": "聶菲斯"
+    },
+    "en_US": {
+      "pattern": "Nepheus"
+    },
+    "ja_JP": {
+      "pattern": "ネフェウス"
+    },
+    "ko_KR": {
+      "pattern": "네페우스"
+    },
+    "es_ES": {
+      "pattern": "Nefeo"
+    }
+  },
+  "k_e0c9b138": {
+    "zh_CN": {
+      "pattern": "能量淤积点"
+    },
+    "zh_TW": {
+      "pattern": "能量淤積點"
+    },
+    "en_US": {
+      "pattern": "energy pooling point"
+    },
+    "ja_JP": {
+      "pattern": "エネルギープールポイント"
+    },
+    "ko_KR": {
+      "pattern": "에너지 풀링 포인트"
+    },
+    "es_ES": {
+      "pattern": "punto de acumulación de energía"
+    }
+  },
+  "k_ccdf2110": {
+    "zh_CN": {
+      "pattern": "致密源石粉末"
+    },
+    "zh_TW": {
+      "pattern": "緻密源石粉末"
+    },
+    "en_US": {
+      "pattern": "Dense source stone powder"
+    },
+    "ja_JP": {
+      "pattern": "濃厚な源石粉末"
+    },
+    "ko_KR": {
+      "pattern": "조밀한 근원석 분말"
+    },
+    "es_ES": {
+      "pattern": "Polvo de piedra de origen denso"
+    }
+  },
+  "k_9aca6716": {
+    "zh_CN": {
+      "pattern": "芽针针剂"
+    },
+    "zh_TW": {
+      "pattern": "芽針針劑"
+    },
+    "en_US": {
+      "pattern": "Bud injection"
+    },
+    "ja_JP": {
+      "pattern": "芽注入"
+    },
+    "ko_KR": {
+      "pattern": "새싹 주입"
+    },
+    "es_ES": {
+      "pattern": "inyección de cogollos"
+    }
+  },
+  "k_710b0237": {
+    "zh_CN": {
+      "pattern": "荞愈胶囊"
+    },
+    "zh_TW": {
+      "pattern": "蕎癒膠囊"
+    },
+    "en_US": {
+      "pattern": "Qiaoyu Capsules"
+    },
+    "ja_JP": {
+      "pattern": "チャオユウカプセル"
+    },
+    "ko_KR": {
+      "pattern": "차오유 캡슐"
+    },
+    "es_ES": {
+      "pattern": "Cápsulas de Qiaoyu"
+    }
+  },
+  "k_a3c507b8": {
+    "zh_CN": {
+      "pattern": "蓝铁矿"
+    },
+    "zh_TW": {
+      "pattern": "藍鐵礦"
+    },
+    "en_US": {
+      "pattern": "blue iron ore"
+    },
+    "ja_JP": {
+      "pattern": "青い鉄鉱石"
+    },
+    "ko_KR": {
+      "pattern": "푸른 철광석"
+    },
+    "es_ES": {
+      "pattern": "mineral de hierro azul"
+    }
+  },
+  "k_308fd0c3": {
+    "zh_CN": {
+      "pattern": "警戒者矿镐货组"
+    },
+    "zh_TW": {
+      "pattern": "警戒者礦鎬貨組"
+    },
+    "en_US": {
+      "pattern": "Vigilant Mine Pickaxe Cargo Set"
+    },
+    "ja_JP": {
+      "pattern": "警戒鉱山のつるはしカーゴ セット"
+    },
+    "ko_KR": {
+      "pattern": "경계하는 지뢰 곡괭이 화물 세트"
+    },
+    "es_ES": {
+      "pattern": "Conjunto de carga de pico de mina vigilante"
+    }
+  },
+  "k_ba83829f": {
+    "zh_CN": {
+      "pattern": "试验园区"
+    },
+    "zh_TW": {
+      "pattern": "試驗園區"
+    },
+    "en_US": {
+      "pattern": "Experimental Park"
+    },
+    "ja_JP": {
+      "pattern": "実験公園"
+    },
+    "ko_KR": {
+      "pattern": "실험공원"
+    },
+    "es_ES": {
+      "pattern": "Parque Experimental"
+    }
+  },
+  "k_783931ed": {
+    "zh_CN": {
+      "pattern": "谷地水培肉货组"
+    },
+    "zh_TW": {
+      "pattern": "谷地水耕肉貨組"
+    },
+    "en_US": {
+      "pattern": "Valley hydroponic meat group"
+    },
+    "ja_JP": {
+      "pattern": "バレー水耕肉グループ"
+    },
+    "ko_KR": {
+      "pattern": "밸리수경고기그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de carne hidropónica del valle"
+    }
+  },
+  "k_2cbc9cb6": {
+    "zh_CN": {
+      "pattern": "象限拟合液"
+    },
+    "zh_TW": {
+      "pattern": "象限擬合液"
+    },
+    "en_US": {
+      "pattern": "Quadrant fitting fluid"
+    },
+    "ja_JP": {
+      "pattern": "象限フィッティング液"
+    },
+    "ko_KR": {
+      "pattern": "사분면 피팅 유체"
+    },
+    "es_ES": {
+      "pattern": "Líquido de ajuste de cuadrante"
+    }
+  },
+  "k_ffeba46d": {
+    "zh_CN": {
+      "pattern": "赫铜零件"
+    },
+    "zh_TW": {
+      "pattern": "赫銅零件"
+    },
+    "en_US": {
+      "pattern": "Hetcopper parts"
+    },
+    "ja_JP": {
+      "pattern": "ヘト銅部品"
+    },
+    "ko_KR": {
+      "pattern": "열동 부품"
+    },
+    "es_ES": {
+      "pattern": "Piezas de cobre"
+    }
+  },
+  "k_e82c9392": {
+    "zh_CN": {
+      "pattern": "超距辉映管"
+    },
+    "zh_TW": {
+      "pattern": "超距輝映管"
+    },
+    "en_US": {
+      "pattern": "telephoto tube"
+    },
+    "ja_JP": {
+      "pattern": "望遠鏡"
+    },
+    "ko_KR": {
+      "pattern": "망원 튜브"
+    },
+    "es_ES": {
+      "pattern": "tubo de teleobjetivo"
+    }
+  },
+  "k_d75af357": {
+    "zh_CN": {
+      "pattern": "边角料积木货组"
+    },
+    "zh_TW": {
+      "pattern": "邊角料積木貨組"
+    },
+    "en_US": {
+      "pattern": "Scrap building block cargo group"
+    },
+    "ja_JP": {
+      "pattern": "スクラップビルディングブロック貨物グループ"
+    },
+    "ko_KR": {
+      "pattern": "스크랩 빌딩 블록 화물 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de carga de bloques de construcción de chatarra"
+    }
+  },
+  "k_5a72ba02": {
+    "zh_CN": {
+      "pattern": "重建指挥部"
+    },
+    "zh_TW": {
+      "pattern": "重建指揮部"
+    },
+    "en_US": {
+      "pattern": "Reconstruction Command"
+    },
+    "ja_JP": {
+      "pattern": "復興コマンド"
+    },
+    "ko_KR": {
+      "pattern": "재건 명령"
+    },
+    "es_ES": {
+      "pattern": "Comando de Reconstrucción"
+    }
+  },
+  "k_428c533a": {
+    "zh_CN": {
+      "pattern": "重息壤"
+    },
+    "zh_TW": {
+      "pattern": "重息壤"
+    },
+    "en_US": {
+      "pattern": "Heavy soil"
+    },
+    "ja_JP": {
+      "pattern": "重い土壌"
+    },
+    "ko_KR": {
+      "pattern": "무거운 토양"
+    },
+    "es_ES": {
+      "pattern": "suelo pesado"
+    }
+  },
+  "k_c18b3249": {
+    "zh_CN": {
+      "pattern": "钱币收集"
+    },
+    "zh_TW": {
+      "pattern": "錢幣收集"
+    },
+    "en_US": {
+      "pattern": "coin collection"
+    },
+    "ja_JP": {
+      "pattern": "コインコレクション"
+    },
+    "ko_KR": {
+      "pattern": "동전 수집"
+    },
+    "es_ES": {
+      "pattern": "colección de monedas"
+    }
+  },
+  "k_ff00a312": {
+    "zh_CN": {
+      "pattern": "锚点厨具货组"
+    },
+    "zh_TW": {
+      "pattern": "錨點廚具貨組"
+    },
+    "en_US": {
+      "pattern": "Anchor kitchenware group"
+    },
+    "ja_JP": {
+      "pattern": "アンカーキッチン用品グループ"
+    },
+    "ko_KR": {
+      "pattern": "앵커 주방용품 그룹"
+    },
+    "es_ES": {
+      "pattern": "Grupo de menaje de cocina ancla"
+    }
+  },
+  "k_b6666941": {
+    "zh_CN": {
+      "pattern": "锦草软饮"
+    },
+    "zh_TW": {
+      "pattern": "錦草軟飲"
+    },
+    "en_US": {
+      "pattern": "Jincao soft drink"
+    },
+    "ja_JP": {
+      "pattern": "金草ソフトドリンク"
+    },
+    "ko_KR": {
+      "pattern": "진차오 청량음료"
+    },
+    "es_ES": {
+      "pattern": "refresco jincao"
+    }
+  },
+  "k_de7be865": {
+    "zh_CN": {
+      "pattern": "阮一"
+    },
+    "zh_TW": {
+      "pattern": "阮一"
+    },
+    "en_US": {
+      "pattern": "Ruan Yi"
+    },
+    "ja_JP": {
+      "pattern": "ルアン・イー"
+    },
+    "ko_KR": {
+      "pattern": "루안 이"
+    },
+    "es_ES": {
+      "pattern": "Ruan Yi"
+    }
+  },
+  "k_7a5505d0": {
+    "zh_CN": {
+      "pattern": "难民暂居处"
+    },
+    "zh_TW": {
+      "pattern": "難民暫居處"
+    },
+    "en_US": {
+      "pattern": "refugee temporary residence"
+    },
+    "ja_JP": {
+      "pattern": "難民の一時滞在"
+    },
+    "ko_KR": {
+      "pattern": "난민 임시 거주지"
+    },
+    "es_ES": {
+      "pattern": "residencia temporal de refugiados"
+    }
+  },
+  "k_50917f2a": {
+    "zh_CN": {
+      "pattern": "首墩"
+    },
+    "zh_TW": {
+      "pattern": "首墩"
+    },
+    "en_US": {
+      "pattern": "first pier"
+    },
+    "ja_JP": {
+      "pattern": "最初の桟橋"
+    },
+    "ko_KR": {
+      "pattern": "첫 번째 부두"
+    },
+    "es_ES": {
+      "pattern": "primer muelle"
+    }
+  },
+  "k_d5586b4b": {
+    "zh_CN": {
+      "pattern": "高容谷地电池"
+    },
+    "zh_TW": {
+      "pattern": "高容量谷地電池"
+    },
+    "en_US": {
+      "pattern": "High capacity valley battery"
+    },
+    "ja_JP": {
+      "pattern": "大容量バレーバッテリー"
+    },
+    "ko_KR": {
+      "pattern": "고용량 밸리 배터리"
+    },
+    "es_ES": {
+      "pattern": "Batería de valle de alta capacidad"
+    }
+  },
+  "yingtuo_monument": {
+    "zh_CN": {
+      "pattern": "影拓丰碑"
+    },
+    "zh_TW": {
+      "pattern": "影拓豐碑"
+    },
+    "en_US": {
+      "pattern": "Yingtuo Monument"
+    },
+    "ja_JP": {
+      "pattern": "影拓記念碑"
+    },
+    "ko_KR": {
+      "pattern": "영탁 비석"
+    },
+    "es_ES": {
+      "pattern": "Monumento Yingtuo"
+    }
+  },
+  "k_zhuoliu": {
+    "zh_CN": {
+      "pattern": "浊流具现"
+    },
+    "zh_TW": {
+      "pattern": "濁流具現"
+    },
+    "en_US": {
+      "pattern": "Turbid Manifestation"
+    },
+    "ja_JP": {
+      "pattern": "濁流具現"
+    },
+    "ko_KR": {
+      "pattern": "탁류 구현"
+    },
+    "es_ES": {
+      "pattern": "Manifestación Turbia"
+    }
+  },
+  "k_zhuotong": {
+    "zh_CN": {
+      "pattern": "灼痛疤痕"
+    },
+    "zh_TW": {
+      "pattern": "灼痛疤痕"
+    },
+    "en_US": {
+      "pattern": "Scorching Scar"
+    },
+    "ja_JP": {
+      "pattern": "灼熱の傷跡"
+    },
+    "ko_KR": {
+      "pattern": "작열의 상처"
+    },
+    "es_ES": {
+      "pattern": "Cicatriz Ardiente"
+    }
+  },
+  "k_wuji": {
+    "zh_CN": {
+      "pattern": "无机造物"
+    },
+    "zh_TW": {
+      "pattern": "無機造物"
+    },
+    "en_US": {
+      "pattern": "Inorganic Creation"
+    },
+    "ja_JP": {
+      "pattern": "無機造物"
+    },
+    "ko_KR": {
+      "pattern": "무기 창조물"
+    },
+    "es_ES": {
+      "pattern": "Creación Inorgánica"
+    }
+  },
+  "k_dadiqizi": {
+    "zh_CN": {
+      "pattern": "大地的弃子"
+    },
+    "zh_TW": {
+      "pattern": "大地的棄子"
+    },
+    "en_US": {
+      "pattern": "Castaway of the Earth"
+    },
+    "ja_JP": {
+      "pattern": "大地の棄て子"
+    },
+    "ko_KR": {
+      "pattern": "대지의 버려진 자"
+    },
+    "es_ES": {
+      "pattern": "Desterrado de la Tierra"
+    }
+  }
+}

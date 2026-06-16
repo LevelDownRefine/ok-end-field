@@ -1,0 +1,582 @@
+{
+  "k_4d0b4688": {
+    "zh_CN": {
+      "pattern": "取消"
+    },
+    "zh_TW": {
+      "pattern": "取消"
+    },
+    "en_US": {
+      "pattern": "Cancel"
+    },
+    "ja_JP": {
+      "pattern": "キャンセル"
+    },
+    "ko_KR": {
+      "pattern": "취소"
+    },
+    "es_ES": {
+      "pattern": "Cancelar"
+    }
+  },
+  "k_45ff3e5f": {
+    "zh_CN": {
+      "pattern": "可领取"
+    },
+    "zh_TW": {
+      "pattern": "可領取"
+    },
+    "en_US": {
+      "pattern": "Available for collection"
+    },
+    "ja_JP": {
+      "pattern": "コレクション可能"
+    },
+    "ko_KR": {
+      "pattern": "수집 가능"
+    },
+    "es_ES": {
+      "pattern": "Disponible para colección"
+    }
+  },
+  "k_25e74dce": {
+    "zh_CN": {
+      "pattern": "当前"
+    },
+    "zh_TW": {
+      "pattern": "目前"
+    },
+    "en_US": {
+      "pattern": "current"
+    },
+    "ja_JP": {
+      "pattern": "現在"
+    },
+    "ko_KR": {
+      "pattern": "현재의"
+    },
+    "es_ES": {
+      "pattern": "actual"
+    }
+  },
+  "k_a0d434d4": {
+    "zh_CN": {
+      "pattern": "干员"
+    },
+    "zh_TW": {
+      "pattern": "幹員"
+    },
+    "en_US": {
+      "pattern": "Operator"
+    },
+    "ja_JP": {
+      "pattern": "オペレーター"
+    },
+    "ko_KR": {
+      "pattern": "연산자"
+    },
+    "es_ES": {
+      "pattern": "Operador"
+    }
+  },
+  "k_6c4d77af": {
+    "zh_CN": {
+      "pattern": "恢复理智"
+    },
+    "zh_TW": {
+      "pattern": "恢復理智"
+    },
+    "en_US": {
+      "pattern": "regain sanity"
+    },
+    "ja_JP": {
+      "pattern": "正気を取り戻す"
+    },
+    "ko_KR": {
+      "pattern": "제정신을 되찾다"
+    },
+    "es_ES": {
+      "pattern": "recuperar la cordura"
+    }
+  },
+  "k_9294c931": {
+    "zh_CN": {
+      "pattern": "挑战"
+    },
+    "zh_TW": {
+      "pattern": "挑戰"
+    },
+    "en_US": {
+      "pattern": "challenge"
+    },
+    "ja_JP": {
+      "pattern": "チャレンジ"
+    },
+    "ko_KR": {
+      "pattern": "도전"
+    },
+    "es_ES": {
+      "pattern": "desafío"
+    }
+  },
+  "k_6afbae72": {
+    "zh_CN": {
+      "pattern": "撤离"
+    },
+    "zh_TW": {
+      "pattern": "撤離"
+    },
+    "en_US": {
+      "pattern": "Evacuate"
+    },
+    "ja_JP": {
+      "pattern": "避難する"
+    },
+    "ko_KR": {
+      "pattern": "대피"
+    },
+    "es_ES": {
+      "pattern": "Evacuar"
+    }
+  },
+  "k_b8a81b7a": {
+    "zh_CN": {
+      "pattern": "放弃"
+    },
+    "zh_TW": {
+      "pattern": "放棄"
+    },
+    "en_US": {
+      "pattern": "give up"
+    },
+    "ja_JP": {
+      "pattern": "あきらめる"
+    },
+    "ko_KR": {
+      "pattern": "포기하다"
+    },
+    "es_ES": {
+      "pattern": "abandonar"
+    }
+  },
+  "k_cd9eabf7": {
+    "zh_CN": {
+      "pattern": "激发"
+    },
+    "zh_TW": {
+      "pattern": "激發"
+    },
+    "en_US": {
+      "pattern": "excitation"
+    },
+    "ja_JP": {
+      "pattern": "励起"
+    },
+    "ko_KR": {
+      "pattern": "자극"
+    },
+    "es_ES": {
+      "pattern": "excitación"
+    }
+  },
+  "k_bfe73e18": {
+    "zh_CN": {
+      "pattern": "激发|放弃"
+    },
+    "zh_TW": {
+      "pattern": "激發|放棄"
+    },
+    "en_US": {
+      "pattern": "excitation|give up"
+    },
+    "ja_JP": {
+      "pattern": "励起|あきらめる"
+    },
+    "ko_KR": {
+      "pattern": "자극|포기하다"
+    },
+    "es_ES": {
+      "pattern": "excitación|abandonar"
+    }
+  },
+  "k_b0e3a2da": {
+    "zh_CN": {
+      "pattern": "登上滑索架"
+    },
+    "zh_TW": {
+      "pattern": "登上滑索架"
+    },
+    "en_US": {
+      "pattern": "Climb the zipline"
+    },
+    "ja_JP": {
+      "pattern": "ジップラインを登る"
+    },
+    "ko_KR": {
+      "pattern": "짚라인을 타고 올라보세요"
+    },
+    "es_ES": {
+      "pattern": "Sube a la tirolesa"
+    }
+  },
+  "k_b56d9ac6": {
+    "zh_CN": {
+      "pattern": "确认"
+    },
+    "zh_TW": {
+      "pattern": "確定"
+    },
+    "en_US": {
+      "pattern": "confirm"
+    },
+    "ja_JP": {
+      "pattern": "確認する"
+    },
+    "ko_KR": {
+      "pattern": "확인하다"
+    },
+    "es_ES": {
+      "pattern": "confirmar"
+    }
+  },
+  "k_0ba18905": {
+    "zh_CN": {
+      "pattern": "离开"
+    },
+    "zh_TW": {
+      "pattern": "離開"
+    },
+    "en_US": {
+      "pattern": "leave"
+    },
+    "ja_JP": {
+      "pattern": "離れる"
+    },
+    "ko_KR": {
+      "pattern": "떠나다"
+    },
+    "es_ES": {
+      "pattern": "dejar"
+    }
+  },
+  "k_79f91106": {
+    "zh_CN": {
+      "pattern": "索引"
+    },
+    "zh_TW": {
+      "pattern": "索引"
+    },
+    "en_US": {
+      "pattern": "index"
+    },
+    "ja_JP": {
+      "pattern": "索引"
+    },
+    "ko_KR": {
+      "pattern": "색인"
+    },
+    "es_ES": {
+      "pattern": "índice"
+    }
+  },
+  "k_a6ee3a67": {
+    "zh_CN": {
+      "pattern": "自选"
+    },
+    "zh_TW": {
+      "pattern": "自選"
+    },
+    "en_US": {
+      "pattern": "Optional"
+    },
+    "ja_JP": {
+      "pattern": "オプション"
+    },
+    "ko_KR": {
+      "pattern": "선택 과목"
+    },
+    "es_ES": {
+      "pattern": "Opcional"
+    }
+  },
+  "k_60064e16": {
+    "zh_CN": {
+      "pattern": "获得奖励"
+    },
+    "zh_TW": {
+      "pattern": "獲得獎勵"
+    },
+    "en_US": {
+      "pattern": "Get rewarded"
+    },
+    "ja_JP": {
+      "pattern": "報酬を得る"
+    },
+    "ko_KR": {
+      "pattern": "보상 받기"
+    },
+    "es_ES": {
+      "pattern": "Obtener recompensa"
+    }
+  },
+  "k_4cc61900": {
+    "zh_CN": {
+      "pattern": "触碰"
+    },
+    "zh_TW": {
+      "pattern": "觸碰"
+    },
+    "en_US": {
+      "pattern": "touch"
+    },
+    "ja_JP": {
+      "pattern": "触る"
+    },
+    "ko_KR": {
+      "pattern": "만지다"
+    },
+    "es_ES": {
+      "pattern": "tocar"
+    }
+  },
+  "k_0e25578e": {
+    "zh_CN": {
+      "pattern": "进入"
+    },
+    "zh_TW": {
+      "pattern": "進入"
+    },
+    "en_US": {
+      "pattern": "Enter"
+    },
+    "ja_JP": {
+      "pattern": "入力"
+    },
+    "ko_KR": {
+      "pattern": "입력하다"
+    },
+    "es_ES": {
+      "pattern": "Ingresar"
+    }
+  },
+  "k_8967d3c6": {
+    "zh_CN": {
+      "pattern": "追踪"
+    },
+    "zh_TW": {
+      "pattern": "追蹤"
+    },
+    "en_US": {
+      "pattern": "track"
+    },
+    "ja_JP": {
+      "pattern": "追跡"
+    },
+    "ko_KR": {
+      "pattern": "길"
+    },
+    "es_ES": {
+      "pattern": "pista"
+    }
+  },
+  "k_55cfd979": {
+    "zh_CN": {
+      "pattern": "重新挑战"
+    },
+    "zh_TW": {
+      "pattern": "重新挑戰"
+    },
+    "en_US": {
+      "pattern": "Challenge again"
+    },
+    "ja_JP": {
+      "pattern": "もう一度挑戦してください"
+    },
+    "ko_KR": {
+      "pattern": "다시 도전하세요"
+    },
+    "es_ES": {
+      "pattern": "Desafío de nuevo"
+    }
+  },
+  "k_39d12e73": {
+    "zh_CN": {
+      "pattern": "领取"
+    },
+    "zh_TW": {
+      "pattern": "領取"
+    },
+    "en_US": {
+      "pattern": "receive"
+    },
+    "ja_JP": {
+      "pattern": "受け取る"
+    },
+    "ko_KR": {
+      "pattern": "받다"
+    },
+    "es_ES": {
+      "pattern": "recibir"
+    }
+  },
+  "k_39d12e73_1": {
+    "zh_CN": {
+      "pattern": "领取"
+    },
+    "zh_TW": {
+      "pattern": "領取"
+    },
+    "en_US": {
+      "pattern": "receive"
+    },
+    "ja_JP": {
+      "pattern": "受け取る"
+    },
+    "ko_KR": {
+      "pattern": "받다"
+    },
+    "es_ES": {
+      "pattern": "recibir"
+    }
+  },
+  "k_4e1f3d8b": {
+    "zh_CN": {
+      "pattern": "(天|小时)"
+    },
+    "zh_TW": {
+      "pattern": "(天|小時)"
+    },
+    "en_US": {
+      "pattern": "(\\d+)(day|hour)"
+    },
+    "ja_JP": {
+      "pattern": "(\\d+)(日|時間)"
+    },
+    "ko_KR": {
+      "pattern": "(\\d+)(일|시간)"
+    },
+    "es_ES": {
+      "pattern": "(\\d+)(día|hora)"
+    }
+  },
+  "k_62b5b688": {
+    "zh_CN": {
+      "pattern": "已出战"
+    },
+    "zh_TW": {
+      "pattern": "已出戰"
+    },
+    "en_US": {
+      "pattern": "Already in battle"
+    },
+    "ja_JP": {
+      "pattern": "すでに戦闘中"
+    },
+    "ko_KR": {
+      "pattern": "이미 전투 중"
+    },
+    "es_ES": {
+      "pattern": "Ya en batalla"
+    }
+  },
+  "k_12577cd1": {
+    "zh_CN": {
+      "pattern": "出战"
+    },
+    "zh_TW": {
+      "pattern": "出戰"
+    },
+    "en_US": {
+      "pattern": "go to war"
+    },
+    "ja_JP": {
+      "pattern": "戦争に行く"
+    },
+    "ko_KR": {
+      "pattern": "전쟁에 나가다"
+    },
+    "es_ES": {
+      "pattern": "ir a la guerra"
+    }
+  },
+  "k_70b20820": {
+    "zh_CN": {
+      "pattern": "选择"
+    },
+    "zh_TW": {
+      "pattern": "選擇"
+    },
+    "en_US": {
+      "pattern": "choose"
+    },
+    "ja_JP": {
+      "pattern": "選ぶ"
+    },
+    "ko_KR": {
+      "pattern": "선택하다"
+    },
+    "es_ES": {
+      "pattern": "elegir"
+    }
+  },
+  "k_unit_day": {
+    "zh_CN": {
+      "string": "天"
+    },
+    "zh_TW": {
+      "string": "天"
+    },
+    "en_US": {
+      "string": "day"
+    },
+    "ja_JP": {
+      "string": "日"
+    },
+    "ko_KR": {
+      "string": "일"
+    },
+    "es_ES": {
+      "string": "día"
+    }
+  },
+  "k_unit_hour": {
+    "zh_CN": {
+      "string": "小时"
+    },
+    "zh_TW": {
+      "string": "小時"
+    },
+    "en_US": {
+      "string": "hour"
+    },
+    "ja_JP": {
+      "string": "時間"
+    },
+    "ko_KR": {
+      "string": "시간"
+    },
+    "es_ES": {
+      "string": "hora"
+    }
+  },
+  "k_reward_select": {
+    "zh_CN": {
+      "string": "奖励选择"
+    },
+    "zh_TW": {
+      "string": "獎勵選擇"
+    },
+    "en_US": {
+      "string": "Reward Selection"
+    },
+    "ja_JP": {
+      "string": "報酬選択"
+    },
+    "ko_KR": {
+      "string": "보상 선택"
+    },
+    "es_ES": {
+      "string": "Selección de recompensa"
+    }
+  }
+}

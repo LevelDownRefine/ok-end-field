@@ -110,11 +110,7 @@ def _normalize_matcher_to_pattern(matcher, fallback_text: str) -> re.Pattern:
     return re.compile(fallback_text)
 
 
-def get_delivery_target_ocr_pattern(area_name: str, target_name: str, lang_accessor=None) -> re.Pattern:
-    pattern_overrides = _get_area_config(area_name).get("target_ocr_pattern_overrides", {})
-    override_text = pattern_overrides.get(target_name)
-    if override_text:
-        return compile_ocr_pattern(target_name, override_text)
+def get_delivery_target_ocr_pattern(_area_name: str, target_name: str, lang_accessor=None) -> re.Pattern:
     if lang_accessor is not None:
         return _normalize_matcher_to_pattern(get_world_map_matcher(lang_accessor, target_name), target_name)
     return compile_ocr_pattern(target_name)

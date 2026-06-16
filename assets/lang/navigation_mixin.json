@@ -1,0 +1,22 @@
+{
+  "k_8967d3c6": {
+    "zh_CN": {
+      "pattern": "追踪"
+    },
+    "zh_TW": {
+      "pattern": "追蹤"
+    },
+    "en_US": {
+      "pattern": "track"
+    },
+    "ja_JP": {
+      "pattern": "追跡"
+    },
+    "ko_KR": {
+      "pattern": "길"
+    },
+    "es_ES": {
+      "pattern": "pista"
+    }
+  }
+}

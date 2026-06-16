@@ -234,7 +234,8 @@ msgid "四号谷地卖出价"
 msgstr "バレーNo.4 売値"
 
 msgid "在好友交流助力时，优先尝试仅收取培育室的助力,但每次至少助力一次舱室"
-msgstr "Prioritize cultivation room support, assist at least one chamber each time"
+msgstr ""
+"Prioritize cultivation room support, assist at least one chamber each time"
 
 msgid "埃特拉"
 msgstr "エトラ"
@@ -692,7 +693,9 @@ msgid "是否前往「邮箱」领取邮件。"
 msgstr "Go to mailbox to collect mail."
 
 msgid "是否前往好友的「帝江号」并在「访客终端」上进行助力获得信用。助力结束后，前往「采购中心/信用交易所」收取全部助力。"
-msgstr "Visit friend's Dijiang, assist at Visitor Terminal, then collect at Credit Exchange."
+msgstr ""
+"Visit friend's Dijiang, assist at Visitor Terminal, then collect at Credit "
+"Exchange."
 
 msgid "是否前往好友的「帝江号」并在「访客终端」上进行收集线索、制造舱操作"
 msgstr "Visit friend's Dijiang for clue collection and manufacturing"
@@ -718,11 +721,13 @@ msgstr "Obtain dispatch tickets via trading at Outpost Management."
 msgid "是否在「地区建设/物资调度/稳定物资需求」中通过调度券购买物资。依次购买「日用消耗」「工业货品」「人文物产」首行某个物品。"
 msgstr "Purchase supplies via dispatch tickets at Stable Supply Demand."
 
-msgid "是否在「弹性需求物资」与好友交易赚取调度券。自动选择利润最高的方案，然后用价格上下限判定是否交易。（除非可购买数量即将溢出，这种情况下必定交易。）"
+msgid ""
+"是否在「弹性需求物资」与好友交易赚取调度券。自动选择利润最高的方案，然后用价格上下限判定是否交易。（除非可购买数量即将溢出，这种情况下必定交易。）"
 msgstr "Trade with friends for dispatch tickets. Auto-selects highest profit."
 
 msgid "是否在「采购中心/信用交易所」采购。自动刷新 且 仅购买「武库配额」「嵌晶玉」。"
-msgstr "Purchase at Credit Exchange. Only buy Arsenal Quota and Embedded Jade."
+msgstr ""
+"Purchase at Credit Exchange. Only buy Arsenal Quota and Embedded Jade."
 
 msgid "是否消耗所有「理智」刷取培养材料。"
 msgstr "Consume all Sanity to farm materials."
@@ -730,8 +735,10 @@ msgstr "Consume all Sanity to farm materials."
 msgid "是否购买「人文物产」。"
 msgstr "Purchase Cultural Products."
 
-msgid "是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。如果途中偶遇干员，则直接交互完成送礼。任务开始时候，角色不能位于「帝江号/剑桥」传送点附近。"
-msgstr "Raise operator affinity via gifts. Cannot start near Cambridge waypoint."
+msgid ""
+"是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。如果途中偶遇干员，则直接交互完成送礼。任务开始时候，角色不能位于「帝江号/剑桥」传送点附近。"
+msgstr ""
+"Raise operator affinity via gifts. Cannot start near Cambridge waypoint."
 
 msgid "是否领取「地区建设/仓储结点/我转交的委托」。超时委托也会被领取。"
 msgstr "Claim delegated commissions. Expired ones will also be claimed."
@@ -1410,8 +1417,14 @@ msgstr "ログアップロード"
 msgid "Log"
 msgstr "ログ"
 
-msgid "['送礼', '帝江号一键存放', '收邮件', '据点兑换', '转交运送委托', '转交委托奖励领取', '造装备', '简易制作', '收信用', '帝江号收菜', '买信用商店', '买卖货', '刷体力', '买物资', '活动奖励', '日常奖励', '传送到帝江号右侧传送点', '执行结尾外部命令']"
-msgstr "['贈り物', '帝江号1クリック収納', 'メール受領', '拠点交換', '運送委譲渡', '委譲報酬受領', '装備製作', '簡易作成', 'クレジット回収', '帝江号収穫', 'クレジット商店購入', '売買', 'スタミナ周回', '物資購入', 'イベント報酬', 'デイリー報酬', '帝江号右側ワープポイントへ転送', '終了外部コマンド実行']"
+msgid ""
+"['送礼', '帝江号一键存放', '收邮件', '据点兑换', '转交运送委托', '转交委托奖励领取', '造装备', '简易制作', '收信用',"
+" '帝江号收菜', '买信用商店', '买卖货', '刷体力', '买物资', '活动奖励', '日常奖励', '传送到帝江号右侧传送点', "
+"'执行结尾外部命令']"
+msgstr ""
+"['贈り物', '帝江号1クリック収納', 'メール受領', '拠点交換', '運送委譲渡', '委譲報酬受領', '装備製作', '簡易作成', "
+"'クレジット回収', '帝江号収穫', 'クレジット商店購入', '売買', 'スタミナ周回', '物資購入', 'イベント報酬', 'デイリー報酬',"
+" '帝江号右側ワープポイントへ転送', '終了外部コマンド実行']"
 
 msgid "current task"
 msgstr "現在のタスク"
@@ -1436,3 +1449,981 @@ msgstr "管理者"
 
 msgid "自动完成当前所有普通影拓丰碑关卡"
 msgstr "現在の全ての通常影拓の碑ステージを自動クリア"
+
+msgid "Auto"
+msgstr "自動"
+
+msgid "Auto Resize Game Window"
+msgstr "ゲームウィンドウを自動リサイズ"
+
+msgid "Auto Start Game When App Starts"
+msgstr "アプリ起動時にゲームを自動起動"
+
+msgid "Basic Options"
+msgstr "基本オプション"
+
+msgid "Diagnosis"
+msgstr "診断"
+
+msgid "Exit After Task"
+msgstr "タスク終了後に終了"
+
+msgid "Exit App when Game Exits"
+msgstr "ゲーム終了時にアプリも終了"
+
+msgid "Exit the Game and the App after Successfully Executing the Task"
+msgstr "タスク成功実行後にゲームとアプリを終了"
+
+msgid "HotKey"
+msgstr "ホットキー"
+
+msgid ""
+"Increase Delay between Trigger Tasks to Reduce CPU/GPU Usage(Milliseconds)"
+msgstr "タスク間遅延を増やしてCPU/GPU使用率を低減（ミリ秒）"
+
+msgid "Kill Launcher after Start"
+msgstr "起動後にランチャーを終了"
+
+msgid "Launch with DX11"
+msgstr "DX11で起動"
+
+msgid "Minimize Window to System Tray when Closing"
+msgstr "閉じる時にシステムトレイに最小化"
+
+msgid "Mute Game while in Background"
+msgstr "バックグラウンド時にゲームをミュート"
+
+msgid "No"
+msgstr "いいえ"
+
+msgid "None"
+msgstr "なし"
+
+msgid "Operation"
+msgstr "操作"
+
+msgid "Performance Test"
+msgstr "パフォーマンステスト"
+
+msgid "Start/Stop"
+msgstr "開始/停止"
+
+msgid "Trigger Interval"
+msgstr "トリガー間隔"
+
+msgid "Use DirectML"
+msgstr "DirectMLを使用"
+
+msgid "Use GPU to Improve Performance"
+msgstr "GPUを使用してパフォーマンス向上"
+
+msgid "Yes"
+msgstr "はい"
+
+msgid "⭐演算"
+msgstr "⭐演算"
+
+msgid "于施"
+msgstr "于施"
+
+msgid "仓库与物资"
+msgstr "倉庫と物資"
+
+msgid "在演武台面前自动进入演算抽牌页，循环抽取直到满足等级变化条件"
+msgstr "演武台で自動的に演算抽牌ページに入り、レベル変化条件を満たすまでループ抽選する"
+
+msgid "工具与调试"
+msgstr "ツールとデバッグ"
+
+msgid "战斗"
+msgstr "戦闘"
+
+msgid "是否执行演武集算任务"
+msgstr "演武集算タスクを実行する"
+
+msgid "普里莫"
+msgstr "プリモ"
+
+msgid "最多重开次数"
+msgstr "最大再開回数"
+
+msgid "每轮最多抽牌5次；未满足条件时点击左下角『放弃』并重新开始。"
+msgstr "毎ラウンド最大5回抽選、条件未達成時は左下の「放棄」をクリックして再開。"
+
+msgid "测试"
+msgstr "テスト"
+
+msgid "演算抽牌"
+msgstr "演算抽牌"
+
+msgid "自动交互"
+msgstr "自動インタラクション"
+
+msgid "自动点击传送"
+msgstr "自動クリック転送"
+
+msgid "苏白易"
+msgstr "蘇白易"
+
+msgid "蓝点归中测试"
+msgstr "青点中央寄せテスト"
+
+msgid "运输委托"
+msgstr "輸送依頼"
+
+msgid "醚质"
+msgstr "エーテル"
+
+msgid "Account"
+msgstr "アカウント"
+
+msgid "Account List"
+msgstr "アカウントリスト"
+
+msgid "Account List Operations"
+msgstr "アカウントリスト操作"
+
+msgid "Account Task Override Operations"
+msgstr "アカウントタスク上書き操作"
+
+msgid "Auto-render attribute controls after selecting task"
+msgstr "タスク選択後に属性コントロールを自動表示"
+
+msgid "One account (phone) per line, no password needed"
+msgstr "1行に1アカウント（電話番号）、パスワード不要"
+
+msgid "Select from account list or existing overrides"
+msgstr "アカウントリストまたは既存の上書きから選択"
+
+msgid "Show only items differing from default config"
+msgstr "デフォルト設定と異なる項目のみ表示"
+
+msgid "Task"
+msgstr "タスク"
+
+msgid "View"
+msgstr "表示"
+
+msgid "仅差异"
+msgstr "差分のみ"
+
+msgid "任务属性配置"
+msgstr "タスク属性設定"
+
+msgid "保存当前账号任务覆盖"
+msgstr "現在のアカウントタスク上書きを保存"
+
+msgid "保存账号列表"
+msgstr "アカウントリストを保存"
+
+msgid "全局配置"
+msgstr "グローバル設定"
+
+msgid "全部"
+msgstr "すべて"
+
+msgid "刷新"
+msgstr "更新"
+
+msgid "刷新任务下拉"
+msgstr "タスクドロップダウンを更新"
+
+msgid "刷新账号下拉"
+msgstr "アカウントドロップダウンを更新"
+
+msgid "就绪"
+msgstr "準備完了"
+
+msgid ""
+"手机号A\n"
+"手机号B"
+msgstr ""
+
+msgid "按当前账号覆盖该任务配置。未覆盖的项将使用任务原配置。"
+msgstr "このタスク設定をアカウントごとに上書きします。上書きしない項目は元の設定を使用します。"
+
+msgid ""
+"按账号和任务配置独立参数。先选账号，再选任务，下面会自动出现该任务的属性控件。账号页只需要填写账号名（手机号），无需填写密码。系统兼容旧格式 "
+"`账号,密码` 但不会保存密码。登录时也可只使用手机号后四位进行匹配（若唯一）。"
+msgstr ""
+"アカウントとタスクごとに独立したパラメーターを設定します。アカウントを選択し、タスクを選択すると、属性コントロールが自動表示されます。アカウント名（電話番号）のみ必要で、パスワードは不要です。レガシー形式「アカウント,パスワード」も互換性がありますが、パスワードは保存されません。ログイン時は電話番号下4桁での照合も可能です（一意の場合）。"
+
+msgid "清空当前任务覆盖"
+msgstr "現在のタスク上書きをクリア"
+
+msgid "清空当前账号全部覆盖"
+msgstr "現在のアカウントの全上書きをクリア"
+
+msgid "状态"
+msgstr "状態"
+
+msgid "请先选择账号与任务"
+msgstr "アカウントとタスクを選択してください"
+
+msgid "账号任务选择"
+msgstr "アカウントタスク選択"
+
+msgid "账号基础设置"
+msgstr "アカウント基本設定"
+
+msgid "账号配置"
+msgstr "アカウント設定"
+
+msgid "账号配置中心"
+msgstr "アカウント設定センター"
+
+# auto-translated
+msgid "(0 = disabled)"
+msgstr "（0 = 無効）"
+
+# auto-translated
+msgid "24h"
+msgstr "24時間"
+
+# auto-translated
+msgid "Actions"
+msgstr "操作"
+
+# auto-translated
+msgid "Are you sure you want to delete task"
+msgstr "タスクを削除してもよろしいですか"
+
+# auto-translated
+msgid "Auto exit after task done (-e)"
+msgstr "タスク完了後に自動終了（-e）"
+
+# auto-translated
+msgid "Cancel"
+msgstr "キャンセル"
+
+# auto-translated
+msgid "Create"
+msgstr "作成"
+
+# auto-translated
+msgid "Create Schedule Task"
+msgstr "スケジュールタスクを作成"
+
+# auto-translated
+msgid "Create Task"
+msgstr "タスクを作成"
+
+# auto-translated
+msgid "Custom"
+msgstr "カスタム"
+
+# auto-translated
+msgid "Custom Interval"
+msgstr "カスタム間隔"
+
+# auto-translated
+msgid "Daily"
+msgstr "毎日"
+
+# auto-translated
+msgid "Days"
+msgstr "日数"
+
+# auto-translated
+msgid "Delete"
+msgstr "削除"
+
+# auto-translated
+msgid "Delete Task"
+msgstr "タスクを削除"
+
+# auto-translated
+msgid "Disabled"
+msgstr "無効"
+
+# auto-translated
+msgid "Enabled"
+msgstr "有効"
+
+# auto-translated
+msgid "Error"
+msgstr "エラー"
+
+# auto-translated
+msgid "Failed to create task"
+msgstr "タスクの作成に失敗しました"
+
+# auto-translated
+msgid "Failed to delete task"
+msgstr "タスクの削除に失敗しました"
+
+# auto-translated
+msgid "Failed to modify task"
+msgstr "タスクの変更に失敗しました"
+
+# auto-translated
+msgid "Failed to modify task: cannot delete old task"
+msgstr "タスクの変更に失敗しました：古いタスクを削除できません"
+
+# auto-translated
+msgid "Failed to open modify dialog"
+msgstr "変更ダイアログを開けませんでした"
+
+# auto-translated
+msgid "Failed to toggle task"
+msgstr "タスク状態の切り替えに失敗しました"
+
+# auto-translated
+msgid "Hour"
+msgstr "時"
+
+# auto-translated
+msgid "Hours"
+msgstr "時間"
+
+# auto-translated
+msgid "In Game Hotkey for Skills"
+msgstr "ゲーム内スキルホットキー設定"
+
+# auto-translated
+msgid "Minute"
+msgstr "分"
+
+# auto-translated
+msgid "Modify"
+msgstr "変更"
+
+# auto-translated
+msgid "Modify Schedule Task"
+msgstr "スケジュールタスクを変更"
+
+# auto-translated
+msgid "Monthly"
+msgstr "毎月"
+
+# auto-translated
+msgid "Next Run"
+msgstr "次回実行"
+
+# auto-translated
+msgid "No tasks available"
+msgstr "利用可能なタスクがありません"
+
+# auto-translated
+msgid "Once"
+msgstr "一回"
+
+# auto-translated
+msgid "Ready"
+msgstr "準備完了"
+
+# auto-translated
+msgid "Refresh"
+msgstr "更新"
+
+# auto-translated
+msgid "Refresh failed"
+msgstr "更新に失敗しました"
+
+# auto-translated
+msgid "Running"
+msgstr "実行中"
+
+# auto-translated
+msgid "Schedule Tasks"
+msgstr "スケジュールタスク"
+
+# auto-translated
+msgid "Select Task"
+msgstr "タスクを選択"
+
+# auto-translated
+msgid "Start Time"
+msgstr "開始時間"
+
+# auto-translated
+msgid "Startup Options"
+msgstr "起動オプション"
+
+# auto-translated
+msgid "Status"
+msgstr "ステータス"
+
+# auto-translated
+msgid "Success"
+msgstr "成功"
+
+# auto-translated
+msgid "Task Index (-t)"
+msgstr "タスクインデックス（-t）"
+
+# auto-translated
+msgid "Task Name"
+msgstr "タスク名"
+
+# auto-translated
+msgid "Task Schedule"
+msgstr "タスクスケジュール"
+
+# auto-translated
+msgid "Task created successfully"
+msgstr "タスクを作成しました"
+
+# auto-translated
+msgid "Task deleted successfully"
+msgstr "タスクを削除しました"
+
+# auto-translated
+msgid "Task disabled"
+msgstr "タスクを無効にしました"
+
+# auto-translated
+msgid "Task enabled"
+msgstr "タスクを有効にしました"
+
+# auto-translated
+msgid "Task modified successfully"
+msgstr "タスクを変更しました"
+
+# auto-translated
+msgid "Task not found in cache"
+msgstr "タスクがキャッシュに見つかりません"
+
+# auto-translated
+msgid "Tasks refreshed"
+msgstr "タスクを更新しました"
+
+# auto-translated
+msgid "Timeout"
+msgstr "タイムアウト"
+
+# auto-translated
+msgid "Trigger Type"
+msgstr "トリガータイプ"
+
+# auto-translated
+msgid "Unknown"
+msgstr "不明"
+
+# auto-translated
+msgid "Weekly"
+msgstr "毎週"
+
+# auto-translated
+msgid "hours (0 = unlimited)"
+msgstr "時間（0 = 無制限）"
+
+# auto-translated
+msgid "item_bottled_food_1"
+msgstr "柑橘缶詰[C]"
+
+# auto-translated
+msgid "item_bottled_food_2"
+msgstr "高品質柑橘缶詰[B]"
+
+# auto-translated
+msgid "item_bottled_food_3"
+msgstr "精選柑橘缶詰[A]"
+
+# auto-translated
+msgid "item_bottled_food_4"
+msgstr "錦草ソフトドリンク"
+
+# auto-translated
+msgid "item_bottled_rec_hp_1"
+msgstr "蕎癒カプセル[C]"
+
+# auto-translated
+msgid "item_bottled_rec_hp_2"
+msgstr "高品質蕎癒カプセル[B]"
+
+# auto-translated
+msgid "item_bottled_rec_hp_3"
+msgstr "精選蕎癒カプセル[A]"
+
+# auto-translated
+msgid "item_bottled_rec_hp_4"
+msgstr "芽針注射器[C]"
+
+# auto-translated
+msgid "item_carbon_enr"
+msgstr "安定炭素塊"
+
+# auto-translated
+msgid "item_carbon_enr_powder"
+msgstr "緻密炭素粉末"
+
+# auto-translated
+msgid "item_carbon_mtl"
+msgstr "炭素塊"
+
+# auto-translated
+msgid "item_carbon_powder"
+msgstr "炭素粉末"
+
+# auto-translated
+msgid "item_crystal_enr"
+msgstr "密製結晶"
+
+# auto-translated
+msgid "item_crystal_enr_powder"
+msgstr "緻密結晶粉末"
+
+# auto-translated
+msgid "item_crystal_powder"
+msgstr "結晶殼粉末"
+
+# auto-translated
+msgid "item_crystal_shell"
+msgstr "結晶殼"
+
+# auto-translated
+msgid "item_equip_script_1"
+msgstr "紫晶装備原基"
+
+# auto-translated
+msgid "item_equip_script_2"
+msgstr "藍鉄装備原基"
+
+# auto-translated
+msgid "item_equip_script_3"
+msgstr "高晶装備原基"
+
+# auto-translated
+msgid "item_equip_script_4"
+msgstr "息壤装備原基"
+
+# auto-translated
+msgid "item_fbottle_glass_grass_1"
+msgstr "Amethyst Bottle"
+
+# auto-translated
+msgid "item_fbottle_glass_grass_2"
+msgstr "Amethyst Bottle"
+
+# auto-translated
+msgid "item_fbottle_glass_water"
+msgstr "Amethyst Bottle"
+
+# auto-translated
+msgid "item_fbottle_glass_xiranite"
+msgstr "Amethyst Bottle"
+
+# auto-translated
+msgid "item_fbottle_glassenr_grass_1"
+msgstr "Cryston Bottle"
+
+# auto-translated
+msgid "item_fbottle_glassenr_grass_2"
+msgstr "Cryston Bottle"
+
+# auto-translated
+msgid "item_fbottle_glassenr_water"
+msgstr "Cryston Bottle"
+
+# auto-translated
+msgid "item_fbottle_glassenr_xiranite"
+msgstr "Cryston Bottle"
+
+# auto-translated
+msgid "item_fbottle_iron_grass_1"
+msgstr "Ferrium Bottle"
+
+# auto-translated
+msgid "item_fbottle_iron_grass_2"
+msgstr "Ferrium Bottle"
+
+# auto-translated
+msgid "item_fbottle_iron_water"
+msgstr "Ferrium Bottle"
+
+# auto-translated
+msgid "item_fbottle_iron_xiranite"
+msgstr "Ferrium Bottle"
+
+# auto-translated
+msgid "item_fbottle_ironenr_grass_1"
+msgstr "Steel Bottle"
+
+# auto-translated
+msgid "item_fbottle_ironenr_grass_2"
+msgstr "Steel Bottle"
+
+# auto-translated
+msgid "item_fbottle_ironenr_water"
+msgstr "Steel Bottle"
+
+# auto-translated
+msgid "item_fbottle_ironenr_xiranite"
+msgstr "Steel Bottle"
+
+# auto-translated
+msgid "item_glass_bottle"
+msgstr "紫晶瓶"
+
+# auto-translated
+msgid "item_glass_cmpt"
+msgstr "紫晶部品"
+
+# auto-translated
+msgid "item_glass_enr_bottle"
+msgstr "高晶瓶"
+
+# auto-translated
+msgid "item_glass_enr_cmpt"
+msgstr "高晶部品"
+
+# auto-translated
+msgid "item_iron_bottle"
+msgstr "藍鉄瓶"
+
+# auto-translated
+msgid "item_iron_cmpt"
+msgstr "鉄製部品"
+
+# auto-translated
+msgid "item_iron_enr"
+msgstr "鋼塊"
+
+# auto-translated
+msgid "item_iron_enr_bottle"
+msgstr "鋼製瓶"
+
+# auto-translated
+msgid "item_iron_enr_cmpt"
+msgstr "鋼製部品"
+
+# auto-translated
+msgid "item_iron_enr_powder"
+msgstr "緻密藍鉄粉末"
+
+# auto-translated
+msgid "item_iron_nugget"
+msgstr "藍鉄塊"
+
+# auto-translated
+msgid "item_iron_ore"
+msgstr "藍鉄鉱"
+
+# auto-translated
+msgid "item_iron_powder"
+msgstr "藍鉄粉末"
+
+# auto-translated
+msgid "item_liquid_plant_grass_1"
+msgstr "錦草溶液"
+
+# auto-translated
+msgid "item_liquid_plant_grass_2"
+msgstr "芽針溶液"
+
+# auto-translated
+msgid "item_liquid_water"
+msgstr "清水"
+
+# auto-translated
+msgid "item_liquid_xiranite"
+msgstr "液化息壤"
+
+# auto-translated
+msgid "item_muck_feces_1"
+msgstr "駄獣糞便"
+
+# auto-translated
+msgid "item_muck_xiranite_1"
+msgstr "膨地パア"
+
+# auto-translated
+msgid "item_originium_enr_powder"
+msgstr "緻密源石粉末"
+
+# auto-translated
+msgid "item_originium_ore"
+msgstr "源鉱"
+
+# auto-translated
+msgid "item_originium_powder"
+msgstr "源石粉末"
+
+# auto-translated
+msgid "item_plant_bbflower_1"
+msgstr "ケトン灌木"
+
+# auto-translated
+msgid "item_plant_bbflower_powder_1"
+msgstr "ケトン灌木粉末"
+
+# auto-translated
+msgid "item_plant_bbflower_seed_1"
+msgstr "ケトン樹種"
+
+# auto-translated
+msgid "item_plant_grass_1"
+msgstr "錦草"
+
+# auto-translated
+msgid "item_plant_grass_2"
+msgstr "芽針"
+
+# auto-translated
+msgid "item_plant_grass_powder_1"
+msgstr "錦草粉末"
+
+# auto-translated
+msgid "item_plant_grass_powder_2"
+msgstr "芽針粉末"
+
+# auto-translated
+msgid "item_plant_grass_seed_1"
+msgstr "錦草種子"
+
+# auto-translated
+msgid "item_plant_grass_seed_2"
+msgstr "芽針種子"
+
+# auto-translated
+msgid "item_plant_moss_1"
+msgstr "蕎花"
+
+# auto-translated
+msgid "item_plant_moss_2"
+msgstr "柑橘"
+
+# auto-translated
+msgid "item_plant_moss_3"
+msgstr "砂葉"
+
+# auto-translated
+msgid "item_plant_moss_enr_powder_1"
+msgstr "細磨蕎花粉末"
+
+# auto-translated
+msgid "item_plant_moss_enr_powder_2"
+msgstr "細磨柑橘粉末"
+
+# auto-translated
+msgid "item_plant_moss_powder_1"
+msgstr "蕎花粉末"
+
+# auto-translated
+msgid "item_plant_moss_powder_2"
+msgstr "柑橘粉末"
+
+# auto-translated
+msgid "item_plant_moss_powder_3"
+msgstr "砂葉粉末"
+
+# auto-translated
+msgid "item_plant_moss_seed_1"
+msgstr "蕎花種子"
+
+# auto-translated
+msgid "item_plant_moss_seed_2"
+msgstr "柑橘種子"
+
+# auto-translated
+msgid "item_plant_moss_seed_3"
+msgstr "砂葉種子"
+
+# auto-translated
+msgid "item_plant_sp_1"
+msgstr "灰蘆麦"
+
+# auto-translated
+msgid "item_plant_sp_2"
+msgstr "苦葉胡椒"
+
+# auto-translated
+msgid "item_plant_sp_3"
+msgstr "瓊葉人参"
+
+# auto-translated
+msgid "item_plant_sp_4"
+msgstr "金石稲"
+
+# auto-translated
+msgid "item_plant_sp_seed_1"
+msgstr "灰蘆麦種子"
+
+# auto-translated
+msgid "item_plant_sp_seed_2"
+msgstr "苦葉胡椒種子"
+
+# auto-translated
+msgid "item_plant_sp_seed_3"
+msgstr "瓊葉人参種子"
+
+# auto-translated
+msgid "item_plant_sp_seed_4"
+msgstr "金石稲種子"
+
+# auto-translated
+msgid "item_plant_tundra_wood"
+msgstr "丸太"
+
+# auto-translated
+msgid "item_proc_battery_1"
+msgstr "低容量谷地電池"
+
+# auto-translated
+msgid "item_proc_battery_2"
+msgstr "中容量谷地電池"
+
+# auto-translated
+msgid "item_proc_battery_3"
+msgstr "高容量谷地電池"
+
+# auto-translated
+msgid "item_proc_battery_4"
+msgstr "低容量武陵電池"
+
+# auto-translated
+msgid "item_proc_bomb_1"
+msgstr "工業爆発物"
+
+# auto-translated
+msgid "item_quartz_enr"
+msgstr "高晶繊維"
+
+# auto-translated
+msgid "item_quartz_enr_powder"
+msgstr "高晶粉末"
+
+# auto-translated
+msgid "item_quartz_glass"
+msgstr "紫晶繊維"
+
+# auto-translated
+msgid "item_quartz_powder"
+msgstr "紫晶粉末"
+
+# auto-translated
+msgid "item_quartz_sand"
+msgstr "紫晶鉱"
+
+# auto-translated
+msgid "item_xiranite_powder"
+msgstr "息壤"
+
+# auto-translated
+msgid "一键日常"
+msgstr "One-click Dailies"
+
+# auto-translated
+msgid "仅武陵7.31w送货,教程视频 BV1LLc7zFEF9"
+msgstr "Only supports Wuling 7.31w delivery, tutorial video BV1LLc7zFEF9"
+
+# auto-translated
+msgid "从要推的图的最左边开始"
+msgstr "Start from the leftmost stage to clear"
+
+# auto-translated
+msgid "公共区"
+msgstr "Public Area"
+
+# auto-translated
+msgid "兵棋推演"
+msgstr "War Chess Simulation"
+
+# auto-translated
+msgid "军备解析"
+msgstr "Armament Analysis"
+
+# auto-translated
+msgid "冲锋"
+msgstr "SMG & MG"
+
+# auto-translated
+msgid "决策构象"
+msgstr "Decision Configuration"
+
+# auto-translated
+msgid "刷钱本"
+msgstr "Gold Farming Stage"
+
+# auto-translated
+msgid "大月卡"
+msgstr "Premium Monthly Card"
+
+# auto-translated
+msgid "尘烟"
+msgstr "Dust Smoke"
+
+# auto-translated
+msgid "手枪"
+msgstr "HG"
+
+# auto-translated
+msgid "推图"
+msgstr "Clear Stages"
+
+# auto-translated
+msgid "收菜"
+msgstr "Collect Resources"
+
+# auto-translated
+msgid "活动情报补给"
+msgstr "Event Intel Supply"
+
+# auto-translated
+msgid "活动自律"
+msgstr "Event Auto-Battle"
+
+# auto-translated
+msgid "深度搜索"
+msgstr "Deep Search"
+
+# auto-translated
+msgid "狙击"
+msgstr "RF & BLD"
+
+# auto-translated
+msgid "班组"
+msgstr "Squad"
+
+# auto-translated
+msgid "突击"
+msgstr "AR & SG"
+
+# auto-translated
+msgid "竞技场"
+msgstr "Arena"
+
+# auto-translated
+msgid "自动刷体力"
+msgstr "Auto-Farm Stamina"
+
+# auto-translated
+msgid "购买免费礼包"
+msgstr "Claim Free Pack"
+
+# auto-translated
+msgid "邮件"
+msgstr "Mail"
+
+# auto-translated
+msgid "领任务"
+msgstr "Claim Missions"
+
+msgid ""
+"按列表顺序自动循环释放「战技」。\n"
+"可从 1/2/3/4 中选择并排序，至少保留一个。"
+msgstr ""
+"リスト順に自動で「戦技」を循環解放。\n"
+"1/2/3/4から選択して並べ替え、最低1つは保持。"
+
+msgid "后台运行时，战斗结束后发送通知。"
+msgstr "バックグラウンド実行中、戦闘終了時に通知を送信。"
+
+msgid "进入战斗后开始自动操作前的等待秒数。"
+msgstr "戦闘突入後、自動操作開始までの待機秒数。"
+
+msgid ""
+"是否启用排轴功能。\n"
+"启用后会根据「排轴序列」配置的顺序优先释放对应角色的技能，\n"
+"当排轴失败时回退到非排轴状态。"
+msgstr ""
+"排軸機能を有効化。\n"
+"「排軸シーケンス」の順にスキルを優先解放、失敗時は非排軸状態に戻る。"
+
+msgid ""
+"仅接受'1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'这些值的逗号分隔字符串，\n"
+"normal_[n] 表示临时切换为普通战斗模式 n 秒，期间按「技能释放」顺序自动出技。"
+msgstr ""
+"カンマ区切り値: '1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'。\n"
+"normal_[n] = 通常戦闘に n 秒間一時切替、スキル解放順に従う。"

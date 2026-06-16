@@ -1,6 +1,6 @@
 from qfluentwidgets import FluentIcon, NavigationItemPosition
 
-from ok.gui.tasks.ConfigCard import ConfigCard
+from ok.gui.tasks.ConfigCard import ConfigCard, og
 from ok.gui.widget.CustomTab import CustomTab
 
 from src.tasks.BattleConfig import BATTLE_CONFIG_NAME
@@ -17,7 +17,7 @@ GLOBAL_CONFIG_GROUPS = {
 class GlobalConfigTab(CustomTab):
     @property
     def name(self):
-        return "全局配置"
+        return og.app.tr("全局配置")
 
     @property
     def position(self):
@@ -51,7 +51,7 @@ class GlobalConfigTab(CustomTab):
                 shown.add(config_name)
                 self.add_widget(ConfigCard(
                     None,
-                    f"{group_name} / {option.name}",
+                    f"{og.app.tr(group_name)} / {option.name}",
                     config,
                     option.description,
                     option.default_config,
@@ -65,7 +65,7 @@ class GlobalConfigTab(CustomTab):
                 continue
             self.add_widget(ConfigCard(
                 None,
-                f"其他配置 / {option.name}",
+                f"{og.app.tr('其他配置')} / {option.name}",
                 config,
                 option.description,
                 option.default_config,

@@ -533,7 +533,8 @@ msgid "仓库物品转移"
 msgstr "Warehouse Item Transfer"
 
 msgid "从发货仓库取出指定物品，切到收货仓库后一键存放 （目前只支持中文版）"
-msgstr "Transfer specified items from warehouse to another warehouse (Chinese only)"
+msgstr ""
+"Transfer specified items from warehouse to another warehouse (Chinese only)"
 
 msgid "自动送货"
 msgstr "Auto Delivery"
@@ -545,7 +546,9 @@ msgid "毕业基质识别"
 msgstr "Weapon Essence Recognition"
 
 msgid "遍历武器基质列表，匹配 weapon_data.csv 并处理毕业基质上锁"
-msgstr "Traverse weapon essence list, match weapon_data.csv and handle essence locking"
+msgstr ""
+"Traverse weapon essence list, match weapon_data.csv and handle essence "
+"locking"
 
 msgid "测试"
 msgstr "Test"
@@ -829,7 +832,8 @@ msgid "四号谷地卖出价"
 msgstr "Valley No.4 Sell Price"
 
 msgid "在好友交流助力时，优先尝试仅收取培育室的助力,但每次至少助力一次舱室"
-msgstr "Prioritize cultivation room support, assist at least one chamber each time"
+msgstr ""
+"Prioritize cultivation room support, assist at least one chamber each time"
 
 msgid "埃特拉"
 msgstr "estella"
@@ -1248,7 +1252,9 @@ msgid "是否前往「邮箱」领取邮件。"
 msgstr "Go to mailbox to collect mail."
 
 msgid "是否前往好友的「帝江号」并在「访客终端」上进行助力获得信用。助力结束后，前往「采购中心/信用交易所」收取全部助力。"
-msgstr "Visit friend's Dijiang, assist at Visitor Terminal, then collect at Credit Exchange."
+msgstr ""
+"Visit friend's Dijiang, assist at Visitor Terminal, then collect at Credit "
+"Exchange."
 
 msgid "是否前往好友的「帝江号」并在「访客终端」上进行收集线索、制造舱操作"
 msgstr "Visit friend's Dijiang for clue collection and manufacturing"
@@ -1274,11 +1280,13 @@ msgstr "Obtain dispatch tickets via trading at Outpost Management."
 msgid "是否在「地区建设/物资调度/稳定物资需求」中通过调度券购买物资。依次购买「日用消耗」「工业货品」「人文物产」首行某个物品。"
 msgstr "Purchase supplies via dispatch tickets at Stable Supply Demand."
 
-msgid "是否在「弹性需求物资」与好友交易赚取调度券。自动选择利润最高的方案，然后用价格上下限判定是否交易。（除非可购买数量即将溢出，这种情况下必定交易。）"
+msgid ""
+"是否在「弹性需求物资」与好友交易赚取调度券。自动选择利润最高的方案，然后用价格上下限判定是否交易。（除非可购买数量即将溢出，这种情况下必定交易。）"
 msgstr "Trade with friends for dispatch tickets. Auto-selects highest profit."
 
 msgid "是否在「采购中心/信用交易所」采购。自动刷新 且 仅购买「武库配额」「嵌晶玉」。"
-msgstr "Purchase at Credit Exchange. Only buy Arsenal Quota and Embedded Jade."
+msgstr ""
+"Purchase at Credit Exchange. Only buy Arsenal Quota and Embedded Jade."
 
 msgid "是否消耗所有「理智」刷取培养材料。"
 msgstr "Consume all Sanity to farm materials."
@@ -1286,8 +1294,10 @@ msgstr "Consume all Sanity to farm materials."
 msgid "是否购买「人文物产」。"
 msgstr "Purchase Cultural Products."
 
-msgid "是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。如果途中偶遇干员，则直接交互完成送礼。任务开始时候，角色不能位于「帝江号/剑桥」传送点附近。"
-msgstr "Raise operator affinity via gifts. Cannot start near Cambridge waypoint."
+msgid ""
+"是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。如果途中偶遇干员，则直接交互完成送礼。任务开始时候，角色不能位于「帝江号/剑桥」传送点附近。"
+msgstr ""
+"Raise operator affinity via gifts. Cannot start near Cambridge waypoint."
 
 msgid "是否领取「地区建设/仓储结点/我转交的委托」。超时委托也会被领取。"
 msgstr "Claim delegated commissions. Expired ones will also be claimed."
@@ -1786,7 +1796,9 @@ msgstr ""
 "Low/High Tier: auto-open Selection and switch."
 
 msgid "监听本地 WebSocket 位置数据，指向已选物品的最近点并支持按键标记"
-msgstr "Listen to WebSocket location data, point to nearest item and support key marking"
+msgstr ""
+"Listen to WebSocket location data, point to nearest item and support key "
+"marking"
 
 msgid "简体中文"
 msgstr "Simplified Chinese"
@@ -1960,8 +1972,17 @@ msgstr "Upload Logs"
 msgid "Log"
 msgstr "Log"
 
-msgid "['送礼', '帝江号一键存放', '收邮件', '据点兑换', '转交运送委托', '转交委托奖励领取', '造装备', '简易制作', '收信用', '帝江号收菜', '买信用商店', '买卖货', '刷体力', '买物资', '活动奖励', '日常奖励', '传送到帝江号右侧传送点', '执行结尾外部命令']"
-msgstr "['Gift', 'Dijiang One-Click Store', 'Collect Mail', 'Outpost Exchange', 'Transfer Delivery Commission', 'Claim Delegated Rewards', 'Craft Equipment', 'Simple Craft', 'Collect Credit', 'Dijiang Harvest', 'Buy Credit Store', 'Buy and Sell', 'Farm Stamina', 'Buy Supplies', 'Event Rewards', 'Daily Rewards', 'Teleport to Dijiang Right Waypoint', 'Execute End Command']"
+msgid ""
+"['送礼', '帝江号一键存放', '收邮件', '据点兑换', '转交运送委托', '转交委托奖励领取', '造装备', '简易制作', '收信用',"
+" '帝江号收菜', '买信用商店', '买卖货', '刷体力', '买物资', '活动奖励', '日常奖励', '传送到帝江号右侧传送点', "
+"'执行结尾外部命令']"
+msgstr ""
+"['Gift', 'Dijiang One-Click Store', 'Collect Mail', 'Outpost Exchange', "
+"'Transfer Delivery Commission', 'Claim Delegated Rewards', 'Craft "
+"Equipment', 'Simple Craft', 'Collect Credit', 'Dijiang Harvest', 'Buy Credit"
+" Store', 'Buy and Sell', 'Farm Stamina', 'Buy Supplies', 'Event Rewards', "
+"'Daily Rewards', 'Teleport to Dijiang Right Waypoint', 'Execute End "
+"Command']"
 
 msgid "current task"
 msgstr "Current Task"
@@ -1986,3 +2007,262 @@ msgstr "administrator"
 
 msgid "自动完成当前所有普通影拓丰碑关卡"
 msgstr "Auto-complete all normal Shadow Monument stages"
+
+msgid "Auto"
+msgstr "Auto"
+
+msgid "Auto Resize Game Window"
+msgstr "Auto Resize Game Window"
+
+msgid "Auto Start Game When App Starts"
+msgstr "Auto Start Game When App Starts"
+
+msgid "Basic Options"
+msgstr "Basic Options"
+
+msgid "Diagnosis"
+msgstr "Diagnosis"
+
+msgid "Exit After Task"
+msgstr "Exit After Task"
+
+msgid "Exit App when Game Exits"
+msgstr "Exit App when Game Exits"
+
+msgid "Exit the Game and the App after Successfully Executing the Task"
+msgstr "Exit the Game and the App after Successfully Executing the Task"
+
+msgid "HotKey"
+msgstr "HotKey"
+
+msgid ""
+"Increase Delay between Trigger Tasks to Reduce CPU/GPU Usage(Milliseconds)"
+msgstr ""
+"Increase Delay between Trigger Tasks to Reduce CPU/GPU Usage(Milliseconds)"
+
+msgid "Kill Launcher after Start"
+msgstr "Kill Launcher after Start"
+
+msgid "Launch with DX11"
+msgstr "Launch with DX11"
+
+msgid "Minimize Window to System Tray when Closing"
+msgstr "Minimize Window to System Tray when Closing"
+
+msgid "Mute Game while in Background"
+msgstr "Mute Game while in Background"
+
+msgid "No"
+msgstr "No"
+
+msgid "None"
+msgstr "None"
+
+msgid "Operation"
+msgstr "Operation"
+
+msgid "Performance Test"
+msgstr "Performance Test"
+
+msgid "Start/Stop"
+msgstr "Start/Stop"
+
+msgid "Trigger Interval"
+msgstr "Trigger Interval"
+
+msgid "Use DirectML"
+msgstr "Use DirectML"
+
+msgid "Use GPU to Improve Performance"
+msgstr "Use GPU to Improve Performance"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "⭐演算"
+msgstr "⭐Calculation"
+
+msgid "于施"
+msgstr "Yushi"
+
+msgid "仓库与物资"
+msgstr "Warehouse & Supplies"
+
+msgid "在演武台面前自动进入演算抽牌页，循环抽取直到满足等级变化条件"
+msgstr ""
+"Auto-enter the card draw page at the Combat Stage, keep drawing until level-"
+"up conditions are met."
+
+msgid "工具与调试"
+msgstr "Tools & Debug"
+
+msgid "战斗"
+msgstr "Battle"
+
+msgid "是否执行演武集算任务"
+msgstr "Execute Combat Simulation Task"
+
+msgid "普里莫"
+msgstr "Primo"
+
+msgid "最多重开次数"
+msgstr "Max Restart Count"
+
+msgid "每轮最多抽牌5次；未满足条件时点击左下角『放弃』并重新开始。"
+msgstr ""
+"Max 5 draws per round; if conditions are not met, click \"Give Up\" at "
+"bottom-left and restart."
+
+msgid "演算抽牌"
+msgstr "Simulation Card Draw"
+
+msgid "自动交互"
+msgstr "Auto Interact"
+
+msgid "自动点击传送"
+msgstr "Auto Click Teleport"
+
+msgid "苏白易"
+msgstr "Subaiyi"
+
+msgid "蓝点归中测试"
+msgstr "Blue Dot Centering Test"
+
+msgid "运输委托"
+msgstr "Delivery Commission"
+
+msgid "醚质"
+msgstr "Ether"
+
+msgid "Account"
+msgstr "Account"
+
+msgid "Account List"
+msgstr "Account List"
+
+msgid "Account List Operations"
+msgstr "Account List Operations"
+
+msgid "Account Task Override Operations"
+msgstr "Account Task Override Operations"
+
+msgid "Auto-render attribute controls after selecting task"
+msgstr "Auto-render attribute controls after selecting task"
+
+msgid "One account (phone) per line, no password needed"
+msgstr "One account (phone) per line, no password needed"
+
+msgid "Select from account list or existing overrides"
+msgstr "Select from account list or existing overrides"
+
+msgid "Show only items differing from default config"
+msgstr "Show only items differing from default config"
+
+msgid "Task"
+msgstr "Task"
+
+msgid "View"
+msgstr "View"
+
+msgid "仅差异"
+msgstr "Diff Only"
+
+msgid "任务属性配置"
+msgstr "Task Attribute Config"
+
+msgid "保存当前账号任务覆盖"
+msgstr "Save Current Account Task Override"
+
+msgid "保存账号列表"
+msgstr "Save Account List"
+
+msgid "全局配置"
+msgstr "Global Config"
+
+msgid "全部"
+msgstr "All"
+
+msgid "刷新"
+msgstr "Refresh"
+
+msgid "刷新任务下拉"
+msgstr "Refresh Task Dropdown"
+
+msgid "刷新账号下拉"
+msgstr "Refresh Account Dropdown"
+
+msgid "就绪"
+msgstr "Ready"
+
+msgid ""
+"手机号A\n"
+"手机号B"
+msgstr ""
+
+msgid "按当前账号覆盖该任务配置。未覆盖的项将使用任务原配置。"
+msgstr ""
+"Override this task config per account. Unset items will use the original "
+"task config."
+
+msgid ""
+"按账号和任务配置独立参数。先选账号，再选任务，下面会自动出现该任务的属性控件。账号页只需要填写账号名（手机号），无需填写密码。系统兼容旧格式 "
+"`账号,密码` 但不会保存密码。登录时也可只使用手机号后四位进行匹配（若唯一）。"
+msgstr ""
+"Configure independent parameters per account and task. Select account first,"
+" then task, and the attribute controls will appear automatically. Only the "
+"account name (phone) is needed, no password. Compatible with legacy "
+"`account,password` format but passwords are not saved. Login also accepts "
+"the last 4 digits of the phone number for matching (if unique)."
+
+msgid "清空当前任务覆盖"
+msgstr "Clear Current Task Override"
+
+msgid "清空当前账号全部覆盖"
+msgstr "Clear All Overrides for Current Account"
+
+msgid "状态"
+msgstr "Status"
+
+msgid "请先选择账号与任务"
+msgstr "Please select account and task first"
+
+msgid "账号任务选择"
+msgstr "Account Task Selection"
+
+msgid "账号基础设置"
+msgstr "Account Basic Settings"
+
+msgid "账号配置"
+msgstr "Account Config"
+
+msgid "账号配置中心"
+msgstr "Account Config Center"
+
+msgid ""
+"按列表顺序自动循环释放「战技」。\n"
+"可从 1/2/3/4 中选择并排序，至少保留一个。"
+msgstr ""
+"Auto-cycle through combat skills in list order.\n"
+"Select from 1/2/3/4 and sort, keep at least one."
+
+msgid "后台运行时，战斗结束后发送通知。"
+msgstr "Send notification when battle ends while running in background."
+
+msgid "进入战斗后开始自动操作前的等待秒数。"
+msgstr ""
+"Wait time in seconds before auto-operation starts after entering battle."
+
+msgid ""
+"是否启用排轴功能。\n"
+"启用后会根据「排轴序列」配置的顺序优先释放对应角色的技能，\n"
+"当排轴失败时回退到非排轴状态。"
+msgstr ""
+"Enable skill rotation.\n"
+"Prioritizes skills per rotation sequence; falls back to non-rotation state on failure."
+
+msgid ""
+"仅接受'1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'这些值的逗号分隔字符串，\n"
+"normal_[n] 表示临时切换为普通战斗模式 n 秒，期间按「技能释放」顺序自动出技。"
+msgstr ""
+"Comma-separated values: '1,2,3,4,ult_1,ult_2,ult_3,ult_4,e,sleep_[n],normal_[n]'.\n"
+"normal_[n] = temporary normal combat for n seconds, using skill release order."

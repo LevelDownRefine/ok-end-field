@@ -19,7 +19,6 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 from src.data.FeatureList import FeatureList as fL
-from src.data.ocr_normalize_map import ocr_confusion_map
 from ok import Box
 from src.tasks.BaseEfTask import BaseEfTask
 
@@ -41,12 +40,7 @@ def build_name_patterns(find_name: str):
         parts = []
 
         for ch in key:
-            if ch in ocr_confusion_map:
-                options = [ch] + ocr_confusion_map[ch]
-                part = "(" + "|".join(map(re.escape, options)) + ")"
-            else:
-                part = re.escape(ch)
-
+            part = re.escape(ch)
             parts.append(part)
 
         # 拼成一个 regex

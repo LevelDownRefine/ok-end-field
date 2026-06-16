@@ -193,21 +193,18 @@ src/ocr_text_fix_patch.py
 }
 ```
 
-### 业务级混淆字符映射
+### 业务级混淆字符映射（已迁移）
 
-配置文件：
+> ⚠️ **旧机制 `src/data/ocr_normalize_map.py` 已移除。**
+> 改用新机制：在 `assets/ocr_fix/ocr_text_fix.json` 中添加 OCR 错误→正确的文本对。
 
-```text
-src/data/ocr_normalize_map.py
+示例：
+
+```json
+{"錯誤文本": "正確文本"}
 ```
 
-当前结构：
-
-```python
-ocr_confusion_map = {"别": ["別"]}
-```
-
-适用场景：
+系统在运行时自动提取字符级混淆（如"幹"↔"乾"），并动态扩展 match pattern，无需手动写入代码映射。
 
 - 业务解析时需要把某些字形视为等价。
 - 只影响特定算法或解析流程，不适合全局替换。

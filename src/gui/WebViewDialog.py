@@ -4,7 +4,7 @@ from PySide6.QtCore import Qt, QUrl
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QWidget
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from qfluentwidgets import FluentIcon, PushButton, FluentStyleSheet
-
+from ok.gui.tasks.ConfigCard import ConfigCard, og
 
 class WebViewDialog(QDialog):
     """内嵌 WebView 的对话框，用于显示网页内容。"""
@@ -39,25 +39,25 @@ class WebViewDialog(QDialog):
         toolbar_layout.setContentsMargins(8, 4, 8, 4)
 
         # 后退按钮
-        self.back_button = PushButton("后退")
+        self.back_button = PushButton(og.app.tr("后退"))
         self.back_button.setIcon(FluentIcon.LEFT_ARROW)
         self.back_button.clicked.connect(self._go_back)
         toolbar_layout.addWidget(self.back_button)
 
         # 前进按钮
-        self.forward_button = PushButton("前进")
+        self.forward_button = PushButton(og.app.tr("前进"))
         self.forward_button.setIcon(FluentIcon.RIGHT_ARROW)
         self.forward_button.clicked.connect(self._go_forward)
         toolbar_layout.addWidget(self.forward_button)
 
         # 刷新按钮
-        self.refresh_button = PushButton("刷新")
+        self.refresh_button = PushButton(og.app.tr("刷新"))
         self.refresh_button.setIcon(FluentIcon.SYNC)
         self.refresh_button.clicked.connect(self._refresh)
         toolbar_layout.addWidget(self.refresh_button)
 
         # 在浏览器中打开按钮
-        self.open_in_browser_button = PushButton("在浏览器中打开")
+        self.open_in_browser_button = PushButton(og.app.tr("在浏览器中打开"))
         self.open_in_browser_button.setIcon(FluentIcon.LINK)
         self.open_in_browser_button.clicked.connect(self._open_in_browser)
         toolbar_layout.addWidget(self.open_in_browser_button)

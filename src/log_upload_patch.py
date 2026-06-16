@@ -419,7 +419,7 @@ def install_log_upload_patch():
             from ok import og
             label = og.app.tr("Upload Logs")
         except Exception:
-            label = self.tr("Upload Logs")
+            label = og.app.tr("Upload Logs")
 
         self.upload_log_button = PushButton(FluentIcon.SEND, label)
         self.upload_log_button.clicked.connect(_upload_logs)

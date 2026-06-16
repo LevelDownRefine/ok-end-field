@@ -1,0 +1,22 @@
+{
+  "k_92399078": {
+    "zh_CN": {
+      "string": "结束会话"
+    },
+    "zh_TW": {
+      "string": "結束會話"
+    },
+    "en_US": {
+      "string": "end session"
+    },
+    "ja_JP": {
+      "string": "セッションを終了する"
+    },
+    "ko_KR": {
+      "string": "세션 종료"
+    },
+    "es_ES": {
+      "string": "finalizar sesión"
+    }
+  }
+}

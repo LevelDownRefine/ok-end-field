@@ -1,0 +1,42 @@
+{
+  "k_8f834df1": {
+    "zh_CN": {
+      "pattern": "确认购买"
+    },
+    "zh_TW": {
+      "pattern": "確定購買"
+    },
+    "en_US": {
+      "pattern": "Confirm purchase"
+    },
+    "ja_JP": {
+      "pattern": "購入を確認する"
+    },
+    "ko_KR": {
+      "pattern": "구매 확인"
+    },
+    "es_ES": {
+      "pattern": "Confirmar compra"
+    }
+  },
+  "k_02894ea7": {
+    "zh_CN": {
+      "string": "物资调度"
+    },
+    "zh_TW": {
+      "string": "物資調度"
+    },
+    "en_US": {
+      "string": "Material dispatch"
+    },
+    "ja_JP": {
+      "string": "資材の発送"
+    },
+    "ko_KR": {
+      "string": "자재 파견"
+    },
+    "es_ES": {
+      "string": "Despacho de materiales"
+    }
+  }
+}

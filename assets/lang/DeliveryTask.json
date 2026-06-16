@@ -1,0 +1,302 @@
+{
+  "k_a72a252f": {
+    "zh_CN": {
+      "string": "仓储节点"
+    },
+    "zh_TW": {
+      "string": "倉儲節點"
+    },
+    "en_US": {
+      "string": "Warehousing node"
+    },
+    "ja_JP": {
+      "string": "倉庫ノード"
+    },
+    "ko_KR": {
+      "string": "창고 노드"
+    },
+    "es_ES": {
+      "string": "Nodo de almacenamiento"
+    }
+  },
+  "k_38108eaa": {
+    "zh_CN": {
+      "string": "刷新"
+    },
+    "zh_TW": {
+      "string": "更新"
+    },
+    "en_US": {
+      "string": "refresh"
+    },
+    "ja_JP": {
+      "string": "リフレッシュする"
+    },
+    "ko_KR": {
+      "string": "새로 고치다"
+    },
+    "es_ES": {
+      "string": "refrescar"
+    }
+  },
+  "k_96b876e3": {
+    "zh_CN": {
+      "string": "工业"
+    },
+    "zh_TW": {
+      "string": "工業"
+    },
+    "en_US": {
+      "string": "industry"
+    },
+    "ja_JP": {
+      "string": "業界"
+    },
+    "ko_KR": {
+      "string": "산업"
+    },
+    "es_ES": {
+      "string": "industria"
+    }
+  },
+  "k_9d5535b7": {
+    "zh_CN": {
+      "string": "接取运送委托"
+    },
+    "zh_TW": {
+      "string": "接取運送委託"
+    },
+    "en_US": {
+      "string": "Receive shipping order"
+    },
+    "ja_JP": {
+      "string": "発送注文を受け取る"
+    },
+    "ko_KR": {
+      "string": "배송주문 받기"
+    },
+    "es_ES": {
+      "string": "Recibir orden de envío"
+    }
+  },
+  "k_b0e3a2da": {
+    "zh_CN": {
+      "string": "登上滑索架"
+    },
+    "zh_TW": {
+      "string": "登上滑索架"
+    },
+    "en_US": {
+      "string": "Climb the zipline"
+    },
+    "ja_JP": {
+      "string": "ジップラインを登る"
+    },
+    "ko_KR": {
+      "string": "짚라인을 타고 올라보세요"
+    },
+    "es_ES": {
+      "string": "Sube a la tirolesa"
+    }
+  },
+  "k_ae8fb114": {
+    "zh_CN": {
+      "string": "运送委托列表"
+    },
+    "zh_TW": {
+      "string": "運送委託列表"
+    },
+    "en_US": {
+      "string": "Shipping order list"
+    },
+    "ja_JP": {
+      "string": "発送注文リスト"
+    },
+    "ko_KR": {
+      "string": "배송주문 목록"
+    },
+    "es_ES": {
+      "string": "Lista de pedidos de envío"
+    }
+  },
+  "k_f736eb3d": {
+    "zh_CN": {
+      "pattern": "取货"
+    },
+    "zh_TW": {
+      "pattern": "取貨"
+    },
+    "en_US": {
+      "pattern": "Pick up"
+    },
+    "ja_JP": {
+      "pattern": "選び出す"
+    },
+    "ko_KR": {
+      "pattern": "찾다"
+    },
+    "es_ES": {
+      "pattern": "Levantar"
+    }
+  },
+  "k_c7b4d04e": {
+    "zh_CN": {
+      "pattern": "送达"
+    },
+    "zh_TW": {
+      "pattern": "送達"
+    },
+    "en_US": {
+      "pattern": "service"
+    },
+    "ja_JP": {
+      "pattern": "サービス"
+    },
+    "ko_KR": {
+      "pattern": "서비스"
+    },
+    "es_ES": {
+      "pattern": "servicio"
+    }
+  },
+  "k_6536f6f1": {
+    "zh_CN": {
+      "pattern": "资源"
+    },
+    "zh_TW": {
+      "pattern": "資源"
+    },
+    "en_US": {
+      "pattern": "resource"
+    },
+    "ja_JP": {
+      "pattern": "リソース"
+    },
+    "ko_KR": {
+      "pattern": "의지"
+    },
+    "es_ES": {
+      "pattern": "recurso"
+    }
+  },
+  "k_0c1ef9f5": {
+    "zh_CN": {
+      "pattern": "交货"
+    },
+    "zh_TW": {
+      "pattern": "交貨"
+    },
+    "en_US": {
+      "pattern": "delivery"
+    },
+    "ja_JP": {
+      "pattern": "配達"
+    },
+    "ko_KR": {
+      "pattern": "배달"
+    },
+    "es_ES": {
+      "pattern": "entrega"
+    }
+  },
+  "k_a72a252f_1": {
+    "zh_CN": {
+      "string": "仓储节点"
+    },
+    "zh_TW": {
+      "string": "倉儲節點"
+    },
+    "en_US": {
+      "string": "Warehousing node"
+    },
+    "ja_JP": {
+      "string": "倉庫ノード"
+    },
+    "ko_KR": {
+      "string": "창고 노드"
+    },
+    "es_ES": {
+      "string": "Nodo de almacenamiento"
+    }
+  },
+  "k_view_location": {
+    "zh_CN": {
+      "string": "查看位置"
+    },
+    "zh_TW": {
+      "string": "查看位置"
+    },
+    "en_US": {
+      "string": "View location"
+    },
+    "ja_JP": {
+      "string": "場所を確認"
+    },
+    "ko_KR": {
+      "string": "위치 확인"
+    },
+    "es_ES": {
+      "string": "Ver ubicación"
+    }
+  },
+  "k_accept_delivery": {
+    "zh_CN": {
+      "string": "接取运送委托"
+    },
+    "zh_TW": {
+      "string": "接取運送委託"
+    },
+    "en_US": {
+      "string": "Accept delivery order"
+    },
+    "ja_JP": {
+      "string": "配送注文を受け取る"
+    },
+    "ko_KR": {
+      "string": "배송 주문 수락"
+    },
+    "es_ES": {
+      "string": "Aceptar orden de envío"
+    }
+  },
+  "k_fragile": {
+    "zh_CN": {
+      "string": "易损"
+    },
+    "zh_TW": {
+      "string": "易損"
+    },
+    "en_US": {
+      "string": "Fragile"
+    },
+    "ja_JP": {
+      "string": "壊れやすい"
+    },
+    "ko_KR": {
+      "string": "파손되기 쉬운"
+    },
+    "es_ES": {
+      "string": "Frágil"
+    }
+  },
+  "k_not_fragile": {
+    "zh_CN": {
+      "string": "不易损"
+    },
+    "zh_TW": {
+      "string": "不易損"
+    },
+    "en_US": {
+      "string": "Non-fragile"
+    },
+    "ja_JP": {
+      "string": "壊れにくい"
+    },
+    "ko_KR": {
+      "string": "파손되지 않는"
+    },
+    "es_ES": {
+      "string": "No frágil"
+    }
+  }
+}

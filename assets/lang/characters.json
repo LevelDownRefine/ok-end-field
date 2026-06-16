@@ -1,0 +1,522 @@
+{
+  "zhuang_fang_yi": {
+    "zh_CN": {
+      "string": "庄方宜"
+    },
+    "zh_TW": {
+      "string": "莊方宜"
+    },
+    "en_US": {
+      "string": "zhuang_fangyi"
+    },
+    "ja_JP": {
+      "string": "荘方儀"
+    },
+    "ko_KR": {
+      "string": "주앙 팡이"
+    },
+    "es_ES": {
+      "string": "Zhuang Fangyi"
+    }
+  },
+  "luo_qian": {
+    "zh_CN": {
+      "string": "洛茜"
+    },
+    "zh_TW": {
+      "string": "洛茜"
+    },
+    "en_US": {
+      "string": "rossi"
+    },
+    "ja_JP": {
+      "string": "ロージー"
+    },
+    "ko_KR": {
+      "string": "로지"
+    },
+    "es_ES": {
+      "string": "Rosie"
+    }
+  },
+  "tang_tang": {
+    "zh_CN": {
+      "string": "汤汤"
+    },
+    "zh_TW": {
+      "string": "湯湯"
+    },
+    "en_US": {
+      "string": "tangtang"
+    },
+    "ja_JP": {
+      "string": "タンタン"
+    },
+    "ko_KR": {
+      "string": "탕탕"
+    },
+    "es_ES": {
+      "string": "tantang"
+    }
+  },
+  "guan_li_yuan": {
+    "zh_CN": {
+      "string": "管理员"
+    },
+    "zh_TW": {
+      "string": "管理員"
+    },
+    "en_US": {
+      "string": "administrator"
+    },
+    "ja_JP": {
+      "string": "管理者"
+    },
+    "ko_KR": {
+      "string": "관리자"
+    },
+    "es_ES": {
+      "string": "administrador"
+    }
+  },
+  "li_feng": {
+    "zh_CN": {
+      "string": "黎风"
+    },
+    "zh_TW": {
+      "string": "黎風"
+    },
+    "en_US": {
+      "string": "lifeng"
+    },
+    "ja_JP": {
+      "string": "李峰"
+    },
+    "ko_KR": {
+      "string": "리펑"
+    },
+    "es_ES": {
+      "string": "Li Feng"
+    }
+  },
+  "yu_jin": {
+    "zh_CN": {
+      "string": "余烬"
+    },
+    "zh_TW": {
+      "string": "餘燼"
+    },
+    "en_US": {
+      "string": "ember"
+    },
+    "ja_JP": {
+      "string": "残り火"
+    },
+    "ko_KR": {
+      "string": "타다 남은 것"
+    },
+    "es_ES": {
+      "string": "ascua"
+    }
+  },
+  "jie_er_pei_ta": {
+    "zh_CN": {
+      "string": "洁尔佩塔"
+    },
+    "zh_TW": {
+      "string": "潔爾佩塔"
+    },
+    "en_US": {
+      "string": "gilberta"
+    },
+    "ja_JP": {
+      "string": "ゲルペタ"
+    },
+    "ko_KR": {
+      "string": "게르페타"
+    },
+    "es_ES": {
+      "string": "Gerpeta"
+    }
+  },
+  "ai_er_dai_la": {
+    "zh_CN": {
+      "string": "艾尔黛拉"
+    },
+    "zh_TW": {
+      "string": "艾爾黛拉"
+    },
+    "en_US": {
+      "string": "ardelia"
+    },
+    "ja_JP": {
+      "string": "エルデラ"
+    },
+    "ko_KR": {
+      "string": "엘델라"
+    },
+    "es_ES": {
+      "string": "eldela"
+    }
+  },
+  "jun_wei": {
+    "zh_CN": {
+      "string": "骏卫"
+    },
+    "zh_TW": {
+      "string": "駿衛"
+    },
+    "en_US": {
+      "string": "pogranichnik"
+    },
+    "ja_JP": {
+      "string": "順威"
+    },
+    "ko_KR": {
+      "string": "순웨이"
+    },
+    "es_ES": {
+      "string": "Shun Wei"
+    }
+  },
+  "lai_wan_ting": {
+    "zh_CN": {
+      "string": "莱万汀"
+    },
+    "zh_TW": {
+      "string": "萊萬汀"
+    },
+    "en_US": {
+      "string": "laevatain"
+    },
+    "ja_JP": {
+      "string": "ルウォンティン"
+    },
+    "ko_KR": {
+      "string": "르원틴"
+    },
+    "es_ES": {
+      "string": "lewontin"
+    }
+  },
+  "yi_feng": {
+    "zh_CN": {
+      "string": "伊冯"
+    },
+    "zh_TW": {
+      "string": "伊馮"
+    },
+    "en_US": {
+      "string": "yvonne"
+    },
+    "ja_JP": {
+      "string": "イヴォンヌ"
+    },
+    "ko_KR": {
+      "string": "이본"
+    },
+    "es_ES": {
+      "string": "yvonne"
+    }
+  },
+  "bie_li": {
+    "zh_CN": {
+      "string": "别礼"
+    },
+    "zh_TW": {
+      "string": "別禮"
+    },
+    "en_US": {
+      "string": "last_rite"
+    },
+    "ja_JP": {
+      "string": "別れ"
+    },
+    "ko_KR": {
+      "string": "작별"
+    },
+    "es_ES": {
+      "string": "despedida"
+    }
+  },
+  "chen_qian_yu": {
+    "zh_CN": {
+      "string": "陈千语"
+    },
+    "zh_TW": {
+      "string": "陳千語"
+    },
+    "en_US": {
+      "string": "chen_qianyu"
+    },
+    "ja_JP": {
+      "string": "チェン・チエンユー"
+    },
+    "ko_KR": {
+      "string": "첸 첸위"
+    },
+    "es_ES": {
+      "string": "Chen Qianyu"
+    }
+  },
+  "zhou_xue": {
+    "zh_CN": {
+      "string": "昼雪"
+    },
+    "zh_TW": {
+      "string": "日雪"
+    },
+    "en_US": {
+      "string": "snowshine"
+    },
+    "ja_JP": {
+      "string": "日中の雪"
+    },
+    "ko_KR": {
+      "string": "일 눈"
+    },
+    "es_ES": {
+      "string": "dia nieve"
+    }
+  },
+  "sai_xi": {
+    "zh_CN": {
+      "string": "赛希"
+    },
+    "zh_TW": {
+      "string": "賽希"
+    },
+    "en_US": {
+      "string": "xaihi"
+    },
+    "ja_JP": {
+      "string": "サイヒ"
+    },
+    "ko_KR": {
+      "string": "사이히"
+    },
+    "es_ES": {
+      "string": "Saihi"
+    }
+  },
+  "lang_wei": {
+    "zh_CN": {
+      "string": "狼卫"
+    },
+    "zh_TW": {
+      "string": "狼衛"
+    },
+    "en_US": {
+      "string": "wulfgard"
+    },
+    "ja_JP": {
+      "string": "ウルフガード"
+    },
+    "ko_KR": {
+      "string": "울프 가드"
+    },
+    "es_ES": {
+      "string": "Guardia del lobo"
+    }
+  },
+  "pei_li_ka": {
+    "zh_CN": {
+      "string": "佩丽卡"
+    },
+    "zh_TW": {
+      "string": "佩麗卡"
+    },
+    "en_US": {
+      "string": "perlica"
+    },
+    "ja_JP": {
+      "string": "ペリカ"
+    },
+    "ko_KR": {
+      "string": "페리카"
+    },
+    "es_ES": {
+      "string": "Perica"
+    }
+  },
+  "hu_guang": {
+    "zh_CN": {
+      "string": "弧光"
+    },
+    "zh_TW": {
+      "string": "弧光"
+    },
+    "en_US": {
+      "string": "arclight"
+    },
+    "ja_JP": {
+      "string": "アーク"
+    },
+    "ko_KR": {
+      "string": "호"
+    },
+    "es_ES": {
+      "string": "arco"
+    }
+  },
+  "a_lie_shi": {
+    "zh_CN": {
+      "string": "阿列什"
+    },
+    "zh_TW": {
+      "string": "阿列什"
+    },
+    "en_US": {
+      "string": "alesh"
+    },
+    "ja_JP": {
+      "string": "アレス"
+    },
+    "ko_KR": {
+      "string": "아레스"
+    },
+    "es_ES": {
+      "string": "Ares"
+    }
+  },
+  "ai_wei_wen_na": {
+    "zh_CN": {
+      "string": "艾维文娜"
+    },
+    "zh_TW": {
+      "string": "艾維文娜"
+    },
+    "en_US": {
+      "string": "avywenna"
+    },
+    "ja_JP": {
+      "string": "アビバ"
+    },
+    "ko_KR": {
+      "string": "아비바"
+    },
+    "es_ES": {
+      "string": "Aviva"
+    }
+  },
+  "da_pan": {
+    "zh_CN": {
+      "string": "大潘"
+    },
+    "zh_TW": {
+      "string": "大潘"
+    },
+    "en_US": {
+      "string": "da_pan"
+    },
+    "ja_JP": {
+      "string": "ダパン"
+    },
+    "ko_KR": {
+      "string": "다판"
+    },
+    "es_ES": {
+      "string": "dapán"
+    }
+  },
+  "ai_te_la": {
+    "zh_CN": {
+      "string": "埃特拉"
+    },
+    "zh_TW": {
+      "string": "埃特拉"
+    },
+    "en_US": {
+      "string": "estella"
+    },
+    "ja_JP": {
+      "string": "エトラ"
+    },
+    "ko_KR": {
+      "string": "에트라"
+    },
+    "es_ES": {
+      "string": "Etra"
+    }
+  },
+  "ka_qi_er": {
+    "zh_CN": {
+      "string": "卡契尔"
+    },
+    "zh_TW": {
+      "string": "卡契爾"
+    },
+    "en_US": {
+      "string": "catcher"
+    },
+    "ja_JP": {
+      "string": "カッヘル"
+    },
+    "ko_KR": {
+      "string": "카첼"
+    },
+    "es_ES": {
+      "string": "Kachel"
+    }
+  },
+  "an_ta_er": {
+    "zh_CN": {
+      "string": "安塔尔"
+    },
+    "zh_TW": {
+      "string": "安塔爾"
+    },
+    "en_US": {
+      "string": "antal"
+    },
+    "ja_JP": {
+      "string": "アンタル"
+    },
+    "ko_KR": {
+      "string": "안탈"
+    },
+    "es_ES": {
+      "string": "Antal"
+    }
+  },
+  "ying_shi": {
+    "zh_CN": {
+      "string": "萤石"
+    },
+    "zh_TW": {
+      "string": "螢石"
+    },
+    "en_US": {
+      "string": "fluorite"
+    },
+    "ja_JP": {
+      "string": "蛍石"
+    },
+    "ko_KR": {
+      "string": "형석"
+    },
+    "es_ES": {
+      "string": "fluorita"
+    }
+  },
+  "qiu_li": {
+    "zh_CN": {
+      "string": "秋栗"
+    },
+    "zh_TW": {
+      "string": "秋栗"
+    },
+    "en_US": {
+      "string": "akekuri"
+    },
+    "ja_JP": {
+      "string": "九里"
+    },
+    "ko_KR": {
+      "string": "큐리"
+    },
+    "es_ES": {
+      "string": "Qiuri"
+    }
+  }
+}

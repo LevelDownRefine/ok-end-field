@@ -1,0 +1,82 @@
+{
+  "k_b0e3a2da": {
+    "zh_CN": {
+      "string": "登上滑索架"
+    },
+    "zh_TW": {
+      "string": "登上滑索架"
+    },
+    "en_US": {
+      "string": "Climb the zipline"
+    },
+    "ja_JP": {
+      "string": "ジップラインを登る"
+    },
+    "ko_KR": {
+      "string": "짚라인을 타고 올라보세요"
+    },
+    "es_ES": {
+      "string": "Sube a la tirolesa"
+    }
+  },
+  "k_55ef5a58": {
+    "zh_CN": {
+      "pattern": "下一连接点"
+    },
+    "zh_TW": {
+      "pattern": "下一連結點"
+    },
+    "en_US": {
+      "pattern": "next connection point"
+    },
+    "ja_JP": {
+      "pattern": "次の接続ポイント"
+    },
+    "ko_KR": {
+      "pattern": "다음 연결 지점"
+    },
+    "es_ES": {
+      "pattern": "siguiente punto de conexión"
+    }
+  },
+  "k_2f4f4a2f": {
+    "zh_CN": {
+      "pattern": "向目标移动"
+    },
+    "zh_TW": {
+      "pattern": "向目標移動"
+    },
+    "en_US": {
+      "pattern": "move towards target"
+    },
+    "ja_JP": {
+      "pattern": "目標に向かって動く"
+    },
+    "ko_KR": {
+      "pattern": "목표를 향해 이동"
+    },
+    "es_ES": {
+      "pattern": "avanzar hacia el objetivo"
+    }
+  },
+  "k_0b1e4f35": {
+    "zh_CN": {
+      "pattern": "离开滑索架"
+    },
+    "zh_TW": {
+      "pattern": "離開滑索架"
+    },
+    "en_US": {
+      "pattern": "Leaving the zipline"
+    },
+    "ja_JP": {
+      "pattern": "ジップラインから離れる"
+    },
+    "ko_KR": {
+      "pattern": "짚라인을 떠나며"
+    },
+    "es_ES": {
+      "pattern": "Saliendo de la tirolesa"
+    }
+  }
+}

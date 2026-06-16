@@ -1,0 +1,82 @@
+{
+  "k_3cb6baa6": {
+    "zh_CN": {
+      "string": "仓库切换"
+    },
+    "zh_TW": {
+      "string": "倉庫切換"
+    },
+    "en_US": {
+      "string": "Warehouse switching"
+    },
+    "ja_JP": {
+      "string": "倉庫切り替え"
+    },
+    "ko_KR": {
+      "string": "창고 전환"
+    },
+    "es_ES": {
+      "string": "Cambio de almacén"
+    }
+  },
+  "k_d661f6da": {
+    "zh_CN": {
+      "pattern": "存放"
+    },
+    "zh_TW": {
+      "pattern": "存放"
+    },
+    "en_US": {
+      "pattern": "store"
+    },
+    "ja_JP": {
+      "pattern": "店"
+    },
+    "ko_KR": {
+      "pattern": "가게"
+    },
+    "es_ES": {
+      "pattern": "almacenar"
+    }
+  },
+  "k_65fe35c4": {
+    "zh_CN": {
+      "pattern": "已连接"
+    },
+    "zh_TW": {
+      "pattern": "已連接"
+    },
+    "en_US": {
+      "pattern": "Connected"
+    },
+    "ja_JP": {
+      "pattern": "接続済み"
+    },
+    "ko_KR": {
+      "pattern": "연결됨"
+    },
+    "es_ES": {
+      "pattern": "Conectado"
+    }
+  },
+  "k_b56d9ac6": {
+    "zh_CN": {
+      "pattern": "确认"
+    },
+    "zh_TW": {
+      "pattern": "確定"
+    },
+    "en_US": {
+      "pattern": "confirm"
+    },
+    "ja_JP": {
+      "pattern": "確認する"
+    },
+    "ko_KR": {
+      "pattern": "확인하다"
+    },
+    "es_ES": {
+      "pattern": "confirmar"
+    }
+  }
+}
