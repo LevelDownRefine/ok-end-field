@@ -151,7 +151,7 @@ class Common(BaseEfTask):
             else:
                 ticket = int(ticket_str)
 
-            self.log_info(f"ticket:{float(ticket):.3f}")
+            self.log_info(f"ticket:{ticket}")
 
             return ticket
         else:

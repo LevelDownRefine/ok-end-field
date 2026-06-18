@@ -511,7 +511,7 @@ class DailyBattleFeature:
                             raise
                         self.log_info(f"battle_gather_extra 异常: {e}\n{traceback.format_exc()}")
                         self.screenshot(
-                            f'{self.screenshot_timestamp_prefix()}_DailyBattleMixin_battleGather_Extra_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
+                            f'DailyBattleMixin_battleGather_Extra_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
                         return False
 
             # 进入副本详情页
@@ -526,7 +526,7 @@ class DailyBattleFeature:
                         raise
                     self.log_info(f"battle_gather 异常: {e}\n{traceback.format_exc()}")
                     self.screenshot(
-                        f'{self.screenshot_timestamp_prefix()}_DailyBattleMixin_battleGather_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
+                        f'DailyBattleMixin_battleGather_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
                     return False
             else:  # 协议空间 or 危境预演
                 try:
@@ -536,7 +536,7 @@ class DailyBattleFeature:
                         raise
                     self.log_info(f"battle_space 异常: {e}\n{traceback.format_exc()}")
                     self.screenshot(
-                        f'{self.screenshot_timestamp_prefix()}_DailyBattleMixin_battleSpace_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
+                        f'DailyBattleMixin_battleSpace_Exception_{self.battle_ctx.category_name}_{self.battle_ctx.stage_name}')
                     return False
         finally:
             self.release_yolo_detector()

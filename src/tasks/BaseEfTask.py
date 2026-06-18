@@ -15,6 +15,10 @@ from src.tasks.mixin.runtime_mixin import RuntimeMixin
 from src.tasks.mixin.window_arrow_drawing_mixin import WindowArrowDrawingMixin
 from src.tasks.global_config_store import ENSURE_MAIN_ONCE_ACTION_SLEEP_NAME, KEY_CONFIG_NAME, get_global_config
 
+# 覆写框架截图时间戳格式：日期_时分秒（无毫秒）
+import ok.gui.debug.Screenshot as _ok_screenshot
+_ok_screenshot.get_current_time_formatted = lambda: datetime.now().strftime("%Y%m%d_%H%M%S")
+
 
 def back_window(prev):
     current = win32gui.GetForegroundWindow()
@@ -66,7 +70,7 @@ def _round_ratio(value):
         return value
 
 
-def screenshot_timestamp_prefix():
+def _screenshot_timestamp_prefix():
     return datetime.now().strftime("%Y%m%d_%H%M%S")
 
 
@@ -181,7 +185,7 @@ class BaseEfTask(
         return _extract_locale_from_object(self)
 
     def screenshot_timestamp_prefix(self):
-        return screenshot_timestamp_prefix()
+        return _screenshot_timestamp_prefix()
 
     def set_current_account(self, username, account_id):
         """设置当前账号信息，供账号覆盖功能使用。
@@ -261,7 +265,7 @@ class BaseEfTask(
         - 对于 `TaskDisabledException` 总是重新抛出以便上层处理
         """
         try:
-            self.screenshot(f'{screenshot_timestamp_prefix()}_{prefix}')
+            self.screenshot(prefix)
         except Exception:
             pass
 
@@ -282,9 +286,8 @@ class BaseEfTask(
         否则退化为普通日志，避免在独立任务中报错。
         """
         name = task_name or getattr(self, "current_task", None) or "UnknownTask"
-        screenshot_name = f"{screenshot_timestamp_prefix()}_fail_{name}"
         try:
-            self.screenshot(screenshot_name)
+            self.screenshot(f"fail_{name}")
         except Exception:
             pass
 

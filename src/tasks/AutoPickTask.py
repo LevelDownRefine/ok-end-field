@@ -44,7 +44,7 @@ class AutoPickTask(BaseEfTask, TriggerTask):
 
                 if any(text in texts[0].name for text in self.white_list):
                     if self.debug:
-                        self.screenshot(f'{self.screenshot_timestamp_prefix()}_pick')
+                        self.screenshot('pick')
                     self.log_debug('pick white_list {}'.format(texts[0].name))
                     self.pick()
                     self.sleep(0.2)
@@ -63,8 +63,8 @@ class AutoPickTask(BaseEfTask, TriggerTask):
                 self.log_debug(f'pick_up text_count {text_count} / {white_percent}')
                 if white_percent < 0.1:
                     if self.debug:
-                        self.screenshot(f'{self.screenshot_timestamp_prefix()}_pick')
-                        self.screenshot(f'{self.screenshot_timestamp_prefix()}_pick_wg', frame=icon_zone.crop_frame(self.frame))
+                        self.screenshot('pick')
+                        self.screenshot('pick_wg', frame=icon_zone.crop_frame(self.frame))
                     self.log_info('pick because not gray/white icon {} {}'.format(texts, white_percent))
                     self.pick(text_count)
                     return

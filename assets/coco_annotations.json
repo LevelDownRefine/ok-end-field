@@ -1049,6 +1049,11 @@
             "id": 207,
             "name": "demo_page_icon",
             "supercategory": ""
+        },
+        {
+            "id": 208,
+            "name": "can_use_help",
+            "supercategory": ""
         }
     ],
     "images": [
@@ -4380,6 +4385,19 @@
             "segmentation": []
         },
         {
+            "id": 175,
+            "image_id": 132,
+            "category_id": 73,
+            "bbox": [
+                2779,
+                1415,
+                36,
+                37
+            ],
+            "area": 1332,
+            "iscrowd": 0
+        },
+        {
             "id": 176,
             "image_id": 110,
             "category_id": 39,
@@ -4393,6 +4411,19 @@
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
+        },
+        {
+            "id": 177,
+            "image_id": 132,
+            "category_id": 208,
+            "bbox": [
+                3444,
+                60,
+                53,
+                54
+            ],
+            "area": 2862,
+            "iscrowd": 0
         },
         {
             "id": 178,
@@ -4510,21 +4541,6 @@
                 102
             ],
             "area": 11832,
-            "iscrowd": 0,
-            "ignore": 0,
-            "segmentation": []
-        },
-        {
-            "id": 220,
-            "image_id": 132,
-            "category_id": 73,
-            "bbox": [
-                2779,
-                1415,
-                36,
-                37
-            ],
-            "area": 1332,
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []

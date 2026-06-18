@@ -404,6 +404,10 @@ class GameFlowMixin:
                 feature=fL.to_max_produce_num,
                 box=self.box_of_screen(0.550, 0.885, 0.573, 0.920)
             )
+            or self.find_one(
+                feature=fL.left_battle,
+                vertical_variance=0.1,
+            )
         ):
             self.log_info("检测到特定弹窗，尝试点击确认")
             self.click(result, after_sleep=self.once_sleep_time)

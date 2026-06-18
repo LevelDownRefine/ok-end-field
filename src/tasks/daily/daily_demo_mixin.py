@@ -73,9 +73,13 @@ class DailyDemoFeature:
             self.click(result, after_sleep=1)
         else:
             self.log_info("未找到『追踪』按钮，继续尝试自动寻路")
-        self.to_near_transfer_point(self.box.bottom_left)
+        if not self.to_near_transfer_point(self.box.bottom_left):
+            self.mark_task_failure("未能找到传送点，无法继续")
+            return False
         self.ensure_main()
-        self.align_ocr_or_find_target_to_center(ocr_match_or_feature_name_list=fL.demographic_follow, ocr=False)
+        if not self.align_ocr_or_find_target_to_center(ocr_match_or_feature_name_list=fL.demographic_follow, ocr=False, raise_if_fail=False):
+            self.mark_task_failure("未找到『进入演算』目标，可能尚未找到正确路线")
+            return False
         if not self.navigate_until_target(target=fL.enter_demo, nav=fL.demographic_follow, target_is_ocr=False, target_vertical_variance=0.05):
             self.mark_task_failure("未能进入『进入演算』目标，可能尚未找到正确路线")
             return False

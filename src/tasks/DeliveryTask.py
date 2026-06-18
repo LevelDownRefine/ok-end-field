@@ -8,6 +8,7 @@ from typing import List, Tuple
 from ok import Box, TaskDisabledException
 from qfluentwidgets import FluentIcon
 
+from src.interaction.Mouse import active_and_send_mouse_delta
 from src.icons import Icons
 from src.data.delivery_area import (
     DEFAULT_DELIVERY_AREA,
@@ -416,7 +417,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         self.log_info(f"委托地点({location_name})未配置送货点滑索参数: {location_key}")
         return None
 
-    def other_run(self):
+    def accept_order(self):
         """接取运输委托的主流程
         
         Returns:
@@ -442,64 +443,55 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
         if not ticket_types:
             self.log_info("警告: 未启用任何券种，任务退出")
             return None
+        active_and_send_mouse_delta(self.hwnd.hwnd, 0, self.height//2-20, activate=False)
         start_time = time.time()
         while True:
             if time.time() - start_time > 600:
                 self.log_info("接单尝试时间过长，退出")
                 return False
-            rows = self.merge_left_right_groups()
-            for row in rows:
-                if row:
-                    ticket_type = self.detect_ticket_type(row)
-                    if ticket_type == "ticket_delivery_area" and enable_delivery_area:
-                        if (
-                                self.lang.DeliveryTask.k_fragile in row.elems[2].name
-                                and self.lang.DeliveryTask.k_not_fragile not in row.elems[2].name
-                        ):
-                            target_num = self.config.get(self.CFG_TARGET_TICKET_NUM)
-                            x, y, to_x, to_y = row.box
-                            box = self.box_of_screen(
-                                x / self.width,
-                                y / self.height,
-                                to_x / self.width,
-                                to_y / self.height,
-                            )
-                            feature_list = get_accept_feature_labels(self.delivery_area, target_num)
-                            if not feature_list:
-                                self.log_info(f"当前地区({self.delivery_area})未配置目标券数({target_num})对应接单特征")
-                                continue
-                            result = None
-                            for feature_name in feature_list:
-                                result = self.find_feature(
-                                    feature=feature_name,
-                                    box=box,
-                                    threshold=0.98,
-                                )
-                                if result:
-                                    break
-                            if result:
-                                self.click(
-                                    row.elems[-1],
-                                    after_sleep=2,
-                                    down_time=0.1,
-                                )
-                                self.log_info("疑似已经接取委托")
-                                self.try_time += 1
-                                if self.try_time > 5:
-                                    self.log_info("尝试次数过多，退出")
-                                    return False
-                                self.next_frame()
-                                accepted_successfully = not self.wait_ocr(
-                                    match=self.lang.DeliveryTask.k_9d5535b7,
-                                    box=self.box.bottom_right,
-                                    time_out=1
-                                )
-                                if accepted_successfully:
-                                    self._remember_delivery_location(row)
-                                    self.log_info("接取成功")
-                                    return True
-                                else:
-                                    self.log_info("接取失败，可能委托被抢了，继续寻找")
+            target_num = self.config.get(self.CFG_TARGET_TICKET_NUM)
+            (0.706 - 0.651)
+            box = self.box_of_screen(
+                0.654, 0.230, 0.699, 0.900
+            )
+            feature_list = get_accept_feature_labels(self.delivery_area, target_num)
+            if not feature_list:
+                self.log_info(f"当前地区({self.delivery_area})未配置目标券数({target_num})对应接单特征")
+                continue
+            results = None
+            for feature_name in feature_list:
+                results = self.find_feature(
+                    feature=feature_name,
+                    box=box,
+                    threshold=0.98,
+                )
+                if results:
+                    break
+            0.691, 0.322, 0.873, 0.319
+            if results:
+                for result in results:
+                    self.click(
+                        (result.x + result.width)/self.width + (0.873 - 0.691),
+                        (result.y + result.height)/self.height,
+                        after_sleep=2,
+                        down_time=0.1,
+                    )
+                    self.log_info("疑似已经接取委托")
+                    self.try_time += 1
+                    if self.try_time > 5:
+                        self.log_info("尝试次数过多，退出")
+                        return False
+                    self.next_frame()
+                    accepted_successfully = not self.wait_ocr(
+                        match=self.lang.DeliveryTask.k_9d5535b7,
+                        box=self.box.bottom_right,
+                        time_out=1
+                    )
+                    if accepted_successfully:
+                        self.log_info("接取成功")
+                        return True
+                    else:
+                        self.log_info("接取失败，可能委托被抢了，继续寻找")
             self.log_info("未找到符合条件(金额+类型)的委托，准备刷新重试")
             for i in range(2):
                 if last_refresh_box := self.wait_feature(feature=fL.refresh_order_list, vertical_variance=0.05, horizontal_variance=0.02):
@@ -670,11 +662,11 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                 self.back(after_sleep=2)
                 self.ensure_main()
                 if self.config.get(self.CFG_ONLY_ACCEPT):
-                    self.other_run()
+                    self.accept_order()
                     break
                 else:
                     if not self.config.get(self.CFG_ONLY_DELIVER):
-                        if not self.other_run():
+                        if not self.accept_order():
                             return
                         self.wait_click_ocr(
                             match=self.lang.DeliveryTask.k_c7b4d04e,

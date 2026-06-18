@@ -1029,23 +1029,15 @@ class DailyRoutineFeature:
             self.sleep(0.5)
             self.click(result, after_sleep=2)
             self.log_info("点击制造室")
-            for i in range(2):
-                if i == 1:
-                    if not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_1cdef26c, time_out=3, box=self.box.top_right,
-                                               after_sleep=1):
-                        continue
-                    if not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_0e2d3a3c, time_out=3, box=self.box.bottom_right,
-                                               after_sleep=1):
-                        continue
-                if icon := self.find_one(feature=fL.max_icon, horizontal_variance=0.1, vertical_variance=0.1):
-                    self.click(icon)
-                    self.wait_click_feature(feature=fL.to_max_produce_num, time_out=2, box=self.box.bottom_right, raise_if_not_found=False)
-                if i == 0:
-                    if not self.wait_click_feature(
-                            feature=fL.skip_dialog_confirm, time_out=3, box=self.box.bottom_right, raise_if_not_found=False
-                    ):
-                        continue
+            if icon := self.find_one(feature=fL.max_icon, horizontal_variance=0.01, vertical_variance=0.01):
+                self.click(icon)
+                self.wait_click_feature(feature=fL.to_max_produce_num, time_out=2, box=self.box.bottom_right, raise_if_not_found=False)
+                
+                if self.wait_click_feature(
+                        feature=fL.skip_dialog_confirm, time_out=3, box=self.box.bottom_right, raise_if_not_found=False
+                ):
                     self.wait_pop_up(after_sleep=1)
+            self.use_help(char=False)
             if not self.safe_back(feature=fL.operation_report_icon):
                 self.log_info("无法返回到运转界面")
                 return False
@@ -1083,22 +1075,23 @@ class DailyRoutineFeature:
             return False
         self.click_confirm(time_out=3)
         self.log_info("再次培养成功")
-        if self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_1cdef26c, time_out=1, box=self.box.top_right,after_sleep=1):   
-            self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_0e2d3a3c, time_out=3, box=self.box.bottom_right,after_sleep=1)
         return True
 
-    def use_help(self):
-        if not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_1cdef26c, time_out=2, box=self.box.top_right, after_sleep=1):
-            return False
-        if not self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_0e2d3a3c, time_out=2, box=self.box.bottom_right, after_sleep=1):
-            return True
-        char_list = list(get_contact_list_with_feature_list().values())
-        count = 0
-        for char in char_list:
-            if result := self.find_one(feature=char, box=self.box_of_screen(0.3, 0, 1, 1)):
-                self.click(result)
-                count += 1
-            if count >= 2:
-                break
-        self.wait_click_ocr(match=self.lang.daily_routine_mixin.k_b56d9ac6, settle_time=1, time_out=2, box=self.box.bottom)
-        return True
+    def use_help(self, char=True):
+        if not self.wait_click_feature(feature=fL.can_use_help, time_out=2, box=self.box_of_screen(0.890, 0.011, 0.941, 0.074), after_sleep=1, raise_if_not_found=False):
+            return
+        if not self.wait_click_feature(feature=fL.skip_dialog_confirm, time_out=2, box=self.box_of_screen(0.818, 0.787, 0.865, 0.861), after_sleep=1, raise_if_not_found=False):
+            return
+        if char:
+            char_list = list(get_contact_list_with_feature_list().values())
+            count = 0
+            for char in char_list:
+                if result := self.find_one(feature=char, box=self.box_of_screen(0.3, 0, 1, 1)):
+                    self.click(result)
+                    count += 1
+                if count >= 2:
+                    break
+        else:
+            self.wait_click_feature(feature=fL.max_icon, time_out=2, box=self.box_of_screen(0.699, 0.654, 0.732, 0.719), raise_if_not_found=False)
+        self.wait_click_feature(feature=fL.skip_dialog_confirm, time_out=2, box=self.box_of_screen(0.818, 0.787, 0.865, 0.861), after_sleep=1, raise_if_not_found=False)
+        return

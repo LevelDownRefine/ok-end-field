@@ -106,7 +106,7 @@ class AutoCombatLogic:
             task.log_info(f"战斗配置: 技能序列={self.normal_skill_sequence}, 启动点数={self.normal_start_trigger}")
 
             if task.debug:
-                task.screenshot(f"{task.screenshot_timestamp_prefix()}_enter_combat")
+                task.screenshot("enter_combat")
             task.active_and_send_mouse_delta(activate=True, only_activate=True)
             task.sleep(0.1)
             task.click(key="middle")
@@ -129,7 +129,7 @@ class AutoCombatLogic:
 
                     if task._check_single_exit_condition():
                         if task.debug:
-                            task.screenshot(f"{task.screenshot_timestamp_prefix()}_out_of_combat")
+                            task.screenshot("out_of_combat")
                         if task.is_combat_ended():
                             task.log_info("自动战斗结束!", notify=task.get_battle_config("后台结束战斗通知") and task.in_bg())
                             task.log_info("退出战斗主循环")
