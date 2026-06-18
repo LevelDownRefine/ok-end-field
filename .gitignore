@@ -87,3 +87,8 @@ autohelper
 ############################
 !src/
 !src/data/
+code_inventory.json
+.gitignore
+docs_inventory.json
+high_risk_modules.md
+docs_audit_report.md
