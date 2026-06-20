@@ -35,7 +35,8 @@ secondary_objective_direction_dot = [
     fL.secondary_objective_direction_dot,
     fL.secondary_objective_direction_dot_light,
     fL.secondary_objective_direction_dot_light_two,
-    fL.secondary_objective_direction_dot_light_three
+    fL.secondary_objective_direction_dot_light_three,
+    fL.secondary_objective_direction_dot_light_fourth
 ]
 
 

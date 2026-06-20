@@ -72,8 +72,7 @@ class ZipLineMixin(NavigationMixin):
                 if time.time() - start > 240:
                     raise Exception("滑索超时，强制退出")
         if need_v:
-            self.sleep(1)
-            self.click(key="right")
+            self.click(key="right", after_sleep=2)
         if target:
             result_name = target[0]
             result_type = target[1]

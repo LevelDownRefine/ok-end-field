@@ -1054,6 +1054,11 @@
             "id": 208,
             "name": "can_use_help",
             "supercategory": ""
+        },
+        {
+            "id": 209,
+            "name": "secondary_objective_direction_dot_light_fourth",
+            "supercategory": ""
         }
     ],
     "images": [
@@ -1989,6 +1994,12 @@
         },
         {
             "id": 200,
+            "file_name": "images/5.png",
+            "width": 1920,
+            "height": 1080
+        },
+        {
+            "id": 201,
             "file_name": "images/5.png",
             "width": 1920,
             "height": 1080
@@ -4454,6 +4465,19 @@
             "iscrowd": 0,
             "ignore": 0,
             "segmentation": []
+        },
+        {
+            "id": 180,
+            "image_id": 201,
+            "category_id": 209,
+            "bbox": [
+                952,
+                531,
+                24,
+                25
+            ],
+            "area": 600,
+            "iscrowd": 0
         },
         {
             "id": 182,

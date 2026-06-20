@@ -151,6 +151,7 @@ class FeatureList(str, Enum):
     rossi_contact = 'rossi_contact'
     secondary_objective_direction_dot = 'secondary_objective_direction_dot'
     secondary_objective_direction_dot_light = 'secondary_objective_direction_dot_light'
+    secondary_objective_direction_dot_light_fourth = 'secondary_objective_direction_dot_light_fourth'
     secondary_objective_direction_dot_light_three = 'secondary_objective_direction_dot_light_three'
     secondary_objective_direction_dot_light_two = 'secondary_objective_direction_dot_light_two'
     select_confirm = 'select_confirm'
