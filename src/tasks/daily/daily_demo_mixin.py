@@ -29,13 +29,12 @@ class DailyDemoFeature:
             refresh_times = 0
             this_time_double_reward = False
             while level <= 5:
-                self.wait_click_feature(feature=fL.demo_random_button, time_out=10, raise_if_not_found=False, click_after_delay=0.5)
+                level = self.click_random_and_wait_level_change(level)
+                if level < 0:
+                    return False
                 refresh_times += 1
                 if refresh_times == 3:
                     self.click_confirm(time_out=2, after_sleep=1)
-                level = self.read_level()
-                if level < 0:
-                    return False
                 if ((refresh_times == 2 and level >=8) or once_double_reward) and not this_time_double_reward:
                     self.log_info("已刷新2次，当前关卡较高，开启双倍奖励")
                     self.wait_click_feature(feature=fL.demo_double_open, time_out=10, raise_if_not_found=False)
@@ -53,6 +52,29 @@ class DailyDemoFeature:
                 return False
         self.click_confirm(time_out=3)
         return True
+
+    def click_random_and_wait_level_change(self, previous_level, max_retry=3):
+        for retry_index in range(max_retry):
+            if not self.wait_click_feature(
+                    feature=fL.demo_random_button,
+                    time_out=10,
+                    raise_if_not_found=False,
+                    click_after_delay=0.5,
+                    after_sleep=1,
+            ):
+                self.log_warning("未找到演算随机按钮")
+                return -1
+
+            current_level = self.read_level()
+            if current_level < 0:
+                return -1
+            if current_level != previous_level:
+                return current_level
+
+            self.log_warning(f"第 {retry_index + 1} 次点击随机按钮后等级未变化，重试点击")
+
+        self.mark_task_failure("点击随机按钮后等级未变化，可能未点中按钮")
+        return -1
 
     def go_to_DemoGraphic(self):
         self.ensure_main()
@@ -123,4 +145,3 @@ class DailyDemoFeature:
             f"x={level_x}, ratio={(level_x - self.screen_width * start_x) / (self.screen_width * one_level_width):.2f}, level={level}"
         )
         return level
-

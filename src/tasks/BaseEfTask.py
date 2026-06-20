@@ -285,15 +285,17 @@ class BaseEfTask(
         在日常任务编排器可用时写入 runner.failure_details；
         否则退化为普通日志，避免在独立任务中报错。
         """
+        runner = getattr(self, "daily_runner", None)
         name = task_name or getattr(self, "current_task", None) or "UnknownTask"
+        if runner is not None and hasattr(runner, "get_current_task_name"):
+            name = task_name or runner.get_current_task_name() or name
         try:
             self.screenshot(f"fail_{name}")
         except Exception:
             pass
 
-        runner = getattr(self, "daily_runner", None)
         if runner is not None and hasattr(runner, "set_task_failure"):
-            runner.set_task_failure(message, task_name=task_name)
+            runner.set_task_failure(message, task_name=task_name, screenshot_taken=True)
             return
         self.log_info(str(message))
 

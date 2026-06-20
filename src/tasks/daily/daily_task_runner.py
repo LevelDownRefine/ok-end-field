@@ -20,6 +20,7 @@ class DailyTaskRunner:
         self.task_status = _new_task_status(self.task_items)
         self.current_task_key: str | None = None
         self.failure_details: dict[str, dict[str, str]] = {}
+        self.failure_screenshot_tasks: set[str] = set()
         self.final_summary: dict = {
             "status": "未开始",
             "actual_repeat_total": 0,
@@ -35,7 +36,7 @@ class DailyTaskRunner:
     def get_current_task_name(self) -> str:
         return str(self.current_task_key or self.final_summary.get("current_task", "") or "")
 
-    def set_task_failure(self, message: str, task_name: str = None):
+    def set_task_failure(self, message: str, task_name: str = None, screenshot_taken: bool = False):
         """手动标记当前任务失败消息。
 
         Args:
@@ -46,6 +47,8 @@ class DailyTaskRunner:
         if not resolved_task_name:
             return
         resolved_message = str(message)
+        if screenshot_taken:
+            self.failure_screenshot_tasks.add(resolved_task_name)
         # 按 account_id 分组存储失败消息
         account_id = self._current_account_info().get("account_id", "")
         if not account_id:
@@ -117,6 +120,7 @@ class DailyTaskRunner:
             return True
 
         self.current_task_key = key
+        self.failure_screenshot_tasks.discard(key)
         self.final_summary["current_task"] = key
         self.task.log_info(f"开始任务: {key}")
         self.task.ensure_main()
@@ -126,7 +130,8 @@ class DailyTaskRunner:
         if result is False:
             self.task_status["failed"].append(key)
             self.set_task_failure("任务返回 False", task_name=key)
-            self.task.screenshot(f'DailyTask_FailTask_{key}')
+            if key not in self.failure_screenshot_tasks:
+                self.task.screenshot(f'DailyTask_FailTask_{key}')
             self.task.log_info(f"任务 {key} 执行失败", notify=True)
             return False
 
