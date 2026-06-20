@@ -467,7 +467,6 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                 )
                 if results:
                     break
-            0.691, 0.322, 0.873, 0.319
             if results:
                 for result in results:
                     self.click(
