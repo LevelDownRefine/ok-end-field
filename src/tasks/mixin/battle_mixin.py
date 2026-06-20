@@ -382,7 +382,7 @@ class BattleMixin(BaseEfTask):
                 return False
 
             # 战斗结束判定
-            if last_battle_time and time.time() - last_battle_time > 15:
+            if last_battle_time and time.time() - last_battle_time > 5:
                 self.log_info("战斗完成")
                 return True
 

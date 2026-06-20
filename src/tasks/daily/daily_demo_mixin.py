@@ -101,7 +101,7 @@ class DailyDemoFeature:
         start_x = 0.125 #等级信息区域左边界占屏幕宽度的比例
         end_x = 0.802 #等级信息区域右边界占屏幕宽度的比例
         level_all = 11 #总共的等级数，从0级到10级
-        result= self.wait_feature(feature=fL.level_tip, time_out=10, raise_if_not_found=False, box=self.box_of_screen(0.120, 0.724, 0.803, 0.750))
+        result= self.wait_feature(feature=fL.level_tip, time_out=10, raise_if_not_found=False, box=self.box_of_screen(0.120, 0.724, 0.803, 0.750), settle_time=1)
         if not result:
             self.mark_task_failure("未找到等级信息标志，可能没有进入演武集算关卡界面")
             return -1

@@ -385,7 +385,7 @@ class GameFlowMixin:
             self.active_and_send_mouse_delta(activate=True, only_activate=True)
 
         # 已进入世界
-        if self.wait_until(self.in_world, time_out=1):
+        if self.wait_until(self.in_world, time_out=1, settle_time=1):
             self._logged_in = True
             return True
 
