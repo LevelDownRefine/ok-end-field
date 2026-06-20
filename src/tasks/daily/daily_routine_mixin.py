@@ -313,6 +313,8 @@ class DailyRoutineFeature:
     def delivery_send_others(self):
         self.info_set("current_task", "delivery_send_others")
 
+        send_count = 0
+
         for area in areas_list:
             activity_num = 0
             count = 0
@@ -403,7 +405,12 @@ class DailyRoutineFeature:
                     self.ensure_main()
                     break
                 count += 1
+                send_count += 1
                 self.log_info(f"{area} 已完成 {count}/{activity_num} 次转交")
+        if send_count == 0:
+            self.mark_task_failure("未完成任何转交运送委托操作")
+            return False
+        return True
 
     def read_outpost_ticket_num(self, outpost_name):
         num_str = self.wait_ocr(

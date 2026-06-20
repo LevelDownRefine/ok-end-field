@@ -557,7 +557,7 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                 return False
             self.click_with_alt(result)
             while not self.wait_ocr(match=self.lang.DeliveryTask.k_b0e3a2da, box=self.box.bottom_right, time_out=2, log=True):
-                self.move_keys("s", 1)
+                self.move_keys("s", 0.5)
             return True
         return False
 

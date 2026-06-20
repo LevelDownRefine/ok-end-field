@@ -327,7 +327,7 @@ class GameFlowMixin:
             self._logged_in = True
         return in_combat_world
 
-    def ensure_main(self, esc=True, time_out=60, after_sleep=2, need_active=True):
+    def ensure_main(self, esc=True, time_out=90, after_sleep=2, need_active=True):
         """
         确保回到主界面（游戏世界）。
 
