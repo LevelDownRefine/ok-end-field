@@ -2,7 +2,6 @@ from enum import Enum
 
 
 class FeatureList(str, Enum):
-    DemoGraphicEnter = 'DemoGraphicEnter'
     akekuri_contact = 'akekuri_contact'
     alesh_contact = 'alesh_contact'
     all_receive = 'all_receive'
@@ -47,6 +46,7 @@ class FeatureList(str, Enum):
     cultivation_materials_icon = 'cultivation_materials_icon'
     cultivation_room = 'cultivation_room'
     da_pan_contact = 'da_pan_contact'
+    daily_demo_enter = 'daily_demo_enter'
     danger_1_2k = 'danger_1_2k'
     danger_2_2k = 'danger_2_2k'
     danger_3_2k = 'danger_3_2k'
@@ -54,7 +54,6 @@ class FeatureList(str, Enum):
     danger_5_2k = 'danger_5_2k'
     default_link_skill = 'default_link_skill'
     demo_double_open = 'demo_double_open'
-    demo_page_icon = 'demo_page_icon'
     demo_random_button = 'demo_random_button'
     demographic_follow = 'demographic_follow'
     dense_source_ore_powder_4k = 'dense_source_ore_powder_4k'
@@ -177,6 +176,7 @@ class FeatureList(str, Enum):
     to_max_produce_num = 'to_max_produce_num'
     top_left_tab = 'top_left_tab'
     transaction_icon = 'transaction_icon'
+    transaction_overview = 'transaction_overview'
     transfer_go = 'transfer_go'
     transfer_point = 'transfer_point'
     trigger_gather_button = 'trigger_gather_button'
@@ -184,6 +184,7 @@ class FeatureList(str, Enum):
     ult_2 = 'ult_2'
     ult_3 = 'ult_3'
     ult_4 = 'ult_4'
+    view_location = 'view_location'
     visit_icon = 'visit_icon'
     warehouse_node_enter = 'warehouse_node_enter'
     weapon_quota = 'weapon_quota'

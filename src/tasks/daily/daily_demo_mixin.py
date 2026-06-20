@@ -56,14 +56,24 @@ class DailyDemoFeature:
 
     def go_to_DemoGraphic(self):
         self.ensure_main()
-        self.press_key("f7", after_sleep=2)
-        if not self.wait_feature(fL.demo_page_icon, time_out=4, raise_if_not_found=False):
-            if not self.wait_click_feature(feature=fL.DemoGraphicEnter, time_out=10, raise_if_not_found=False, box=self.box_of_screen(0.101, 0.119, 0.166, 0.872)):
-                self.mark_task_failure("未找到『演算』入口，可能没有打开活动入口页")
-                return False
-        if not self.wait_click_feature(feature=fL.to_max_produce_num, time_out=10, raise_if_not_found=False, box=self.box_of_screen(0.934, 0.881, 0.977, 0.965)):
-            self.mark_task_failure("未找到活动入口，你不会没开活动吧 ^_^ ")
+        self.press_key("y", after_sleep=2)
+        if not self.wait_click_feature(fL.transaction_overview, time_out=5, raise_if_not_found=False):
+            self.mark_task_failure("未能进入总览界面")
             return False
+        self.wait_ui_stable(refresh_interval=1)
+        demo_enter = None
+        for _ in range(4):
+            if result := self.wait_feature(feature=fL.daily_demo_enter, vertical_variance=0.2, time_out=2, raise_if_not_found=False):
+                demo_enter = result
+                break
+            else:
+                self.log_info("未找到『演算』入口，尝试滑动")
+                self.scroll_relative(0.5, 0.5, -2)
+        if not demo_enter:
+            self.mark_task_failure("未找到『演算』入口，可能界面未加载完全")
+            return False
+        self.click(demo_enter, after_sleep=2)
+        self.wait_click_feature(feature=fL.view_location, time_out=10, raise_if_not_found=False, click_after_delay=0.5, box=self.box_of_screen(0, demo_enter.y/self.height, 1, 1))
         return True
     
         
