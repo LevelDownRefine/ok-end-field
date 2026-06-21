@@ -101,13 +101,14 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
             self.CFG_TEST_TARGET: "默认是无，表示正常执行相关任务\n也可以选择特定的滑索分叉序列来测试滑索功能\n选择完整循环测试则会依次测试每个送货目标的完整流程\n(需要锁定次要任务在送货任务上或附近)",
             self.CFG_ONLY_ACCEPT: f'前置是选择测试对象部分选择"{self.TEST_NONE}"\n仅接取当前地区委托，不送货',
             self.CFG_ONLY_DELIVER: f'前置是选择测试对象部分选择"{self.TEST_NONE}"\n接取当前地区委托后启动自动识别送货',
+            self.CFG_TARGET_TICKET_NUM: "目标券数优先级序列，用逗号分隔多个券数。按列表中顺序优先抢前面的券数。\n默认：119000。可选：73100、79800、119000",
             self.CFG_FULL_CYCLE_LOCATION: "仅在“完整循环测试”时生效，用于限定测试的小区域（当前地区可选地点）",
             self.CFG_TUTORIAL: self.TUTORIAL_TIPS,
             "发生异常时终止游戏": "勾选这个选项：如果「完成后退出」被选定，那么抛出异常也会退出游戏和App。",
         })
         self.default_config.update(
             {
-                self.CFG_TARGET_TICKET_NUM: "119000",
+                self.CFG_TARGET_TICKET_NUM: ["119000"],
                 **{x: "" for x in self.to_delivery_point_config_keys + self.ends},
                 self.CFG_SCROLL_ENABLE: False,
                 self.CFG_DELIVERY_AREA: self.delivery_area,
@@ -133,8 +134,8 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
             "options": list(DELIVERY_AREA_CONFIG.keys()),
         }
         self.config_type[self.CFG_TARGET_TICKET_NUM] = {
-            "type": "drop_down",
-            "options": DELIVERY_TARGET_TICKET_NUM_OPTIONS,
+            "options_available": DELIVERY_TARGET_TICKET_NUM_OPTIONS,
+            "allow_duplication": False,
         }
         self.config_type[self.CFG_FULL_CYCLE_LOCATION] = {
             "type": "drop_down",
@@ -450,14 +451,16 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
             if time.time() - start_time > 600:
                 self.log_info("接单尝试时间过长，退出")
                 return False
-            target_num = self.config.get(self.CFG_TARGET_TICKET_NUM)
-            (0.706 - 0.651)
+            target_nums = parse_int_sequence(self.config.get(self.CFG_TARGET_TICKET_NUM, ["119000"]))
             box = self.box_of_screen(
                 0.654, 0.230, 0.699, 0.900
             )
-            feature_list = get_accept_feature_labels(self.delivery_area, target_num)
+            feature_list = []
+            for target_num in target_nums:
+                labels = get_accept_feature_labels(self.delivery_area, str(target_num))
+                feature_list.extend(labels)
             if not feature_list:
-                self.log_info(f"当前地区({self.delivery_area})未配置目标券数({target_num})对应接单特征")
+                self.log_info(f"当前地区({self.delivery_area})未配置目标券数({target_nums})对应接单特征")
                 continue
             results = None
             for feature_name in feature_list:
@@ -466,8 +469,6 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                     box=box,
                     threshold=0.98,
                 )
-                if results:
-                    break
             if results:
                 for result in results:
                     self.click(
@@ -673,7 +674,6 @@ class DeliveryTask(AccountMixin, ZipLineMixin, MapMixin):
                             box=self.box.bottom_right,
                             settle_time=4,
                             time_out=10,
-                            after_sleep=10,
                             log=True,
                         )
                     success = None
