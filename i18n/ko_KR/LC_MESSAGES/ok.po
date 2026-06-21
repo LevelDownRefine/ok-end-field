@@ -234,8 +234,7 @@ msgid "四号谷地卖出价"
 msgstr "Valley No.4 Sell Price"
 
 msgid "在好友交流助力时，优先尝试仅收取培育室的助力,但每次至少助力一次舱室"
-msgstr ""
-"Prioritize cultivation room support, assist at least one chamber each time"
+msgstr "Prioritize cultivation room support, assist at least one chamber each time"
 
 msgid "埃特拉"
 msgstr "에트라"
@@ -693,9 +692,7 @@ msgid "是否前往「邮箱」领取邮件。"
 msgstr "Go to mailbox to collect mail."
 
 msgid "是否前往好友的「帝江号」并在「访客终端」上进行助力获得信用。助力结束后，前往「采购中心/信用交易所」收取全部助力。"
-msgstr ""
-"Visit friend's Dijiang, assist at Visitor Terminal, then collect at Credit "
-"Exchange."
+msgstr "Visit friend's Dijiang, assist at Visitor Terminal, then collect at Credit Exchange."
 
 msgid "是否前往好友的「帝江号」并在「访客终端」上进行收集线索、制造舱操作"
 msgstr "Visit friend's Dijiang for clue collection and manufacturing"
@@ -721,13 +718,11 @@ msgstr "Obtain dispatch tickets via trading at Outpost Management."
 msgid "是否在「地区建设/物资调度/稳定物资需求」中通过调度券购买物资。依次购买「日用消耗」「工业货品」「人文物产」首行某个物品。"
 msgstr "Purchase supplies via dispatch tickets at Stable Supply Demand."
 
-msgid ""
-"是否在「弹性需求物资」与好友交易赚取调度券。自动选择利润最高的方案，然后用价格上下限判定是否交易。（除非可购买数量即将溢出，这种情况下必定交易。）"
+msgid "是否在「弹性需求物资」与好友交易赚取调度券。自动选择利润最高的方案，然后用价格上下限判定是否交易。（除非可购买数量即将溢出，这种情况下必定交易。）"
 msgstr "Trade with friends for dispatch tickets. Auto-selects highest profit."
 
 msgid "是否在「采购中心/信用交易所」采购。自动刷新 且 仅购买「武库配额」「嵌晶玉」。"
-msgstr ""
-"Purchase at Credit Exchange. Only buy Arsenal Quota and Embedded Jade."
+msgstr "Purchase at Credit Exchange. Only buy Arsenal Quota and Embedded Jade."
 
 msgid "是否消耗所有「理智」刷取培养材料。"
 msgstr "Consume all Sanity to farm materials."
@@ -735,10 +730,8 @@ msgstr "Consume all Sanity to farm materials."
 msgid "是否购买「人文物产」。"
 msgstr "Purchase Cultural Products."
 
-msgid ""
-"是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。如果途中偶遇干员，则直接交互完成送礼。任务开始时候，角色不能位于「帝江号/剑桥」传送点附近。"
-msgstr ""
-"Raise operator affinity via gifts. Cannot start near Cambridge waypoint."
+msgid "是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。如果途中偶遇干员，则直接交互完成送礼。任务开始时候，角色不能位于「帝江号/剑桥」传送点附近。"
+msgstr "Raise operator affinity via gifts. Cannot start near Cambridge waypoint."
 
 msgid "是否领取「地区建设/仓储结点/我转交的委托」。超时委托也会被领取。"
 msgstr "Claim delegated commissions. Expired ones will also be claimed."
@@ -1243,9 +1236,7 @@ msgstr ""
 "Low/High Tier: auto-open Selection and switch."
 
 msgid "监听本地 WebSocket 位置数据，指向已选物品的最近点并支持按键标记"
-msgstr ""
-"Listen to WebSocket location data, point to nearest item and support key "
-"marking"
+msgstr "Listen to WebSocket location data, point to nearest item and support key marking"
 
 msgid "简体中文"
 msgstr "중국어 간체"
@@ -1419,14 +1410,8 @@ msgstr "로그 업로드"
 msgid "Log"
 msgstr "로그"
 
-msgid ""
-"['送礼', '帝江号一键存放', '收邮件', '据点兑换', '转交运送委托', '转交委托奖励领取', '造装备', '简易制作', '收信用',"
-" '帝江号收菜', '买信用商店', '买卖货', '刷体力', '买物资', '活动奖励', '日常奖励', '传送到帝江号右侧传送点', "
-"'执行结尾外部命令']"
-msgstr ""
-"['선물', '제강호 원클릭 보관', '우편 수령', '거점 교환', '운송 위임 양도', '위임 보상 수령', '장비 제작', '간이 "
-"제작', '신용 회수', '제강호 수확', '신용 상점 구매', '매매', '스태미너 반복', '물자 구매', '이벤트 보상', '일일 "
-"보상', '제강호 우측 웨이포인트로 이동', '종료 외부 명령 실행']"
+msgid "['送礼', '帝江号一键存放', '收邮件', '据点兑换', '转交运送委托', '转交委托奖励领取', '造装备', '简易制作', '收信用', '帝江号收菜', '买信用商店', '买卖货', '刷体力', '买物资', '活动奖励', '日常奖励', '传送到帝江号右侧传送点', '执行结尾外部命令']"
+msgstr "['선물', '제강호 원클릭 보관', '우편 수령', '거점 교환', '운송 위임 양도', '위임 보상 수령', '장비 제작', '간이 제작', '신용 회수', '제강호 수확', '신용 상점 구매', '매매', '스태미너 반복', '물자 구매', '이벤트 보상', '일일 보상', '제강호 우측 웨이포인트로 이동', '종료 외부 명령 실행']"
 
 msgid "current task"
 msgstr "현재 작업"
@@ -1479,8 +1464,7 @@ msgstr "작업 성공 실행 후 게임 및 앱 종료"
 msgid "HotKey"
 msgstr "단축키"
 
-msgid ""
-"Increase Delay between Trigger Tasks to Reduce CPU/GPU Usage(Milliseconds)"
+msgid "Increase Delay between Trigger Tasks to Reduce CPU/GPU Usage(Milliseconds)"
 msgstr "작업 트리거 간격 증가로 CPU/GPU 사용량 감소(밀리초)"
 
 msgid "Kill Launcher after Start"
@@ -1644,13 +1628,8 @@ msgstr ""
 msgid "按当前账号覆盖该任务配置。未覆盖的项将使用任务原配置。"
 msgstr "이 작업 설정을 계정별로 재정의합니다. 재정의되지 않은 항목은 원래 설정을 사용합니다."
 
-msgid ""
-"按账号和任务配置独立参数。先选账号，再选任务，下面会自动出现该任务的属性控件。账号页只需要填写账号名（手机号），无需填写密码。系统兼容旧格式 "
-"`账号,密码` 但不会保存密码。登录时也可只使用手机号后四位进行匹配（若唯一）。"
-msgstr ""
-"계정 및 작업별로 독립적인 매개변수를 설정합니다. 계정을 선택하고 작업을 선택하면 속성 컨트롤이 자동으로 나타납니다. 계정 "
-"이름(전화번호)만 필요하며 비밀번호는 필요하지 않습니다. 레거시 형식 `계정,비밀번호`와 호환되지만 비밀번호는 저장되지 않습니다. 로그인"
-" 시 전화번호 끝 4자리로도 일치 가능합니다(고유한 경우)."
+msgid "按账号和任务配置独立参数。先选账号，再选任务，下面会自动出现该任务的属性控件。账号页只需要填写账号名（手机号），无需填写密码。系统兼容旧格式 `账号,密码` 但不会保存密码。登录时也可只使用手机号后四位进行匹配（若唯一）。"
+msgstr "계정 및 작업별로 독립적인 매개변수를 설정합니다. 계정을 선택하고 작업을 선택하면 속성 컨트롤이 자동으로 나타납니다. 계정 이름(전화번호)만 필요하며 비밀번호는 필요하지 않습니다. 레거시 형식 `계정,비밀번호`와 호환되지만 비밀번호는 저장되지 않습니다. 로그인 시 전화번호 끝 4자리로도 일치 가능합니다(고유한 경우)."
 
 msgid "清空当前任务覆盖"
 msgstr "현재 작업 재정의 지우기"
@@ -2857,3 +2836,64 @@ msgstr "고급 배양 V"
 
 msgid "黯银柑实"
 msgstr "암은감실"
+
+msgid "Account Config"
+msgstr "계정 설정"
+
+msgid "Battle Config"
+msgstr "전투 설정"
+
+msgid "Daily Task"
+msgstr "일일 작업"
+
+msgid "Daily Tasks - 0705"
+msgstr "일일 작업 - 0705"
+
+msgid "Global Config"
+msgstr "전역 설정"
+
+msgid "Kill Launcher After Start"
+msgstr "시작 후 런처 종료"
+
+msgid "Override this task config per account. Unset items will use the original task config."
+msgstr "계정별로 이 작업 설정을 재정의합니다. 설정되지 않은 항목은 원래 작업 설정을 사용합니다."
+
+msgid "危境再现"
+msgstr "위기 재현"
+
+msgid "危境预演"
+msgstr "위기 예연"
+
+msgid "周常"
+msgstr "주간"
+
+msgid "基础配置"
+msgstr "기본 설정"
+
+msgid "基础配置 / Ensure Main Once Action Sleep"
+msgstr "기본 설정 / Ensure Main Once Action Sleep"
+
+msgid "干员养成"
+msgstr "오퍼레이터 육성"
+
+msgid "战斗配置"
+msgstr "전투 설정"
+
+msgid "战斗配置 / Battle Config"
+msgstr "전투 설정 / Battle Config"
+
+msgid "武器养成"
+msgstr "무기 육성"
+
+msgid ""
+"目标券数优先级序列，用逗号分隔多个券数。按列表中顺序优先抢前面的券数。\n"
+"默认：119000。可选：73100、79800、119000"
+msgstr ""
+"목표 티켓 수 우선순위 시퀀스. 여러 티켓 수를 쉼표로 구분합니다.\n"
+"기본값：119000。옵션：73100、79800、119000"
+
+msgid "键位配置"
+msgstr "키 설정"
+
+msgid "键位配置 / Game Hotkey Config"
+msgstr "키 설정 / Game Hotkey Config"

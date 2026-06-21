@@ -146,7 +146,10 @@ class DailyBattleFeature:
                 stage_options_with_tiers.append(f"{stage}{self.REWARD_TIER_LOW}")
                 stage_options_with_tiers.append(f"{stage}{self.REWARD_TIER_HIGH}")
         self._task.config_type["刷本序列"] = {"options_available": stage_options_with_tiers, "allow_duplication": True}
-        self._task.config_type["体力本"] = {"type": "drop_down", "options": self.stages_list}
+        self._task.config_type["体力本"] = {
+            "type": "cascade_drop_down",
+            "options": stages_dict,
+        }
         self._task.config_type[self.CFG_STAGE_REWARD_TIER] = {
             "type": "drop_down",
             "options": [self.REWARD_TIER_KEEP, self.REWARD_TIER_LOW, self.REWARD_TIER_HIGH]

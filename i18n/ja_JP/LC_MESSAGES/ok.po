@@ -234,8 +234,7 @@ msgid "四号谷地卖出价"
 msgstr "バレーNo.4 売値"
 
 msgid "在好友交流助力时，优先尝试仅收取培育室的助力,但每次至少助力一次舱室"
-msgstr ""
-"Prioritize cultivation room support, assist at least one chamber each time"
+msgstr "Prioritize cultivation room support, assist at least one chamber each time"
 
 msgid "埃特拉"
 msgstr "エトラ"
@@ -693,9 +692,7 @@ msgid "是否前往「邮箱」领取邮件。"
 msgstr "Go to mailbox to collect mail."
 
 msgid "是否前往好友的「帝江号」并在「访客终端」上进行助力获得信用。助力结束后，前往「采购中心/信用交易所」收取全部助力。"
-msgstr ""
-"Visit friend's Dijiang, assist at Visitor Terminal, then collect at Credit "
-"Exchange."
+msgstr "Visit friend's Dijiang, assist at Visitor Terminal, then collect at Credit Exchange."
 
 msgid "是否前往好友的「帝江号」并在「访客终端」上进行收集线索、制造舱操作"
 msgstr "Visit friend's Dijiang for clue collection and manufacturing"
@@ -721,13 +718,11 @@ msgstr "Obtain dispatch tickets via trading at Outpost Management."
 msgid "是否在「地区建设/物资调度/稳定物资需求」中通过调度券购买物资。依次购买「日用消耗」「工业货品」「人文物产」首行某个物品。"
 msgstr "Purchase supplies via dispatch tickets at Stable Supply Demand."
 
-msgid ""
-"是否在「弹性需求物资」与好友交易赚取调度券。自动选择利润最高的方案，然后用价格上下限判定是否交易。（除非可购买数量即将溢出，这种情况下必定交易。）"
+msgid "是否在「弹性需求物资」与好友交易赚取调度券。自动选择利润最高的方案，然后用价格上下限判定是否交易。（除非可购买数量即将溢出，这种情况下必定交易。）"
 msgstr "Trade with friends for dispatch tickets. Auto-selects highest profit."
 
 msgid "是否在「采购中心/信用交易所」采购。自动刷新 且 仅购买「武库配额」「嵌晶玉」。"
-msgstr ""
-"Purchase at Credit Exchange. Only buy Arsenal Quota and Embedded Jade."
+msgstr "Purchase at Credit Exchange. Only buy Arsenal Quota and Embedded Jade."
 
 msgid "是否消耗所有「理智」刷取培养材料。"
 msgstr "Consume all Sanity to farm materials."
@@ -735,10 +730,8 @@ msgstr "Consume all Sanity to farm materials."
 msgid "是否购买「人文物产」。"
 msgstr "Purchase Cultural Products."
 
-msgid ""
-"是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。如果途中偶遇干员，则直接交互完成送礼。任务开始时候，角色不能位于「帝江号/剑桥」传送点附近。"
-msgstr ""
-"Raise operator affinity via gifts. Cannot start near Cambridge waypoint."
+msgid "是否通过「帝江号/干员联络台/赠送礼物」提升员好感度。如果途中偶遇干员，则直接交互完成送礼。任务开始时候，角色不能位于「帝江号/剑桥」传送点附近。"
+msgstr "Raise operator affinity via gifts. Cannot start near Cambridge waypoint."
 
 msgid "是否领取「地区建设/仓储结点/我转交的委托」。超时委托也会被领取。"
 msgstr "Claim delegated commissions. Expired ones will also be claimed."
@@ -1417,14 +1410,8 @@ msgstr "ログアップロード"
 msgid "Log"
 msgstr "ログ"
 
-msgid ""
-"['送礼', '帝江号一键存放', '收邮件', '据点兑换', '转交运送委托', '转交委托奖励领取', '造装备', '简易制作', '收信用',"
-" '帝江号收菜', '买信用商店', '买卖货', '刷体力', '买物资', '活动奖励', '日常奖励', '传送到帝江号右侧传送点', "
-"'执行结尾外部命令']"
-msgstr ""
-"['贈り物', '帝江号1クリック収納', 'メール受領', '拠点交換', '運送委譲渡', '委譲報酬受領', '装備製作', '簡易作成', "
-"'クレジット回収', '帝江号収穫', 'クレジット商店購入', '売買', 'スタミナ周回', '物資購入', 'イベント報酬', 'デイリー報酬',"
-" '帝江号右側ワープポイントへ転送', '終了外部コマンド実行']"
+msgid "['送礼', '帝江号一键存放', '收邮件', '据点兑换', '转交运送委托', '转交委托奖励领取', '造装备', '简易制作', '收信用', '帝江号收菜', '买信用商店', '买卖货', '刷体力', '买物资', '活动奖励', '日常奖励', '传送到帝江号右侧传送点', '执行结尾外部命令']"
+msgstr "['贈り物', '帝江号1クリック収納', 'メール受領', '拠点交換', '運送委譲渡', '委譲報酬受領', '装備製作', '簡易作成', 'クレジット回収', '帝江号収穫', 'クレジット商店購入', '売買', 'スタミナ周回', '物資購入', 'イベント報酬', 'デイリー報酬', '帝江号右側ワープポイントへ転送', '終了外部コマンド実行']"
 
 msgid "current task"
 msgstr "現在のタスク"
@@ -1477,8 +1464,7 @@ msgstr "タスク成功実行後にゲームとアプリを終了"
 msgid "HotKey"
 msgstr "ホットキー"
 
-msgid ""
-"Increase Delay between Trigger Tasks to Reduce CPU/GPU Usage(Milliseconds)"
+msgid "Increase Delay between Trigger Tasks to Reduce CPU/GPU Usage(Milliseconds)"
 msgstr "タスク間遅延を増やしてCPU/GPU使用率を低減（ミリ秒）"
 
 msgid "Kill Launcher after Start"
@@ -1642,11 +1628,8 @@ msgstr ""
 msgid "按当前账号覆盖该任务配置。未覆盖的项将使用任务原配置。"
 msgstr "このタスク設定をアカウントごとに上書きします。上書きしない項目は元の設定を使用します。"
 
-msgid ""
-"按账号和任务配置独立参数。先选账号，再选任务，下面会自动出现该任务的属性控件。账号页只需要填写账号名（手机号），无需填写密码。系统兼容旧格式 "
-"`账号,密码` 但不会保存密码。登录时也可只使用手机号后四位进行匹配（若唯一）。"
-msgstr ""
-"アカウントとタスクごとに独立したパラメーターを設定します。アカウントを選択し、タスクを選択すると、属性コントロールが自動表示されます。アカウント名（電話番号）のみ必要で、パスワードは不要です。レガシー形式「アカウント,パスワード」も互換性がありますが、パスワードは保存されません。ログイン時は電話番号下4桁での照合も可能です（一意の場合）。"
+msgid "按账号和任务配置独立参数。先选账号，再选任务，下面会自动出现该任务的属性控件。账号页只需要填写账号名（手机号），无需填写密码。系统兼容旧格式 `账号,密码` 但不会保存密码。登录时也可只使用手机号后四位进行匹配（若唯一）。"
+msgstr "アカウントとタスクごとに独立したパラメーターを設定します。アカウントを選択し、タスクを選択すると、属性コントロールが自動表示されます。アカウント名（電話番号）のみ必要で、パスワードは不要です。レガシー形式「アカウント,パスワード」も互換性がありますが、パスワードは保存されません。ログイン時は電話番号下4桁での照合も可能です（一意の場合）。"
 
 msgid "清空当前任务覆盖"
 msgstr "現在のタスク上書きをクリア"
@@ -2853,3 +2836,64 @@ msgstr "高階培養V"
 
 msgid "黯银柑实"
 msgstr "黯銀柑橘実"
+
+msgid "Account Config"
+msgstr "アカウント設定"
+
+msgid "Battle Config"
+msgstr "戦闘設定"
+
+msgid "Daily Task"
+msgstr "デイリータスク"
+
+msgid "Daily Tasks - 0705"
+msgstr "デイリータスク - 0705"
+
+msgid "Global Config"
+msgstr "グローバル設定"
+
+msgid "Kill Launcher After Start"
+msgstr "起動後にランチャーを終了"
+
+msgid "Override this task config per account. Unset items will use the original task config."
+msgstr "アカウントごとにタスク設定を上書きします。未設定の項目は元のタスク設定が使用されます。"
+
+msgid "危境再现"
+msgstr "危機再現"
+
+msgid "危境预演"
+msgstr "危機予演"
+
+msgid "周常"
+msgstr "週常"
+
+msgid "基础配置"
+msgstr "基本設定"
+
+msgid "基础配置 / Ensure Main Once Action Sleep"
+msgstr "基本設定 / Ensure Main Once Action Sleep"
+
+msgid "干员养成"
+msgstr "オペレーター育成"
+
+msgid "战斗配置"
+msgstr "戦闘設定"
+
+msgid "战斗配置 / Battle Config"
+msgstr "戦闘設定 / Battle Config"
+
+msgid "武器养成"
+msgstr "武器育成"
+
+msgid ""
+"目标券数优先级序列，用逗号分隔多个券数。按列表中顺序优先抢前面的券数。\n"
+"默认：119000。可选：73100、79800、119000"
+msgstr ""
+"目標チケット数優先順位序列。複数のチケット数をカンマで区切ります。\n"
+"デフォルト：119000。オプション：73100、79800、119000"
+
+msgid "键位配置"
+msgstr "キー設定"
+
+msgid "键位配置 / Game Hotkey Config"
+msgstr "キー設定 / Game Hotkey Config"
