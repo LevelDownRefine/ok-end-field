@@ -493,7 +493,7 @@ class GameFlowMixin:
 
         for _ in range(3):
             self.press_key("y")
-            check = self.wait_ocr(match=self.lang.game_flow_mixin.k_d6b103ab, box=self.box.top_left, time_out=5)
+            check = self.wait_feature(feature=fL.transaction_overview, time_out=5, raise_if_not_found=False)
             if check:
                 success = True
             else:
@@ -539,13 +539,22 @@ class GameFlowMixin:
             self.wait_ui_stable()
             self.sleep(0.5)
             return True
+
+        models = {
+            "物资调度": fL.material_dispatch_enter,
+            "仓储节点": fL.warehouse_node_enter,
+            "据点管理": fL.outpost_manager_enter,
+        }
         
-        if box := self.wait_ocr(
-            match=re.compile(f"{model}"), box=self.box.right, time_out=5, settle_time=1
+        if box := self.wait_feature(
+            feature=models.get(model),
+            box=self.box.right,
+            time_out=5,
+            settle_time=0.5,
+            raise_if_not_found=False
         ):
-            self.click(box[0])
-            self.wait_ocr(match=re.compile(f"{model[:2]}"), box=self.box.top_left)
-            self.sleep(0.5)
+            self.click(box)
+            self.wait_ui_stable()
             return True
         else:
             self.log_error(f"未找到‘{model}’按钮，任务中止。")

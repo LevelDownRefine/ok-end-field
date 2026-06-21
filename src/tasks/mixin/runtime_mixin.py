@@ -609,7 +609,7 @@ class RuntimeMixin:
             threshold: int = 5,
             stable_time: float = 0.5,
             max_wait: float = 5,
-            refresh_interval: float = 0.2,
+            refresh_interval: float = 1,
             box: Box | tuple | list | None = None,
     ):
         """
