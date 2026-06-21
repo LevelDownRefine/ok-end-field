@@ -477,7 +477,7 @@ class GameFlowMixin:
         self.log_info("未识别到房间列表")
         return False
 
-    def to_model_area(self, area, model):
+    def to_model_area(self, area, model=None):
         """
         导航到指定区域的特定模块。
 
@@ -534,6 +534,11 @@ class GameFlowMixin:
                     raise_if_not_found=False
             ):
                 return False
+
+        if not model:
+            self.wait_ui_stable()
+            self.sleep(0.5)
+            return True
         
         if box := self.wait_ocr(
             match=re.compile(f"{model}"), box=self.box.right, time_out=5, settle_time=1

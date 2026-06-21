@@ -78,7 +78,7 @@ class DailyDemoFeature:
 
     def go_to_DemoGraphic(self):
         self.ensure_main()
-        self.press_key("y", after_sleep=2)
+        self.to_model_area("武陵")
         if not self.wait_click_feature(fL.transaction_overview, time_out=5, raise_if_not_found=False):
             self.mark_task_failure("未能进入总览界面")
             return False
