@@ -1001,6 +1001,11 @@
             "supercategory": ""
         },
         {
+            "id": 198,
+            "name": "demo_left_time",
+            "supercategory": ""
+        },
+        {
             "id": 199,
             "name": "demographic_follow",
             "supercategory": ""
@@ -1180,6 +1185,12 @@
             "file_name": "images/0.png",
             "width": 3840,
             "height": 2160
+        },
+        {
+            "id": 25,
+            "file_name": "images/4.png",
+            "width": 1920,
+            "height": 1080
         },
         {
             "license": 0,
@@ -4189,6 +4200,19 @@
                 30
             ],
             "area": 960,
+            "iscrowd": 0
+        },
+        {
+            "id": 160,
+            "image_id": 25,
+            "category_id": 198,
+            "bbox": [
+                293,
+                121,
+                40,
+                42
+            ],
+            "area": 1680,
             "iscrowd": 0
         },
         {

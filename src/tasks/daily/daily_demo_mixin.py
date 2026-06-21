@@ -9,6 +9,7 @@ class DailyDemoFeature:
         task.config_description.update({
             "⭐演算": "是否执行演武集算任务"
         })
+        self.left_time = True
 
     def __getattr__(self, name):
         return getattr(self._task, name)
@@ -16,6 +17,9 @@ class DailyDemoFeature:
     def battle_demo(self):
         if not self.go_to_DemoGraphic():
             return False
+        if not self.left_time:
+            self.log_info("没有次数了，结束任务")
+            return True
         if not self._demo_click_track_and_transfer():
             return False
         if not self.enter_page():
@@ -85,7 +89,7 @@ class DailyDemoFeature:
         self.wait_ui_stable(refresh_interval=1)
         demo_enter = None
         for _ in range(4):
-            if result := self.wait_feature(feature=fL.daily_demo_enter, vertical_variance=0.2, time_out=2, raise_if_not_found=False):
+            if result := self.wait_feature(feature=[fL.daily_demo_enter, fL.demo_left_time], box=self.box_of_screen(0.146, 0.094, 0.179, 0.898), time_out=2, raise_if_not_found=False):
                 demo_enter = result
                 break
             else:
@@ -94,8 +98,13 @@ class DailyDemoFeature:
         if not demo_enter:
             self.mark_task_failure("未找到『演算』入口，可能界面未加载完全")
             return False
-        self.click(demo_enter, after_sleep=2)
-        self.wait_click_feature(feature=fL.view_location, time_out=10, raise_if_not_found=False, click_after_delay=0.5, box=self.box_of_screen(0, demo_enter.y/self.height, 1, 1))
+        if demo_enter.name == fL.daily_demo_enter:
+            self.left_time = False
+            return True
+        for _ in range(2):
+            if self.wait_click_feature(feature=fL.view_location, time_out=10, raise_if_not_found=False, click_after_delay=0.5, box=self.box_of_screen(0.5, demo_enter.y/self.height, 1, demo_enter.y/self.height + (0.272 - 0.109))):
+                break
+            self.click(demo_enter, after_sleep=2)
         return True
     
         
