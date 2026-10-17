@@ -172,18 +172,18 @@ class DeliverySendTask(Common):
                 # 报价列表页黄键的圆环图标与对话框确认按钮同款，可据此确认装货已完成；
                 # 该页白键是「快速转交」，先点它，其余弹窗交给 click_confirm。
                 if self.wait_feature(
-                    fL.skip_dialog_confirm,
+                    feature=fL.skip_dialog_confirm,
+                    click_after_delay=0.5,
                     box=self.box_of_screen(0.82, 0.88, 0.98, 0.96),
-                    threshold=0.88,
                     time_out=time_out,
                     raise_if_not_found=False,
                 ):
                     self.wait_click_feature(
-                        fL.transfer_go,
+                        feature=fL.transfer_go,
+                        click_after_delay=0.5,
                         box=self.box_of_screen(0.645, 0.885, 0.815, 0.955),
                         time_out=time_out,
                         raise_if_not_found=False,
-                        after_sleep=1,
                     )
                 self.click_confirm()
                 self.ensure_main()
